@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.TestWebServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws", "Source\Digst.OioIdws\Digst.OioIdws.csproj", "{3AEDDD1D-BF10-4650-A99E-C600C98AB908}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.SignatureChecker", "Test\Digst.OioIdws.SignatureChecker\Digst.OioIdws.SignatureChecker.csproj", "{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.Oioidws.Test", "Test\Digst.Oioidws.Test\Digst.Oioidws.Test.csproj", "{5F0B3CFD-EF5E-4E43-838A-1B583F186082}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B22D2098-E3D4-4FB8-8FC9-C2A409E554B1}"
@@ -32,10 +30,6 @@ Global
 		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Release|Any CPU.ActiveCfg = Release|Any CPU
