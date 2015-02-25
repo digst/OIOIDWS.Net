@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.TestWebServiceConsumer", "Test\Digst.OioIdws.TestWebServiceConsumer\Digst.OioIdws.TestWebServiceConsumer.csproj", "{78E9DC28-A407-48FA-AEA5-C9AADF4C24B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws", "Source\Digst.OioIdws\Digst.OioIdws.csproj", "{3AEDDD1D-BF10-4650-A99E-C600C98AB908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.SignatureChecker", "Test\Digst.OioIdws.SignatureChecker\Digst.OioIdws.SignatureChecker.csproj", "{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.Oioidws.Test", "Test\Digst.Oioidws.Test\Digst.Oioidws.Test.csproj", "{5F0B3CFD-EF5E-4E43-838A-1B583F186082}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78E9DC28-A407-48FA-AEA5-C9AADF4C24B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E9DC28-A407-48FA-AEA5-C9AADF4C24B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E9DC28-A407-48FA-AEA5-C9AADF4C24B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E9DC28-A407-48FA-AEA5-C9AADF4C24B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AEDDD1D-BF10-4650-A99E-C600C98AB908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A8CFBF-CD53-48C2-9CAB-6D2421F58228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F0B3CFD-EF5E-4E43-838A-1B583F186082}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

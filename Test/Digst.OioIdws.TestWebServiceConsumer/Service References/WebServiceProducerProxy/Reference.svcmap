@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f7ae4564-54ec-4ee7-a0be-cb22dc044027" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SecurityTokenServiceMessageEcho.xsd" MetadataType="Schema" ID="4a1ab9b9-36e3-4675-80db-47ed09127c92" SourceId="1" SourceUrl="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc?xsd=xsd0" />
+    <MetadataFile FileName="SecurityTokenServiceMessageEcho.wsdl" MetadataType="Wsdl" ID="2b57545d-a7f4-486a-bf4b-76220022d645" SourceId="1" SourceUrl="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc?wsdl=wsdl1" />
+    <MetadataFile FileName="SecurityTokenServiceMessageEcho1.wsdl" MetadataType="Wsdl" ID="970d53d3-3da6-4928-bfc7-0679d21fdbea" SourceId="1" SourceUrl="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="SecurityTokenServiceMessageEcho.disco" MetadataType="Disco" ID="44bebc99-edaa-4df9-84f8-6ac1ad6d54a0" SourceId="1" SourceUrl="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc?disco" />
+    <MetadataFile FileName="SecurityTokenServiceMessageEcho2.wsdl" MetadataType="Wsdl" ID="63d08fa1-c515-4a20-b3ca-b0beee3846aa" SourceId="1" SourceUrl="https://securetokenwsp.test-nemlog-in.dk/SecurityTokenServiceMessageEcho.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
