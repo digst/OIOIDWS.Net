@@ -50,6 +50,20 @@ The component supports using the WSC' own logging framework. See Digst.OioIdws.C
 Examples:
 Please checkout the complete OIOIDWS.Net project at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called TestWebServiceConsumer that illustrates how a WSC can use this component.
 
+OIOIDWS.Net has been customized in some areas in order to be able to communicate with NemLog-in STS. The following is a list of customizations that probably can be removed if NemLog-in STS is updated:
+RST:
+- WS-SecurityPolicy namespace is used instead of WS-Security. Conflict with WS-Trust 1.3 spec.
+- STS rejects MustUnderstand attributes. Conflict with SOAP 1.1.
+- URI encoding with ending / is not accepted.
+
+RSTR:
+- TokenType is missing even if [NEMLOGIN-STSRULES] states that it will always be included.
+- wsa:To used instead of wsa:RelatesTo. Conflict with WS-Adressing 1.0
+- A bearer token is returned. [OIO-IDT] specifies that holder of key tokens should be returned.
+- Time formats are changing from time to time.
+
+Other:
+- SOAP Faults does not follow SOAP 1.1 spec.
 
 
 
