@@ -13,7 +13,7 @@ namespace Digst.OioIdws.Utils
         /// <param name="x509FindType">Find type that <see cref="findValue"/> must match</param>
         /// <param name="findValue">Value corresponding to <see cref="x509FindType"/></param>
         /// <returns>Return a X509Certificate2 certificate or null if a certificate was not found.</returns>
-        public static X509Certificate2 GetStsCertificate(StoreName storeName, StoreLocation storeLocation, X509FindType x509FindType, string findValue)
+        public static X509Certificate2 GetCertificate(StoreName storeName, StoreLocation storeLocation, X509FindType x509FindType, string findValue)
         {
             var store = new X509Store(storeName, storeLocation);
 

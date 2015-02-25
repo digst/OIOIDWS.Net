@@ -21,7 +21,7 @@ namespace Digst.Oioidws.Test
             // Arrange
             var rtsSoapMessageNotSigned = XDocument.Load(@"Resources\RST_Not_Signed.xml");
             var ids = new [] {"action", "msgid", "to", "sec-ts", "sec-binsectoken", "body"};
-            var cert = CertificateUtil.GetStsCertificate(StoreName.My, StoreLocation.CurrentUser,
+            var cert = CertificateUtil.GetCertificate(StoreName.My, StoreLocation.CurrentUser,
                 X509FindType.FindByThumbprint, "CE3B36692D8D5B731DD1157849A31F1599E524DA");
             
             // Act

@@ -115,7 +115,7 @@ namespace Digst.OioIdws
             // Retrieve configuration
             var stsCertificateConfiguration = oioIdwsConfiguration.StsCertificate;
 
-            var cert = CertificateUtil.GetStsCertificate(stsCertificateConfiguration.StoreName,
+            var cert = CertificateUtil.GetCertificate(stsCertificateConfiguration.StoreName,
                 stsCertificateConfiguration.StoreLocation, stsCertificateConfiguration.X509FindType,
                 stsCertificateConfiguration.FindValue);
 
