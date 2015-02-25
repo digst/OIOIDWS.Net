@@ -22,7 +22,7 @@ The implementation is based on [NEMLOGIN-STSRULES]. [NEMLOGIN-STS] is used for t
 
 [OIO-IDT] - OIO SAML Profile for Identity Tokens 1.0: Specifies that only "Holder of key" confirmation method is allowed.
 
-All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "misc\specifications" folder on Softwarebørsen. It is the copies in "misc\specifications" that this implementation follows.
+All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "Misc\Specifications" folder on Softwarebørsen. It is the copies on Softwarebørsen that this implementation follows.
 
 Requirements:
 .Net 4.5 Framework.
@@ -48,6 +48,8 @@ Logging:
 The component supports using the WSC' own logging framework. See Digst.OioIdws.Configurations.OioIdwsConfiguration.Logger for details how to do this. Please notice that tokens are written out when using the Debug level. This could expose a security risk when bearer tokens with a valid life times are written to disk. Hence, do not use Debug level in production.
 
 Examples:
-Please checkout the complete OIOIDWS.Net project at Softwarebørsen. Here is a project called TestWebServiceConsumer that illustrates how a WSC can use this component.
+Please checkout the complete OIOIDWS.Net project at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called TestWebServiceConsumer that illustrates how a WSC can use this component.
+
+
 
 

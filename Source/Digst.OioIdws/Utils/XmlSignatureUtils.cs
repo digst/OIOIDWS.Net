@@ -65,9 +65,6 @@ namespace Digst.OioIdws.Utils
 
             var signedDocument = ToXDocument(doc);
 
-            // Verify Signature - TODO move this to an automatic test instead of doing this on every request.
-            VerifySignature(signedDocument, cert);
-
             return signedDocument;
         }
 

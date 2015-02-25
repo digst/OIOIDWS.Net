@@ -10,6 +10,7 @@ using System.Text;
 using Digst.OioIdws.BindingElements;
 using Digst.OioIdws.Configurations;
 using Digst.OioIdws.Logging;
+using Digst.OioIdws.Utils;
 
 namespace Digst.OioIdws
 {
@@ -114,13 +115,9 @@ namespace Digst.OioIdws
             // Retrieve configuration
             var stsCertificateConfiguration = oioIdwsConfiguration.StsCertificate;
 
-            var store = new X509Store(stsCertificateConfiguration.StoreName, stsCertificateConfiguration.StoreLocation);
-
-            store.Open(OpenFlags.ReadOnly);
-
-            var cert =
-                store.Certificates.Find(stsCertificateConfiguration.X509FindType, stsCertificateConfiguration.FindValue,
-                    true).OfType<X509Certificate2>().FirstOrDefault();
+            var cert = CertificateUtil.GetStsCertificate(stsCertificateConfiguration.StoreName,
+                stsCertificateConfiguration.StoreLocation, stsCertificateConfiguration.X509FindType,
+                stsCertificateConfiguration.FindValue);
 
             if (cert == null)
                 throw new InvalidOperationException("STS certificate with the following configuration was not found: " + stsCertificateConfiguration);
