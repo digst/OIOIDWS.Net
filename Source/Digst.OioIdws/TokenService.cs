@@ -120,7 +120,7 @@ namespace Digst.OioIdws
                 stsCertificateConfiguration.FindValue);
 
             if (cert == null)
-                throw new InvalidOperationException("STS certificate with the following configuration was not found: " + stsCertificateConfiguration);
+                throw new InvalidOperationException(string.Format("STS certificate with the following configuration was not found: {0}, {1}, {2}, {3}", stsCertificateConfiguration.StoreLocation, stsCertificateConfiguration.StoreName, stsCertificateConfiguration.X509FindType, stsCertificateConfiguration.FindValue));
 
             return cert;
         }

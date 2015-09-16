@@ -45,7 +45,7 @@ After having fetched a token from STS, the token can be used for calling a WSP. 
 TODO Explain how to do call WSP!
 
 Logging:
-The component supports using the WSC' own logging framework. See Digst.OioIdws.Configurations.OioIdwsConfiguration.Logger for details how to do this. Please notice that tokens are written out when using the Debug level. This could expose a security risk when bearer tokens with a valid life times are written to disk. Hence, do not use Debug level in production.
+The component supports logging using the WSC' own logging framework. See Digst.OioIdws.Configurations.OioIdwsConfiguration.Logger for details how to do this. Please notice that tokens are written out when using the Debug level. This could expose a security risk when bearer tokens with a valid life time are written to disk. Hence, do not use Debug level in production.
 
 Examples:
 Please checkout the complete OIOIDWS.Net project at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called TestWebServiceConsumer that illustrates how a WSC can use this component.

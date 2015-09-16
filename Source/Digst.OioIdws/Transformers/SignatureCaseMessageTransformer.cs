@@ -96,20 +96,24 @@ namespace Digst.OioIdws.Transformers
             request = ConvertXmlToMessage(request, xDocument);
         }
 
-        public void ModifyMessageAccordingToWsTrust(ref Message request, X509Certificate2 stsCertificate)
+        public void ModifyMessageAccordingToWsTrust(ref Message response, X509Certificate2 stsCertificate)
         {
             // Convert Message into a XML document that can be manipulated
-            var xDocument = ConvertMessageToXml(request);
+            var xDocument = ConvertMessageToXml(response);
 
             // Log RSTR before being manipulated
             Logger.Instance.Debug("RSTR recieved from STS before being manipulated:\n" + xDocument);
 
+            // SOAP 1.1 faults from NemLog-in STS contains two Envelope elements. This hack removes the first element whereafter the .Net framework will see it as a fault.
+            RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref xDocument, ref response);
+
             // Fault response is not SOAP 1.1 compliant. We therefore need to change it so that other channels (e.g. WSTrust channel) are able to read it properly.
-            if (request.IsFault)
+            if (response.IsFault)
             {
                 // Remove default namespace in order for fault message to be soap 1.1 compliant.
                 var namespaceManager = new XmlNamespaceManager(new NameTable());
                 namespaceManager.AddNamespace("s", S11Namespace);
+                namespaceManager.AddNamespace("wst", Wst13Namespace);
                 var envelopeElement = xDocument.XPathSelectElement("/s:Envelope", namespaceManager);
                 var xmlnsAttribute = envelopeElement.Attribute(XName.Get("xmlns"));
                 xmlnsAttribute.Remove();
@@ -121,10 +125,10 @@ namespace Digst.OioIdws.Transformers
 
                 // faultcode and faultstring must be in the empty namespace.
                 var faultElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Fault", namespaceManager);
-                var faultcodeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Fault/s:faultcode",
+                var faultcodeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Fault/wst:faultcode",
                     namespaceManager);
                 faultcodeElement.Remove();
-                var faultstringElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Fault/s:faultstring",
+                var faultstringElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Fault/wst:faultstring",
                     namespaceManager);
                 faultstringElement.Remove();
                 var newFaultCodeElement = new XElement("faultcode") {Value = faultcodeElement.Value};
@@ -167,7 +171,21 @@ namespace Digst.OioIdws.Transformers
             Logger.Instance.Debug("RSTR recieved from STS after being manipulated:\n" + xDocument);
 
             // Convert XML back to a Message
-            request = ConvertXmlToMessage(request, xDocument);
+            response = ConvertXmlToMessage(response, xDocument);
+        }
+
+        private static void RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref XDocument xDocument, ref Message response)
+        {
+            var namespaceManager = new XmlNamespaceManager(new NameTable());
+            namespaceManager.AddNamespace("s", S11Namespace);
+            var faultElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Envelope/s:Body/s:Fault",
+                namespaceManager);
+            if (faultElement != null)
+            {
+                var innerEnvelopeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/s:Envelope", namespaceManager);
+                xDocument = XDocument.Parse(innerEnvelopeElement.ToString());
+                response = ConvertXmlToMessage(response, xDocument);
+            }
         }
 
         private static void AddNamespacesToEnvelope(XDocument xDocument)
