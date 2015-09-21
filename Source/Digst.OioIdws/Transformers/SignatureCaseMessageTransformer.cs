@@ -45,11 +45,12 @@ namespace Digst.OioIdws.Transformers
         public const string WsuNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
         public const string WsseNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
         public const string VsDebuggerNamespace = "http://schemas.microsoft.com/vstudio/diagnostics/servicemodelsink";
+        public const string WcfDiagnosticsNamespace = "http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics";
         
         // STS Entity ID's
-        public const string BootstrapTokenCaseEntityId = "https://bootstrap.sts.nemlog-in.dk"; // Currently not used
-        public const string LocalTokenCaseEntityId = " https://local.sts.nemlog-in.dk"; // Currently not used
-        public const string SignatureCaseEntityId = "https://signature.sts.nemlog-in.dk";
+        public const string BootstrapTokenCaseEntityId = "https://bootstrap.sts.nemlog-in.dk/"; // Currently not used
+        public const string LocalTokenCaseEntityId = " https://local.sts.nemlog-in.dk/"; // Currently not used
+        public const string SignatureCaseEntityId = "https://signature.sts.nemlog-in.dk/";
         
         // Token type
         public const string Saml20TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-tokenprofile-1.1#SAMLV2.0";
@@ -172,6 +173,9 @@ namespace Digst.OioIdws.Transformers
 
             // Convert XML back to a Message
             response = ConvertXmlToMessage(response, xDocument);
+
+            // Security header element is marked with the MustUnderstand attribute. Hence, we need to inform the WCF framework that this header element has been taken care of.
+            response.Headers.UnderstoodHeaders.Add(response.Headers.Single(x => "Security" == x.Name && WsseNamespace == x.Namespace));
         }
 
         private static void RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref XDocument xDocument, ref Message response)
@@ -232,13 +236,20 @@ namespace Digst.OioIdws.Transformers
             namespaceManager.AddNamespace("a", WsaNamespace);
             namespaceManager.AddNamespace("s", S11Namespace);
             namespaceManager.AddNamespace("vs", VsDebuggerNamespace);
+            namespaceManager.AddNamespace("vcf", WcfDiagnosticsNamespace);
 
-            // Remove VS debugger element. It is only present when running in debug mode. So removing the element is just to make life easier for developers.
             // The spec states that all header elements (also those not used by the STS) must be included in the signature. Hence, we need to remove the debugger element.
+            // Remove VS debugger element. It is only present when running in debug mode. So removing the element is just to make life easier for developers.
             var vsDebuggerElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/vs:VsDebuggerCausalityData", namespaceManager);
             if (vsDebuggerElement != null)
             {
                 vsDebuggerElement.Remove();
+            }
+            // Remove Diagnostics tracing element. It is only present when WCF Diagnostics are enabled. So removing the element is just to make life easier for developers.
+            var wcfDiagnosticsElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/vcf:ActivityId", namespaceManager);
+            if (wcfDiagnosticsElement != null)
+            {
+                wcfDiagnosticsElement.Remove();
             }
 
             // Remove mustUnderstand attributes as it is not allowed by the specification.
@@ -270,7 +281,7 @@ namespace Digst.OioIdws.Transformers
             binarySecurityTokenElement.Add(new XAttribute("EncodingType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"));
             binarySecurityTokenElement.Value = Convert.ToBase64String(clientCertificate.Export(X509ContentType.Cert));
             var securityElement = new XElement(XName.Get("Security", WsseNamespace));
-            securityElement.Add(new XAttribute("mustUnderstand", "1"));
+            securityElement.Add(new XAttribute(XName.Get("mustUnderstand", S11Namespace), "1"));
             securityElement.Add(timestampElement);
             securityElement.Add(binarySecurityTokenElement);
             var headerElement = xDocument.XPathSelectElement("/s:Envelope/s:Header", namespaceManager);
