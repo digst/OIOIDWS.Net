@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <configSections xdt:Transform="InsertIfMissing"/>
+  <configSections>
+    <section name="system.identityModel" type="System.IdentityModel.Configuration.SystemIdentityModelSection, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+  </configSections>
+
+  <system.serviceModel xdt:Transform="InsertIfMissing"/>
+  
+  <!-- Extentions -->
+  <system.serviceModel>
+    <extensions xdt:Transform="InsertIfMissing"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions xdt:Transform="InsertIfMissing"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions>
+        <add name="LibBasBinding" type="Digst.OioIdws.LibBas.Bindings.LibBasBindingCollectionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+      </bindingExtensions>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <behaviorExtensions xdt:Transform="InsertIfMissing"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <behaviorExtensions>
+        <add name="LibBasBehavior" type="Digst.OioIdws.LibBas.Behaviors.LibBasServiceBehaviorExtensionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+      </behaviorExtensions>
+    </extensions>
+  </system.serviceModel>
+  
+  <!-- Behaviors -->
+  <system.serviceModel>
+    <behaviors xdt:Transform="InsertIfMissing"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <endpointBehaviors xdt:Transform="InsertIfMissing"/>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <endpointBehaviors>
+        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+          <LibBasBehavior/>
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors xdt:Transform="InsertIfMissing"/>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors>
+        <behavior name="LibBasServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+          <!--serviceCredentials specifies the certificate used for signing the response to the client-->
+          <!--Setting useIdentityConfiguration to true enables WIF (System.IdentityModel configuration) and ensures that the specified service certificate is also used as decrypting key for decrypting the encrypted SAML assertion.-->
+          <!--Setting useIdentityConfiguration to true in a service behavior did not work because it happens too late in the pipe line and the service certificate would not be set to be the decrypting key-->
+          <!--WIF is also needed in order to support STR transformations when signing and validating signatures. -->
+          <serviceCredentials useIdentityConfiguration="true">
+            <serviceCertificate findValue="{REQUIRED}" x509FindType="{REQUIRED}" storeLocation="{REQUIRED}" storeName="{REQUIRED}"/>
+          </serviceCredentials>
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+  </system.serviceModel>
+
+  <system.serviceModel>
+    <bindings xdt:Transform="InsertIfMissing"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <bindings>
+      <LibBasBinding xdt:Transform="InsertIfMissing">
+        <!-- useHttps must be true in production but can be set to false under development -->
+        <binding  name="LibBasBindingConfiguration" useHttps="true"/>
+      </LibBasBinding>
+    </bindings>
+  </system.serviceModel>
+  
+  <!-- Services -->
+  <system.serviceModel>
+    <services xdt:Transform="InsertIfMissing"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <services>
+      <!-- name must be the full name of the service that implements the contract specified under endpoint -->
+       <service name="{REQUIRED}" behaviorConfiguration="LibBasServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+         <!-- address is the endpint at which the service listens to incoming requests, contract is the full name of the interface which the service must implement. -->
+        <endpoint address="{REQUIRED}"
+          binding="LibBasBinding" bindingConfiguration="LibBasBindingConfiguration" contract="{REQUIRED}" behaviorConfiguration="LibBasBehaviourConfiguration">
+        </endpoint>
+      </service>
+    </services>
+  </system.serviceModel>
+  
+  <!-- WIF -->
+  <system.identityModel xdt:Transform="InsertIfMissing">
+    <!--system.identityModel is used by WIF which is enabled by setting useIdentityConfiguration to true under serviceCredentials,-->
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration xdt:Transform="InsertIfMissing"/>
+  </system.identityModel>
+  
+  <system.identityModel>
+    <identityConfiguration>
+      <audienceUris xdt:Transform="InsertIfMissing">
+        <!--audienceUris specifies this service and is used to check that the SAML token from NemLog-in STS is indeed issued to this service.-->
+      </audienceUris>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <audienceUris>
+        <add value="{REQUIRED}" xdt:Transform="InsertIfMissing" xdt:Locator="Match(value)"/>
+      </audienceUris>
+    </identityConfiguration>
+  </system.identityModel>
+  
+  <system.identityModel>
+    <identityConfiguration>
+      <issuerNameRegistry xdt:Transform="InsertIfMissing">
+        <!--issuerNameRegistry specifies the certificate of the Nemlog-In STS. Both thumbprint and Common Name must be specified.-->
+        <!--Issuer certificate is embedded in the encrypted SAML assertion. Hence, it it does not need to be recieved out-of-band and placed in the certificate store-->
+      </issuerNameRegistry>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <issuerNameRegistry>
+        <trustedIssuers xdt:Transform="InsertIfMissing"/>
+      </issuerNameRegistry>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <issuerNameRegistry>
+        <trustedIssuers>
+          <add thumbprint="{REQUIRED}" name="{REQUIRED}" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+        </trustedIssuers>
+      </issuerNameRegistry>
+    </identityConfiguration>
+  </system.identityModel>
+
+  <system.identityModel>
+    <identityConfiguration>
+      <securityTokenHandlers xdt:Transform="InsertIfMissing">
+        <!--The Saml2SecurityTokenHandler security token handler must be replacded by a custom that handles that the signing certificate reference is the id of the encrypted assertion-->
+      </securityTokenHandlers>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <securityTokenHandlers>
+        <remove type="System.IdentityModel.Tokens.Saml2SecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xdt:Transform="InsertIfMissing" xdt:Locator="Match(type)"/>
+        <add type="Digst.OioIdws.Wsp.DecryptedAssertionSupport.DecryptedSaml2SecurityTokenHandler, Digst.OioIdws.Wsp" xdt:Transform="InsertIfMissing" xdt:Locator="Match(type)"/>
+      </securityTokenHandlers>
+    </identityConfiguration>
+  </system.identityModel>
+  
+</configuration>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3f9b97d1-38c4-4c09-9831-6334f9439255" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:9090/HelloWorld" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="HelloWorld.xsd" MetadataType="Schema" ID="746aa75c-c235-4f98-82e3-1f24b037b8cc" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd1" />
+    <MetadataFile FileName="HelloWorld.wsdl" MetadataType="Wsdl" ID="080202d6-3409-4281-8267-96330c9cf4fa" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?wsdl" />
+    <MetadataFile FileName="HelloWorld1.xsd" MetadataType="Schema" ID="fcc94776-ca56-4cd9-80ef-8d5cde978cfb" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd0" />
+    <MetadataFile FileName="HelloWorld.disco" MetadataType="Disco" ID="6ba30dfe-05f3-4d36-8ae2-c263263e6591" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

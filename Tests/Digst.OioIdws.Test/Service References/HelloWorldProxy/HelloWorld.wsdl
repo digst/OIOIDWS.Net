@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="HelloWorld" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:AsymmetricBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:InitiatorToken>
+              <wsp:Policy>
+                <sp:IssuedToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                  <sp:RequestSecurityTokenTemplate>
+                    <t:TokenType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</t:TokenType>
+                    <t:KeyType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">http://schemas.xmlsoap.org/ws/2005/02/trust/SymmetricKey</t:KeyType>
+                  </sp:RequestSecurityTokenTemplate>
+                  <wsp:Policy>
+                    <sp:RequireInternalReference />
+                  </wsp:Policy>
+                </sp:IssuedToken>
+              </wsp:Policy>
+            </sp:InitiatorToken>
+            <sp:RecipientToken>
+              <wsp:Policy>
+                <sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToInitiator">
+                  <wsp:Policy>
+                    <sp:WssX509V3Token10 />
+                  </wsp:Policy>
+                </sp:X509Token>
+              </wsp:Policy>
+            </sp:RecipientToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+            <sp:EncryptSignature />
+            <sp:ProtectTokens />
+            <sp:OnlySignEntireHeadersAndBody />
+          </wsp:Policy>
+        </sp:AsymmetricBinding>
+        <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:MustSupportRefKeyIdentifier />
+            <sp:MustSupportRefIssuerSerial />
+            <sp:MustSupportRefThumbprint />
+          </wsp:Policy>
+        </sp:Wss11>
+        <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust10>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloNone_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloNone_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloSign_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloSign_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloEncryptAndSign_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="LibBasBinding_IHelloWorld_HelloEncryptAndSign_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IHelloWorld_HelloNone_InputMessage">
+    <wsdl:part name="parameters" element="tns:HelloNone" />
+  </wsdl:message>
+  <wsdl:message name="IHelloWorld_HelloNone_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HelloNoneResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloWorld_HelloSign_InputMessage">
+    <wsdl:part name="parameters" element="tns:HelloSign" />
+  </wsdl:message>
+  <wsdl:message name="IHelloWorld_HelloSign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HelloSignResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloWorld_HelloEncryptAndSign_InputMessage">
+    <wsdl:part name="parameters" element="tns:HelloEncryptAndSign" />
+  </wsdl:message>
+  <wsdl:message name="IHelloWorld_HelloEncryptAndSign_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HelloEncryptAndSignResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IHelloWorld">
+    <wsdl:operation name="HelloNone">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloWorld/HelloNone" message="tns:IHelloWorld_HelloNone_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloWorld/HelloNoneResponse" message="tns:IHelloWorld_HelloNone_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloSign">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloWorld/HelloSign" message="tns:IHelloWorld_HelloSign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloWorld/HelloSignResponse" message="tns:IHelloWorld_HelloSign_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloEncryptAndSign">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSign" message="tns:IHelloWorld_HelloEncryptAndSign_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSignResponse" message="tns:IHelloWorld_HelloEncryptAndSign_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LibBasBinding_IHelloWorld" type="tns:IHelloWorld">
+    <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloNone">
+      <soap:operation soapAction="http://tempuri.org/IHelloWorld/HelloNone" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloNone_Input_policy" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloNone_output_policy" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloSign">
+      <soap:operation soapAction="http://tempuri.org/IHelloWorld/HelloSign" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloSign_Input_policy" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloSign_output_policy" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloEncryptAndSign">
+      <soap:operation soapAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSign" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloEncryptAndSign_Input_policy" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#LibBasBinding_IHelloWorld_HelloEncryptAndSign_output_policy" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HelloWorld">
+    <wsdl:port name="LibBasBinding_IHelloWorld" binding="tns:LibBasBinding_IHelloWorld">
+      <soap:address location="http://digst.oioidws.wsp:9090/HelloWorld" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://digst.oioidws.wsp:9090/HelloWorld</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <X509Data>
+              <X509Certificate>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</X509Certificate>
+            </X509Data>
+          </KeyInfo>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

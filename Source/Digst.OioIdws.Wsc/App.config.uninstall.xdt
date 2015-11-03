@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <configSections>
+    <section name="oioIdwsWcfConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+    <section name="oioIdwsLoggingConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+  </configSections>
+  <oioIdwsWcfConfiguration xdt:Transform="Remove"/>
+  <oioIdwsLoggingConfiguration xdt:Transform="Remove"/>
+  
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions>
+        <add name="LibBasBinding" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </bindingExtensions>
+      <behaviorExtensions>
+        <add name="LibBasBehavior" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </behaviorExtensions>
+    </extensions>
+    <behaviors>
+      <endpointBehaviors>
+        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </endpointBehaviors>
+    </behaviors>
+    <bindings>
+      <LibBasBinding xdt:Transform="Remove"/>
+    </bindings>
+    <client>
+      <endpoint address="{REQUIRED}" xdt:Transform="Remove" xdt:Locator="Match(address)"/>
+    </client>
+  </system.serviceModel>
+
+  <!-- Remove empty elements -->
+  <configSections xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <behaviorExtensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <endpointBehaviors xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <bindings xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <client xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    
+</configuration>
+

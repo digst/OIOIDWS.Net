@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6db8165c-592e-45fa-9dbc-4902b1f74e08" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:9090/HelloWorld" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="HelloWorld.disco" MetadataType="Disco" ID="b53f3783-8625-4743-bd2c-45d100d48e40" SourceId="1" SourceUrl="http://localhost:9090/HelloWorld?disco" />
+    <MetadataFile FileName="HelloWorld.wsdl" MetadataType="Wsdl" ID="2924bea8-69e1-42e3-9392-a0c66b622c75" SourceId="1" SourceUrl="http://localhost:9090/HelloWorld?wsdl" />
+    <MetadataFile FileName="HelloWorld.xsd" MetadataType="Schema" ID="0b6100c9-c549-4f32-86f5-86ac2aca2c4e" SourceId="1" SourceUrl="http://localhost:9090/HelloWorld?xsd=xsd0" />
+    <MetadataFile FileName="HelloWorld1.xsd" MetadataType="Schema" ID="d93515ea-bcb4-448e-8cf0-37c348c6d601" SourceId="1" SourceUrl="http://localhost:9090/HelloWorld?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

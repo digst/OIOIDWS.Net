@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <configSections>
+    <section name="system.identityModel" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+  </configSections>
+  
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions>
+        <add name="LibBasBinding" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </bindingExtensions>
+      <behaviorExtensions>
+        <add name="LibBasBehavior" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </behaviorExtensions>
+    </extensions>
+    <behaviors>
+      <endpointBehaviors>
+        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </endpointBehaviors>
+    </behaviors>
+    <behaviors>
+      <serviceBehaviors>
+        <behavior name="LibBasServiceBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+      </serviceBehaviors>
+    </behaviors>
+    <bindings>
+      <LibBasBinding xdt:Transform="Remove"/>
+    </bindings>
+    <services>
+      <service name="{REQUIRED}" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+    </services>
+  </system.serviceModel>
+
+  <system.identityModel>
+    <identityConfiguration>
+      <audienceUris>
+        <add value="{REQUIRED}" xdt:Transform="Remove" xdt:Locator="Match(value)"/>
+      </audienceUris>
+      <issuerNameRegistry>
+        <trustedIssuers>
+          <add name="{REQUIRED}" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+        </trustedIssuers>
+      </issuerNameRegistry>
+      <securityTokenHandlers>
+        <remove type="System.IdentityModel.Tokens.Saml2SecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xdt:Transform="Remove" xdt:Locator="Match(type)"/>
+        <add type="Digst.OioIdws.Wsp.DecryptedAssertionSupport.DecryptedSaml2SecurityTokenHandler, Digst.OioIdws.Wsp" xdt:Transform="Remove" xdt:Locator="Match(type)"/>
+      </securityTokenHandlers>
+    </identityConfiguration>
+  </system.identityModel>
+
+  <!-- Remove empty elements -->
+  <configSections xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+
+  <system.serviceModel>
+    <extensions>
+      <bindingExtensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions>
+      <behaviorExtensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </extensions>
+  </system.serviceModel>
+  <system.serviceModel>
+    <extensions xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <endpointBehaviors xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </behaviors>
+  </system.serviceModel>
+  <system.serviceModel>
+    <behaviors xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <bindings xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel>
+    <services xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.serviceModel>
+  <system.serviceModel xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+
+  <system.identityModel>
+    <identityConfiguration>
+      <audienceUris xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <issuerNameRegistry>
+        <trustedIssuers xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+      </issuerNameRegistry>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <issuerNameRegistry xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration>
+      <securityTokenHandlers xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+    </identityConfiguration>
+  </system.identityModel>
+  <system.identityModel>
+    <identityConfiguration xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+  </system.identityModel>
+  <system.identityModel xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
+
+</configuration>
+
