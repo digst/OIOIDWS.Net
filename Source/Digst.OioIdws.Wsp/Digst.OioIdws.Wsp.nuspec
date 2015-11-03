@@ -22,7 +22,6 @@
     <file src="bin\Release\Digst.OioIdws.LibBas.pdb" target="lib\net45" />
     <file src="App.config.install.xdt" target="content"/>
     <file src="App.config.uninstall.xdt" target="content"/>
-    <file src="LICENSE.txt" target="content"/>
     <file src="readme.txt" target=""/>
   </files>
 </package>
