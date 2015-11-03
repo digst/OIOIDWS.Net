@@ -17,9 +17,11 @@ namespace Digst.OioIdws.Wsp.BasicPrivilegeProfile
             if (base64EncodedPrivilegeList == null) throw new ArgumentNullException(nameof(base64EncodedPrivilegeList));
 
             var privilegeListAsXml = Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedPrivilegeList));
-            XmlSerializer serializer = new XmlSerializer(typeof(PrivilegeListType));
-            StringReader rdr = new StringReader(privilegeListAsXml);
-            return (PrivilegeListType)serializer.Deserialize(rdr);
+            var serializer = new XmlSerializer(typeof(PrivilegeListType));
+            using (var rdr = new StringReader(privilegeListAsXml))
+            {
+                return (PrivilegeListType)serializer.Deserialize(rdr);
+            }
         }
     }
 }

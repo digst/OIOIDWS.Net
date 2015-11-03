@@ -62,6 +62,7 @@
     <None Include="Release instructions.html" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LICENSE.txt" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

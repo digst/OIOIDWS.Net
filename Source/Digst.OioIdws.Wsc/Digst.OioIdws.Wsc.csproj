@@ -75,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="LICENSE.txt" />
     <Content Include="readme.txt" />
     <None Include="Release instructions.html" />
   </ItemGroup>

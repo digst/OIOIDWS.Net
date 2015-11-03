@@ -85,7 +85,7 @@ namespace Digst.Oioidws.Test
             // Act
             try
             {
-                Thread.Sleep(610000); // Wait 10.5 minutes. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
+                Thread.Sleep(610000); // Wait 10 minutes and 10 seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
                 channelWithIssuedToken.HelloSign("Schultz");
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
@@ -111,7 +111,7 @@ namespace Digst.Oioidws.Test
                 if (WspHostName != oS.hostname)
                     return;
 
-                Thread.Sleep(610000); // Wait 10.5 minutes. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
+                Thread.Sleep(610000); // Wait 10 minutes seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 

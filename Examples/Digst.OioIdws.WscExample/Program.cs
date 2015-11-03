@@ -29,7 +29,7 @@ namespace Digst.OioIdws.WscExample
             Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz")); 
 
             // Encrypted calls fails client side. However, encryption at message level is not required and no further investigation has been putted into this issue yet.
-            //Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); 
+            // Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); 
 
             Console.ReadKey();
         }
