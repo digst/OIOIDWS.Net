@@ -356,10 +356,11 @@ namespace Digst.Oioidws.Test
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
+            tokenService.GetToken();
+
             // Act
             try
             {
-                tokenService.GetToken();
                 tokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }

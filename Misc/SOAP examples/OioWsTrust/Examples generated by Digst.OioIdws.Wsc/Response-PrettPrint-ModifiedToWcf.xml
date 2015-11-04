@@ -1,0 +1,111 @@
+<S11:Envelope xmlns:S11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+  <S11:Header>
+    <wsa:Action wsu:Id="action">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</wsa:Action>
+    <wsa:MessageID wsu:Id="messageid">uuid:c307c1dd-a1ef-4b45-8f68-e27d75a48ceb</wsa:MessageID>
+    <wsa:RelatesTo wsu:Id="relatesto">uuid:6b794c3a-49f0-4b6b-bece-ef52573089b9</wsa:RelatesTo>
+    <wsse:Security S11:mustUnderstand="1">
+      <wsu:Timestamp wsu:Id="sec_timestamp">
+        <wsu:Created>2015-11-04T11:54:28.408Z</wsu:Created>
+        <wsu:Expires>2015-11-04T11:59:12.000Z</wsu:Expires>
+      </wsu:Timestamp>
+      <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+          <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+          <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
+          <Reference URI="#action">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+            <DigestValue>1hj8fpM7T5rcOsNRPpnxA3p3AkM=</DigestValue>
+          </Reference>
+          <Reference URI="#messageid">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+            <DigestValue>XAl052AXNkxeRo5bIKtsXdR+rDI=</DigestValue>
+          </Reference>
+          <Reference URI="#relatesto">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+            <DigestValue>1wS4zQE2TUl4TR+g9UutxJoi2bQ=</DigestValue>
+          </Reference>
+          <Reference URI="#sec_timestamp">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+            <DigestValue>lj9NCsqm8Zir7q7GMuR+72WAclI=</DigestValue>
+          </Reference>
+          <Reference URI="#body">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+            <DigestValue>iiqCKIfKbV8NudLGQqVonjtD0GQ=</DigestValue>
+          </Reference>
+        </SignedInfo>
+        <SignatureValue>sj8Ci/WtHjnopiilmpQlCcn/6RR+l2z7R9mSy1Baf8mqnOFFTTwfxuS3kB24IIjUe9ZeLeeqgEvxosXm+GW12zYr4n0q+ssCDf8BMzLpe7k0pdjUrxwE1p71td/p34zBaoiyx76hzub4KhrM4kuyOqyDUaLeocDw3Q+YmBwo9283GwCpU5LIYfnmO/VC9Rc9+Ge0qhaggqB/N6GPddvyHPtb6mnT3LaPcMNZAMCR3KU3EqybtRp3eVhVMF+2uhChtxhhGwvjYtGNd083I+THxu9nW/9ObGbmHMo8P7DdI3Wn+Z4vNHtFQXX0y7T6Ph7F4IV9RxalXCtzqhEbL1MkAg==</SignatureValue>
+      </Signature>
+    </wsse:Security>
+  </S11:Header>
+  <S11:Body wsu:Id="body">
+    <RequestSecurityTokenResponseCollection xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+      <RequestSecurityTokenResponse Context="urn:uuid:a1452b4e-69ef-4636-8e6d-aebe5877689f">
+        <TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</TokenType>
+        <RequestedSecurityToken>
+          <EncryptedAssertion xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
+            <xenc:EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element" wsu:Id="encryptedassertion" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+              <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc" />
+              <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <e:EncryptedKey xmlns:e="http://www.w3.org/2001/04/xmlenc#">
+                  <e:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  </e:EncryptionMethod>
+                  <KeyInfo>
+                    <o:SecurityTokenReference xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                      <X509Data>
+                        <X509IssuerSerial>
+                          <X509IssuerName>CN=TRUST2408 Systemtest XIX CA, O=TRUST2408, C=DK</X509IssuerName>
+                          <X509SerialNumber>1393543456</X509SerialNumber>
+                        </X509IssuerSerial>
+                      </X509Data>
+                    </o:SecurityTokenReference>
+                  </KeyInfo>
+                  <e:CipherData>
+                    <e:CipherValue>hfbhDSuJkU1b1jGGHwdgU2Tdjmb12H5COZYBcUaUGf8QHyrW+plqF3ZUmI4Qdl7wQM0TCJD6ffddKAuvtZH2HisUEGExb3t7iIK04iTg3mXT8h3sVEywdoBc/3k18JwLvGFg8D2417Y/8/6WjxrBxYQVuO0wr3nFJ4rwqP2RFgbmmSmuOD2ZDeVrUUf9eHe3A0B4ZDkLiPlqEBsYVzr7xqnboth0GiJOstnkUlrxUy56Gm2f0VP3mittGUKJtUA25fxSLqzi3vsHnzNF91IS3edUOWwR+xlUrW424Ri9CodDYZmnSXoWIY2B43vkBiOxtivcujqRMUXPkBcV25CX+Q==</e:CipherValue>
+                  </e:CipherData>
+                </e:EncryptedKey>
+              </KeyInfo>
+              <xenc:CipherData>
+                <xenc:CipherValue>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</xenc:CipherValue>
+              </xenc:CipherData>
+            </xenc:EncryptedData>
+          </EncryptedAssertion>
+        </RequestedSecurityToken>
+        <Lifetime>
+          <Created xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2015-11-04T11:54:28.408Z</Created>
+          <Expires xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2015-11-04T11:59:12Z</Expires>
+        </Lifetime>
+        <AppliesTo xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy">
+          <EndpointReference xmlns="http://www.w3.org/2005/08/addressing">
+            <Address>https://wsp.itcrew.dk</Address>
+          </EndpointReference>
+        </AppliesTo>
+        <RequestedAttachedReference>
+          <wsse:SecurityTokenReference p10:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" xmlns:p10="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd">
+            <wsse:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID">encryptedassertion</wsse:KeyIdentifier>
+          </wsse:SecurityTokenReference>
+        </RequestedAttachedReference>
+        <RequestedUnattachedReference>
+          <wsse:SecurityTokenReference p10:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" xmlns:p10="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd">
+            <wsse:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID">encryptedassertion</wsse:KeyIdentifier>
+          </wsse:SecurityTokenReference>
+        </RequestedUnattachedReference>
+      </RequestSecurityTokenResponse>
+    </RequestSecurityTokenResponseCollection>
+  </S11:Body>
+</S11:Envelope>
