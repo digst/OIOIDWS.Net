@@ -48,7 +48,10 @@ Logging:
 The component supports logging using the WSC's own logging framework. See Digst.OioIdws.Common.Logging.Configuration for details how to do this. Please notice that tokens are written out when using the Debug level. This could expose a security risk when bearer tokens with a valid life time are written to disk. Hence, do not use Debug level in production.
 
 Replay attack:
-As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken.
+
+- OioWsTrust: Does not guarantee detecting replays in a load balanced setup due to cache has been implemented in memory.
+
+- LibBas: As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken.
 
 Test:
 Manuel man-in-the-middle attacks has been made using Fiddler. The following tests has been executed:

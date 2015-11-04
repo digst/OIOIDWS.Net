@@ -274,8 +274,32 @@ namespace Digst.Oioidws.Test
         [TestCategory(Constants.IntegrationTest)]
         public void LibBasRequestFailDueToHeaderActionTamperingTest()
         {
-            // If the Action header is modified then the request will not be recieved by the WSP.
-            // Hence, this test is not possible
+            // Arrange
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                oS.utilReplaceInRequest("<a:Action", "<a:Action testAttribute=\"Tampered\"");
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
+            // Act
+            HelloWorldClient client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+            try
+            {
+                channelWithIssuedToken.HelloSign("Schultz");
+                Assert.IsTrue(false, "Expected exception was not thrown!!!");
+            }
+            catch (MessageSecurityException mse)
+            {
+                // Assert
+                var fe = mse.InnerException as FaultException;
+                Assert.IsNotNull(fe, "Expected inner fault exception");
+                Assert.AreEqual("An error occurred when verifying security for the message.", fe.Message);
+            }
         }
 
         [TestMethod]
@@ -399,12 +423,13 @@ namespace Digst.Oioidws.Test
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
-            // Act
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+            channelWithIssuedToken.HelloSign("Schultz");
+
+            // Act
             try
             {
-                channelWithIssuedToken.HelloSign("Schultz");
                 channelWithIssuedToken.HelloSign("Schultz");
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
@@ -593,8 +618,50 @@ namespace Digst.Oioidws.Test
         [TestCategory(Constants.IntegrationTest)]
         public void LibBasResponseFailDueToHeaderActionTamperingTest()
         {
-            // If the Action header is modified then the request will not be recieved by the WSP.
-            // Hence, this test is not possible
+            // Arrange
+
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                // In order to enable response tampering, buffering mode must
+                // be enabled; this allows FiddlerCore to permit modification of
+                // the response in the BeforeResponse handler rather than streaming
+                // the response to the client as the response comes in.
+                oS.bBufferResponse = true;
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
+
+            _fiddlerApplicationOnBeforeResponse = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                oS.utilReplaceInResponse("<a:Action", "<a:Action testAttribute=\"Tampered\"");
+            };
+            FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
+
+            // Act
+            HelloWorldClient client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+            try
+            {
+                channelWithIssuedToken.HelloSign("Schultz");
+                Assert.IsTrue(false, "Expected exception was not thrown!!!");
+            }
+            catch (MessageSecurityException mse)
+            {
+                // Assert
+                Assert.AreEqual("The signature verification failed. Please see inner exception for fault details.",
+                    mse.Message);
+                var ce = mse.InnerException as CryptographicException;
+                Assert.IsNotNull(ce, "Expected inner fault exception");
+                Assert.IsTrue(ce.Message.StartsWith("Digest verification failed for Reference"));
+            }
         }
 
         [TestMethod]
@@ -701,12 +768,13 @@ namespace Digst.Oioidws.Test
             };
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
-            // Act
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+            channelWithIssuedToken.HelloSign("Schultz");
+
+            // Act
             try
             {
-                channelWithIssuedToken.HelloSign("Schultz");
                 channelWithIssuedToken.HelloSign("Schultz");
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }

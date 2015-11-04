@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="OioWsTrustTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\HelloWorldProxy\Reference.cs">
       <AutoGen>True</AutoGen>

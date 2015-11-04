@@ -45,6 +45,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
         public const string WsuNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
         public const string Wsse10Namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
         public const string Wsse11Namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd";
+        public const string XmlDigSigNamespace = "http://www.w3.org/2000/09/xmldsig#";
         
         public const string VsDebuggerNamespace = "http://schemas.microsoft.com/vstudio/diagnostics/servicemodelsink";
         public const string WcfDiagnosticsNamespace = "http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics";
@@ -150,6 +151,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
                 namespaceManager.AddNamespace("wsse", Wsse10Namespace);
                 namespaceManager.AddNamespace("wsu", WsuNamespace);
                 namespaceManager.AddNamespace("wst", Wst13Namespace);
+                namespaceManager.AddNamespace("d", XmlDigSigNamespace);
+                namespaceManager.AddNamespace("wsa", WsaNamespace);
 
                 // Verify signature before making any modifications
                 if(!XmlSignatureUtils.VerifySignature(xDocument, stsCertificate))
@@ -169,6 +172,20 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
                 if (currentZuluTime >= rstsExpireZuluTime)
                     throw new InvalidOperationException("RSTS has expired. Current Zulu time was: " + currentZuluTime + ", RSTS Zulu expiry time was: " + rstsExpireZuluTime);
 
+                // Verify replay attack
+                var signatureValueElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/wsse:Security/d:Signature/d:SignatureValue", namespaceManager);
+                if (ReplyAttackCache.DoesKeyExist(signatureValueElement.Value))
+                {
+                    var messageIdElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/wsa:MessageID",
+                        namespaceManager);
+                    throw new InvalidOperationException("Replay attack detected. Response message id: " + messageIdElement.Value);
+                }
+                else
+                {
+                    ReplyAttackCache.Set(signatureValueElement.Value, messageExpireZuluTime);
+                }
+
+                // response is validated ok
                 ManipulateRstrBody(xDocument);
             }
 
@@ -178,8 +195,13 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
             // Convert XML back to a Message
             response = ConvertXmlToMessage(response, xDocument);
 
-            // Security header element is marked with the MustUnderstand attribute. Hence, we need to inform the WCF framework that this header element has been taken care of.
-            response.Headers.UnderstoodHeaders.Add(response.Headers.Single(x => "Security" == x.Name && Wsse10Namespace == x.Namespace));
+            // The Security element is only present in succesfull responses.
+            if (!response.IsFault)
+            {
+                // Security header element is marked with the MustUnderstand attribute. Hence, we need to inform the WCF framework that this header element has been taken care of.
+                response.Headers.UnderstoodHeaders.Add(
+                    response.Headers.Single(x => "Security" == x.Name && Wsse10Namespace == x.Namespace));
+            }
         }
 
         private static void RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref XDocument xDocument, ref Message response)

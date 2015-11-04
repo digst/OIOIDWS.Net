@@ -34,6 +34,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -45,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OioWsTrust\ReplyAttackCache.cs" />
     <Compile Include="OioWsTrust\SignatureCase\SignatureCaseBindingElement.cs" />
     <Compile Include="OioWsTrust\SignatureCase\SignatureCaseChannelFactory.cs" />
     <Compile Include="OioWsTrust\SignatureCase\SignatureCaseChannel.cs" />

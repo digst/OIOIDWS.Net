@@ -9,17 +9,18 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
     public interface ISignatureCaseMessageTransformer
     {
         /// <summary>
-        /// Modifies the message to be compliant with the STS needs
+        /// Transforms a default WCF/WIF RST request into a proprietary request that NemLog-in STS understands.
         /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="clientCertificate">The client certificate</param>
+        /// <param name="request">The default RST request from WCF/WIF</param>
+        /// <param name="clientCertificate">The certificate of the WSC</param>
         void ModifyMessageAccordingToStsNeeds(ref Message request, X509Certificate2 clientCertificate);
 
         /// <summary>
-        /// Modifies the message to be compliant with the WS Trust needs
+        /// Transforms a proprietary NemLog-in RSTR response into a standard WCF/WIF RSTR response.
+        /// Validating of the response must also done. Thus, signature validation, replay attack validation and expiry time validation.
         /// </summary>
-        /// <param name="response">The response</param>
-        /// <param name="stsCertificate">The certificate of the STS</param>
+        /// <param name="response">The response from NemLog-in STS</param>
+        /// <param name="stsCertificate">The STS certificate</param>
         void ModifyMessageAccordingToWsTrust(ref Message response, X509Certificate2 stsCertificate);
     }
 }
