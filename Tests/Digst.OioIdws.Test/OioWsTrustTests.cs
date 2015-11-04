@@ -327,7 +327,7 @@ namespace Digst.Oioidws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void OioWsTrustRequestFailDueToReplayAttackTamperingTest()
+        public void OioWsTrustRequestFailDueToReplayAttackTest()
         {
             // Arrange
             ITokenService tokenService = new TokenService();
@@ -649,7 +649,7 @@ namespace Digst.Oioidws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void OioWsTrustResponseFailDueToReplayAttackTamperingTest()
+        public void OioWsTrustResponseFailDueToReplayAttackTest()
         {
             // Arrange
             ITokenService tokenService = new TokenService();

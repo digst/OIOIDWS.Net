@@ -401,7 +401,7 @@ namespace Digst.Oioidws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void LibBasRequestFailDueToReplayAttackTamperingTest()
+        public void LibBasRequestFailDueToReplayAttackTest()
         {
             // Arrange
             byte[] recordedRequest = null;
@@ -732,7 +732,7 @@ namespace Digst.Oioidws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void LibBasResponseFailDueToReplayAttackTamperingTest()
+        public void LibBasResponseFailDueToReplayAttackTest()
         {
             // Arrange
             byte[] recordedResponse = null;
