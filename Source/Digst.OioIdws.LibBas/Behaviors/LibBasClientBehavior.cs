@@ -5,10 +5,8 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Security;
 using System.Xml;
-using Digst.OioIdws.Common;
 using Digst.OioIdws.Common.Constants;
 using Digst.OioIdws.Common.Logging;
-using Digst.OioIdws.LibBas.Headers;
 using Digst.OioIdws.LibBas.MessageInspectors;
 using Digst.OioIdws.LibBas.StrCustomization;
 

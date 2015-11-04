@@ -45,7 +45,7 @@ namespace Digst.OioIdws.LibBas.MessageInspectors
 
             // WCF does not automatically add a MessageID on responses.
             Logger.Instance.Trace("Adding MessageID header on response from WSP.");
-            MessageHeader<string> header = new MessageHeader<string>("urn:uuid:" + Guid.NewGuid());
+            var header = new MessageHeader<string>("urn:uuid:" + Guid.NewGuid());
             reply.Headers.Add(header.GetUntypedHeader(WsAdressing.WsAdressingMessageId, WsAdressing.WsAdressing10NameSpace));
             Logger.Instance.Trace("Added MessageID header on response from WSP.");
         }
@@ -87,7 +87,6 @@ namespace Digst.OioIdws.LibBas.MessageInspectors
         /// Therefore this extra validation has been made on top of WCF in order to always ensure that the WS-Addressing headers specified by [LIB-BAS] are present.
         /// </summary>
         /// <param name="message">The message in which the headers must be.</param>
-        /// <param name="client">True means it is a client side scenario and false means server scenario.</param>
         private static void ValidateWsAddressingHeadersCommon(Message message)
         {
             var messageIdHeader =
@@ -98,7 +97,7 @@ namespace Digst.OioIdws.LibBas.MessageInspectors
 
             if (messageIdHeader == null)
             {
-                var errorMessage = "WS-Adressing MessageID header was not present";
+                const string errorMessage = "WS-Adressing MessageID header was not present";
                 Logger.Instance.Error(errorMessage);
                 SoapFaults.CreateClientSoapFault(errorMessage);
             }
@@ -111,7 +110,7 @@ namespace Digst.OioIdws.LibBas.MessageInspectors
 
             if (actionHeader == null)
             {
-                var errorMessage = "WS-Adressing Action header was not present";
+                const string errorMessage = "WS-Adressing Action header was not present";
                 Logger.Instance.Error(errorMessage);
                 throw new FaultException(SoapFaults.CreateClientSoapFault(errorMessage));
             }

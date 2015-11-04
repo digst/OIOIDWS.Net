@@ -41,8 +41,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
         public override bool CanBuildChannelFactory<TChannel>(BindingContext context)
         {
             // Return true if it is a request channel and the rest of the call stack supports this type of channel.
-            bool canBuildChannelFactory = typeof (TChannel) == typeof (IRequestChannel) && context.CanBuildInnerChannelFactory<TChannel>();
-            return canBuildChannelFactory;
+            return typeof (TChannel) == typeof (IRequestChannel) && context.CanBuildInnerChannelFactory<TChannel>();
         }
 
         public override IChannelFactory<TChannel> BuildChannelFactory<TChannel>(BindingContext context)

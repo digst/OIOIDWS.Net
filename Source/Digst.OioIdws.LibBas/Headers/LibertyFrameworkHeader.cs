@@ -1,7 +1,5 @@
 ﻿using System.ServiceModel.Channels;
 using System.Xml;
-using Digst.OioIdws.Common;
-using Digst.OioIdws.Common.Constants;
 
 namespace Digst.OioIdws.LibBas.Headers
 {

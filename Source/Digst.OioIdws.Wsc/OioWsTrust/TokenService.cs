@@ -97,7 +97,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
                 }
 
                 // Request token and return
-                IWSTrustChannelContract wsTrustChannelContract = factory.CreateChannel();
+                var wsTrustChannelContract = factory.CreateChannel();
                 var securityToken = wsTrustChannelContract.Issue(requestSecurityToken);
 
                 return securityToken;

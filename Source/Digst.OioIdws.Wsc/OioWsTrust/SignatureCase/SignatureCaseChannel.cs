@@ -25,7 +25,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
 
         public Message Request(Message message, TimeSpan timeout)
         {
-            ISignatureCaseMessageTransformer signatureCaseMessageTransformer = new SignatureCaseMessageTransformer();
+            var signatureCaseMessageTransformer = new SignatureCaseMessageTransformer();
             signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.ClientCertificate);
             var respsonse = _innerChannel.Request(message);
             

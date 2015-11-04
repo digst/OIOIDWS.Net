@@ -37,7 +37,7 @@ namespace Digst.Oioidws.Test
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             _securityToken = tokenService.GetToken();
         }
 
@@ -64,7 +64,7 @@ namespace Digst.Oioidws.Test
         public void TotalFlowSucessTest()
         {
             // Arrange
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             
             // Act
@@ -79,7 +79,7 @@ namespace Digst.Oioidws.Test
         public void TotalFlowTokenExpiredTest()
         {
             // Arrange
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
 
             // Act
@@ -115,7 +115,7 @@ namespace Digst.Oioidws.Test
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
 
             // Act
@@ -149,7 +149,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -189,7 +189,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -221,7 +221,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -254,7 +254,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -311,7 +311,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -359,7 +359,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -400,7 +400,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -454,7 +454,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -512,7 +512,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -571,7 +571,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -646,7 +646,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {
@@ -702,7 +702,7 @@ namespace Digst.Oioidws.Test
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             // Act
-            HelloWorldClient client = new HelloWorldClient();
+            var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
             try
             {

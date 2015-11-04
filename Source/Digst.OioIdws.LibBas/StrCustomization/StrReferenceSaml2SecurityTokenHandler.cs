@@ -50,7 +50,7 @@ namespace Digst.OioIdws.LibBas.StrCustomization
             }
 
 
-            var referenceId = "_str";
+            const string referenceId = "_str";
             if (!securityKeyIdentifierClause.Id.StartsWith(referenceId))
             {
                 Logger.Instance.Trace(string.Format("Writing normal WCF STR because ID was not prefixed with '{0}'. ID was '{1}'.", referenceId, securityKeyIdentifierClause.Id));
@@ -60,12 +60,11 @@ namespace Digst.OioIdws.LibBas.StrCustomization
 
             Logger.Instance.Trace(string.Format("Writing custom STR because ID was prefixed with '{0}'. ID was '{1}'.", referenceId, securityKeyIdentifierClause.Id));
 
-           var samlClause = securityKeyIdentifierClause as Saml2AssertionKeyIdentifierClause;
+            var samlClause = securityKeyIdentifierClause as Saml2AssertionKeyIdentifierClause;
 
             // <wsse:SecurityTokenReference>
             writer.WriteStartElement("SecurityTokenReference",
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
-
 
             // @wsse11:TokenType
             writer.WriteAttributeString("TokenType",

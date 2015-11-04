@@ -75,8 +75,8 @@ namespace Digst.OioIdws.Wsc.Utils
 
         private static bool VerifySignature(XmlDocument xmlDocument, X509Certificate2 cert)
         {
-            SignedXml signedXml = new SignedXmlWithIdResolvement(xmlDocument);
-            XmlNodeList nodeList = xmlDocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#");
+            var signedXml = new SignedXmlWithIdResolvement(xmlDocument);
+            var nodeList = xmlDocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#");
             if (nodeList.Count == 0)
                 throw new InvalidOperationException("Document does not contain a signature to verify.");
 
@@ -99,6 +99,7 @@ namespace Digst.OioIdws.Wsc.Utils
             using (var nodeReader = new XmlNodeReader(xmlDocument))
             {
                 nodeReader.MoveToContent();
+                // The node reader is disposed but not before the XDocument has been loaded.
                 return XDocument.Load(nodeReader);
             }
         }

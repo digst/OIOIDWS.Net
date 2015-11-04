@@ -156,7 +156,6 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
                     throw new InvalidOperationException("SOAP signature recieved from STS does not validate!");
 
                 // Expiry time are currently not on the format specified by the spec. The spec says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
-                // TODO: Code must be updated when response are following the spec.
                 // Verify life time of SOAP message
                 var messageExpireTimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires", namespaceManager);
                 var messageExpireZuluTime = DateTime.ParseExact(messageExpireTimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
@@ -221,7 +220,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
             byte[] messageAsBytes;
             using (var memoryStream = new MemoryStream())
             {
-                using (XmlWriter xw = XmlWriter.Create(memoryStream))
+                using (var xw = XmlWriter.Create(memoryStream))
                 {
                     xNode.WriteTo(xw);
                 }
@@ -430,7 +429,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
 
         private static void RemoveMustUnderstandAttribute(XElement element)
         {
-            XAttribute mustUnderstandAttribute =
+            var mustUnderstandAttribute =
                 element.Attribute(XName.Get("mustUnderstand", S11Namespace));
             if (mustUnderstandAttribute != null)
             {

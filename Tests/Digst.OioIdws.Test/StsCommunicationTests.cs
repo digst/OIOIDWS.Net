@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.Wsc;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,7 +20,7 @@ namespace Digst.Oioidws.Test
         public void GetToken1HourLifeTimeTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             var clientCertificate = new Certificate
             {

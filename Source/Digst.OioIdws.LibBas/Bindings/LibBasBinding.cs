@@ -19,8 +19,8 @@ namespace Digst.OioIdws.LibBas.Bindings
 
         public override BindingElementCollection CreateBindingElements()
         {
-            HttpTransportBindingElement transport = _useHttps ? new HttpsTransportBindingElement() : new HttpTransportBindingElement();
-            TextMessageEncodingBindingElement encoding = new TextMessageEncodingBindingElement();
+            var transport = _useHttps ? new HttpsTransportBindingElement() : new HttpTransportBindingElement();
+            var encoding = new TextMessageEncodingBindingElement();
             // [LIB-BAS] requires SOAP 1.1 and WS-Adressing 1.0
             encoding.MessageVersion = MessageVersion.Soap11WSAddressing10;
 
@@ -33,7 +33,7 @@ namespace Digst.OioIdws.LibBas.Bindings
                 "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0");
             initiatorTokenParameters.UseStrTransform = true;
 
-            AsymmetricSecurityBindingElement asymmetric = new AsymmetricSecurityBindingElement(recipientTokenParameters, initiatorTokenParameters);
+            var asymmetric = new AsymmetricSecurityBindingElement(recipientTokenParameters, initiatorTokenParameters);
 
             // Must be true in order for client to accept embedded server certificates instead of references. This is required by the [LIB-BAS] profile.
             // However, the client must still specify the server certificate explicitly.
@@ -55,7 +55,7 @@ namespace Digst.OioIdws.LibBas.Bindings
             //asymmetric.LocalClientSettings.DetectReplays = false;
             //asymmetric.LocalServiceSettings.DetectReplays = false;
 
-            BindingElementCollection elements = new BindingElementCollection();
+            var elements = new BindingElementCollection();
             elements.Add(asymmetric);
             elements.Add(encoding);
             elements.Add(transport);

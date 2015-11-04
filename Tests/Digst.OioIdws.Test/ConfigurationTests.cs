@@ -13,7 +13,7 @@ namespace Digst.Oioidws.Test
         public void ConfigMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             
             // Act
             try
@@ -33,7 +33,7 @@ namespace Digst.Oioidws.Test
         public void WspEndpointIDMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -70,7 +70,7 @@ namespace Digst.Oioidws.Test
         public void StsEndpointAddressMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -78,7 +78,8 @@ namespace Digst.Oioidws.Test
                 StoreName = StoreName.My,
                 X509FindType = X509FindType.FindByThumbprint,
                 FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
-            }; oioIdwsWscConfiguration.StsCertificate = new Certificate
+            };
+            oioIdwsWscConfiguration.StsCertificate = new Certificate
             {
                 StoreLocation = StoreLocation.LocalMachine,
                 StoreName = StoreName.My,
@@ -105,7 +106,7 @@ namespace Digst.Oioidws.Test
         public void StsCertificateMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -113,9 +114,11 @@ namespace Digst.Oioidws.Test
                 StoreName = StoreName.My,
                 X509FindType = X509FindType.FindByThumbprint,
                 FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
-            }; oioIdwsWscConfiguration.StsEndpointAddress =
+            };
+            oioIdwsWscConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
             oioIdwsWscConfiguration.WspEndpointID = "https://saml.nnit001.dmz.inttest";
+
 
             // Act
             try
@@ -135,7 +138,7 @@ namespace Digst.Oioidws.Test
         public void ClientCertificateMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            var tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.StsCertificate = new Certificate
             {

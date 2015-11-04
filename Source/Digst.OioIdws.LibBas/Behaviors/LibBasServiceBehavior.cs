@@ -4,10 +4,8 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Security;
 using System.Xml;
-using Digst.OioIdws.Common;
 using Digst.OioIdws.Common.Constants;
 using Digst.OioIdws.Common.Logging;
-using Digst.OioIdws.LibBas.Headers;
 using Digst.OioIdws.LibBas.MessageInspectors;
 
 namespace Digst.OioIdws.LibBas.Behaviors
@@ -23,7 +21,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
         {
             // This is done in order to have the liberty framework header included in the SOAP signaure. This is required by [LIB-BAS].
             Logger.Instance.Trace("Specifying that the liberty framework header must be signed in the response to WSC.");
-            ChannelProtectionRequirements requirements = bindingParameters.Find<ChannelProtectionRequirements>();
+            var requirements = bindingParameters.Find<ChannelProtectionRequirements>();
 
             // Setting signature requirements for WSP response to WSC
             requirements.OutgoingSignatureParts.AddParts(MessagePartSpecificationWsp());
@@ -36,7 +34,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
         public static MessagePartSpecification MessagePartSpecificationWsp()
         {
             // Liberty framework header
-            XmlQualifiedName libertyFrameworkQualifiedName = new XmlQualifiedName(Common.Constants.LibBas.HeaderName,
+            var libertyFrameworkQualifiedName = new XmlQualifiedName(Common.Constants.LibBas.HeaderName,
                 Common.Constants.LibBas.HeaderNameSpace);
 
             // WS-Addressing headers. This logic only checks if a given header is part of the signature. It does not fail if the header is not present.
@@ -49,7 +47,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
                 WsAdressing.WsAdressing10NameSpace);
             var wsAddressingToQualifiedName = new XmlQualifiedName(WsAdressing.WsAdressingTo, WsAdressing.WsAdressing10NameSpace); // This one is optional according to [LIB-BAS]
 
-            MessagePartSpecification part = new MessagePartSpecification(libertyFrameworkQualifiedName,
+            var part = new MessagePartSpecification(libertyFrameworkQualifiedName,
                 wsAddressingMessageIdQualifiedName, wsAddressingActionQualifiedName, wsAddressingToQualifiedName);
             
             // Setting IsBodyIncluded to true ensures that the body is always signed. Required by [LIB-BAS]
@@ -65,7 +63,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
         public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
         {
             Logger.Instance.Trace("Adding message inspector on WSP.");
-            LibBasMessageInspector inspector = new LibBasMessageInspector();
+            var inspector = new LibBasMessageInspector();
             endpointDispatcher.DispatchRuntime.MessageInspectors.Add(inspector);
         }
 
