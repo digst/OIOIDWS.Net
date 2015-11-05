@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -74,64 +73,7 @@ namespace Digst.Oioidws.Test
             Assert.IsTrue(response.StartsWith("Hello"));
         }
 
-        [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
-        public void TotalFlowTokenExpiredTest()
-        {
-            // Arrange
-            var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
-
-            // Act
-            try
-            {
-                Thread.Sleep(610000); // Wait 10 minutes and 10 seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
-                channelWithIssuedToken.HelloSign("Schultz");
-                Assert.IsTrue(false, "Expected exception was not thrown!!!");
-            }
-            catch (MessageSecurityException mse)
-            {
-                // Assert
-                var fe = mse.InnerException as FaultException;
-                Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
-            }
-        }
-
         #region Request tests
-
-        [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
-        public void LibBasRequestExpiredTest()
-        {
-            // Arrange
-            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
-            {
-                // Only act on requests to WSP
-                if (WspHostName != oS.hostname)
-                    return;
-
-                Thread.Sleep(610000); // Wait 10 minutes seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
-            };
-            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
-
-            var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
-
-            // Act
-            try
-            {
-                channelWithIssuedToken.HelloSign("Schultz");
-                Assert.IsTrue(false, "Expected exception was not thrown!!!");
-            }
-            catch (MessageSecurityException mse)
-            {
-                // Assert
-                var fe = mse.InnerException as FaultException;
-                Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
-            }
-        }
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
@@ -705,7 +647,6 @@ namespace Digst.Oioidws.Test
                         namespaceManager);
                 var dateTime = DateTime.Parse(createdTimestampElement.Value);
                 var addMinutes = dateTime.AddMinutes(1);
-                // {2015-11-02T12:52:52.777Z}
                 var longDateString = addMinutes.ToUniversalTime().ToString(TimeFormat);
                 createdTimestampElement.Value = longDateString;
                 oS.ResponseBody = Encoding.UTF8.GetBytes(bodyAsXml.ToString(SaveOptions.DisableFormatting));

@@ -64,6 +64,16 @@
   <ItemGroup>
     <Content Include="readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
+      <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
+      <Name>Digst.OioIdws.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
+      <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
+      <Name>Digst.OioIdws.LibBas</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

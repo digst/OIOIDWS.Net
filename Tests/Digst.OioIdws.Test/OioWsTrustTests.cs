@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IdentityModel.Tokens;
 using System.IO;
-using System.Security.Cryptography;
 using System.ServiceModel;
-using System.ServiceModel.Security;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Digst.OioIdws.Test.HelloWorldProxy;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,39 +57,7 @@ namespace Digst.Oioidws.Test
 
         #region Request tests
 
-        [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
-        public void OioWsTrustRequestExpiredTest()
-        {
-            // Arrange
-            ITokenService tokenService = new TokenService();
-
-            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
-            {
-                // Only act on requests to WSP
-                if (StsHostName != oS.hostname)
-                    return;
-
-                Thread.Sleep(610000); // Wait 10 minutes seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
-            };
-            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
-
-            // Act
-            try
-            {
-                tokenService.GetToken();
-                Assert.IsTrue(false, "Expected exception was not thrown!!!");
-            }
-            catch (MessageSecurityException mse)
-            {
-                // Assert
-                var fe = mse.InnerException as FaultException;
-                Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
-            }
-        }
-
-        [TestMethod]
+       [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
         public void OioWsTrustRequestFailDueToBodyTamperingTest()
         {

@@ -55,9 +55,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
