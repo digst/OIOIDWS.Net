@@ -20,7 +20,7 @@ namespace Digst.Oioidws.Test
         public void GetToken1HourLifeTimeTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             var clientCertificate = new Certificate
             {

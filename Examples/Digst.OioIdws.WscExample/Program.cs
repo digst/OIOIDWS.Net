@@ -18,7 +18,7 @@ namespace Digst.OioIdws.WscExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var securityToken = tokenService.GetToken();
 
             // Call WSP with token

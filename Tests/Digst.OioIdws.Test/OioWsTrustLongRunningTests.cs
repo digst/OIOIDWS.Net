@@ -1,16 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.IdentityModel.Tokens;
-using System.IO;
-using System.Security.Cryptography;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Security;
-using System.Text;
 using System.Threading;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using Digst.OioIdws.Test.HelloWorldProxy;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,7 +12,6 @@ namespace Digst.Oioidws.Test
     {
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
-        private const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         private const string StsHostName = "securetokenservice.test-nemlog-in.dk";
         
         [ClassInitialize]

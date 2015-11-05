@@ -36,7 +36,7 @@ namespace Digst.Oioidws.Test
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             _securityToken = tokenService.GetToken();
         }
 

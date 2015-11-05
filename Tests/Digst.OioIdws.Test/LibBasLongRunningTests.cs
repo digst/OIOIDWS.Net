@@ -51,7 +51,7 @@ namespace Digst.Oioidws.Test
         {
             // Arrange
             // Retrieve token
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var securityToken = tokenService.GetToken();
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
@@ -78,7 +78,7 @@ namespace Digst.Oioidws.Test
         {
             // Arrange
             // Retrieve token
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var securityToken = tokenService.GetToken();
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
@@ -115,7 +115,7 @@ namespace Digst.Oioidws.Test
         {
             // Arrange
             // Retrieve token
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var securityToken = tokenService.GetToken();
 
             _fiddlerApplicationOnBeforeResponse = delegate (Session oS)

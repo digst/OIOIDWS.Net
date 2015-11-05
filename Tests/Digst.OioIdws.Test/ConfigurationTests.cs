@@ -13,7 +13,7 @@ namespace Digst.Oioidws.Test
         public void ConfigMissingInConfigurationTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             
             // Act
             try
@@ -33,7 +33,7 @@ namespace Digst.Oioidws.Test
         public void WspEndpointIDMissingInConfigurationTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -70,7 +70,7 @@ namespace Digst.Oioidws.Test
         public void StsEndpointAddressMissingInConfigurationTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -106,7 +106,7 @@ namespace Digst.Oioidws.Test
         public void StsCertificateMissingInConfigurationTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.ClientCertificate = new Certificate
             {
@@ -138,7 +138,7 @@ namespace Digst.Oioidws.Test
         public void ClientCertificateMissingInConfigurationTest()
         {
             // Arrange
-            var tokenService = new TokenService();
+            ITokenService tokenService = new TokenService();
             var oioIdwsWscConfiguration = new Configuration();
             oioIdwsWscConfiguration.StsCertificate = new Certificate
             {
