@@ -52,9 +52,6 @@ namespace Digst.OioIdws.LibBas.Bindings
             // setting EnableUnsecuredResponse to true makes normal responses unsigned and processed by the client without error. This is not what we want :)
             //asymmetric.EnableUnsecuredResponse = true;
 
-            //asymmetric.LocalClientSettings.DetectReplays = false;
-            //asymmetric.LocalServiceSettings.DetectReplays = false;
-
             var elements = new BindingElementCollection();
             elements.Add(asymmetric);
             elements.Add(encoding);

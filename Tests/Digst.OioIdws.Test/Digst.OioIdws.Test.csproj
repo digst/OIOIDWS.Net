@@ -111,7 +111,9 @@
     <None Include="Service References\HelloWorldProxy\HelloWorld.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Service References\HelloWorldProxy\HelloWorld.wsdl" />
     <None Include="Service References\HelloWorldProxy\HelloWorld.xsd">
