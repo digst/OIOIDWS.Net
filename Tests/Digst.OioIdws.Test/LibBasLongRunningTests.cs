@@ -68,7 +68,7 @@ namespace Digst.Oioidws.Test
                 // Assert
                 var fe = mse.InnerException as FaultException;
                 Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
+                Assert.AreEqual("At least one security token in the message could not be validated.", fe.Message);
             }
         }
 
@@ -105,7 +105,7 @@ namespace Digst.Oioidws.Test
                 // Assert
                 var fe = mse.InnerException as FaultException;
                 Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
+                Assert.AreEqual("An error occurred when verifying security for the message.", fe.Message);
             }
         }
 
@@ -117,6 +117,17 @@ namespace Digst.Oioidws.Test
             // Retrieve token
             ITokenService tokenService = new TokenService();
             var securityToken = tokenService.GetToken();
+
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                // it not set then Thread.Sleep is ignored on the response.
+                oS.bBufferResponse = true;
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             _fiddlerApplicationOnBeforeResponse = delegate (Session oS)
             {
@@ -140,9 +151,7 @@ namespace Digst.Oioidws.Test
             catch (MessageSecurityException mse)
             {
                 // Assert
-                var fe = mse.InnerException as FaultException;
-                Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
+                Assert.IsTrue(mse.Message.StartsWith("The security timestamp is stale because its expiration time"));
             }
         }
     }

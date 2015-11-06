@@ -75,6 +75,17 @@ namespace Digst.Oioidws.Test
             // Arrange
             ITokenService tokenService = new TokenService();
 
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (StsHostName != oS.hostname)
+                    return;
+
+                // it not set then Thread.Sleep is ignored on the response.
+                oS.bBufferResponse = true;
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
             _fiddlerApplicationOnBeforeResponse = delegate (Session oS)
             {
                 // Only act on requests to WSP

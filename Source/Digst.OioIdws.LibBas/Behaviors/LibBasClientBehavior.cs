@@ -33,11 +33,16 @@ namespace Digst.OioIdws.LibBas.Behaviors
             
             var clientCredentials = bindingParameters.Find<ClientCredentials>();
             clientCredentials.UseIdentityConfiguration = true; // Use WIF instead of WCF
+            
+            Logger.Instance.Trace("Adding custom SAML token handlers.");
+            var securityTokenHandlerCollectionManager = clientCredentials.SecurityTokenHandlerCollectionManager[
+                SecurityTokenHandlerCollectionManager.Usage.Default];
             // This is done in order to have correct STR's (Security Token Reference)
-            Logger.Instance.Trace("Adding custom SAML token handler.");
-            clientCredentials.SecurityTokenHandlerCollectionManager[
-                SecurityTokenHandlerCollectionManager.Usage.Default].AddOrReplace(
+            securityTokenHandlerCollectionManager.AddOrReplace(
                     new StrReferenceSaml2SecurityTokenHandler());
+            // TODO
+            //securityTokenHandlerCollectionManager.AddOrReplace(
+            //        new CustomGenericXmlSecurityTokenHandler());
         }
 
         public static MessagePartSpecification MessagePartSpecificationWsc()
