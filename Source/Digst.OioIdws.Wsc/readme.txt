@@ -65,15 +65,23 @@ Examples:
 Please checkout the complete OIOIDWS.Net reference implementation at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called Digst.OioIdws.WscExample that illustrates how a WSC can use this component.
 Digst.OioIdws.WscExample illustrates how a token can be fetched and used to call a WSP.
 
-Digst.OioIdws.Wsc has been customized in some areas in order to be able to communicate with NemLog-in STS. The following is a list of customizations that probably can be removed if NemLog-in STS is updated:
-RST:
-- WS-SecurityPolicy namespace is used instead of WS-Security. Conflict with WS-Trust 1.3 spec.
+The following is issues that Digst.OioIdws.Wsc takes care of because WCF did not support them out of the box:
+- RST:
+	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2004/09/policy to http://schemas.xmlsoap.org/ws/2002/12/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
+	- Ensure that "/s:Envelope/s:Body/trust:RequestSecurityToken/wsp:AppliesTo/wsa:EndpointReference/wsa:Address" elements does not contain an ending '/'. NemLog-in STS makes string comparison instead of URI comparison.
+	- Change "/s:Envelope/s:Body/trust:RequestSecurityToken/trust:Lifetime/wsu:Expires" from WCF format "yyyy-MM-ddTHH:mm:ss.fffZ" to "yyyy-MM-ddTHH:mm:ssZ" as specified in [NEMLOGIN-STSRULES].
 
-RSTR:
-- TokenType is missing even if [NEMLOGIN-STSRULES] states that it will always be included.
-
-Other:
+- RSTR:
+	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2002/12/policy to http://schemas.xmlsoap.org/ws/2004/09/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
+	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token.
+	- TokenType is missing if not specified in RST even if [NEMLOGIN-STSRULES] states that it will always be included.
+	- Expiry time element "/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires" is currently not on the format specified by [NEMLOGIN-STSRULES]. [NEMLOGIN-STSRULES] says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
+	- WS-Addressing Action element contains the value http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue instead of http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Issue. No code action has been taken here because WCF does not raise any error.
+	
 - SOAP Faults does not follow SOAP 1.1 spec.
 
-
+The following is issues not yet solved with this component:
+- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
+	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
 

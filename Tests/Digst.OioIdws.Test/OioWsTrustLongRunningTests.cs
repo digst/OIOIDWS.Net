@@ -7,6 +7,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Digst.Oioidws.Test
 {
+    /// <summary>
+    /// This test suite is not working. Hence, the expiration time has not been tested.
+    /// https in combination with Fiddler makes WCF create an extra HttpWebRequest inside a existing HttpWebRequest. The existing HttpWebRequest has the correctly timeout value of 1 day due to debug property being set to true in app.config. However, the extra internally created HttpWebRequest has the default value of 100 seconds ... and this makes the this test suite fail.
+    /// The problem starts in the line proxyAddress = chain.Enumerator.Current; line number 898 in System.Net.ServerPointManager. Current is null when Fiddler is not running and the consequence is that no extra interanlly HttpWebRequest is created.
+    /// Switching to http is not an option as NemLog-in STS only accepts https.
+    /// </summary>
     [TestClass]
     public class OioWsTrustLongRunningTests
     {
@@ -64,7 +70,7 @@ namespace Digst.Oioidws.Test
                 // Assert
                 var fe = mse.InnerException as FaultException;
                 Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
+                Assert.AreEqual("An error occurred when verifying security for the message.", fe.Message);
             }
         }
 
@@ -105,9 +111,7 @@ namespace Digst.Oioidws.Test
             catch (MessageSecurityException mse)
             {
                 // Assert
-                var fe = mse.InnerException as FaultException;
-                Assert.IsNotNull(fe, "Expected inner fault exception");
-                Assert.AreEqual("At least one security token in the message could not be validated.", mse.Message);
+                Assert.IsTrue(mse.Message.StartsWith("The security timestamp is stale because its expiration time"));
             }
         }
     }

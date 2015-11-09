@@ -158,7 +158,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
                 if(!XmlSignatureUtils.VerifySignature(xDocument, stsCertificate))
                     throw new InvalidOperationException("SOAP signature recieved from STS does not validate!");
 
-                // Expiry time are currently not on the format specified by the spec. The spec says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
+                // Expiry time is currently not on the format specified by the spec. The spec says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
                 // Verify life time of SOAP message
                 var messageExpireTimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires", namespaceManager);
                 var messageExpireZuluTime = DateTime.ParseExact(messageExpireTimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
@@ -278,11 +278,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
                 wcfDiagnosticsElement.Remove();
             }
 
-            // Remove mustUnderstand attributes as it is not allowed by NemLog-in STS. This is not in compliance with the SOAP 1.1 specification.
-            var actionElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/a:Action", namespaceManager);
-            RemoveMustUnderstandAttribute(actionElement);
-
             // Because ManuelAddressing is set to true we need to manual add the messageID header
+            var actionElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/a:Action", namespaceManager);
             var messageIdElement = new XElement(XName.Get("MessageID", WsaNamespace));
             messageIdElement.Value = "uuid:" + Guid.NewGuid().ToString("D");
             actionElement.AddAfterSelf(messageIdElement);

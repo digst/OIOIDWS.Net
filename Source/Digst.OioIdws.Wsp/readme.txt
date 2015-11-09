@@ -44,6 +44,13 @@ The following is issues that Digst.OioIdws.Wsp takes care of because WCF did not
 - Support of encrypted assertions. According to the two statements beneath the "Web Services Security SAML Token Profile" says that the key identifier must reference the id of the SAML assertion and the SubjectConfirmation is the proof key. In this case the SAML assertion is encrypted and therefore the key identifier is referencing the id of the encrypted assertion. When WCF encounters an encrypted assertion it is automatically replaced with the decrypted assertion. The result is that the key identifier now references an id that is not present anymore. It seems strange that WIF does not take this into account when looking after the decrypted SAML assertion (when they have putted effort into decrypting the assertion), and makes me wonder if it could be solved by configuration. However, I could only make it work with the custom DecryptedSaml2SecurityToken implementation. It basically just says "yes I have an assertion with the id 'encryptedassertion' even if it is not true". The implementation will fail if NemLog-in STS changes strategy and does not use the static identifier 'encryptedassertion'.
 	- When a key identifier is used to reference a SAML assertion, it MUST contain as its element value the corresponding SAML assertion identifier.
 	- A SAML assertion may be referenced from a <ds:KeyInfo> element of a <ds:Signature> element in a <wsse:Security> header. In this case, the assertion contains a SubjectConfirmation element that identifies the key used in the signature calculation.
+
+The following is issues not yet solved with this component:
+- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
+	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
+- SOAP faults are encrypted. It would be desirable that even if the WSC had misconfigured its certificates, that it would still be able read the SOAP faults.
+
 	
 
 
