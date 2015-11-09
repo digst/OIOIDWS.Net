@@ -33,15 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0-beta\lib\net45\Digst.OioIdws.Common.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.LibBas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0-beta\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.Wsp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0-beta\lib\net45\Digst.OioIdws.Wsp.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.Wsp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

@@ -5,6 +5,7 @@ Digst.OioIdws.Wsc is a .Net-based reference implementation of the OIOIDWS 1.0.1a
 This package can be used by service providers to act as a Web Service Consumer (WSC).
 The goal of this component is to make it easy for Web Service Consumers (WSC) to support the OIO Identity-based Web Services (OIOIDWS) profile. 
 OIOIDWS defines five scenarios but it is only "Scenario 5: Rich client and external IdP / STS" that is supported in this version.
+This component does only support encrytped SAML assertions of type holder-of-key. This compoenent has not been tested with unencrypted assertions of any type. However, it it is expected to work. Encrypted SAML assertions being of type Bearer key is not supported. This is because the WSC does not know which type the encrypted SAML assertion is. NemLog-in STS is currently issueing holder-of-key tokens and therefore this component is currently configured to statically work with holder-of-key tokens when SAML assertions are encrypted. To support both types dynamically WSC could be changed to always include the WSC public certificate part in the requests to WSP. Then WSP after decrypting the SAML assertion could make a decision whether to use the WSC certificate from the token or the request based on holder-of-key or bearer key scenario.
 
 The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog-in STS and [LIB-BAS] for communication with a web service provider (WSP). 
 [NEMLOGIN-STS] is used for testing an implementation. The remaining proprietary standards that are directly or indirectly referenced through [NEMLOGIN-STSRULES] and [LIB-BAS] are also shortly described in order to get an overview of their internal dependencies.
@@ -17,7 +18,7 @@ The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog
 
 [OIO-WST-DEP] - OIO WS-Trust Deployment Profile Version 1.0: Mandates the use of LIB-BAS without the <sbf:Framework> element. Specifies that tokens SHOULD follow the OIO-IDT profile.
 
-[LIB-BAS] - Liberty Basic SOAP Binding Profile Version 1.0: LIB-BAS is a scaled-down version of the "Liberty ID-WSF 2.0 profile" from 2006 and can be used without reading the "Liberty ID-WSF 2.0 profile". Liberty ID-WSF 2.0 profiles WS-Security, WS-Addressing and SAML. LIB-BAS specifies the use of SOAP 1.1, WS-Adressing 1.0 and WS-Security (no specific version is mentioned). Furtermore, it mandates the use of SAML 2.0 assertions.
+[LIB-BAS] - Liberty Basic SOAP Binding Profile Version 1.0: LIB-BAS is a scaled-down version of the "Liberty ID-WSF 2.0 profile" from 2006 and can be used without reading the "Liberty ID-WSF 2.0 profile". Liberty ID-WSF 2.0 profiles WS-Security, WS-Addressing and SAML. LIB-BAS specifies the use of SOAP 1.1, WS-Adressing 1.0 and WS-Security. WS-Security 1.0 namespaces are used in the examples but the reference list points to WS-Security 1.1. This implementation uses WS-Secuity 1.0 in order to be compliant with the examples. Furtermore, it mandates the use of SAML 2.0 assertions.
 
 [OIO-WST] - OIO WS-Trust Profile 1.0.1: This profile is a true subset of WS-Trust 1.3 with the addition of the element <wst14:ActAs> from WS-Trust 1.4.
 
@@ -64,15 +65,23 @@ Examples:
 Please checkout the complete OIOIDWS.Net reference implementation at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called Digst.OioIdws.WscExample that illustrates how a WSC can use this component.
 Digst.OioIdws.WscExample illustrates how a token can be fetched and used to call a WSP.
 
-Digst.OioIdws.Wsc has been customized in some areas in order to be able to communicate with NemLog-in STS. The following is a list of customizations that probably can be removed if NemLog-in STS is updated:
-RST:
-- WS-SecurityPolicy namespace is used instead of WS-Security. Conflict with WS-Trust 1.3 spec.
+The following is issues that Digst.OioIdws.Wsc takes care of because WCF did not support them out of the box:
+- RST:
+	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2004/09/policy to http://schemas.xmlsoap.org/ws/2002/12/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
+	- Ensure that "/s:Envelope/s:Body/trust:RequestSecurityToken/wsp:AppliesTo/wsa:EndpointReference/wsa:Address" elements does not contain an ending '/'. NemLog-in STS makes string comparison instead of URI comparison.
+	- Change "/s:Envelope/s:Body/trust:RequestSecurityToken/trust:Lifetime/wsu:Expires" from WCF format "yyyy-MM-ddTHH:mm:ss.fffZ" to "yyyy-MM-ddTHH:mm:ssZ" as specified in [NEMLOGIN-STSRULES].
 
-RSTR:
-- TokenType is missing even if [NEMLOGIN-STSRULES] states that it will always be included.
-
-Other:
+- RSTR:
+	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2002/12/policy to http://schemas.xmlsoap.org/ws/2004/09/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
+	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token.
+	- TokenType is missing if not specified in RST even if [NEMLOGIN-STSRULES] states that it will always be included.
+	- Expiry time element "/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires" is currently not on the format specified by [NEMLOGIN-STSRULES]. [NEMLOGIN-STSRULES] says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
+	- WS-Addressing Action element contains the value http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue instead of http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Issue. No code action has been taken here because WCF does not raise any error.
+	
 - SOAP Faults does not follow SOAP 1.1 spec.
 
-
+The following is issues not yet solved with this component:
+- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
+	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
 
