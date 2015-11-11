@@ -24,7 +24,7 @@ Logging:
 The component itself does not make any custom logging. Use system.diagnostics to see WCF logging. The WspExample shows how this can be set up.
 
 Replay attack:
-As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken.
+As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken. See https://msdn.microsoft.com/en-us/library/hh598927(v=vs.110).aspx
 
 Test:
 Manuel man-in-the-middle attacks has been made using Fiddler. The following tests has been executed:

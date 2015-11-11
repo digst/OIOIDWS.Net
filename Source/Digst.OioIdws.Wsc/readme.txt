@@ -52,7 +52,7 @@ Replay attack:
 
 - OioWsTrust: Does not guarantee detecting replays in a load balanced setup due to cache has been implemented in memory.
 
-- LibBas: As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken.
+- LibBas: As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken. See https://msdn.microsoft.com/en-us/library/hh598927(v=vs.110).aspx
 
 Test:
 Manuel man-in-the-middle attacks has been made using Fiddler. The following tests has been executed:
