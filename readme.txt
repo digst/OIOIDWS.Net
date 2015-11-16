@@ -22,6 +22,8 @@ In order to run the examples or integration tests ... the following prerequisite
 
 - Host file must be updated with "127.0.0.1 Digst.OioIdws.Wsp" in order for examples and integration tests to work.
 
+- The external IP address must be white listed at NETS in order to be able to make revocation check of the test OCES certificates.
+
 In order to run the examples with production certificates ... the following prerequisites must be in place:
 - The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 

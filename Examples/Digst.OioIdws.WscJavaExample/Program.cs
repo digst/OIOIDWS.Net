@@ -25,7 +25,7 @@ namespace Digst.OioIdws.WscJavaExample
             var client = new HelloWorldPortTypeClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
             var helloWorldRequest = new HelloWorldRequest("Schultz");
-            Console.WriteLine(channelWithIssuedToken.HelloWorld(helloWorldRequest));
+            Console.WriteLine(channelWithIssuedToken.HelloWorld(helloWorldRequest).response);
 
             // Encrypted calls fails client side. However, encryption at message level is not required and no further investigation has been putted into this issue yet.
             // Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); 

@@ -27,7 +27,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
             // Setting signature requirements for WSC request to WSP
             requirements.IncomingSignatureParts.AddParts(MessagePartSpecificationWsc());
 
-            // Setting signature requirements for WSP repsonse to WSF
+            // Setting signature requirements for WSP repsonse to WSC
             // This is done in order to validate the response. This is required by [LIB-BAS].
             requirements.OutgoingSignatureParts.AddParts(LibBasServiceBehavior.MessagePartSpecificationWsp());
             
@@ -40,9 +40,6 @@ namespace Digst.OioIdws.LibBas.Behaviors
             // This is done in order to have correct STR's (Security Token Reference)
             securityTokenHandlerCollectionManager.AddOrReplace(
                     new StrReferenceSaml2SecurityTokenHandler());
-            // TODO
-            //securityTokenHandlerCollectionManager.AddOrReplace(
-            //        new CustomGenericXmlSecurityTokenHandler());
         }
 
         public static MessagePartSpecification MessagePartSpecificationWsc()
@@ -52,7 +49,7 @@ namespace Digst.OioIdws.LibBas.Behaviors
                 Common.Constants.LibBas.HeaderNameSpace);
 
             // WS-Addressing headers. This logic only checks if a given header is part of the signature. It does not fail if the header is not present.
-            // Checking if a header is present is done the message inspectors.
+            // Checking if a header is present is done in the message inspectors.
             // MessageID is not automatically set in the response by WCF. Hence, a custom check is necessary to ensure that it is present and is part of the signature.
             // Instead of only checking MessageID all WS-Addressing headers specified by [LIB-BAS] has been included ... just to be sure.
             // Required by [LIB-BAS]
