@@ -29,7 +29,12 @@ In order to run the examples with production certificates ... the following prer
 
 - The WSC must acquire a test FOCES certificate with a private key. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
 
-- The WSP must acquire a test FOCES certificate with a private key. This certificate (the public part without the private key) must be distributed out-of-band to both WSC and STS. WSC needs it in order to trust responses from the WSP and STS needs it in order encrypt the token. The service must also be registered in STS with an endpoint ID. This ID is used in both configurations of the WSC and WSP. The WSC needs the endpoint ID in order to request a token for a specific WSP. The WSP needs the endpoint ID in order to verify that the token is issued to the right WSP.
+- The WSP must acquire a test FOCES certificate with a private key. This certificate (the public part without the private key) must be distributed out-of-band to both WSC and STS. WSC needs it in order to trust responses from the WSP and STS needs it in order encrypt the token. The service must also be registered in STS (through "NemLog-in administration") with an endpoint ID. This ID is used in both configurations of the WSC and WSP. The WSC needs the endpoint ID in order to request a token for a specific WSP. The WSP needs the endpoint ID in order to verify that the token is issued to the right WSP.
+
+- Information about how to order FOCES certificates from NETS DANID can be found here: http://www.nets.eu/dk-da/Produkter/Sikkerhed/Funktionssignatur/Pages/default.aspx.
+ 
+- Information about how to register a WSP in NemLog-in STS through "NemLog-in administration" can be found here: (https://digitaliser.dk/resource/2561041). 
+
 
 
 
