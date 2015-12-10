@@ -46,7 +46,7 @@ namespace Digst.Oioidws.Test
         }
 
         [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public void TotalFlowTokenExpiredTest()
         {
             // Arrange
@@ -73,7 +73,7 @@ namespace Digst.Oioidws.Test
         }
 
         [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public void LibBasRequestExpiredTest()
         {
             // Arrange
@@ -110,7 +110,7 @@ namespace Digst.Oioidws.Test
         }
 
         [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public void LibBasResponseExpiredTest()
         {
             // Arrange

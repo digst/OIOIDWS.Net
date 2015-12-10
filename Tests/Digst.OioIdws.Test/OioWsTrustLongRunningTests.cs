@@ -43,7 +43,7 @@ namespace Digst.Oioidws.Test
         }
 
         [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public void OioWsTrustRequestExpiredTest()
         {
             // Arrange
@@ -75,7 +75,7 @@ namespace Digst.Oioidws.Test
         }
 
         [TestMethod]
-        [TestCategory(Constants.IntegrationTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public void OioWsTrustResponseExpiredTest()
         {
             // Arrange
