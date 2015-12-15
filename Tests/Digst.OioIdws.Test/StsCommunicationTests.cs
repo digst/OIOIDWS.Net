@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

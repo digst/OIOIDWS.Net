@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Caching;
 
-namespace Digst.OioIdws.Wsc.OioWsTrust
+namespace Digst.OioIdws.OioWsTrust
 {
     /// <summary>
     ///  Class for holding information about previously recieved responses.

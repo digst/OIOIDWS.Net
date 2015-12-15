@@ -4,9 +4,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
 using System.Xml.Linq;
-using Digst.OioIdws.Wsc.OioWsTrust.SignatureCase;
+using Digst.OioIdws.OioWsTrust.SignatureCase;
 
-namespace Digst.OioIdws.Wsc.Utils
+namespace Digst.OioIdws.OioWsTrust.Utils
 {
     public class XmlSignatureUtils
     {

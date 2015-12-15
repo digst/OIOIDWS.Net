@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 
-namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
+namespace Digst.OioIdws.OioWsTrust.SignatureCase
 {
     public class SignatureCaseChannelFactory : ChannelFactoryBase<IRequestChannel>
     {

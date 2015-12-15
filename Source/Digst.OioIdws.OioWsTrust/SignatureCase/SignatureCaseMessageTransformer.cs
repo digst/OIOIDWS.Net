@@ -9,9 +9,9 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Digst.OioIdws.Common.Logging;
-using Digst.OioIdws.Wsc.Utils;
+using Digst.OioIdws.OioWsTrust.Utils;
 
-namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
+namespace Digst.OioIdws.OioWsTrust.SignatureCase
 {
     /// <summary>
     /// This class implements the signature case part of specification [NEMLOGIN-STSRULES].

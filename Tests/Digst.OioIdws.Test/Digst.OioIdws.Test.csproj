@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationTests.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="LibBasLongRunningTests.cs" />
     <Compile Include="OioWsTrustLongRunningTests.cs" />
     <Compile Include="OioWsTrustTests.cs" />
@@ -81,9 +80,17 @@
       <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
       <Name>Digst.OioIdws.LibBas</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
       <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>
       <Name>Digst.OioIdws.Wsc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj">
+      <Project>{17cd5683-886b-4856-82b0-25bd99172764}</Project>
+      <Name>Digst.OioIdws.Test.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

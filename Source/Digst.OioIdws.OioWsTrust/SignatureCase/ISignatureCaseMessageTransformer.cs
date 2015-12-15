@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Channels;
 
-namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
+namespace Digst.OioIdws.OioWsTrust.SignatureCase
 {
     /// <summary>
     /// Transforms the messages to be compliant with the Signature case scenario of the specification [NEMLOGIN-STSRULES]

@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
+using Digst.OioIdws.Test.Common;
+using Microsoft.Owin.Logging;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -17,6 +21,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
     public class AuthorizationEndpointTests
     {
         [TestMethod]
+        [TestCategory(Constants.UnitTest)]
         public async Task IssueAccessToken_Success_ReturnsCorrectly()
         {
             var requestSamlToken = Utils.ToBase64("mit token");
@@ -31,17 +36,16 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
 
             var options = new OioIdwsAuthorizationServiceOptions
             {
-                IssueAccessTokenEndpoint = "/authorize"
+                IssueAccessTokenEndpoint = "/authorize",
             };
-
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsAuthorizationServiceMiddleware>(new OioIdwsAuthorizationServiceOptions
-                {
-                    IssueAccessTokenEndpoint = "/authorize",
-                }, authorizationServiceMock.Object, tokenStoreMock.Object);
+                app.SetLoggerFactory(new OwinConsoleLoggerFactory());
+
+                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options
+                    , authorizationServiceMock.Object, tokenStoreMock.Object);
             }))
-            {
+            { 
                 var response = await server.HttpClient.PostAsync("/authorize",
                             new FormUrlEncodedContent(new[]
                             {new KeyValuePair<string, string>("saml-token", requestSamlToken),}));
@@ -61,6 +65,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
         }
 
         [TestMethod]
+        [TestCategory(Constants.UnitTest)]
         public async Task IssueAccessToken_OtherEndpoint_PassesThrough()
         {
             using (var server = TestServer.Create(app =>
@@ -84,6 +89,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
         }
 
         [TestMethod]
+        [TestCategory(Constants.UnitTest)]
         public async Task IssueAccessToken_InvalidRequest_ReturnsUnauthorized()
         {
             var authorizationServiceMock = new Mock<IAccessTokenGenerator>();
@@ -91,7 +97,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsAuthorizationServiceMiddleware>(new OioIdwsAuthorizationServiceOptions
+                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, new OioIdwsAuthorizationServiceOptions
                 {
                     IssueAccessTokenEndpoint = "/authorize"
                 }, authorizationServiceMock.Object, tokenStoreMock.Object);

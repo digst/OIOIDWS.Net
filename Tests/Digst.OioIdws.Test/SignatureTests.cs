@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
+using Digst.OioIdws.OioWsTrust.Utils;
+using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,8 +13,6 @@ namespace Digst.Oioidws.Test
     {
         /// <summary>
         /// Tests that the XML signature can be verified.
-        /// Prerequisites:
-        /// MOCES client certificate https://test-nemlog-in.dk/Testportal/certifikater/%C3%98S%20-%20Morten%20Mortensen%20RID%2093947552.html must be installed in user store (it automatically is)
         /// </summary>
         [TestMethod]
         [TestCategory(Constants.UnitTest)]
@@ -21,8 +21,8 @@ namespace Digst.Oioidws.Test
             // Arrange
             var rtsSoapMessageNotSigned = XDocument.Load(@"Resources\RST_Not_Signed.xml");
             var ids = new [] {"action", "msgid", "to", "sec-ts", "sec-binsectoken", "body"};
-            var cert = CertificateUtil.GetCertificate(StoreName.My, StoreLocation.CurrentUser,
-                X509FindType.FindByThumbprint, "CE3B36692D8D5B731DD1157849A31F1599E524DA");
+            var cert = CertificateUtil.GetCertificate(StoreName.My, StoreLocation.LocalMachine,
+                X509FindType.FindByThumbprint, "0919ED32CF8758A002B39C10352BE7DCCCF1222A");
 
             // Act
             var rtsSoapMessageSigned = XmlSignatureUtils.SignDocument(rtsSoapMessageNotSigned, ids, cert);

@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Digst.OioIdws.Test.Common;
 
 namespace Digst.Oioidws.Test
 {

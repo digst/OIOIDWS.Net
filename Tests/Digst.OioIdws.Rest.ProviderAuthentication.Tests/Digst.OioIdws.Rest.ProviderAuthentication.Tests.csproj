@@ -82,6 +82,10 @@
       <Project>{98483b72-4f3d-475f-9cb8-5792b16826ec}</Project>
       <Name>Digst.OioIdws.Rest.ProviderAuthentication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj">
+      <Project>{17cd5683-886b-4856-82b0-25bd99172764}</Project>
+      <Name>Digst.OioIdws.Test.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

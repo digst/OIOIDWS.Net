@@ -1,6 +1,6 @@
-﻿namespace Digst.Oioidws.Test
+namespace Digst.OioIdws.Test.Common
 {
-    class Constants
+    public class Constants
     {
         public const string UnitTest = "UnitTest";
         public const string IntegrationTest = "IntegrationTest";

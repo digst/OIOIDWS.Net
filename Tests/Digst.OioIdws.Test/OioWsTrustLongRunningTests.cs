@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;
+using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

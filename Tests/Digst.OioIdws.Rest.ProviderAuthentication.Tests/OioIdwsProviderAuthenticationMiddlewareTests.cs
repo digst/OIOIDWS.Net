@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Digst.OioIdws.Test.Common;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -13,6 +14,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
     public class OioIdwsProviderAuthenticationMiddlewareTests
     {
         [TestMethod]
+        [TestCategory(Constants.UnitTest)]
         public async Task Invoke()
         {
             var accessToken = "token123";

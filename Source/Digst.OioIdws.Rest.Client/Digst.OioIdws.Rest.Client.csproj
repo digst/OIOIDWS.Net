@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</ProjectGuid>
+    <ProjectGuid>{7E94185F-75DA-4E26-80CD-D3BDA207FE5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Common</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Common</AssemblyName>
+    <RootNamespace>Digst.OioIdws.Rest.Client</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Rest.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,9 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,15 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\LibBas.cs" />
-    <Compile Include="Constants\WsAdressing.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\Configuration.cs" />
-    <Compile Include="Logging\LoggerFactory.cs" />
-    <Compile Include="Logging\TraceLogger.cs" />
+    <Compile Include="OioIdwsClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoapFaults.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

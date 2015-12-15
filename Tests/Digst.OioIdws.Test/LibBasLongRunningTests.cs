@@ -6,6 +6,7 @@ using Digst.OioIdws.Test.HelloWorldProxy;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Digst.OioIdws.Test.Common;
 
 namespace Digst.Oioidws.Test
 {

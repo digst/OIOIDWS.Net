@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 
-namespace Digst.OioIdws.Wsc.OioWsTrust.SignatureCase
+namespace Digst.OioIdws.OioWsTrust.SignatureCase
 {
     public class SignatureCaseChannel : ChannelBase, IRequestChannel
     {

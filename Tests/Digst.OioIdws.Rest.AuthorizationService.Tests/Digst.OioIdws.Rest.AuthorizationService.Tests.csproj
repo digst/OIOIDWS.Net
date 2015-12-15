@@ -92,6 +92,10 @@
       <Project>{b367bf97-79f3-4bba-8a2f-9a21ffdf9950}</Project>
       <Name>Digst.OioIdws.Rest.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj">
+      <Project>{17cd5683-886b-4856-82b0-25bd99172764}</Project>
+      <Name>Digst.OioIdws.Test.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

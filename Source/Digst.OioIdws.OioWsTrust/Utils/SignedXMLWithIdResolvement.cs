@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography.Xml;
 using System.Xml;
-using Digst.OioIdws.Wsc.OioWsTrust.SignatureCase;
+using Digst.OioIdws.OioWsTrust.SignatureCase;
 
-namespace Digst.OioIdws.Wsc.Utils
+namespace Digst.OioIdws.OioWsTrust.Utils
 {
     ///<summary>
     /// Needed in order to reference elements where the id attribute is prefixed with a namespace. E.g. wsu:Id

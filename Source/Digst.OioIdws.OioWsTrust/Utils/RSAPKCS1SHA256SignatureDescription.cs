@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Digst.OioIdws.Wsc.Utils
+namespace Digst.OioIdws.OioWsTrust.Utils
 {
     /// <summary>
     /// Adds SHA256 support to the .NET SignedXml class

@@ -11,42 +11,13 @@ namespace Digst.OioIdws.Common.Logging
         private static readonly Lazy<ILogger> LazyLogger =
             new Lazy<ILogger>(() => new Logger());
 
-        public static ILogger Instance { get { return LazyLogger.Value; } }
+        public static ILogger Instance => LazyLogger.Value;
 
         private readonly ILogger _logger;
 
         private Logger()
         {
-            // Retrieve Configuration
-            var config =
-                (Configuration)System.Configuration.ConfigurationManager.GetSection("oioIdwsLoggingConfiguration");
-            if (config != null && !string.IsNullOrEmpty(config.Logger))
-            {
-                try
-                {
-                    var t = Type.GetType(config.Logger);
-                    if (t != null)
-                    {
-                        _logger = (ILogger)Activator.CreateInstance(t);
-                    }
-                    else
-                    {
-                        throw new Exception(
-                            string.Format(
-                                "The type {0} is not available for the logging. Please check the type name and assembly",
-                                config.Logger));
-                    }
-                }
-                catch (Exception e)
-                {
-                    new TraceLogger().Fatal("Could not instantiate the configured logger. Message: " + e.Message);
-                    throw;
-                }
-            }
-            else
-            {
-                _logger = new TraceLogger();
-            }
+            _logger = LoggerFactory.CreateLogger();
         }
 
         public void Trace(string message, [CallerMemberName] string callerMemberName = null, [CallerLineNumber] int callerLineNumber = 0, [CallerFilePath] string callerFilePath = null)

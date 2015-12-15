@@ -6,12 +6,12 @@ namespace Digst.OioIdws.Rest.AuthorizationService
     {
         public static IAppBuilder UseOioIdwsAuthorizationService(this IAppBuilder app, OioIdwsAuthorizationServiceOptions options)
         {
-            return app.Use<OioIdwsAuthorizationServiceMiddleware>(options, new AccessTokenGenerator(), new MemoryTokenStore());
+            return app.UseOioIdwsAuthorizationService(options, new MemoryTokenStore());
         }
 
         public static IAppBuilder UseOioIdwsAuthorizationService(this IAppBuilder app, OioIdwsAuthorizationServiceOptions options, ITokenStore tokenStore)
         {
-            return app.Use<OioIdwsAuthorizationServiceMiddleware>(options, new AccessTokenGenerator(), tokenStore);
+            return app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options, new AccessTokenGenerator(), tokenStore);
         }
     }
 }

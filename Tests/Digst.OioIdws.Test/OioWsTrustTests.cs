@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
