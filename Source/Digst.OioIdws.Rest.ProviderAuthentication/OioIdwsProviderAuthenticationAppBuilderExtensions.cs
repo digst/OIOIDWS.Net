@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Owin;
+﻿using Owin;
 
 namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public static class OioIdwsProviderAuthenticationAppBuilderExtensions
     {
-        public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options)
+        public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options, ITokenProvider tokenProvider)
         {
-            return app.Use<OioIdwsProviderAuthenticationMiddleware>(options);
+            return app.Use<OioIdwsProviderAuthenticationMiddleware>(options, tokenProvider, new PrincipalBuilder());
         }
     }
 }

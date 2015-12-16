@@ -50,14 +50,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPrincipalBuilder.cs" />
     <Compile Include="ITokenProvider.cs" />
     <Compile Include="OioIdwsProviderAuthenticationAppBuilderExtensions.cs" />
     <Compile Include="OioIdwsProviderAuthenticationMiddleware.cs" />
     <Compile Include="OioIdwsProviderAuthenticationOptions.cs" />
+    <Compile Include="PrincipalBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Digst.OioIdws.Rest.Common\Digst.OioIdws.Rest.Common.csproj">
+      <Project>{b367bf97-79f3-4bba-8a2f-9a21ffdf9950}</Project>
+      <Name>Digst.OioIdws.Rest.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

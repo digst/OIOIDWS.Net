@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Common;
 
 namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public interface ITokenProvider
     {
-        Task<string> RetrieveTokenAsync(string accessToken);
+        Task<OioIdwsToken> RetrieveTokenAsync(string accessToken);
     }
 }

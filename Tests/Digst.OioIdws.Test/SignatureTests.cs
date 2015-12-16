@@ -3,7 +3,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 using Digst.OioIdws.OioWsTrust.Utils;
 using Digst.OioIdws.Test.Common;
-using Digst.OioIdws.Wsc.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Digst.Oioidws.Test
@@ -21,8 +20,7 @@ namespace Digst.Oioidws.Test
             // Arrange
             var rtsSoapMessageNotSigned = XDocument.Load(@"Resources\RST_Not_Signed.xml");
             var ids = new [] {"action", "msgid", "to", "sec-ts", "sec-binsectoken", "body"};
-            var cert = CertificateUtil.GetCertificate(StoreName.My, StoreLocation.LocalMachine,
-                X509FindType.FindByThumbprint, "0919ED32CF8758A002B39C10352BE7DCCCF1222A");
+            var cert = CertificateUtil.GetCertificate("0919ED32CF8758A002B39C10352BE7DCCCF1222A");
 
             // Act
             var rtsSoapMessageSigned = XmlSignatureUtils.SignDocument(rtsSoapMessageNotSigned, ids, cert);

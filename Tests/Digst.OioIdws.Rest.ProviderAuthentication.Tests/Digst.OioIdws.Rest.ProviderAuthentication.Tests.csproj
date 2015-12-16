@@ -56,6 +56,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
@@ -72,12 +73,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="OioIdwsProviderAuthenticationMiddlewareTests.cs" />
+    <Compile Include="PrincipalBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.Common\Digst.OioIdws.Rest.Common.csproj">
+      <Project>{b367bf97-79f3-4bba-8a2f-9a21ffdf9950}</Project>
+      <Name>Digst.OioIdws.Rest.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.ProviderAuthentication\Digst.OioIdws.Rest.ProviderAuthentication.csproj">
       <Project>{98483b72-4f3d-475f-9cb8-5792b16826ec}</Project>
       <Name>Digst.OioIdws.Rest.ProviderAuthentication</Name>

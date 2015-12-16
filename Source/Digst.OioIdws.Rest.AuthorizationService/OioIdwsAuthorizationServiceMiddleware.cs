@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IdentityModel.Selectors;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.AuthorizationService.Issuing;
+using Digst.OioIdws.Rest.AuthorizationService.Storage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Owin;
@@ -8,23 +11,22 @@ namespace Digst.OioIdws.Rest.AuthorizationService
 {
     public class OioIdwsAuthorizationServiceMiddleware : OwinMiddleware
     {
-        private readonly IAccessTokenGenerator _accessTokenGenerator;
-        private readonly ITokenStore _tokenStore;
         private readonly Settings _settings;
         private readonly ILogger _logger;
+        private readonly AccessTokenIssuer _accessTokenIssuer;
 
-        class Settings
+        internal class Settings
         {
             public PathString AuthorizationPath { get; set; }
             public TimeSpan AccessTokenExpiration { get; set; }
+            public SecurityTokenResolver ServiceTokenResolver { get; set; }
         }
 
         public OioIdwsAuthorizationServiceMiddleware(
             OwinMiddleware next, 
             IAppBuilder appBuilder,
             OioIdwsAuthorizationServiceOptions options, 
-            IAccessTokenGenerator accessTokenGenerator,
-            ITokenStore tokenStore) 
+            ISecurityTokenStore securityTokenStore) 
             : base(next)
         {
             if (appBuilder == null)
@@ -35,35 +37,37 @@ namespace Digst.OioIdws.Rest.AuthorizationService
             {
                 throw new ArgumentNullException(nameof(options));
             }
-            if (accessTokenGenerator == null)
+            if (securityTokenStore == null)
             {
-                throw new ArgumentNullException(nameof(accessTokenGenerator));
-            }
-            if (tokenStore == null)
-            {
-                throw new ArgumentNullException(nameof(tokenStore));
+                throw new ArgumentNullException(nameof(securityTokenStore));
             }
 
             _logger = appBuilder.CreateLogger<OioIdwsAuthorizationServiceMiddleware>();
 
-            _accessTokenGenerator = accessTokenGenerator;
-            _tokenStore = tokenStore;
-
             _settings = ValidateOptions(options);
+
+            _accessTokenIssuer = new AccessTokenIssuer(options.AccessTokenGenerator , securityTokenStore, options.TokenValidator);
+
+            //todo: log that we're started
         }
 
         private Settings ValidateOptions(OioIdwsAuthorizationServiceOptions options)
         {
-            var settings = new Settings();
+            if (options.AccessTokenGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(options.AccessTokenGenerator));
+            }
 
-            try
+            if (options.ServiceTokenResolver == null)
             {
-                settings.AuthorizationPath = new PathString(options.IssueAccessTokenEndpoint);
+                throw new ArgumentNullException(nameof(options.ServiceTokenResolver));
             }
-            catch (Exception ex)
+
+            var settings = new Settings
             {
-                throw new ArgumentException("'IssueAccessTokenEndpoint' must be set to a valid relative url where the endpoint will be hosted", ex);
-            }
+                AuthorizationPath = options.IssueAccessTokenEndpoint,
+                ServiceTokenResolver = options.ServiceTokenResolver
+            };
 
             if (options.AccessTokenExpiration > TimeSpan.FromHours(1))
             {
@@ -79,7 +83,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService
         {
             if (context.Request.Path.Equals(_settings.AuthorizationPath) && context.Request.Method == "POST")
             {
-                await new AccessTokenIssuer().IssueAsync(context, _settings.AccessTokenExpiration, _accessTokenGenerator, _tokenStore);
+                await _accessTokenIssuer.IssueAsync(context, _settings);
             }
             else
             {

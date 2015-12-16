@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,17 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessTokenGenerator.cs" />
-    <Compile Include="AccessTokenIssuer.cs" />
+    <Compile Include="Issuing\AccessToken.cs" />
+    <Compile Include="Issuing\AccessTokenGenerator.cs" />
+    <Compile Include="Issuing\AccessTokenIssuer.cs" />
+    <Compile Include="Issuing\ITokenValidator.cs" />
+    <Compile Include="Issuing\TokenValidator.cs" />
+    <Compile Include="Issuing\TokenValidationResult.cs" />
     <Compile Include="OwinContextExtensions.cs" />
-    <Compile Include="IAccessTokenGenerator.cs" />
-    <Compile Include="ITokenStore.cs" />
+    <Compile Include="Issuing\IAccessTokenGenerator.cs" />
+    <Compile Include="Storage\ISecurityTokenStore.cs" />
     <Compile Include="OioIdwsAuthorizationServiceAppBuilderExtensions.cs" />
     <Compile Include="OioIdwsAuthorizationServiceMiddleware.cs" />
     <Compile Include="OioIdwsAuthorizationServiceOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SamlToken.cs" />
-    <Compile Include="TokenStore.cs" />
+    <Compile Include="Storage\MemorySecurityTokenStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

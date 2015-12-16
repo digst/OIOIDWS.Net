@@ -28,9 +28,6 @@ namespace Digst.OioIdws.OioWsTrust
             if (config.ClientCertificate == null) throw new ArgumentException("ClientCertificate");
             if (config.StsCertificate == null) throw new ArgumentException("StsCertificate");
 
-            if (config.DebugMode)
-                Logger.Instance.Warning("RequestToken called in debug mode. Send timeout has been set to 24 hours in order to make debugging easier!");
-
             Logger.Instance.Debug($@"RequestToken called with the client certificate: {config.ClientCertificate.SubjectName} ({config.ClientCertificate.Thumbprint})");
             Logger.Instance.Debug($@"RequestToken called with the STS certificate: {config.StsCertificate.SubjectName} ({config.StsCertificate.Thumbprint})");
 
@@ -38,8 +35,11 @@ namespace Digst.OioIdws.OioWsTrust
             {
                 // Create custom binding
                 var stsBinding = new CustomBinding();
-                if (config.DebugMode)
-                    stsBinding.SendTimeout = new TimeSpan(1, 0, 0, 0); // Gives you more time to debug.
+                if (config.SendTimeout.HasValue)
+                {
+                    Logger.Instance.Warning($"RequestToken send timeout set to {config.SendTimeout.Value}");
+                    stsBinding.SendTimeout = config.SendTimeout.Value;
+                }
                 stsBinding.Elements.Add(new SignatureCaseBindingElement(config.StsCertificate));
                 stsBinding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap11WSAddressing10,
                     Encoding.UTF8));

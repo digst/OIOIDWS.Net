@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Digst.OioIdws.OioWsTrust
 {
@@ -21,10 +22,7 @@ namespace Digst.OioIdws.OioWsTrust
         /// </summary>
         public int? TokenLifeTimeInMinutes { get; set; }
 
-        /// <summary>
-        /// If set to true the call timeout to the STS is set to 1 day. This is needed when a developer wants to do debugging and needs more than 1 minute to do the debugging.
-        /// </summary>
-        public bool DebugMode { get; set; }
+        public TimeSpan? SendTimeout { get; set; }
 
         /// <summary>
         /// Represents the client certificate including the private key. This should be either a MOCES, FOCES or VOCES certificate.

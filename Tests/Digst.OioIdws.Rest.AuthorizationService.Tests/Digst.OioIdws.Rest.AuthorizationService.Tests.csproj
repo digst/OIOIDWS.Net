@@ -61,7 +61,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -84,6 +86,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.AuthorizationService\Digst.OioIdws.Rest.AuthorizationService.csproj">
       <Project>{d97ceb63-1139-4dc3-b630-67e823376326}</Project>
       <Name>Digst.OioIdws.Rest.AuthorizationService</Name>

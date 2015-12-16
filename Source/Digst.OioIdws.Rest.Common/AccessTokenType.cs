@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digst.OioIdws.Rest.AuthorizationService
+namespace Digst.OioIdws.Rest.Common
 {
-    public class SamlToken
+    public enum AccessTokenType
     {
-        public string TokenValue { get; set; }
+        Bearer,
+        HolderOfKey
     }
 }

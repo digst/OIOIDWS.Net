@@ -39,7 +39,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
             {
                 ClientCertificate = CertificateUtil.GetCertificate(config.ClientCertificate),
                 StsCertificate = CertificateUtil.GetCertificate(config.StsCertificate),
-                DebugMode = config.DebugMode,
+                SendTimeout = config.DebugMode ? TimeSpan.FromDays(1) : (TimeSpan?) null,
                 StsEndpointAddress = config.StsEndpointAddress,
                 TokenLifeTimeInMinutes = config.TokenLifeTimeInMinutes,
                 WspEndpointId = config.WspEndpointID,

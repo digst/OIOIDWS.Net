@@ -1,13 +1,11 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 
-namespace Digst.OioIdws.Rest.AuthorizationService
+namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 {
     /// <summary>
     /// Inspired by http://stackoverflow.com/questions/19298801/generating-random-string-using-rngcryptoserviceprovider
     /// </summary>
-    public class AccessTokenGenerator : IAccessTokenGenerator
+    internal class AccessTokenGenerator : IAccessTokenGenerator
     {
         private static readonly char[] AvailableCharacters =
         {
@@ -24,6 +22,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService
         /// <returns></returns>
         public string GenerateAccesstoken()
         {
+            //todo: figure out how to sign the token
+
             //The random byte generates 256 possible values, that are split into 64 available characters, giving us 6 bits of entropy per character
             //20 charactes * 6 bits = 120 bits entropy
             var length = 20; 
