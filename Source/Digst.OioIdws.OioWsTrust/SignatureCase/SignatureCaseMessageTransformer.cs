@@ -168,7 +168,18 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
 
                 // Verify life time of RSTS
                 var rstsExpireTimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/wst:RequestSecurityTokenResponseCollection/wst:RequestSecurityTokenResponse/wst:Lifetime/wsu:Expires", namespaceManager);
-                var rstsExpireZuluTime = DateTime.ParseExact(rstsExpireTimeElement.Value, CorrectDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+
+                DateTime rstsExpireZuluTime;
+                try
+                {
+                    rstsExpireZuluTime = DateTime.ParseExact(rstsExpireTimeElement.Value, CorrectDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+                }
+                catch (FormatException)
+                {
+                    //Due to incosistence in the date formats from the STS, we do a second parse attempt using the wrong format
+                    rstsExpireZuluTime = DateTime.ParseExact(rstsExpireTimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+                }
+
                 if (currentZuluTime >= rstsExpireZuluTime)
                     throw new InvalidOperationException("RSTS has expired. Current Zulu time was: " + currentZuluTime + ", RSTS Zulu expiry time was: " + rstsExpireZuluTime);
 
