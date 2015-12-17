@@ -2,6 +2,7 @@
 using System.IdentityModel.Selectors;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.AuthorizationService.Issuing;
+using Digst.OioIdws.Rest.AuthorizationService.Retrieval;
 using Digst.OioIdws.Rest.AuthorizationService.Storage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
@@ -14,12 +15,14 @@ namespace Digst.OioIdws.Rest.AuthorizationService
         private readonly Settings _settings;
         private readonly ILogger _logger;
         private readonly AccessTokenIssuer _accessTokenIssuer;
+        private readonly AccessTokenRetriever _accessTokenRetriever;
 
         internal class Settings
         {
-            public PathString AuthorizationPath { get; set; }
+            public PathString AccessTokenIssuerPath { get; set; }
             public TimeSpan AccessTokenExpiration { get; set; }
             public SecurityTokenResolver ServiceTokenResolver { get; set; }
+            public PathString AccessTokenRetrievalPath { get; set; }
         }
 
         public OioIdwsAuthorizationServiceMiddleware(
@@ -46,27 +49,34 @@ namespace Digst.OioIdws.Rest.AuthorizationService
 
             _settings = ValidateOptions(options);
 
-            _accessTokenIssuer = new AccessTokenIssuer(options.AccessTokenGenerator , securityTokenStore, options.TokenValidator);
+            _accessTokenIssuer = new AccessTokenIssuer(options.AccessTokenGenerator, securityTokenStore, options.TokenValidator);
+            _accessTokenRetriever = new AccessTokenRetriever(securityTokenStore);
 
             //todo: log that we're started
         }
 
         private Settings ValidateOptions(OioIdwsAuthorizationServiceOptions options)
         {
-            if (options.AccessTokenGenerator == null)
-            {
-                throw new ArgumentNullException(nameof(options.AccessTokenGenerator));
-            }
-
             if (options.ServiceTokenResolver == null)
             {
                 throw new ArgumentNullException(nameof(options.ServiceTokenResolver));
             }
 
+            if (!options.AccessTokenIssuerPath.HasValue)
+            {
+                throw new ArgumentException("AccessTokenIssuerPath must be set to a valid path", nameof(options.AccessTokenIssuerPath));
+            }
+
+            if (!options.AccessTokenRetrievalPath.HasValue)
+            {
+                throw new ArgumentException("AccessTokenRetrievalPath must be set to a valid path", nameof(options.AccessTokenRetrievalPath));
+            }
+
             var settings = new Settings
             {
-                AuthorizationPath = options.IssueAccessTokenEndpoint,
-                ServiceTokenResolver = options.ServiceTokenResolver
+                AccessTokenIssuerPath = options.AccessTokenIssuerPath,
+                ServiceTokenResolver = options.ServiceTokenResolver,
+                AccessTokenRetrievalPath = options.AccessTokenRetrievalPath
             };
 
             if (options.AccessTokenExpiration > TimeSpan.FromHours(1))
@@ -81,9 +91,15 @@ namespace Digst.OioIdws.Rest.AuthorizationService
 
         public override async Task Invoke(IOwinContext context)
         {
-            if (context.Request.Path.Equals(_settings.AuthorizationPath) && context.Request.Method == "POST")
+            //todo require SSL?
+            if (context.Request.Path.Equals(_settings.AccessTokenIssuerPath) && context.Request.Method == "POST")
             {
                 await _accessTokenIssuer.IssueAsync(context, _settings);
+            }
+            else if (context.Request.Path.Equals(_settings.AccessTokenRetrievalPath) && context.Request.Method == "GET")
+            {
+                //todo trust/validate WSP?
+                await _accessTokenRetriever.RetrieveAsync(context, _settings);
             }
             else
             {

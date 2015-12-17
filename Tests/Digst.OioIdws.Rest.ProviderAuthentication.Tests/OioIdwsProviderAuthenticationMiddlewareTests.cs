@@ -24,7 +24,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
             var principalResult = new ClaimsPrincipal(new ClaimsIdentity(new[] {new Claim(ClaimTypes.Name, "MYNAME"),}));
 
             var tokenProviderMock = new Mock<ITokenProvider>();
-            tokenProviderMock.Setup(x => x.RetrieveTokenAsync(accessToken))
+            tokenProviderMock.Setup(x => x.RetrieveTokenAsync(accessToken, It.IsAny<OioIdwsProviderAuthenticationMiddleware.Settings>()))
                 .ReturnsAsync(token);
 
             var principalBuilderMock = new Mock<IPrincipalBuilder>();
@@ -35,7 +35,8 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
             {
                 app.Use<OioIdwsProviderAuthenticationMiddleware>(new OioIdwsProviderAuthenticationOptions
                 {
-                }, tokenProviderMock.Object, principalBuilderMock.Object)
+                    TokenProvider = tokenProviderMock.Object,
+                }, principalBuilderMock.Object)
                 .Use(async (context, next) =>
                 {
                     await context.Response.WriteAsync(context.Request.User.Identity.Name);
@@ -52,7 +53,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
                 Assert.AreEqual("MYNAME", text);
             }
 
-            tokenProviderMock.Verify(x => x.RetrieveTokenAsync(accessToken), Times.Once);
+            tokenProviderMock.Verify(x => x.RetrieveTokenAsync(accessToken, It.IsAny<OioIdwsProviderAuthenticationMiddleware.Settings>()), Times.Once);
         }
 
         [TestMethod]
@@ -64,7 +65,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
             var principalResult = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "MYNAME"), }));
 
             var tokenProviderMock = new Mock<ITokenProvider>();
-            tokenProviderMock.Setup(x => x.RetrieveTokenAsync(accessToken))
+            tokenProviderMock.Setup(x => x.RetrieveTokenAsync(accessToken, It.IsAny<OioIdwsProviderAuthenticationMiddleware.Settings>()))
                 .ReturnsAsync(token);
 
             var principalBuilderMock = new Mock<IPrincipalBuilder>();
@@ -75,7 +76,8 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
             {
                 app.Use<OioIdwsProviderAuthenticationMiddleware>(new OioIdwsProviderAuthenticationOptions
                 {
-                }, tokenProviderMock.Object, principalBuilderMock.Object)
+                    TokenProvider = tokenProviderMock.Object,
+                }, principalBuilderMock.Object)
                 .Use(async (context, next) =>
                 {
                     await context.Response.WriteAsync((context.Request.User != null && context.Request.User.Identity.IsAuthenticated).ToString());
@@ -92,7 +94,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
                 Assert.AreEqual("False", text);
             }
 
-            tokenProviderMock.Verify(x => x.RetrieveTokenAsync(accessToken), Times.Once);
+            tokenProviderMock.Verify(x => x.RetrieveTokenAsync(accessToken, It.IsAny<OioIdwsProviderAuthenticationMiddleware.Settings>()), Times.Once);
         }
     }
 }

@@ -26,7 +26,7 @@ using Owin;
 namespace Digst.OioIdws.Rest.AuthorizationService.Tests
 {
     [TestClass]
-    public class AuthorizationEndpointTests
+    public class AccessTokenIssueEndpointTests
     {
         [TestMethod]
         [TestCategory(Constants.UnitTest)]
@@ -53,7 +53,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
 
             var options = new OioIdwsAuthorizationServiceOptions
             {
-                IssueAccessTokenEndpoint = new PathString("/authorize"),
+                AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                AccessTokenRetrievalPath = new PathString("/accesstoken"),
                 AccessTokenGenerator = accessTokenGeneratorMock.Object,
                 TokenValidator = tokenValidatorMock.Object,
             };
@@ -65,7 +66,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                     ,tokenStoreMock.Object);
             }))
             { 
-                var response = await server.HttpClient.PostAsync("/authorize",
+                var response = await server.HttpClient.PostAsync("/accesstoken/issue",
                             new FormUrlEncodedContent(new[]
                             {new KeyValuePair<string, string>("saml-token", requestSamlToken),}));
 
@@ -92,7 +93,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 app
                     .UseOioIdwsAuthorizationService(new OioIdwsAuthorizationServiceOptions
                     {
-                        IssueAccessTokenEndpoint = new PathString("/authorize")
+                        AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                        AccessTokenRetrievalPath = new PathString("/accesstoken")
                     })
                     .Use((context, next) =>
                     {
@@ -118,12 +120,13 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
             {
                 app.Use<OioIdwsAuthorizationServiceMiddleware>(app, new OioIdwsAuthorizationServiceOptions
                 {
-                    IssueAccessTokenEndpoint = new PathString("/authorize"),
+                    AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                    AccessTokenRetrievalPath = new PathString("/accesstoken"),
                     AccessTokenGenerator = accessTokenGeneratorMock.Object
                 }, tokenStoreMock.Object);
             }))
             {
-                var response = await server.CreateRequest("/authorize").PostAsync();
+                var response = await server.CreateRequest("/accesstoken/issue").PostAsync();
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
                 var authHeader = response.Headers.WwwAuthenticate.Single(x => x.Scheme == "Bearer");
@@ -143,14 +146,15 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
 
             var options = new OioIdwsAuthorizationServiceOptions
             {
-                IssueAccessTokenEndpoint = new PathString("/authorize"),
+                AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                AccessTokenRetrievalPath = new PathString("/accesstoken"),
             };
             using (var server = TestServer.Create(app =>
             {
                 app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options, tokenStore);
             }))
             {
-                var response = await server.HttpClient.PostAsync("/authorize",
+                var response = await server.HttpClient.PostAsync("/accesstoken/issue",
                             new FormUrlEncodedContent(new[]
                             {new KeyValuePair<string, string>("saml-token", requestSamlToken)}));
 

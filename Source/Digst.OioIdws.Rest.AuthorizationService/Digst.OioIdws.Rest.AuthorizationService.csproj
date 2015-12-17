@@ -35,6 +35,10 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -53,6 +57,7 @@
     <Compile Include="Issuing\AccessToken.cs" />
     <Compile Include="Issuing\AccessTokenGenerator.cs" />
     <Compile Include="Issuing\AccessTokenIssuer.cs" />
+    <Compile Include="Retrieval\AccessTokenRetriever.cs" />
     <Compile Include="Issuing\ITokenValidator.cs" />
     <Compile Include="Issuing\TokenValidator.cs" />
     <Compile Include="Issuing\TokenValidationResult.cs" />

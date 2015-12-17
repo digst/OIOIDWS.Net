@@ -15,11 +15,15 @@ namespace Digst.OioIdws.Rest.AuthorizationService
             AccessTokenGenerator = new AccessTokenGenerator();
             TokenValidator = new TokenValidator();
             ServiceTokenResolver = new X509CertificateStoreTokenResolver();
+            AccessTokenRetrievalPath = new PathString("/accesstoken");
+            AccessTokenIssuerPath = new PathString("/accesstoken/issue");
         }
 
-        public PathString IssueAccessTokenEndpoint { get; set; }
+        public PathString AccessTokenIssuerPath { get; set; }
         public TimeSpan AccessTokenExpiration { get; set; }
         public SecurityTokenResolver ServiceTokenResolver { get; set; }
+        public PathString AccessTokenRetrievalPath { get; set; }
+
         /// <summary>
         /// Never intended to be replaced. It's only here to allow for internal testing
         /// </summary>

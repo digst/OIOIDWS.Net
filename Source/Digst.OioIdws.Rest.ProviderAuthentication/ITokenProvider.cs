@@ -3,8 +3,8 @@ using Digst.OioIdws.Rest.Common;
 
 namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
-    public interface ITokenProvider
+    internal interface ITokenProvider
     {
-        Task<OioIdwsToken> RetrieveTokenAsync(string accessToken);
+        Task<OioIdwsToken> RetrieveTokenAsync(string accessToken, OioIdwsProviderAuthenticationMiddleware.Settings settings);
     }
 }

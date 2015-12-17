@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
 using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 
@@ -11,24 +9,36 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
     {
         private readonly ITokenProvider _tokenProvider;
         private readonly IPrincipalBuilder _principalBuilder;
+        private readonly Settings _settings;
 
-        public OioIdwsProviderAuthenticationMiddleware(OwinMiddleware next, OioIdwsProviderAuthenticationOptions options, ITokenProvider tokenProvider, IPrincipalBuilder principalBuilder) : base(next)
+        internal class Settings
+        {
+            public Uri AccessTokenRetrievalEndpoint { get; set; }
+        }
+
+        public OioIdwsProviderAuthenticationMiddleware(OwinMiddleware next, OioIdwsProviderAuthenticationOptions options, IPrincipalBuilder principalBuilder) : base(next)
         {
             if (options == null)
             {
                 throw new ArgumentNullException(nameof(options));
-            }
-            if (tokenProvider == null)
-            {
-                throw new ArgumentNullException(nameof(tokenProvider));
             }
             if (principalBuilder == null)
             {
                 throw new ArgumentNullException(nameof(principalBuilder));
             }
 
-            _tokenProvider = tokenProvider;
+            _tokenProvider = options.TokenProvider;
             _principalBuilder = principalBuilder;
+
+            _settings = ValidateOptions(options);
+        }
+
+        private Settings ValidateOptions(OioIdwsProviderAuthenticationOptions options)
+        {
+            return new Settings
+            {
+                AccessTokenRetrievalEndpoint = options.AccessTokenRetrievalEndpoint,
+            };
         }
 
         public override async Task Invoke(IOwinContext context)
@@ -36,7 +46,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
             AuthenticationHeaderValue authHeader;
             if(AuthenticationHeaderValue.TryParse(context.Request.Headers["Authorization"], out authHeader) && authHeader.Scheme == "Bearer")
             {
-                var token = await _tokenProvider.RetrieveTokenAsync(authHeader.Parameter);
+                var token = await _tokenProvider.RetrieveTokenAsync(authHeader.Parameter, _settings);
                 //todo: validate token
                 context.Request.User = await _principalBuilder.BuildPrincipalAsync(token);
             }

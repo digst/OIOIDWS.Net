@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public class OioIdwsProviderAuthenticationOptions
     {
+        public Uri AccessTokenRetrievalEndpoint { get; set; }
+
+        /// <summary>
+        /// Never intended to be replaced. It's only here to allow for internal testing
+        /// </summary>
+        internal ITokenProvider TokenProvider { get; set; }
     }
 }

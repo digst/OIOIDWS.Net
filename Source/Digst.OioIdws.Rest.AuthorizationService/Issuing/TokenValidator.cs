@@ -29,11 +29,11 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                             ServiceTokenResolver = settings.ServiceTokenResolver,
                             AudienceRestriction = new AudienceRestriction
                             {
-                                AllowedAudienceUris = { new Uri("https://wsp.itcrew.dk") }
+                                AllowedAudienceUris = { new Uri("https://wsp.itcrew.dk") } //todo: configurable
                             },
                             IssuerNameRegistry = new ConfigurationBasedIssuerNameRegistry
                             {
-                                ConfiguredTrustedIssuers = { { "2e7a061560fa2c5e141a634dc1767dacaeec8d12", "Digitaliseringsstyrelsen - NemLog-in Test" } }
+                                ConfiguredTrustedIssuers = { { "2e7a061560fa2c5e141a634dc1767dacaeec8d12", "Digitaliseringsstyrelsen - NemLog-in Test" } } //todo: configurable
                             }
                         }
                     };

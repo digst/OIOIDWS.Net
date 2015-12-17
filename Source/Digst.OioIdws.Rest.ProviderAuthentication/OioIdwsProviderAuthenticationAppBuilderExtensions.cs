@@ -4,9 +4,13 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public static class OioIdwsProviderAuthenticationAppBuilderExtensions
     {
-        public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options, ITokenProvider tokenProvider)
+        public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options, IPrincipalBuilder principalBuilder)
         {
-            return app.Use<OioIdwsProviderAuthenticationMiddleware>(options, tokenProvider, new PrincipalBuilder());
+            return app.OioIdwsProviderAuthentication(options);
+        }
+        public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options)
+        {
+            return app.Use<OioIdwsProviderAuthenticationMiddleware>(options, new TokenProvider(), new PrincipalBuilder());
         }
     }
 }

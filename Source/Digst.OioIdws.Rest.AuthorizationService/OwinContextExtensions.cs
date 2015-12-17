@@ -18,10 +18,14 @@ namespace Digst.OioIdws.Rest.AuthorizationService
             }
 
             context.Response.StatusCode = 401;
-            context.Response.Headers.Add("WWW-Authenticate", new[]
+            context.Response.OnSendingHeaders(ctx =>
             {
-                $@"Bearer error=""{error}"",error_description=""{errorDescription}""",
-            });
+                ((IOwinContext) ctx).Response.Headers.Add("WWW-Authenticate", new[]
+                {
+                    $@"Bearer error=""{error}"",error_description=""{errorDescription}""",
+                });
+            }, context);
+
         }
     }
 }

@@ -82,6 +82,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 
         private async Task WriteAccessTokenAsync(IOwinContext context, string accessToken, TimeSpan accessTokenExpiration)
         {
+            context.Response.ContentType = "application/json; charset=UTF-8";
+            
             //todo: type either bearer/holder-of-key
             var tokenJson =
                 $@"
@@ -91,7 +93,6 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                     ""expires_in"": ""{(int)accessTokenExpiration.TotalSeconds}""
                 }}";
 
-            context.Response.ContentType = "application/json; charset=UTF-8";
             await context.Response.WriteAsync(tokenJson);
         }
     }

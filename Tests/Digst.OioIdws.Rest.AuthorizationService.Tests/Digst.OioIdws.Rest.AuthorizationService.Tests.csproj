@@ -78,7 +78,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AuthorizationEndpointTests.cs" />
+    <Compile Include="AccessTokenIssueEndpointTests.cs" />
+    <Compile Include="AccessTokenRetrievalEndpointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
