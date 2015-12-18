@@ -9,7 +9,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public class PrincipalBuilder : IPrincipalBuilder
     {
-        public Task<IPrincipal> BuildPrincipalAsync(OioIdwsToken token)
+        public virtual Task<IPrincipal> BuildPrincipalAsync(OioIdwsToken token)
         {
             if (token == null)
             {
@@ -20,9 +20,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
                     new ClaimsPrincipal(
                         new ClaimsIdentity(
                             token.Claims.Select(c => new Claim(c.Type, c.Value, c.ValueType, c.Issuer)).ToList(),
-                            token.AuthenticationType,
-                            token.NameType,
-                            token.RoleType)));
+                            "OioIdws")));
         }
     }
 }

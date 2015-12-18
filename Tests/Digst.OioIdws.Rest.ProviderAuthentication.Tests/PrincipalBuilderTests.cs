@@ -16,9 +16,6 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
         {
             var token = new OioIdwsToken
             {
-                AuthenticationType = "authtype1",
-                NameType = "nametype1",
-                RoleType = "roletype1",
                 Type = AccessTokenType.Bearer,
                 Claims = new[]
                 {
@@ -57,8 +54,8 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
 
             var claimsIdentity = (ClaimsIdentity) principal.Identity;
 
-            Assert.AreEqual(token.AuthenticationType, claimsIdentity.AuthenticationType);
-            Assert.AreEqual("name1", claimsIdentity.Name);
+            Assert.AreEqual("OioIdws", claimsIdentity.AuthenticationType);
+            Assert.IsTrue(claimsIdentity.HasClaim("nametype1", "name1"));
             Assert.AreEqual(4, claimsIdentity.Claims.Count());
         }
     }

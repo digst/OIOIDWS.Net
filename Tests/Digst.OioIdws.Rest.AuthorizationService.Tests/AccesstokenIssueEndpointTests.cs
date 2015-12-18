@@ -78,11 +78,10 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 Assert.IsNotNull(response.Content.Headers.ContentType);
                 Assert.AreEqual("UTF-8", response.Content.Headers.ContentType.CharSet);
                 Assert.AreEqual("application/json", response.Content.Headers.ContentType.MediaType);
-
                 var accessToken = JObject.Parse(await response.Content.ReadAsStringAsync());
                 Assert.AreEqual(accessTokenValue, accessToken["access_token"]);
                 Assert.AreEqual("bearer", accessToken["token_type"]);
-                Assert.AreEqual(options.AccessTokenExpiration.TotalSeconds.ToString(CultureInfo.InvariantCulture), accessToken["expires_in"]);
+                Assert.AreEqual((int)options.AccessTokenExpiration.TotalSeconds, accessToken["expires_in"]);
             }
 
             accessTokenGeneratorMock.Verify(x => x.GenerateAccesstoken(), Times.Once);

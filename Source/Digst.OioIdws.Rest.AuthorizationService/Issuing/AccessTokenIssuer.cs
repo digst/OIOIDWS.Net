@@ -5,6 +5,7 @@ using Digst.OioIdws.Rest.AuthorizationService.Storage;
 using Digst.OioIdws.Rest.Common;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 {
@@ -78,9 +79,6 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                     Issuer = x.Issuer,
                     ValueType = x.ValueType
                 }).ToList(),
-                RoleType = samlTokenValidation.ClaimsIdentity.RoleClaimType,
-                NameType = samlTokenValidation.ClaimsIdentity.NameClaimType,
-                AuthenticationType = samlTokenValidation.ClaimsIdentity.AuthenticationType
             };
 
             var accessToken = _accessTokenGenerator.GenerateAccesstoken();
@@ -92,17 +90,14 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
         private async Task WriteAccessTokenAsync(IOwinContext context, string accessToken, TimeSpan accessTokenExpiration)
         {
             context.Response.ContentType = "application/json; charset=UTF-8";
-            
-            //todo: type either bearer/holder-of-key
-            var tokenJson =
-                $@"
-                {{
-                    ""access_token"": ""{accessToken}"",
-                    ""token_type"": ""bearer"",
-                    ""expires_in"": ""{(int)accessTokenExpiration.TotalSeconds}""
-                }}";
 
-            await context.Response.WriteAsync(tokenJson);
+            //todo: type either bearer/holder-of-key
+            var tokenObj = new JObject(
+                new JProperty("access_token", accessToken),
+                new JProperty("token_type", "bearer"),
+                new JProperty("expires_in", (int) accessTokenExpiration.TotalSeconds));
+
+            await context.Response.WriteAsync(tokenObj.ToString());
         }
     }
 }

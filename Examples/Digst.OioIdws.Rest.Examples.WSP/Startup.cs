@@ -18,7 +18,6 @@ namespace Digst.OioIdws.Rest.Examples.WSP
                 {
                     AccessTokenRetrievalEndpoint = new Uri("https://digst.oioidws.rest.as:10001/accesstoken")
                 })
-                .UseStageMarker(PipelineStage.Authenticate)
                 .Use<MyService>();
         }
     }

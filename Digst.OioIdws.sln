@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.WSP", "Examples\Digst.OioIdws.Rest.Examples.WSP\Digst.OioIdws.Rest.Examples.WSP.csproj", "{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.Client", "Digst.OioIdws.Rest.Examples.Client\Digst.OioIdws.Rest.Examples.Client.csproj", "{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.Client", "Examples\Digst.OioIdws.Rest.Examples.Client\Digst.OioIdws.Rest.Examples.Client.csproj", "{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
