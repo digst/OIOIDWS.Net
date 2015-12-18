@@ -1,0 +1,38 @@
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Client;
+
+namespace Digst.OioIdws.Rest.Examples.Client
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Go().GetAwaiter().GetResult();
+        }
+
+        public static async Task Go()
+        {
+            var settings = new OioIdwsClientSettings
+            {
+                ClientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a"),
+                AudienceUri = new Uri("https://wsp.itcrew.dk"),
+                AccessTokenIssuerEndpoint = new Uri("https://digst.oioidws.rest.as:10001/accesstoken/issue"),
+                SecurityTokenService = new OioIdwsStsSettings
+                {
+                    Certificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"),
+                    EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
+                }
+            };
+
+            var idwsClient = new OioIdwsClient(settings);
+            
+            var httpClient = new HttpClient(idwsClient.CreateMessageHandler());
+
+            var response = await httpClient.GetAsync("https://digst.oioidws.rest.wsp:10002/hello");
+            var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
+            Console.WriteLine(responseString);
+        }
+    }
+}

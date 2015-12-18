@@ -129,7 +129,7 @@
   <system.identityModel>
     <identityConfiguration>
       <issuerNameRegistry xdt:Transform="InsertIfMissing">
-        <!--issuerNameRegistry specifies the certificate of the Nemlog-In STS. Both thumbprint and Common Name must be specified.-->
+        <!--issuerNameRegistry specifies the certificate of the Nemlog-In STS. Thumbprint and a display name must be specified.-->
         <!--Issuer certificate is embedded in the encrypted SAML assertion. Hence, it it does not need to be recieved out-of-band and placed in the certificate store-->
       </issuerNameRegistry>
     </identityConfiguration>

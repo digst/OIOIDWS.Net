@@ -1,6 +1,9 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
+using Newtonsoft.Json;
 
 namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
@@ -15,8 +18,16 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
 
             var response = await client.GetAsync($"?{accessToken}");
 
-            var token = await response.EnsureSuccessStatusCode().Content.ReadAsAsync<OioIdwsToken>();
-            return token;
+            var responseStream = await response.EnsureSuccessStatusCode().Content.ReadAsStreamAsync();
+
+            using (var reader = new StreamReader(responseStream))
+            {
+                using (var jsonReader = new JsonTextReader(reader))
+                {
+                    var token = new JsonSerializer().Deserialize<OioIdwsToken>(jsonReader);
+                    return token;
+                }
+            }
         }
     }
 }

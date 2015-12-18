@@ -10,7 +10,7 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
         }
         public static IAppBuilder OioIdwsProviderAuthentication(this IAppBuilder app, OioIdwsProviderAuthenticationOptions options)
         {
-            return app.Use<OioIdwsProviderAuthenticationMiddleware>(options, new TokenProvider(), new PrincipalBuilder());
+            return app.Use<OioIdwsProviderAuthenticationMiddleware>(app, options, new PrincipalBuilder());
         }
     }
 }

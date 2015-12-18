@@ -16,6 +16,6 @@ namespace Digst.OioIdws.Rest.Client
         /// </summary>
         public OioIdwsStsSettings SecurityTokenService { get; set; }
 
-        public Uri IssueAccessTokenEndpoint { get; set; }
+        public Uri AccessTokenIssuerEndpoint { get; set; }
     }
 }

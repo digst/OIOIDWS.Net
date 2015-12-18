@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -90,7 +92,7 @@ namespace Digst.OioIdws.Rest.Client
 
             var client = new HttpClient(requestHandler);
             var response = await client.PostAsync(
-                Settings.IssueAccessTokenEndpoint, 
+                Settings.AccessTokenIssuerEndpoint, 
                 new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("saml-token", sb.ToString())
@@ -98,6 +100,17 @@ namespace Digst.OioIdws.Rest.Client
                 cancellationToken);
 
             //todo handle errors related to security token
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                //todo handle www-auth header scheme?
+                //todo: proper handling of auth errors
+                var authHeader = response.Headers.WwwAuthenticate?.FirstOrDefault();
+                if (authHeader != null)
+                {
+                    throw new InvalidOperationException($"401 unauthorized: {authHeader.Parameter}");
+                }
+            }
 
             var json = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
             var jsonValue = JObject.Parse(json);

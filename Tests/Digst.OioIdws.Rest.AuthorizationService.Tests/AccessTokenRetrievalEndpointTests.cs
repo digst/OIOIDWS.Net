@@ -54,6 +54,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
             {
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
+                IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0])
             };
 
             using (var server = TestServer.Create(app =>

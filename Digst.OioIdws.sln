@@ -45,6 +45,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.OioWsTrust", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Test.Common", "Tests\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj", "{17CD5683-886B-4856-82B0-25BD99172764}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.AS", "Examples\Digst.OioIdws.Rest.Examples.AS\Digst.OioIdws.Rest.Examples.AS.csproj", "{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.WSP", "Examples\Digst.OioIdws.Rest.Examples.WSP\Digst.OioIdws.Rest.Examples.WSP.csproj", "{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.Client", "Digst.OioIdws.Rest.Examples.Client\Digst.OioIdws.Rest.Examples.Client.csproj", "{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +203,30 @@ Global
 		{17CD5683-886B-4856-82B0-25BD99172764}.Release|Any CPU.Build.0 = Release|Any CPU
 		{17CD5683-886B-4856-82B0-25BD99172764}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
 		{17CD5683-886B-4856-82B0-25BD99172764}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release Signed|Any CPU.Build.0 = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release Signed|Any CPU.Build.0 = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release Signed|Any CPU.Build.0 = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -220,5 +250,8 @@ Global
 		{7E94185F-75DA-4E26-80CD-D3BDA207FE5F} = {0F04E164-8FAA-4DC7-AC3D-4EA585E7BB94}
 		{021345B3-85F0-4AE3-9989-DC96772C7799} = {0F04E164-8FAA-4DC7-AC3D-4EA585E7BB94}
 		{17CD5683-886B-4856-82B0-25BD99172764} = {23D96302-91BF-40F0-A372-C288A919A7D4}
+		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
+		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
+		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
 	EndGlobalSection
 EndGlobal

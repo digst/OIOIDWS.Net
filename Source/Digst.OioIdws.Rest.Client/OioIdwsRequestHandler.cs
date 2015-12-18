@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -31,7 +33,8 @@ namespace Digst.OioIdws.Rest.Client
             request.Headers.Authorization = new AuthenticationHeaderValue(_accessToken.TypeString, _accessToken.Value);
 
             var response = await base.SendAsync(request, cancellationToken);
-            //todo: check for auth errors
+            //todo: proper handling of auth errors
+
             return response;
         }
 

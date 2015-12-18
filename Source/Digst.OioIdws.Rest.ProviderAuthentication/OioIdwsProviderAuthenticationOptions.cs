@@ -4,6 +4,11 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication
 {
     public class OioIdwsProviderAuthenticationOptions
     {
+        public OioIdwsProviderAuthenticationOptions()
+        {
+            TokenProvider = new TokenProvider();
+        }
+
         public Uri AccessTokenRetrievalEndpoint { get; set; }
 
         /// <summary>

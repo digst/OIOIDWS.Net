@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -33,9 +34,10 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsProviderAuthenticationMiddleware>(new OioIdwsProviderAuthenticationOptions
+                app.Use<OioIdwsProviderAuthenticationMiddleware>(app, new OioIdwsProviderAuthenticationOptions
                 {
                     TokenProvider = tokenProviderMock.Object,
+                    AccessTokenRetrievalEndpoint = new Uri("http://dummy")
                 }, principalBuilderMock.Object)
                 .Use(async (context, next) =>
                 {
@@ -74,9 +76,10 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsProviderAuthenticationMiddleware>(new OioIdwsProviderAuthenticationOptions
+                app.Use<OioIdwsProviderAuthenticationMiddleware>(app, new OioIdwsProviderAuthenticationOptions
                 {
                     TokenProvider = tokenProviderMock.Object,
+                    AccessTokenRetrievalEndpoint = new Uri("http://dummy")
                 }, principalBuilderMock.Object)
                 .Use(async (context, next) =>
                 {

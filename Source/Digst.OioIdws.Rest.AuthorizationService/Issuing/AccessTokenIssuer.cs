@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Digst.OioIdws.Rest.AuthorizationService.Storage;
 using Digst.OioIdws.Rest.Common;
 using Microsoft.Owin;
+using Microsoft.Owin.Logging;
 
 namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 {
@@ -12,11 +13,13 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
         private readonly IAccessTokenGenerator _accessTokenGenerator;
         private readonly ISecurityTokenStore _securityTokenStore;
         private readonly ITokenValidator _tokenValidator;
+        private readonly ILogger _logger;
 
         public AccessTokenIssuer(
             IAccessTokenGenerator accessTokenGenerator, 
-            ISecurityTokenStore securityTokenStore,
-            ITokenValidator tokenValidator)
+            ISecurityTokenStore securityTokenStore, 
+            ITokenValidator tokenValidator, 
+            ILogger logger)
         {
             if (accessTokenGenerator == null)
             {
@@ -30,9 +33,14 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
             {
                 throw new ArgumentNullException(nameof(tokenValidator));
             }
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
             _accessTokenGenerator = accessTokenGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
+            _logger = logger;
         }
 
         public async Task IssueAsync(
@@ -42,18 +50,18 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
             //todo: should we check Request content-type?
             var form = await context.Request.ReadFormAsync();
             var tokenValue = form["saml-token"];
-
+            
             if (string.IsNullOrEmpty(tokenValue))
             {
-                context.SetAuthenticationFailed(AuthenticationErrorCodes.InvalidRequest,
-                    AuthenticationErrorCodes.Descriptions.SamlTokenMissing);
+                context.SetAuthenticationFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token was missing");
                 return;
             }
             
-            var samlTokenValidation = _tokenValidator.ValidateToken(tokenValue, null, settings); //todo get cert
+            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, null, settings); //todo get cert
 
             if (!samlTokenValidation.Success)
             {
+                _logger.WriteInformation($"Issuing token was denied - {samlTokenValidation.ErrorCode}: {samlTokenValidation.ErrorDescription}");
                 context.SetAuthenticationFailed(samlTokenValidation.ErrorCode, samlTokenValidation.ErrorDescription);
                 return;
             }
@@ -78,6 +86,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
             var accessToken = _accessTokenGenerator.GenerateAccesstoken();
             await _securityTokenStore.StoreTokenAsync(accessToken, storedToken);
             await WriteAccessTokenAsync(context, accessToken, settings.AccessTokenExpiration);
+            _logger.WriteInformation($"Token {accessToken} was issued");
         }
 
         private async Task WriteAccessTokenAsync(IOwinContext context, string accessToken, TimeSpan accessTokenExpiration)

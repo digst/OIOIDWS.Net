@@ -44,8 +44,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 .Returns(accessTokenValue);
 
             tokenValidatorMock
-                .Setup(x => x.ValidateToken(requestSamlToken, It.IsAny<X509Certificate2>(), It.IsAny<OioIdwsAuthorizationServiceMiddleware.Settings>()))
-                .Returns(new TokenValidationResult
+                .Setup(x => x.ValidateTokenAsync(requestSamlToken, It.IsAny<X509Certificate2>(), It.IsAny<OioIdwsAuthorizationServiceMiddleware.Settings>()))
+                .ReturnsAsync(new TokenValidationResult
                 {
                     Success = true,
                     ClaimsIdentity = new ClaimsIdentity()
@@ -57,6 +57,10 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
                 AccessTokenGenerator = accessTokenGeneratorMock.Object,
                 TokenValidator = tokenValidatorMock.Object,
+                IssuerAudiences = () => Task.FromResult(new []
+                {
+                    new IssuerAudiences("thumbprint1", "name"), 
+                })
             };
             using (var server = TestServer.Create(app =>
             {
@@ -94,7 +98,8 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                     .UseOioIdwsAuthorizationService(new OioIdwsAuthorizationServiceOptions
                     {
                         AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
-                        AccessTokenRetrievalPath = new PathString("/accesstoken")
+                        AccessTokenRetrievalPath = new PathString("/accesstoken"),
+                        IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0])
                     })
                     .Use((context, next) =>
                     {
@@ -122,6 +127,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 {
                     AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                     AccessTokenRetrievalPath = new PathString("/accesstoken"),
+                    IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
                     AccessTokenGenerator = accessTokenGeneratorMock.Object
                 }, tokenStoreMock.Object);
             }))
@@ -132,7 +138,6 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 var authHeader = response.Headers.WwwAuthenticate.Single(x => x.Scheme == "Bearer");
                 var bearerParameters = HttpHeaderUtils.ParseBearerSchemeParameter(authHeader.Parameter);
                 Assert.AreEqual(AuthenticationErrorCodes.InvalidRequest, bearerParameters["error"]);
-                Assert.AreEqual(AuthenticationErrorCodes.Descriptions.SamlTokenMissing, bearerParameters["error_description"]);
             }
         }
 
@@ -148,6 +153,11 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
             {
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
+                IssuerAudiences = () => Task.FromResult(new[]
+                {
+                    new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "name")
+                        .Audience(new Uri("https://wsp.itcrew.dk")),
+                })
             };
             using (var server = TestServer.Create(app =>
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.AuthorizationService.Issuing;
@@ -23,18 +24,19 @@ namespace Digst.OioIdws.Rest.AuthorizationService
             public TimeSpan AccessTokenExpiration { get; set; }
             public SecurityTokenResolver ServiceTokenResolver { get; set; }
             public PathString AccessTokenRetrievalPath { get; set; }
+            public Func<Task<IssuerAudiences[]>> IssuerAudiences { get; set; }
         }
 
         public OioIdwsAuthorizationServiceMiddleware(
             OwinMiddleware next, 
-            IAppBuilder appBuilder,
+            IAppBuilder app,
             OioIdwsAuthorizationServiceOptions options, 
             ISecurityTokenStore securityTokenStore) 
             : base(next)
         {
-            if (appBuilder == null)
+            if (app == null)
             {
-                throw new ArgumentNullException(nameof(appBuilder));
+                throw new ArgumentNullException(nameof(app));
             }
             if (options == null)
             {
@@ -45,12 +47,12 @@ namespace Digst.OioIdws.Rest.AuthorizationService
                 throw new ArgumentNullException(nameof(securityTokenStore));
             }
 
-            _logger = appBuilder.CreateLogger<OioIdwsAuthorizationServiceMiddleware>();
+            _logger = app.CreateLogger<OioIdwsAuthorizationServiceMiddleware>();
 
             _settings = ValidateOptions(options);
 
-            _accessTokenIssuer = new AccessTokenIssuer(options.AccessTokenGenerator, securityTokenStore, options.TokenValidator);
-            _accessTokenRetriever = new AccessTokenRetriever(securityTokenStore);
+            _accessTokenIssuer = new AccessTokenIssuer(options.AccessTokenGenerator, securityTokenStore, options.TokenValidator, _logger);
+            _accessTokenRetriever = new AccessTokenRetriever(securityTokenStore, _logger);
 
             //todo: log that we're started
         }
@@ -72,11 +74,17 @@ namespace Digst.OioIdws.Rest.AuthorizationService
                 throw new ArgumentException("AccessTokenRetrievalPath must be set to a valid path", nameof(options.AccessTokenRetrievalPath));
             }
 
+            if (options.IssuerAudiences == null)
+            {
+                throw new ArgumentNullException(nameof(options.IssuerAudiences));
+            }
+
             var settings = new Settings
             {
                 AccessTokenIssuerPath = options.AccessTokenIssuerPath,
                 ServiceTokenResolver = options.ServiceTokenResolver,
-                AccessTokenRetrievalPath = options.AccessTokenRetrievalPath
+                AccessTokenRetrievalPath = options.AccessTokenRetrievalPath,
+                IssuerAudiences = options.IssuerAudiences,
             };
 
             if (options.AccessTokenExpiration > TimeSpan.FromHours(1))
@@ -91,19 +99,28 @@ namespace Digst.OioIdws.Rest.AuthorizationService
 
         public override async Task Invoke(IOwinContext context)
         {
-            //todo require SSL?
-            if (context.Request.Path.Equals(_settings.AccessTokenIssuerPath) && context.Request.Method == "POST")
+            try
             {
-                await _accessTokenIssuer.IssueAsync(context, _settings);
+                //todo require SSL?
+                if (context.Request.Path.Equals(_settings.AccessTokenIssuerPath) && context.Request.Method == "POST")
+                {
+                    _logger.WriteVerbose("Invoking access token issuer");
+                    await _accessTokenIssuer.IssueAsync(context, _settings);
+                }
+                else if (context.Request.Path.Equals(_settings.AccessTokenRetrievalPath) && context.Request.Method == "GET")
+                {
+                    //todo trust/validate WSP?
+                    _logger.WriteVerbose("Invoking access token retrieval");
+                    await _accessTokenRetriever.RetrieveAsync(context, _settings);
+                }
+                else
+                {
+                    await Next.Invoke(context);
+                }
             }
-            else if (context.Request.Path.Equals(_settings.AccessTokenRetrievalPath) && context.Request.Method == "GET")
+            catch (Exception ex) 
             {
-                //todo trust/validate WSP?
-                await _accessTokenRetriever.RetrieveAsync(context, _settings);
-            }
-            else
-            {
-                await Next.Invoke(context);
+                _logger.WriteError("Unhandled exception", ex);
             }
         }
     }
