@@ -6,6 +6,9 @@ using Digst.OioIdws.Rest.Common;
 
 namespace Digst.OioIdws.Rest.Authentication
 {
+    /// <summary>
+    /// Default implementation that simply transforms the token information into a <see cref="ClaimsIdentity"/>
+    /// </summary>
     public class IdentityBuilder : IIdentityBuilder
     {
         public virtual Task<ClaimsIdentity> BuildIdentityAsync(OioIdwsToken token)

@@ -54,12 +54,13 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
             {
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
-                IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0])
+                IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
+                SecurityTokenStore = tokenStoreMock.Object
             };
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options, tokenStoreMock.Object);
+                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options);
             }))
             {
                 var response = await server.HttpClient.GetAsync($"/accesstoken?{accessTokenValue}");

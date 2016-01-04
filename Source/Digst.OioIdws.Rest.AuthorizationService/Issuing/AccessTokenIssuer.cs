@@ -46,7 +46,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 
         public async Task IssueAsync(
             IOwinContext context, 
-            OioIdwsAuthorizationServiceMiddleware.Settings settings)
+            OioIdwsAuthorizationServiceOptions options)
         {
             //todo: should we check Request content-type?
             var form = await context.Request.ReadFormAsync();
@@ -58,7 +58,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                 return;
             }
             
-            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, null, settings); //todo get cert
+            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, null, options); //todo get cert
 
             if (!samlTokenValidation.Success)
             {
@@ -71,7 +71,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
             {
                 CertificateThumbprint = "", //todo get cert
                 Type = samlTokenValidation.AccessTokenType,
-                ValidUntilUtc = DateTime.UtcNow + settings.AccessTokenExpiration, //todo add time skew?
+                ValidUntilUtc = DateTime.UtcNow + options.AccessTokenExpiration, //todo add time skew?
                 Claims = samlTokenValidation.ClaimsIdentity.Claims.Select(x => new OioIdwsClaim
                 {
                     Type = x.Type,
@@ -83,7 +83,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 
             var accessToken = _accessTokenGenerator.GenerateAccesstoken();
             await _securityTokenStore.StoreTokenAsync(accessToken, storedToken);
-            await WriteAccessTokenAsync(context, accessToken, settings.AccessTokenExpiration);
+            await WriteAccessTokenAsync(context, accessToken, options.AccessTokenExpiration);
             _logger.WriteInformation($"Token {accessToken} was issued");
         }
 

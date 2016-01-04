@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
@@ -9,7 +7,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Xml;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Rest.AuthorizationService.Issuing;
 using Digst.OioIdws.Rest.AuthorizationService.Storage;
@@ -44,7 +41,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 .Returns(accessTokenValue);
 
             tokenValidatorMock
-                .Setup(x => x.ValidateTokenAsync(requestSamlToken, It.IsAny<X509Certificate2>(), It.IsAny<OioIdwsAuthorizationServiceMiddleware.Settings>()))
+                .Setup(x => x.ValidateTokenAsync(requestSamlToken, It.IsAny<X509Certificate2>(), It.IsAny<OioIdwsAuthorizationServiceOptions>()))
                 .ReturnsAsync(new TokenValidationResult
                 {
                     Success = true,
@@ -60,14 +57,14 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 IssuerAudiences = () => Task.FromResult(new []
                 {
                     new IssuerAudiences("thumbprint1", "name"), 
-                })
+                }),
+                SecurityTokenStore = tokenStoreMock.Object
             };
             using (var server = TestServer.Create(app =>
             {
                 app.SetLoggerFactory(new OwinConsoleLoggerFactory());
 
-                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options
-                    ,tokenStoreMock.Object);
+                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options);
             }))
             { 
                 var response = await server.HttpClient.PostAsync("/accesstoken/issue",
@@ -127,8 +124,9 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                     AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                     AccessTokenRetrievalPath = new PathString("/accesstoken"),
                     IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
-                    AccessTokenGenerator = accessTokenGeneratorMock.Object
-                }, tokenStoreMock.Object);
+                    AccessTokenGenerator = accessTokenGeneratorMock.Object,
+                    SecurityTokenStore = tokenStoreMock.Object,
+                });
             }))
             {
                 var response = await server.CreateRequest("/accesstoken/issue").PostAsync();
@@ -146,7 +144,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
         {
             var requestSamlToken = GetSamlTokenXml();
 
-            var tokenStore = new MemorySecurityTokenStore();
+            var tokenStore = new InMemorySecurityTokenStore();
 
             var options = new OioIdwsAuthorizationServiceOptions
             {
@@ -156,11 +154,12 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                 {
                     new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "name")
                         .Audience(new Uri("https://wsp.itcrew.dk")),
-                })
+                }),
+                SecurityTokenStore = tokenStore
             };
             using (var server = TestServer.Create(app =>
             {
-                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options, tokenStore);
+                app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options);
             }))
             {
                 var response = await server.HttpClient.PostAsync("/accesstoken/issue",

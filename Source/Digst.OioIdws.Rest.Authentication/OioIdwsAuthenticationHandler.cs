@@ -28,6 +28,7 @@ namespace Digst.OioIdws.Rest.Authentication
                 AuthenticationHeaderValue authHeader;
                 if (AuthenticationHeaderValue.TryParse(Context.Request.Headers["Authorization"], out authHeader)) //&& authHeader.Scheme == "Bearer")
                 {
+                    //todo: caching
                     var token = await Options.TokenProvider.RetrieveTokenAsync(authHeader.Parameter, Options.AccessTokenRetrievalEndpoint);
                     //todo: validate token
                     var identity = await Options.IdentityBuilder.BuildIdentityAsync(token);

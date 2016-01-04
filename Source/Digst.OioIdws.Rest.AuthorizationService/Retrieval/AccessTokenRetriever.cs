@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Retrieval
             _logger = logger;
         }
 
-        public async Task RetrieveAsync(IOwinContext context, OioIdwsAuthorizationServiceMiddleware.Settings settings)
+        public async Task RetrieveAsync(IOwinContext context)
         {
             if (!context.Request.QueryString.HasValue)
             {

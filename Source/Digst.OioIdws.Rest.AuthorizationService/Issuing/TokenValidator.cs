@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
@@ -14,7 +12,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
 {
     internal class TokenValidator : ITokenValidator
     {
-        public async Task<TokenValidationResult> ValidateTokenAsync(string token, X509Certificate2 clientCertificate, OioIdwsAuthorizationServiceMiddleware.Settings settings)
+        public async Task<TokenValidationResult> ValidateTokenAsync(string token, X509Certificate2 clientCertificate, OioIdwsAuthorizationServiceOptions options)
         {
             //todo: decrypt token, test if it's an Assertion or EncryptedAssertion
             //todo validate assertion was issued by STS
@@ -30,7 +28,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                     {
                         Configuration = new SecurityTokenHandlerConfiguration
                         {
-                            ServiceTokenResolver = settings.ServiceTokenResolver,
+                            ServiceTokenResolver = options.ServiceTokenResolver,
                         }
                     };
 
@@ -49,7 +47,7 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Issuing
                         return TokenValidationResult.Error(AuthenticationErrorCodes.InvalidToken, "IssuerToken is expected to be of type X509SecurityToken");
                     }
 
-                    var issuerAudience = (await settings.IssuerAudiences()).SingleOrDefault(x => x.IssuerThumbprint == issuerToken.Certificate.Thumbprint?.ToLowerInvariant());
+                    var issuerAudience = (await options.IssuerAudiences()).SingleOrDefault(x => x.IssuerThumbprint == issuerToken.Certificate.Thumbprint?.ToLowerInvariant());
 
                     if (issuerAudience == null)
                     {

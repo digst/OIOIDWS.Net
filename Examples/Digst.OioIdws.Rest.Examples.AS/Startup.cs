@@ -30,7 +30,7 @@ namespace Digst.OioIdws.Rest.Examples.AS
                 {
                     new IssuerAudiences("2E7A061560FA2C5E141A634DC1767DACAEEC8D12", "test cert")
                         .Audience(new Uri("https://wsp.itcrew.dk")), 
-                })
+                }),
             })
             .Use((ctx, next) =>
             {
