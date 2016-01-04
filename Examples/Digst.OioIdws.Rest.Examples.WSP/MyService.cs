@@ -24,8 +24,7 @@ namespace Digst.OioIdws.Rest.Examples.WSP
                 var identity = (ClaimsIdentity)context.Request.User.Identity;
 
                 context.Response.Write(
-$@"User: {identity.Name}
-AuthenticationType: {identity.AuthenticationType}
+$@"AuthenticationType: {identity.AuthenticationType}
 Claims:
 {string.Join("\n", identity.Claims.Select(x => $"{x.Type} = {x.Value}"))}
 ");

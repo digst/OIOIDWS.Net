@@ -5,15 +5,20 @@ using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
 using Newtonsoft.Json;
 
-namespace Digst.OioIdws.Rest.ProviderAuthentication
+namespace Digst.OioIdws.Rest.Authentication
 {
     internal class TokenProvider : ITokenProvider
     {
-        public async Task<OioIdwsToken> RetrieveTokenAsync(string accessToken, OioIdwsProviderAuthenticationMiddleware.Settings settings)
+        public async Task<OioIdwsToken> RetrieveTokenAsync(string accessToken, Uri accessTokenRetrievalEndpoint)
         {
+            if (accessTokenRetrievalEndpoint == null)
+            {
+                throw new ArgumentNullException(nameof(accessTokenRetrievalEndpoint));
+            }
+
             var client = new HttpClient
             {
-                BaseAddress = settings.AccessTokenRetrievalEndpoint
+                BaseAddress = accessTokenRetrievalEndpoint
             };
 
             var response = await client.GetAsync($"?{accessToken}");

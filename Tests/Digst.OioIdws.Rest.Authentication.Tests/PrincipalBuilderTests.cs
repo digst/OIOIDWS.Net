@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Authentication;
 using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -46,17 +47,15 @@ namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
                 },
             };
 
-            var sut = new PrincipalBuilder();
-            var principal = await sut.BuildPrincipalAsync(token);
+            var sut = new IdentityBuilder();
+            var identity = await sut.BuildIdentityAsync(token);
             
-            Assert.IsNotNull(principal);
-            Assert.IsTrue(principal.Identity.IsAuthenticated);
+            Assert.IsNotNull(identity);
+            Assert.IsTrue(identity.IsAuthenticated);
 
-            var claimsIdentity = (ClaimsIdentity) principal.Identity;
-
-            Assert.AreEqual("OioIdws", claimsIdentity.AuthenticationType);
-            Assert.IsTrue(claimsIdentity.HasClaim("nametype1", "name1"));
-            Assert.AreEqual(4, claimsIdentity.Claims.Count());
+            Assert.AreEqual("OioIdws", identity.AuthenticationType);
+            Assert.IsTrue(identity.HasClaim("nametype1", "name1"));
+            Assert.AreEqual(4, identity.Claims.Count());
         }
     }
 }

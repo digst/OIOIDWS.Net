@@ -1,5 +1,4 @@
 using System;
-using Digst.OioIdws.Rest.Common;
 using Microsoft.Owin;
 
 namespace Digst.OioIdws.Rest.AuthorizationService

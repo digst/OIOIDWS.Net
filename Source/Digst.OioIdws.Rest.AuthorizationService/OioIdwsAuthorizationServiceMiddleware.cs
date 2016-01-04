@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Selectors;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.AuthorizationService.Issuing;
 using Digst.OioIdws.Rest.AuthorizationService.Retrieval;
@@ -99,6 +100,9 @@ namespace Digst.OioIdws.Rest.AuthorizationService
 
         public override async Task Invoke(IOwinContext context)
         {
+            //var cert = context.Get<X509Certificate2>("ssl.ClientCertificate");
+            //X509CertificateValidator.ChainTrust.Validate(cert);
+
             try
             {
                 //todo require SSL?

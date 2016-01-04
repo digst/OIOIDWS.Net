@@ -1,6 +1,5 @@
 ﻿using System;
-using Digst.OioIdws.Rest.ProviderAuthentication;
-using Microsoft.Owin.Extensions;
+using Digst.OioIdws.Rest.Authentication;
 using Microsoft.Owin.Logging;
 using Owin;
 
@@ -14,7 +13,7 @@ namespace Digst.OioIdws.Rest.Examples.WSP
 
             app
                 .UseErrorPage()
-                .OioIdwsProviderAuthentication(new OioIdwsProviderAuthenticationOptions
+                .OioIdwsAuthentication(new OioIdwsAuthenticationOptions
                 {
                     AccessTokenRetrievalEndpoint = new Uri("https://digst.oioidws.rest.as:10001/accesstoken")
                 })

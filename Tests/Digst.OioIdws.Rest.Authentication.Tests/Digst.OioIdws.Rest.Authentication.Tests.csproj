@@ -6,8 +6,8 @@
     <ProjectGuid>{41465C0C-5D53-428B-99A1-061F7FF71063}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Rest.ProviderAuthentication.Tests</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Rest.ProviderAuthentication.Tests</AssemblyName>
+    <RootNamespace>Digst.OioIdws.Rest.Authentication.Tests</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Rest.Authentication.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -72,7 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="OioIdwsProviderAuthenticationMiddlewareTests.cs" />
+    <Compile Include="OioIdwsAuthenticationMiddlewareTests.cs" />
     <Compile Include="PrincipalBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,9 +88,9 @@
       <Project>{b367bf97-79f3-4bba-8a2f-9a21ffdf9950}</Project>
       <Name>Digst.OioIdws.Rest.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.ProviderAuthentication\Digst.OioIdws.Rest.ProviderAuthentication.csproj">
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.Authentication\Digst.OioIdws.Rest.Authentication.csproj">
       <Project>{98483b72-4f3d-475f-9cb8-5792b16826ec}</Project>
-      <Name>Digst.OioIdws.Rest.ProviderAuthentication</Name>
+      <Name>Digst.OioIdws.Rest.Authentication</Name>
     </ProjectReference>
     <ProjectReference Include="..\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj">
       <Project>{17cd5683-886b-4856-82b0-25bd99172764}</Project>

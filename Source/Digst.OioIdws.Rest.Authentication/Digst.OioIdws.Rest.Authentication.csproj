@@ -7,8 +7,8 @@
     <ProjectGuid>{98483B72-4F3D-475F-9CB8-5792B16826EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Rest.ProviderAuthentication</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Rest.ProviderAuthentication</AssemblyName>
+    <RootNamespace>Digst.OioIdws.Rest.Authentication</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Rest.Authentication</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -35,6 +35,10 @@
       <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -51,12 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPrincipalBuilder.cs" />
+    <Compile Include="IIdentityBuilder.cs" />
     <Compile Include="ITokenProvider.cs" />
-    <Compile Include="OioIdwsProviderAuthenticationAppBuilderExtensions.cs" />
-    <Compile Include="OioIdwsProviderAuthenticationMiddleware.cs" />
-    <Compile Include="OioIdwsProviderAuthenticationOptions.cs" />
-    <Compile Include="PrincipalBuilder.cs" />
+    <Compile Include="OioIdwsAuthenticationAppBuilderExtensions.cs" />
+    <Compile Include="OioIdwsAuthenticationHandler.cs" />
+    <Compile Include="OioIdwsAuthenticationMiddleware.cs" />
+    <Compile Include="OioIdwsAuthenticationOptions.cs" />
+    <Compile Include="IdentityBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenProvider.cs" />
   </ItemGroup>

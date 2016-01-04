@@ -27,12 +27,22 @@ namespace Digst.OioIdws.Rest.Examples.Client
             };
 
             var idwsClient = new OioIdwsClient(settings);
-            
+
             var httpClient = new HttpClient(idwsClient.CreateMessageHandler());
 
-            var response = await httpClient.GetAsync("https://digst.oioidws.rest.wsp:10002/hello");
-            var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
-            Console.WriteLine(responseString);
+            {
+                //first invocation - security token is retrieved and stored in the AS, access token cached by client
+                var response = await httpClient.GetAsync("https://digst.oioidws.rest.wsp:10002/hello");
+                var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
+                Console.WriteLine(responseString);
+            }
+
+            {
+                //second invocation - cached access token is reused
+                var response = await httpClient.GetAsync("https://digst.oioidws.rest.wsp:10002/hello2");
+                var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
+                Console.WriteLine(responseString);
+            }
         }
     }
 }
