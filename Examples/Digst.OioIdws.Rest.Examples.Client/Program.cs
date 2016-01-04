@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Digst.OioIdws.Common.Logging;
 using Digst.OioIdws.Rest.Client;
 
 namespace Digst.OioIdws.Rest.Examples.Client
@@ -14,6 +15,9 @@ namespace Digst.OioIdws.Rest.Examples.Client
 
         public static async Task Go()
         {
+            //configures the internal logger for OIO WS-TRUST communication
+            LoggerFactory.SetLogger(new ConsoleLogger());
+
             var settings = new OioIdwsClientSettings
             {
                 ClientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a"),
@@ -43,6 +47,49 @@ namespace Digst.OioIdws.Rest.Examples.Client
                 var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
                 Console.WriteLine(responseString);
             }
+        }
+    }
+
+    internal class ConsoleLogger : ILogger
+    {
+        public void Trace(string message, string callerMemberName = null, int callerLineNumber = 0, string callerFilePath = null)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Debug(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Info(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Warning(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Error(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Error(string message, Exception exception)
+        {
+            Console.WriteLine(message + exception);
+        }
+
+        public void Fatal(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Fatal(string message, Exception exception)
+        {
+            Console.WriteLine(message + exception);
         }
     }
 }

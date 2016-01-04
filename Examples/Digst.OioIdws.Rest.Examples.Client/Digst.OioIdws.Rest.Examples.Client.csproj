@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
+      <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
+      <Name>Digst.OioIdws.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\source\Digst.OioIdws.Rest.Client\Digst.OioIdws.Rest.Client.csproj">
       <Project>{7e94185f-75da-4e26-80cd-d3bda207fe5f}</Project>
       <Name>Digst.OioIdws.Rest.Client</Name>

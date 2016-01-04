@@ -1,6 +1,7 @@
 ﻿using System;
 using Digst.OioIdws.Common.Logging;
 using log4net;
+using log4net.Util;
 
 namespace Digst.OioIdws.WscExample
 {
