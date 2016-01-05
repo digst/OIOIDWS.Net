@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Digst.OioIdws.Common.Logging;
 using log4net;
 
@@ -17,69 +18,25 @@ namespace Digst.OioIdws.WscJavaExample
             }
         }
 
-        public void Trace(string message, string callerMemberName = null, int callerLineNumber = 0, string callerFilePath = null)
+        public void WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
         {
-            if (Logger.IsDebugEnabled)
+            switch (eventType)
             {
-                Logger.Debug(
-                    string.Format("CallerMemberName: {0}, CallerLineNumber: {1}, CallerFilePath: {2}, Message: {3}",
-                        callerMemberName, callerLineNumber, callerFilePath, message));
-            }
-        }
-
-        public void Debug(string message)
-        {
-            if (Logger.IsDebugEnabled)
-            {
-                Logger.Debug(message);
-            }
-        }
-
-        public void Info(string message)
-        {
-            if (Logger.IsInfoEnabled)
-            {
-                Logger.Info(message);
-            }
-        }
-
-        public void Warning(string message)
-        {
-            if (Logger.IsWarnEnabled)
-            {
-                Logger.Warn(message);
-            }
-        }
-
-        public void Error(string message)
-        {
-            if (Logger.IsErrorEnabled)
-            {
-                Logger.Error(message);
-            }
-        }
-
-        public void Error(string message, Exception exception)
-        {
-            if (Logger.IsErrorEnabled)
-            {
-                Logger.Error(message, exception);
-            }
-        }
-
-        public void Fatal(string message)
-        {
-            if (Logger.IsFatalEnabled)
-            {
-                Logger.Fatal(message);
-            }
-        }
-
-        public void Fatal(string message, Exception exception)
-        {
-            if (Logger.IsFatalEnabled)
-            {
-                Logger.Fatal(message, exception);
+                case TraceEventType.Critical:
+                    Logger.Fatal(state, exception);
+                    break;
+                case TraceEventType.Error:
+                    Logger.Error(state, exception);
+                    break;
+                case TraceEventType.Warning:
+                    Logger.Warn(state, exception);
+                    break;
+                case TraceEventType.Verbose:
+                    Logger.Debug(state, exception);
+                    break;
+                default:
+                    Logger.Info(state, exception);
+                    break;
             }
         }
     }

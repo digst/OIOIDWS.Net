@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Digst.OioIdws.Common.Logging;
@@ -52,44 +53,9 @@ namespace Digst.OioIdws.Rest.Examples.Client
 
     internal class ConsoleLogger : ILogger
     {
-        public void Trace(string message, string callerMemberName = null, int callerLineNumber = 0, string callerFilePath = null)
+        public void WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
         {
-            Console.WriteLine(message);
-        }
-
-        public void Debug(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void Info(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void Warning(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void Error(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void Error(string message, Exception exception)
-        {
-            Console.WriteLine(message + exception);
-        }
-
-        public void Fatal(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void Fatal(string message, Exception exception)
-        {
-            Console.WriteLine(message + exception);
+            Console.WriteLine($"{eventType}: {formatter(state, exception)}");
         }
     }
 }

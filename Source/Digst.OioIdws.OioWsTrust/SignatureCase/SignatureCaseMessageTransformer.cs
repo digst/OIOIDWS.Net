@@ -88,7 +88,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             var xDocument = ConvertMessageToXml(request);
 
             // Log RST before being manipulated ... if we do not take the above two headers into account :)
-            Logger.Instance.Debug("RST send to STS before being manipulated:\n" + xDocument);
+            Logger.Instance.Trace("RST send to STS before being manipulated:\n" + xDocument);
 
             // Manipulate XML
             AddNamespacesToEnvelope(xDocument);
@@ -97,7 +97,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             SignMessage(ref xDocument, clientCertificate);
 
             // Log RST after being manipulated
-            Logger.Instance.Debug("RST send to STS after being manipulated:\n" + xDocument);
+            Logger.Instance.Trace("RST send to STS after being manipulated:\n" + xDocument);
 
             // Convert XML back to a Message
             request = ConvertXmlToMessage(request, xDocument);
@@ -109,7 +109,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             var xDocument = ConvertMessageToXml(response);
 
             // Log RSTR before being manipulated
-            Logger.Instance.Debug("RSTR recieved from STS before being manipulated:\n" + xDocument);
+            Logger.Instance.Trace("RSTR recieved from STS before being manipulated:\n" + xDocument);
 
             // SOAP 1.1 faults from NemLog-in STS contains two Envelope elements. This hack removes the first element whereafter the .Net framework will see it as a fault.
             RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref xDocument, ref response);
@@ -201,7 +201,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             }
 
             // Log RSTR before being manipulated
-            Logger.Instance.Debug("RSTR recieved from STS after being manipulated:\n" + xDocument);
+            Logger.Instance.Trace("RSTR recieved from STS after being manipulated:\n" + xDocument);
 
             // Convert XML back to a Message
             response = ConvertXmlToMessage(response, xDocument);

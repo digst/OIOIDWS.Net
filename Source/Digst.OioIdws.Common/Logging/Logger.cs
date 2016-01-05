@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace Digst.OioIdws.Common.Logging
 {
@@ -20,44 +20,9 @@ namespace Digst.OioIdws.Common.Logging
             _logger = LoggerFactory.CreateLogger();
         }
 
-        public void Trace(string message, [CallerMemberName] string callerMemberName = null, [CallerLineNumber] int callerLineNumber = 0, [CallerFilePath] string callerFilePath = null)
+        public void WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
         {
-            _logger.Trace(message, callerMemberName, callerLineNumber, callerFilePath);
-        }
-
-        public void Debug(string message)
-        {
-            _logger.Debug(message);
-        }
-
-        public void Info(string message)
-        {
-            _logger.Info(message);
-        }
-
-        public void Warning(string message)
-        {
-            _logger.Warning(message);
-        }
-
-        public void Error(string message)
-        {
-            _logger.Error(message);
-        }
-
-        public void Error(string message, Exception exception)
-        {
-            _logger.Error(message, exception);
-        }
-
-        public void Fatal(string message)
-        {
-            _logger.Fatal(message);
-        }
-
-        public void Fatal(string message, Exception exception)
-        {
-            _logger.Fatal(message, exception);
+            _logger.WriteCore(eventType, eventId, state, exception, formatter);
         }
     }
 }

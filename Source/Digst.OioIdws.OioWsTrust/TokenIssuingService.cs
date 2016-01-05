@@ -28,8 +28,8 @@ namespace Digst.OioIdws.OioWsTrust
             if (config.ClientCertificate == null) throw new ArgumentException("ClientCertificate");
             if (config.StsCertificate == null) throw new ArgumentException("StsCertificate");
 
-            Logger.Instance.Debug($@"RequestToken called with the client certificate: {config.ClientCertificate.SubjectName} ({config.ClientCertificate.Thumbprint})");
-            Logger.Instance.Debug($@"RequestToken called with the STS certificate: {config.StsCertificate.SubjectName} ({config.StsCertificate.Thumbprint})");
+            Logger.Instance.Trace($@"RequestToken called with the client certificate: {config.ClientCertificate.SubjectName.Name} ({config.ClientCertificate.Thumbprint})");
+            Logger.Instance.Trace($@"RequestToken called with the STS certificate: {config.StsCertificate.SubjectName.Name} ({config.StsCertificate.Thumbprint})");
 
             try
             {

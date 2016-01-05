@@ -45,6 +45,7 @@
     <Compile Include="Constants\LibBas.cs" />
     <Compile Include="Constants\WsAdressing.cs" />
     <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\Configuration.cs" />
     <Compile Include="Logging\LoggerFactory.cs" />
