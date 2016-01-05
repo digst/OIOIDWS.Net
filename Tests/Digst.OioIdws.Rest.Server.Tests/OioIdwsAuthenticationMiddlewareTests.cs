@@ -37,7 +37,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 {
                     TokenProvider = tokenProviderMock.Object,
                     AccessTokenRetrievalEndpoint = new Uri("http://dummy"),
-                    IdentityBuilder = identityBuilderMock.Object
+                    IdentityBuilder = identityBuilderMock.Object,
+                    TokenRetrievalMethod = TokenRetrievalMethod.WebService
                 })
                 .Use(async (context, next) =>
                 {
@@ -81,6 +82,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     TokenProvider = tokenProviderMock.Object,
                     AccessTokenRetrievalEndpoint = new Uri("http://dummy"),
                     IdentityBuilder = identityBuilderMock.Object,
+                    TokenRetrievalMethod = TokenRetrievalMethod.WebService
                 })
                 .Use(async (context, next) =>
                 {
