@@ -66,4 +66,6 @@ netsh http add sslcert ipport=0.0.0.0:10002 certhash=F0549886736E2F726F96D38D86E
 
 Now the REST example projects Digst.OioIdws.Rest.Examples.AS and Digst.OioIdws.Rest.Examples.WSP can be started from a elevated command line (to allow the HttpListener in Katana to register the URL on your machine) which will now listen to the hosts https://digst.oioidws.rest.as:10001 and https://digst.oioidws.rest.wsp:10002
 
+There's also an example project Digst.OioIdws.Rest.Examples.ServerCombined for running the AS and WSP components in the same application. It will be hosted at https://digst.oioidws.rest.wsp:10002
+
 Now the Digst.OioIdws.Rest.Examples.Client can be run from a command line to retrieve a SecurityToken from the STS, store it on the AS and invoke the WSP using the issued access token.
