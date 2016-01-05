@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server;
 using Digst.OioIdws.Rest.Server.TokenStorage;
 using Digst.OioIdws.Test.Common;
 using Microsoft.Owin;
@@ -13,7 +12,7 @@ using Moq;
 using Newtonsoft.Json;
 using Owin;
 
-namespace Digst.OioIdws.Rest.AuthorizationService.Tests
+namespace Digst.OioIdws.Rest.Server.Tests
 {
     [TestClass]
     public class AccessTokenRetrievalEndpointTests

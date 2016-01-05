@@ -70,6 +70,7 @@
     <Compile Include="OioIdwsAuthorizationServiceHandler.cs" />
     <Compile Include="OioIdwsClaim.cs" />
     <Compile Include="OioIdwsToken.cs" />
+    <Compile Include="TokenRetrievalMethod.cs" />
     <Compile Include="TokenRetrieval\AccessTokenRetriever.cs" />
     <Compile Include="Issuing\ITokenValidator.cs" />
     <Compile Include="Issuing\TokenValidator.cs" />

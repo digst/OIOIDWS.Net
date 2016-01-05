@@ -12,6 +12,8 @@ namespace Digst.OioIdws.Rest.Server
     /// </summary>
     public class OioIdwsAuthorizationServiceMiddleware : AuthenticationMiddleware<OioIdwsAuthorizationServiceOptions>
     {
+        public const string SecurityTokenStoreKey = "OioIdwsAuthorizationServiceMiddleware.SecurityTokenStore";
+
         private readonly ILogger _logger;
 
         public OioIdwsAuthorizationServiceMiddleware(
@@ -44,11 +46,6 @@ namespace Digst.OioIdws.Rest.Server
                 throw new ArgumentException($"The '{nameof(options.AccessTokenIssuerPath)}' options must be set");
             }
 
-            if (!options.AccessTokenRetrievalPath.HasValue)
-            {
-                throw new ArgumentException($"The '{nameof(options.AccessTokenRetrievalPath)}' options must be set");
-            }
-
             if (options.IssuerAudiences == null)
             {
                 throw new ArgumentException($"The '{nameof(options.IssuerAudiences)}' option must be set");
@@ -60,6 +57,8 @@ namespace Digst.OioIdws.Rest.Server
             {
                 _logger.WriteWarning($"AccessTokenExpiration has been set to an expiration of {options.AccessTokenExpiration}. It is adviced to set it to one hour or less.");
             }
+
+            app.Properties[SecurityTokenStoreKey] = Options.SecurityTokenStore;
         }
 
         protected override AuthenticationHandler<OioIdwsAuthorizationServiceOptions> CreateHandler()

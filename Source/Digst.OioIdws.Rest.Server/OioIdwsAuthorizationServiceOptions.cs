@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Rest.Server
         /// </summary>
         public TimeSpan AccessTokenExpiration { get; set; }
         /// <summary>
-        /// Path on the server where user information is retrieved by serving it an access token
+        /// Path on the server where user information is retrieved by serving it an access token. This is not required if the retrieval method <see cref="TokenRetrievalMethod.InMemory"/> is used in the <see cref="OioIdwsAuthenticationMiddleware"/>
         /// </summary>
         public PathString AccessTokenRetrievalPath { get; set; }
         /// <summary>

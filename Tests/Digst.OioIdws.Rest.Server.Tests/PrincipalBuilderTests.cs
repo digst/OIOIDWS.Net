@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server;
 using Digst.OioIdws.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
+namespace Digst.OioIdws.Rest.Server.Tests
 {
     [TestClass]
     public class PrincipalBuilderTests

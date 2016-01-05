@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.Client", "Examples\Digst.OioIdws.Rest.Examples.Client\Digst.OioIdws.Rest.Examples.Client.csproj", "{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.ServerCombined", "Examples\Digst.OioIdws.Rest.Examples.ServerCombined\Digst.OioIdws.Rest.Examples.ServerCombined.csproj", "{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,14 @@ Global
 		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
 		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release Signed|Any CPU.Build.0 = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release-Plus|Any CPU.ActiveCfg = Release|Any CPU
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904}.Release-Plus|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,5 +241,6 @@ Global
 		{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
 		{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
 		{7FFD3B1F-CD9A-458F-AE7C-A6AD118225A3} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
+		{C89A6EC3-7DD3-47EE-9C51-0A3A6BC25904} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
 	EndGlobalSection
 EndGlobal

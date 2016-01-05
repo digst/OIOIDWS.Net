@@ -8,10 +8,18 @@ namespace Digst.OioIdws.Rest.Server
         public OioIdwsAuthenticationOptions() : base("UseOioIdwsAuthentication")
         {
             TokenProvider = new TokenProvider();
+            TokenRetrievalMethod = TokenRetrievalMethod.InMemory;
         }
 
         /// <summary>
-        /// Path on the AuthorizationService server where token information can be resolved by giving an acess token
+        /// Determines what method is used for retrieving token information. 
+        /// If <see cref="Server.TokenRetrievalMethod.WebService"/> is used, <see cref="AccessTokenRetrievalEndpoint"/> must be set to the endpoint where tokens can be retrieved.
+        /// If <see cref="Server.TokenRetrievalMethod.InMemory"/> is used, <see cref="OioIdwsAuthorizationServiceMiddleware"/> must be configured in OWIN pipeline for direct access.
+        /// Defaults to <see cref="Server.TokenRetrievalMethod.InMemory"/>
+        /// </summary>
+        public TokenRetrievalMethod TokenRetrievalMethod { get; set; }
+        /// <summary>
+        /// Path on the AuthorizationService server where token information can be resolved by giving an access token
         /// </summary>
         public Uri AccessTokenRetrievalEndpoint { get; set; }
         /// <summary>

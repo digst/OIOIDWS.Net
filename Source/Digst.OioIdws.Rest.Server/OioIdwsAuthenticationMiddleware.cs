@@ -1,4 +1,5 @@
 ﻿using System;
+using Digst.OioIdws.Rest.Server.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security.Infrastructure;
@@ -9,6 +10,7 @@ namespace Digst.OioIdws.Rest.Server
     public class OioIdwsAuthenticationMiddleware : AuthenticationMiddleware<OioIdwsAuthenticationOptions>
     {
         private readonly ILogger _logger;
+        private ISecurityTokenStore _securityTokenStore;
 
         public OioIdwsAuthenticationMiddleware(
             OwinMiddleware next, 
@@ -25,9 +27,21 @@ namespace Digst.OioIdws.Rest.Server
                 throw new ArgumentNullException(nameof(options));
             }
 
-            if (options.AccessTokenRetrievalEndpoint == null)
+            if (options.TokenRetrievalMethod == TokenRetrievalMethod.InMemory)
             {
-                throw new ArgumentException($"The '{nameof(options.AccessTokenRetrievalEndpoint)}' option must be provided");
+                object tmp;
+                if (!app.Properties.TryGetValue(OioIdwsAuthorizationServiceMiddleware.SecurityTokenStoreKey, out tmp) ||
+                    (_securityTokenStore = (tmp as ISecurityTokenStore)) == null)
+                {
+                    throw new ArgumentException($"When option '{nameof(options.TokenRetrievalMethod)}' is set to '{TokenRetrievalMethod.InMemory}', the {nameof(OioIdwsAuthorizationServiceMiddleware)} must be configured as well.");
+                }
+            }
+            else
+            {
+                if (options.AccessTokenRetrievalEndpoint == null)
+                {
+                    throw new ArgumentException($"The '{nameof(options.AccessTokenRetrievalEndpoint)}' option must be provided");
+                }
             }
 
             if (options.IdentityBuilder == null)
@@ -40,7 +54,7 @@ namespace Digst.OioIdws.Rest.Server
 
         protected override AuthenticationHandler<OioIdwsAuthenticationOptions> CreateHandler()
         {
-            return new OioIdwsAuthenticationHandler(_logger);
+            return new OioIdwsAuthenticationHandler(_logger, _securityTokenStore);
         }
     }
 }

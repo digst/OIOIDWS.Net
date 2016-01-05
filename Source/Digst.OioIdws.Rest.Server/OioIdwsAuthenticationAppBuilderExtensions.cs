@@ -14,7 +14,8 @@ namespace Digst.OioIdws.Rest.Server
         /// <returns></returns>
         public static IAppBuilder UseOioIdwsAuthentication(this IAppBuilder app, OioIdwsAuthenticationOptions options, PipelineStage stage = PipelineStage.Authenticate)
         {
-            return app.Use<OioIdwsAuthenticationMiddleware>(app, options)
+            return app
+                .Use<OioIdwsAuthenticationMiddleware>(app, options)
                 .UseStageMarker(stage);
         }
     }

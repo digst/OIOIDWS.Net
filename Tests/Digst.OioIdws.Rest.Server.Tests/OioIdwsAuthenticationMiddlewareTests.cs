@@ -4,15 +4,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server;
 using Digst.OioIdws.Test.Common;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Owin;
 
-namespace Digst.OioIdws.Rest.ProviderAuthentication.Tests
+namespace Digst.OioIdws.Rest.Server.Tests
 {
     [TestClass]
     public class OioIdwsAuthenticationMiddlewareTests

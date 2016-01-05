@@ -15,7 +15,8 @@ namespace Digst.OioIdws.Rest.Examples.WSP
                 .UseErrorPage()
                 .UseOioIdwsAuthentication(new OioIdwsAuthenticationOptions
                 {
-                    AccessTokenRetrievalEndpoint = new Uri("https://digst.oioidws.rest.as:10001/accesstoken")
+                    AccessTokenRetrievalEndpoint = new Uri("https://digst.oioidws.rest.as:10001/accesstoken"),
+                    TokenRetrievalMethod = TokenRetrievalMethod.WebService
                 })
                 .Use<MyService>();
         }

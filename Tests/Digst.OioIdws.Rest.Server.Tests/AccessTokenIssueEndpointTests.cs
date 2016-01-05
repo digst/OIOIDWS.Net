@@ -8,8 +8,8 @@ using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.AuthorizationService.Tests;
 using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server;
 using Digst.OioIdws.Rest.Server.Issuing;
 using Digst.OioIdws.Rest.Server.TokenStorage;
 using Digst.OioIdws.Test.Common;
@@ -21,7 +21,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using Owin;
 
-namespace Digst.OioIdws.Rest.AuthorizationService.Tests
+namespace Digst.OioIdws.Rest.Server.Tests
 {
     [TestClass]
     public class AccessTokenIssueEndpointTests

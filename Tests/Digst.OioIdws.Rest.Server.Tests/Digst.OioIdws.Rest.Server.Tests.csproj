@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="AccessTokenIssueEndpointTests.cs" />
     <Compile Include="AccessTokenRetrievalEndpointTests.cs" />
+    <Compile Include="AsWspInMemoryTests.cs" />
     <Compile Include="OioIdwsAuthenticationMiddlewareTests.cs" />
     <Compile Include="PrincipalBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
