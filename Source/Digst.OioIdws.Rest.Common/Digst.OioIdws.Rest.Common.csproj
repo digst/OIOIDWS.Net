@@ -44,8 +44,6 @@
     <Compile Include="AccessTokenType.cs" />
     <Compile Include="AuthenticationErrorCodes.cs" />
     <Compile Include="HttpHeaderUtils.cs" />
-    <Compile Include="OioIdwsClaim.cs" />
-    <Compile Include="OioIdwsToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.Owin.Logging;
 
@@ -13,7 +14,7 @@ namespace Digst.OioIdws.Rest.Examples.AS
 
             public Logger(string name)
             {
-                _name = name;
+                _name = name.Split('.').LastOrDefault();
             }
 
             public bool WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)

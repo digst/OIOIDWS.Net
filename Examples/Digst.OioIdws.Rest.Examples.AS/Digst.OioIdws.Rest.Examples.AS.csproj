@@ -78,9 +78,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.AuthorizationService\Digst.OioIdws.Rest.AuthorizationService.csproj">
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Rest.Server\Digst.OioIdws.Rest.Server.csproj">
       <Project>{d97ceb63-1139-4dc3-b630-67e823376326}</Project>
-      <Name>Digst.OioIdws.Rest.AuthorizationService</Name>
+      <Name>Digst.OioIdws.Rest.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
