@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Digst.OioIdws.Rest.Server.TokenStorage
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 {
     /// <summary>
     /// In memory implementation of a <see cref="ISecurityTokenStore"/>. 

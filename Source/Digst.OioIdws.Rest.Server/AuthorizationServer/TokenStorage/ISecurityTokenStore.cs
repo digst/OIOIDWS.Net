@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Digst.OioIdws.Rest.Server.TokenStorage
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 {
     /// <summary>
     /// Used for storage of security tokens

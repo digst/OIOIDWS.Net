@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     public static class OioIdwsAuthorizationServiceAppBuilderExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace Digst.OioIdws.Rest.Server
+﻿namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 {
     public class OioIdwsClaim
     {

@@ -1,11 +1,11 @@
 ﻿using System;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security.Infrastructure;
 using Owin;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     /// <summary>
     /// The middlware that acts as OIO IDWS AuthorizationService

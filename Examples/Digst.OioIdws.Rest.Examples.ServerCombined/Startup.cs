@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Server;
+using Digst.OioIdws.Rest.Server.AuthorizationServer;
+using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Owin;

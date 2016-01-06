@@ -1,7 +1,8 @@
 ﻿using System;
+using Digst.OioIdws.Rest.Server.AuthorizationServer;
 using Microsoft.Owin.Security;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.Wsp
 {
     public class OioIdwsAuthenticationOptions : AuthenticationOptions
     {
@@ -13,9 +14,9 @@ namespace Digst.OioIdws.Rest.Server
 
         /// <summary>
         /// Determines what method is used for retrieving token information. 
-        /// If <see cref="Server.TokenRetrievalMethod.WebService"/> is used, <see cref="AccessTokenRetrievalEndpoint"/> must be set to the endpoint where tokens can be retrieved.
-        /// If <see cref="Server.TokenRetrievalMethod.InMemory"/> is used, <see cref="OioIdwsAuthorizationServiceMiddleware"/> must be configured in OWIN pipeline for direct access.
-        /// Defaults to <see cref="Server.TokenRetrievalMethod.InMemory"/>
+        /// If <see cref="Wsp.TokenRetrievalMethod.WebService"/> is used, <see cref="AccessTokenRetrievalEndpoint"/> must be set to the endpoint where tokens can be retrieved.
+        /// If <see cref="Wsp.TokenRetrievalMethod.InMemory"/> is used, <see cref="OioIdwsAuthorizationServiceMiddleware"/> must be configured in OWIN pipeline for direct access.
+        /// Defaults to <see cref="Wsp.TokenRetrievalMethod.InMemory"/>
         /// </summary>
         public TokenRetrievalMethod TokenRetrievalMethod { get; set; }
         /// <summary>
@@ -23,7 +24,7 @@ namespace Digst.OioIdws.Rest.Server
         /// </summary>
         public Uri AccessTokenRetrievalEndpoint { get; set; }
         /// <summary>
-        /// Used when building an identity during authentication. Defaults to <see cref="Server.IdentityBuilder"/>.
+        /// Used when building an identity during authentication. Defaults to <see cref="Wsp.IdentityBuilder"/>.
         /// </summary>
         public IIdentityBuilder IdentityBuilder { get; set; }
 

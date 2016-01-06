@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Digst.OioIdws.Rest.Server.Issuing
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     internal interface ITokenValidator
     {

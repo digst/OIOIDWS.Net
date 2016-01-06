@@ -59,7 +59,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Service References\HelloWorldProxy\Digst.OioIdws.WscJavaExample.HelloWorldProxy.HelloWorldResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

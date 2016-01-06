@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     public class IssuerAudiences : IEnumerable<Uri>
     {

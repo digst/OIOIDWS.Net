@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
+using Digst.OioIdws.Rest.Server.Wsp;
 using Digst.OioIdws.Test.Common;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

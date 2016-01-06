@@ -2,12 +2,13 @@
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Server.Issuing;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
+using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     public class OioIdwsAuthorizationServiceOptions : AuthenticationOptions
     {

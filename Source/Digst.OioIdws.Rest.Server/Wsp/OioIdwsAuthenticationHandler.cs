@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.Wsp
 {
     public class OioIdwsAuthenticationHandler : AuthenticationHandler<OioIdwsAuthenticationOptions>
     {

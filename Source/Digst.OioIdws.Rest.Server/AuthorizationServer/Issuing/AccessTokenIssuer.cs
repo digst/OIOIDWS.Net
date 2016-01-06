@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace Digst.OioIdws.Rest.Server.Issuing
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     internal class AccessTokenIssuer
     {

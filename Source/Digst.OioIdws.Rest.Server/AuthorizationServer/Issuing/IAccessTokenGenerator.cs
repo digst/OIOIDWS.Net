@@ -1,4 +1,4 @@
-﻿namespace Digst.OioIdws.Rest.Server.Issuing
+﻿namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     internal interface IAccessTokenGenerator
     {

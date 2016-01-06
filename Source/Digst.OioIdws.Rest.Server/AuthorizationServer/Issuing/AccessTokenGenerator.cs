@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Digst.OioIdws.Rest.Server.Issuing
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     /// <summary>
     /// Inspired by http://stackoverflow.com/questions/19298801/generating-random-string-using-rngcryptoserviceprovider

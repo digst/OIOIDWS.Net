@@ -1,5 +1,5 @@
 ﻿using System;
-using Digst.OioIdws.Rest.Server;
+using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin.Logging;
 using Owin;
 

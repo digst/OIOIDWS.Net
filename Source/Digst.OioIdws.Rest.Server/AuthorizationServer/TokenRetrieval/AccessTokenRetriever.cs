@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Newtonsoft.Json;
 
-namespace Digst.OioIdws.Rest.Server.TokenRetrieval
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval
 {
     internal class AccessTokenRetriever
     {

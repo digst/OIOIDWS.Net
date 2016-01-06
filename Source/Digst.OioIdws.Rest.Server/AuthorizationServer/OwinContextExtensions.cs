@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Owin;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     internal static class OwinContextExtensions
     {

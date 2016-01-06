@@ -2,10 +2,10 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Common;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Newtonsoft.Json;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.Wsp
 {
     internal class TokenProvider : ITokenProvider
     {

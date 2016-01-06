@@ -1,16 +1,17 @@
 ﻿using System;
-using Digst.OioIdws.Rest.Server.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security.Infrastructure;
 using Owin;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.Wsp
 {
     public class OioIdwsAuthenticationMiddleware : AuthenticationMiddleware<OioIdwsAuthenticationOptions>
     {
         private readonly ILogger _logger;
-        private ISecurityTokenStore _securityTokenStore;
+        private readonly ISecurityTokenStore _securityTokenStore;
 
         public OioIdwsAuthenticationMiddleware(
             OwinMiddleware next, 

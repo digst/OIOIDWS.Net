@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Digst.OioIdws.Rest.Common;
 
-namespace Digst.OioIdws.Rest.Server.Issuing
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     internal class TokenValidator : ITokenValidator
     {

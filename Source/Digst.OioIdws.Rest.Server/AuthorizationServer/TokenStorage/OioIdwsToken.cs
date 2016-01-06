@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Digst.OioIdws.Rest.Common;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 {
     public class OioIdwsToken
     {

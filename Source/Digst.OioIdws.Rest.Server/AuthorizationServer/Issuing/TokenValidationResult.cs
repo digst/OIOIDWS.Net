@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Digst.OioIdws.Rest.Common;
 
-namespace Digst.OioIdws.Rest.Server.Issuing
+namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     public class TokenValidationResult
     {

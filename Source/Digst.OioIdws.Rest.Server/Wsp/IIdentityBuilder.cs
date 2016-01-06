@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Digst.OioIdws.Rest.Common;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 
-namespace Digst.OioIdws.Rest.Server
+namespace Digst.OioIdws.Rest.Server.Wsp
 {
     /// <summary>
     /// Identity Builder
