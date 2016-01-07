@@ -64,6 +64,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options);
             }))
             {
+                server.BaseAddress = new Uri("https://localhost/");
+
                 var response = await server.HttpClient.GetAsync($"/accesstoken?{accessTokenValue}");
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 Assert.AreEqual("application/json", response.Content.Headers.ContentType.MediaType);

@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval
             _logger = logger;
         }
 
-        public async Task RetrieveAsync(IOwinContext context)
+        public async Task RetrieveAsync(OioIdwsMatchEndpointContext context)
         {
             if (!context.Request.QueryString.HasValue)
             {
@@ -59,6 +59,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval
             {
                 serializer.Serialize(writer, token);
             }
+
+            context.RequestCompleted();
         }
     }
 }

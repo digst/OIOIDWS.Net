@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IdentityModel.Tokens;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval;
@@ -36,34 +38,64 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         {
             //todo: send challenge in the correct security callback..
 
-            //var cert = context.Get<X509Certificate2>("ssl.ClientCertificate");
-            //X509CertificateValidator.ChainTrust.Validate(cert);
+            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
+
+            if (cert != null)
+            {
+                try
+                {
+                    Options.CertificateValidator.Validate(cert);
+                }
+                catch (SecurityTokenValidationException ex)
+                {
+                    _logger.WriteError($"Validating client certificate with thumbprint '{cert.Thumbprint} failed", ex);
+                    return false;
+                }
+            }
+
+            if (!string.Equals(Request.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.WriteWarning("Authorization Server ignoring request because it's not https");
+                return false;
+            }
+
+            var matchRequestContext = new OioIdwsMatchEndpointContext(Context, Options)
+            {
+                ClientCertificate = cert
+            };
+
+            if (Context.Request.Path.Equals(Options.AccessTokenIssuerPath) && Context.Request.Method == "POST")
+            {
+                matchRequestContext.IsAccessTokenIssueEndpoint = true;
+            }
+
+            if (Context.Request.Path.Equals(Options.AccessTokenRetrievalPath) && Context.Request.Method == "GET")
+            {
+                matchRequestContext.IsAccessTokenRetrievalEndpoint = true;
+            }
 
             try
             {
-                //todo require SSL?
-                if (Context.Request.Path.Equals(Options.AccessTokenIssuerPath) && Context.Request.Method == "POST")
+                if (matchRequestContext.IsAccessTokenIssueEndpoint)
                 {
                     _logger.WriteVerbose("Invoking access token issuer");
-                    await _accessTokenIssuer.IssueAsync(Context, Options);
-                    return true;
+                    await _accessTokenIssuer.IssueAsync(matchRequestContext);
                 }
 
-                if (Context.Request.Path.Equals(Options.AccessTokenRetrievalPath) && Context.Request.Method == "GET")
+                if (matchRequestContext.IsAccessTokenRetrievalEndpoint)
                 {
                     //todo trust/validate WSP?
                     _logger.WriteVerbose("Invoking access token retrieval");
-                    await _accessTokenRetriever.RetrieveAsync(Context);
-                    return true;
+                    await _accessTokenRetriever.RetrieveAsync(matchRequestContext);
                 }
             }
             catch (Exception ex)
             {
                 _logger.WriteError("Unhandled exception", ex);
-                //todo: decide, return error response?
+                throw;
             }
 
-            return false;
+            return matchRequestContext.IsRequestCompleted;
         }
 
         protected override Task<AuthenticationTicket> AuthenticateCoreAsync()

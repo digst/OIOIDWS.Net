@@ -5,7 +5,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
     internal static class OwinContextExtensions
     {
-        public static void SetAuthenticationFailed(this IOwinContext context, string error, string errorDescription)
+        public static void SetAuthenticationFailed(this IOwinResponse response, string error, string errorDescription)
         {
             if (error == null)
             {
@@ -16,14 +16,14 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
                 throw new ArgumentNullException(nameof(errorDescription));
             }
 
-            context.Response.StatusCode = 401;
-            context.Response.OnSendingHeaders(ctx =>
+            response.StatusCode = 401;
+            response.OnSendingHeaders(rsp =>
             {
-                ((IOwinContext) ctx).Response.Headers.Add("WWW-Authenticate", new[]
+                ((IOwinResponse) rsp).Headers.Add("WWW-Authenticate", new[]
                 {
                     $@"Bearer error=""{error}"",error_description=""{errorDescription}""",
                 });
-            }, context);
+            }, response);
 
         }
     }

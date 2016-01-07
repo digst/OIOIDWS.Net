@@ -12,10 +12,15 @@ namespace Digst.OioIdws.Rest.Examples.Client
     {
         static void Main(string[] args)
         {
-            Go().GetAwaiter().GetResult();
+            char? c = null;
+            if (args.Length > 0)
+            {
+                c = args[0].First();
+            }
+            Go(c).GetAwaiter().GetResult();
         }
 
-        public static async Task Go()
+        public static async Task Go(char? option)
         {
             Console.WriteLine(
 @"Enter <1> to use seperate test servers for for AS and WSP.
@@ -26,15 +31,15 @@ Digst.OioIdws.Rest.Examples.WSP.exe
 Enter <2> to use the combined test server.
 Requires the following example application is running:
 Digst.OioIdws.Rest.Examples.ServerCombined.exe");
-            char c;
-            while (!new[] {'1', '2'}.Contains(c = Console.ReadKey().KeyChar))
+            
+            while (!new[] {'1', '2'}.Contains(option.GetValueOrDefault()))
             {
-                
+                option = Console.ReadKey().KeyChar;
             }
 
             string asEndpoint = "https://digst.oioidws.rest.as:10001/accesstoken/issue";
 
-            if (c == '2')
+            if (option == '2')
             {
                 asEndpoint = "https://digst.oioidws.rest.wsp:10002/accesstoken/issue";
             }
@@ -51,6 +56,7 @@ Digst.OioIdws.Rest.Examples.ServerCombined.exe");
                 {
                     Certificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"),
                     EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
+                    TokenLifeTime = TimeSpan.FromMinutes(5)
                 }
             };
 

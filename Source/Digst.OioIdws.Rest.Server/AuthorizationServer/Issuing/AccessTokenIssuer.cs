@@ -44,9 +44,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             _logger = logger;
         }
 
-        public async Task IssueAsync(
-            IOwinContext context, 
-            OioIdwsAuthorizationServiceOptions options)
+        public async Task IssueAsync(OioIdwsMatchEndpointContext context)
         {
             //todo: should we check Request content-type?
             var form = await context.Request.ReadFormAsync();
@@ -54,16 +52,17 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             
             if (string.IsNullOrEmpty(tokenValue))
             {
-                context.SetAuthenticationFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token was missing");
+                context.Response.SetAuthenticationFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token was missing");
+                context.RequestCompleted();
                 return;
             }
             
-            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, null, options); //todo get cert
+            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, null, context.Options); //todo get cert
 
             if (!samlTokenValidation.Success)
             {
                 _logger.WriteInformation($"Issuing token was denied - {samlTokenValidation.ErrorCode}: {samlTokenValidation.ErrorDescription}");
-                context.SetAuthenticationFailed(samlTokenValidation.ErrorCode, samlTokenValidation.ErrorDescription);
+                context.Response.SetAuthenticationFailed(samlTokenValidation.ErrorCode, samlTokenValidation.ErrorDescription);
                 return;
             }
 
@@ -71,7 +70,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 CertificateThumbprint = "", //todo get cert
                 Type = samlTokenValidation.AccessTokenType,
-                ValidUntilUtc = DateTime.UtcNow + options.AccessTokenExpiration, //todo add time skew?
+                ValidUntilUtc = DateTime.UtcNow + context.Options.AccessTokenExpiration, //todo add time skew?
                 Claims = samlTokenValidation.ClaimsIdentity.Claims.Select(x => new OioIdwsClaim
                 {
                     Type = x.Type,
@@ -83,13 +82,15 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 
             var accessToken = _accessTokenGenerator.GenerateAccesstoken();
             await _securityTokenStore.StoreTokenAsync(accessToken, storedToken);
-            await WriteAccessTokenAsync(context, accessToken, options.AccessTokenExpiration);
+            await WriteAccessTokenAsync(context.Response, accessToken, context.Options.AccessTokenExpiration);
             _logger.WriteInformation($"Token {accessToken} was issued");
+
+            context.RequestCompleted();
         }
 
-        private async Task WriteAccessTokenAsync(IOwinContext context, string accessToken, TimeSpan accessTokenExpiration)
+        private async Task WriteAccessTokenAsync(IOwinResponse response, string accessToken, TimeSpan accessTokenExpiration)
         {
-            context.Response.ContentType = "application/json; charset=UTF-8";
+            response.ContentType = "application/json; charset=UTF-8";
 
             //todo: type either bearer/holder-of-key
             var tokenObj = new JObject(
@@ -97,7 +98,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 new JProperty("token_type", "bearer"),
                 new JProperty("expires_in", (int) accessTokenExpiration.TotalSeconds));
 
-            await context.Response.WriteAsync(tokenObj.ToString());
+            await response.WriteAsync(tokenObj.ToString());
         }
     }
 }

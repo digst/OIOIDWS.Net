@@ -18,6 +18,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             AccessTokenGenerator = new AccessTokenGenerator();
             TokenValidator = new TokenValidator();
             ServiceTokenResolver = new X509CertificateStoreTokenResolver();
+            CertificateValidator = X509CertificateValidator.ChainTrust;
         }
 
         /// <summary>
@@ -44,6 +45,10 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// For storing security tokens. Default to <see cref="InMemorySecurityTokenStore"/> which should be sufficient when not running the AuthorizationService in a distributed fashion
         /// </summary>
         public ISecurityTokenStore SecurityTokenStore { get; set; }
+        /// <summary>
+        /// Used for validating client certificates
+        /// </summary>
+        public X509CertificateValidator CertificateValidator { get; set; }
         /// <summary>
         /// Never intended to be replaced. It's only here to allow for internal testing
         /// </summary>

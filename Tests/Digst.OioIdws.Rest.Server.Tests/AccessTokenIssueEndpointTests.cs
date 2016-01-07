@@ -69,6 +69,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 app.Use<OioIdwsAuthorizationServiceMiddleware>(app, options);
             }))
             { 
+                server.BaseAddress = new Uri("https://localhost/");
+
                 var response = await server.HttpClient.PostAsync("/accesstoken/issue",
                             new FormUrlEncodedContent(new[]
                             {new KeyValuePair<string, string>("saml-token", requestSamlToken),}));
@@ -131,6 +133,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 });
             }))
             {
+                server.BaseAddress = new Uri("https://localhost/");
+
                 var response = await server.CreateRequest("/accesstoken/issue").PostAsync();
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
