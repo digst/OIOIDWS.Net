@@ -70,7 +70,7 @@
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceHandler.cs" />
     <Compile Include="AuthorizationServer\TokenStorage\OioIdwsClaim.cs" />
     <Compile Include="AuthorizationServer\TokenStorage\OioIdwsToken.cs" />
-    <Compile Include="Wsp\TokenRetrievalMethod.cs" />
+    <Compile Include="Wsp\InMemoryTokenProvider.cs" />
     <Compile Include="AuthorizationServer\TokenRetrieval\AccessTokenRetriever.cs" />
     <Compile Include="AuthorizationServer\Issuing\ITokenValidator.cs" />
     <Compile Include="AuthorizationServer\Issuing\TokenValidator.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthorizationServer\TokenStorage\InMemorySecurityTokenStore.cs" />
-    <Compile Include="Wsp\TokenProvider.cs" />
+    <Compile Include="Wsp\RestTokenProvider.cs" />
     <Compile Include="Wsp\OioIdwsAuthenticationAppBuilderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

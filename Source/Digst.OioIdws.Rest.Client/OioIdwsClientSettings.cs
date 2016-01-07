@@ -10,7 +10,6 @@ namespace Digst.OioIdws.Rest.Client
         /// </summary>
         public X509Certificate2 ClientCertificate { get; set; }
         public Uri AudienceUri { get; set; }
-        // ReSharper disable once InconsistentNaming
         /// <summary>
         /// Settings for the Security Token Service
         /// </summary>
