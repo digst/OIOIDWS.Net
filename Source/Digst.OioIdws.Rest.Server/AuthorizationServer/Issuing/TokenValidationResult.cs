@@ -7,15 +7,13 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
     {
         public bool Success { get; set; }
         public AccessTokenType AccessTokenType { get; set; }
-        public string ErrorCode { get; set; }
         public string ErrorDescription { get; set; }
         public ClaimsIdentity ClaimsIdentity { get; set; }
 
-        public static TokenValidationResult Error(string errorCode, string errorDescription)
+        public static TokenValidationResult Error(string errorDescription)
         {
             return new TokenValidationResult
             {
-                ErrorCode = errorCode,
                 ErrorDescription = errorDescription,
                 Success = false,
             };

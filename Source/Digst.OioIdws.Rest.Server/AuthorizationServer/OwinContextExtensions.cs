@@ -19,10 +19,10 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             response.StatusCode = 401;
             response.OnSendingHeaders(rsp =>
             {
-                ((IOwinResponse) rsp).Headers.Add("WWW-Authenticate", new[]
-                {
-                    $@"Bearer error=""{error}"",error_description=""{errorDescription}""",
-                });
+                ((IOwinResponse) rsp).Headers.Set(
+                    "WWW-Authenticate", 
+                    $@"Bearer error=""{error}"",error_description=""{errorDescription}"""
+                );
             }, response);
 
         }

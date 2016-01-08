@@ -14,5 +14,11 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         public bool IsAccessTokenIssueEndpoint { get; set; }
         public bool IsAccessTokenRetrievalEndpoint { get; set; }
         public X509Certificate2 ClientCertificate { get; set; }
+
+        public void SetFailed(string errorCode, string errorDescription)
+        {
+            Response.SetAuthenticationFailed(errorCode, errorDescription);
+            RequestCompleted();
+        }
     }
 }

@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
-using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 
@@ -30,7 +29,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// </summary>
         public TimeSpan AccessTokenExpiration { get; set; }
         /// <summary>
-        /// Path on the server where user information is retrieved by serving it an access token. This is not required if the retrieval method <see cref="TokenRetrievalMethod.InMemory"/> is used in the <see cref="OioIdwsAuthenticationMiddleware"/>
+        /// Path on the server where user information is retrieved by serving it an access token. This is required if the <see cref="OioIdwsAuthenticationOptions.TokenProvider"/> is set to <see cref="RestTokenProvider"/> on the <see cref="OioIdwsAuthenticationMiddleware"/>
         /// </summary>
         public PathString AccessTokenRetrievalPath { get; set; }
         /// <summary>

@@ -35,9 +35,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         }
 
         public override async Task<bool> InvokeAsync()
-        {
-            //todo: send challenge in the correct security callback..
-
+        {   
             var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
 
             if (cert != null)
