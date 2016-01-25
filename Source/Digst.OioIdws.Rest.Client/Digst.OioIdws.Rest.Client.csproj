@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessToken.cs" />
+    <Compile Include="OioIdwsChallengeException.cs" />
     <Compile Include="OioIdwsClient.cs" />
     <Compile Include="OioIdwsClientSettings.cs" />
     <Compile Include="OioIdwsRequestHandler.cs" />
@@ -65,7 +66,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Digst.OioIdws.Rest.Client.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
+    <None Include="Release instructions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -31,6 +31,7 @@ namespace Digst.OioIdws.Rest.Examples.AS
                     new IssuerAudiences("2E7A061560FA2C5E141A634DC1767DACAEEC8D12", "test cert")
                         .Audience(new Uri("https://wsp.itcrew.dk")), 
                 }),
+                TrustedWspCertificateThumbprints = new[] { "dc35c0466ad606422adff717c9cb8e3274d8772e" },
             })
             .Use((ctx, next) =>
             {

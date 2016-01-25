@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
@@ -51,9 +54,10 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "No content type was specified");
                 return;
             }
+
             var ct = new System.Net.Mime.ContentType(context.Request.ContentType);
 
-            string validContentType = "application/x-www-form-urlencoded";
+            var validContentType = "application/x-www-form-urlencoded";
 
             if (!ct.MediaType.Equals(validContentType, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -62,30 +66,68 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             }
 
             var form = await context.Request.ReadFormAsync();
-            var tokenValue = form["saml-token"];
+            var tokenValueBase64 = form["saml-token"];
             
-            if (string.IsNullOrEmpty(tokenValue))
+            if (string.IsNullOrEmpty(tokenValueBase64))
             {
                 context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token was missing");
                 return;
             }
+
+            string tokenValue;
+
+            try
+            {
+                var bytes = Convert.FromBase64String(tokenValueBase64);
+                using (var stream = new MemoryStream(bytes))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        tokenValue = await reader.ReadToEndAsync();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token must be in base64");
+                return;
+            }
+
+            var clientCertificate = context.ClientCertificate();
             
-            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, context.ClientCertificate, context.Options);
+            _logger.WriteEntry(Log.StartingTokenValidation());
+            var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, clientCertificate, context.Options);
 
             if (!samlTokenValidation.Success)
             {
-                _logger.WriteInformation($"Issuing token was denied: {samlTokenValidation.ErrorDescription}");
+                _logger.WriteEntry(Log.IssuingTokenDenied(samlTokenValidation.ErrorDescription, samlTokenValidation.ValidationException));
                 context.SetFailed(AuthenticationErrorCodes.InvalidToken, samlTokenValidation.ErrorDescription);
                 return;
+            }
+
+            _logger.WriteEntry(Log.TokenValidationCompleted());
+
+            var expiresIn = context.Options.AccessTokenExpiration;
+
+            int requestedExpiration;
+            if (int.TryParse(form["should-expire-in"], out requestedExpiration))
+            {
+                var tmp = TimeSpan.FromSeconds(requestedExpiration);
+
+                if (tmp < expiresIn)
+                {
+                    //if the client wants a lower expiration, that's ok. Never to increase it.
+                    expiresIn = tmp;
+                }
             }
 
             var storedToken = new OioIdwsToken
             {
                 CertificateThumbprint = samlTokenValidation.AccessTokenType == AccessTokenType.HolderOfKey 
-                    ? context.ClientCertificate?.Thumbprint?.ToLowerInvariant()
+                    ? clientCertificate?.Thumbprint?.ToLowerInvariant()
                     : null,
                 Type = samlTokenValidation.AccessTokenType,
-                ValidUntilUtc = DateTime.UtcNow + context.Options.AccessTokenExpiration, //todo add time skew?
+                ExpiresUtc = context.Options.SystemClock.UtcNow + expiresIn, 
                 Claims = samlTokenValidation.ClaimsIdentity.Claims.Select(x => new OioIdwsClaim
                 {
                     Type = x.Type,
@@ -95,23 +137,35 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 }).ToList(),
             };
 
-            var accessToken = _accessTokenGenerator.GenerateAccesstoken();
-            await _securityTokenStore.StoreTokenAsync(accessToken, storedToken);
-            await WriteAccessTokenAsync(context.Response, accessToken, samlTokenValidation.AccessTokenType, context.Options.AccessTokenExpiration);
-            _logger.WriteInformation($"Token {accessToken} was issued");
+            var accessTokenValue = _accessTokenGenerator.GenerateAccesstoken();
+            _logger.WriteEntry(Log.NewAccessTokenValueGenerator(accessTokenValue));
+
+            await _securityTokenStore.StoreTokenAsync(accessTokenValue, storedToken);
+            _logger.WriteVerbose("Token information was committed to the Token Store");
+
+            //store the Expiry time directly in the protected access token, allowing the Authorization Server to quickly validate the token when asked to retrieve information
+            var properties = new AuthenticationProperties
+            {
+                ExpiresUtc = storedToken.ExpiresUtc
+            };
+            properties.Value(accessTokenValue);
+
+            var accessToken = context.Options.TokenDataFormat.Protect(properties);
+
+            await WriteAccessTokenAsync(context.Response, accessToken, samlTokenValidation.AccessTokenType, expiresIn);
+            _logger.WriteEntry(Log.TokenIssuedWithExpiration(accessToken, expiresIn));
 
             context.RequestCompleted();
         }
 
-        private async Task WriteAccessTokenAsync(IOwinResponse response, string accessToken, AccessTokenType accessTokenType, TimeSpan accessTokenExpiration)
+        private async Task WriteAccessTokenAsync(IOwinResponse response, string accessToken, AccessTokenType accessTokenType, TimeSpan expiresIn)
         {
             response.ContentType = "application/json; charset=UTF-8";
 
-            //todo: type either bearer/holder-of-key
             var tokenObj = new JObject(
                 new JProperty("access_token", accessToken),
-                new JProperty("token_type", accessTokenType == AccessTokenType.Bearer ? "bearer" : "holder-of-key"),
-                new JProperty("expires_in", (int) accessTokenExpiration.TotalSeconds));
+                new JProperty("token_type", AccessTokenTypeParser.ToString(accessTokenType)),
+                new JProperty("expires_in", (int) expiresIn.TotalSeconds));
 
             await response.WriteAsync(tokenObj.ToString());
         }

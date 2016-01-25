@@ -1,16 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json.Linq;
 using Owin;
+using Digst.OioIdws.Test.Common;
 
 namespace Digst.OioIdws.Rest.Server.Tests
 {
@@ -18,11 +23,14 @@ namespace Digst.OioIdws.Rest.Server.Tests
     public class AsWspInMemoryTests
     {
         [TestMethod]
-        public async Task CanUseInMemoryStore()
+        [TestCategory(Constants.UnitTest)]
+        public async Task Authenticates_UseInMemoryTokenStore_IsAuthorized()
         {
-            var accessToken = "token1";
+            var accessToken = "dummy";
+            var accessTokenValue = "token1";
             var token = new OioIdwsToken
             {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
                 Claims = new[]
                 {
                     new OioIdwsClaim
@@ -35,8 +43,17 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
             var storeMock = new Mock<ISecurityTokenStore>();
             storeMock
-                .Setup(x => x.RetrieveTokenAsync(accessToken))
+                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
                 .ReturnsAsync(token);
+
+            var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();
+            tokenDataFormatMock
+                .Setup(x => x.Unprotect(accessToken))
+                .Returns(new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                    Dictionary = {{"value", accessTokenValue}}
+                });
 
             using (var server = TestServer.Create(app =>
             {
@@ -46,7 +63,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     {
                         AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                         IssuerAudiences = () => Task.FromResult(new [] { new IssuerAudiences("", "")}),
-                        SecurityTokenStore = storeMock.Object
+                        SecurityTokenStore = storeMock.Object,
+                        TokenDataFormat = tokenDataFormatMock.Object,
                     })
                     .Use((context, next) =>
                     {
@@ -67,6 +85,86 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 var str = await response.Content.ReadAsStringAsync();
                 Assert.AreEqual("hans", str);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.UnitTest)]
+        public async Task Authenticates_TokenExpired_IsUnauthorized()
+        {
+            var accessToken = "dummy";
+            var accessTokenValue = "token1";
+            var token = new OioIdwsToken
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(-1),
+                Claims = new[]
+                {
+                    new OioIdwsClaim
+                    {
+                        Value = "hans",
+                        Type = "name"
+                    },
+                }
+            };
+
+            var storeMock = new Mock<ISecurityTokenStore>();
+            storeMock
+                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
+                .ReturnsAsync(token);
+
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(-1), 
+                Dictionary = {{"value", accessTokenValue}}
+            };
+
+            var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();
+            tokenDataFormatMock
+                .Setup(x => x.Unprotect(accessToken))
+                .Returns(authProperties);
+
+            using (var server = TestServer.Create(app =>
+            {
+                app
+                    .UseOioIdwsAuthentication(new OioIdwsAuthenticationOptions())
+                    .UseOioIdwsAuthorizationService(new OioIdwsAuthorizationServiceOptions
+                    {
+                        AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                        IssuerAudiences = () => Task.FromResult(new[] { new IssuerAudiences("", "") }),
+                        SecurityTokenStore = storeMock.Object,
+                        TokenDataFormat = tokenDataFormatMock.Object,
+                    })
+                    .Use((context, next) =>
+                    {
+                        if (context.Request.Path == new PathString("/wsp"))
+                        {
+                            context.Response.StatusCode = context.Request.User != null ? 200 : 401;
+                        }
+                        return Task.FromResult(0);
+                    });
+            }))
+            {
+                var client = server.HttpClient;
+                var authHeader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                {
+                    var response = await client.GetAsync("/wsp");
+                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                    var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                    Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                    Assert.AreEqual("Token was expired", errors["error_description"]);
+                }
+
+                {
+                    authProperties.ExpiresUtc = DateTimeOffset.Now.AddHours(1);
+
+                    var response = await client.GetAsync("/wsp");
+                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                    var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                    Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                    Assert.AreEqual("Token was expired", errors["error_description"]);
+                }
             }
         }
     }

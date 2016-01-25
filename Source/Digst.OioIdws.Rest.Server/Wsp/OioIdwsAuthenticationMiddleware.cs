@@ -30,14 +30,14 @@ namespace Digst.OioIdws.Rest.Server.Wsp
                 options.TokenProvider = new InMemoryTokenProvider();
             }
 
-            options.TokenProvider.Initialize(app, options);
-
             if (options.IdentityBuilder == null)
             {
                 options.IdentityBuilder = new IdentityBuilder();
             }
 
             _logger = app.CreateLogger<OioIdwsAuthenticationMiddleware>();
+
+            options.TokenProvider.Initialize(app, options, _logger);
         }
 
         protected override AuthenticationHandler<OioIdwsAuthenticationOptions> CreateHandler()

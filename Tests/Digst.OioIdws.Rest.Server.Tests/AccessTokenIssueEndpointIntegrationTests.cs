@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer;
-using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Test.Common;
 using Microsoft.Owin;
-using Microsoft.Owin.Testing;
+using Microsoft.Owin.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json.Linq;
-using Owin;
 
 namespace Digst.OioIdws.Rest.Server.Tests
 {
@@ -25,87 +34,303 @@ namespace Digst.OioIdws.Rest.Server.Tests
         public async Task IssueAccessTokenFromStsToken_ValidateSuccess_ReturnsCorrectly()
         {
             var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
-            var requestSamlToken = GetSamlTokenXml();
-
-            var tokenStore = new InMemorySecurityTokenStore();
-
-            var options = new OioIdwsAuthorizationServiceOptions
+            var issuerAudienceses = new[]
             {
-                AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
-                AccessTokenRetrievalPath = new PathString("/accesstoken"),
-                IssuerAudiences = () => Task.FromResult(new[]
-                {
-                    new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
-                        .Audience(new Uri("https://wsp.itcrew.dk")),
-                }),
-                SecurityTokenStore = tokenStore
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
             };
-            using (var server = TestServerWithClientCertificate.Create(clientCertificate, app =>
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, async (options, response) =>
             {
-                app.UseOioIdwsAuthorizationService(options);
-            }))
-            {
-                server.BaseAddress = new Uri("https://localhost/");
-
-                var response = await server.HttpClient.PostAsync("/accesstoken/issue",
-                            new FormUrlEncodedContent(new[]
-                            {new KeyValuePair<string, string>("saml-token", requestSamlToken)}));
-
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 var accessTokenJson = JObject.Parse(await response.Content.ReadAsStringAsync());
                 var accessToken = (string)accessTokenJson["access_token"];
 
-                var token = await tokenStore.RetrieveTokenAsync(accessToken);
+                var accessTokenValue = options.TokenDataFormat.Unprotect(accessToken).Dictionary["value"];
+                var token = await options.SecurityTokenStore.RetrieveTokenAsync(accessTokenValue);
 
                 Assert.IsNotNull(token);
                 Assert.AreEqual("34051178", token.Claims.Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
-            }
+            });
         }
 
         [TestMethod]
-        [TestCategory(Constants.UnitTest)]
+        [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_Success_ReturnsHolderOfKeyToken()
         {
             var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
-            var requestSamlToken = GetSamlTokenXml();
+            var issuerAudiences = new [] { new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                .Audience(new Uri("https://wsp.itcrew.dk"))};
 
-            var options = new OioIdwsAuthorizationServiceOptions
+            await PerformValidationTestAsync(clientCertificate, issuerAudiences, async (options, response) =>
             {
-                AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
-                AccessTokenRetrievalPath = new PathString("/accesstoken"),
-                IssuerAudiences = () => Task.FromResult(new[]
-                {
-                    new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
-                        .Audience(new Uri("https://wsp.itcrew.dk")),
-                }),
-            };
-            using (var server = TestServerWithClientCertificate.Create(clientCertificate, app =>
-            {
-                app.UseOioIdwsAuthorizationService(options);
-            }))
-            {
-                server.BaseAddress = new Uri("https://localhost/");
-
-                var response = await server.HttpClient.PostAsync("/accesstoken/issue",
-                            new FormUrlEncodedContent(new[]
-                            {new KeyValuePair<string, string>("saml-token", requestSamlToken),}));
-
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 Assert.IsNotNull(response.Content.Headers.ContentType);
                 Assert.AreEqual("UTF-8", response.Content.Headers.ContentType.CharSet);
                 Assert.AreEqual("application/json", response.Content.Headers.ContentType.MediaType);
                 var accessToken = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                var token = await options.SecurityTokenStore.RetrieveTokenAsync((string) accessToken["access_token"]);
+                var accessTokenValue = options.TokenDataFormat.Unprotect((string)accessToken["access_token"]).Value();
+
+                var token = await options.SecurityTokenStore.RetrieveTokenAsync(accessTokenValue);
                 Assert.IsNotNull(token);
                 Assert.AreEqual(clientCertificate.Thumbprint?.ToLowerInvariant(), token.CertificateThumbprint);
 
-                Assert.AreEqual("holder-of-key", accessToken["token_type"]);
+                Assert.AreEqual("Holder-of-key", accessToken["token_type"]);
                 Assert.AreEqual((int)options.AccessTokenExpiration.TotalSeconds, accessToken["expires_in"]);
-            }
+
+            });
         }
 
-        //todo: test that ensures correct holder-of-key certificate is used
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_IncorrectClientCertificate_ReturnsError()
+        {
+            //wrong certificate
+            var clientCertificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
+            var issuerAudienceses = new[]
+            {
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
+            };
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, (options, response) =>
+            {
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("X509Certificate used as SubjectConfirmationData did not match the provided client certificate", errors["error_description"]);
+                return Task.FromResult(0);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_WrongAudience_ReturnsError()
+        {
+            var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
+            var issuerAudienceses = new[]
+            {
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wrongAudience")),
+            };
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, (options, response) =>
+            {
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("Audience was not known", errors["error_description"]);
+                return Task.FromResult(0);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_WrongIssuingCertificate_ReturnsError()
+        {
+            var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
+            var issuerAudienceses = new[]
+            {
+                //wrong issuing cert
+                new IssuerAudiences("0919ed32cf8758a002b39c10352be7dcccf1222a", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
+            };
+
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, (options, response) =>
+            {
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("Issuer certificate '2E7A061560FA2C5E141A634DC1767DACAEEC8D12' was unknown", errors["error_description"]);
+                return Task.FromResult(0);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_ExpiredSecurityToken_ReturnsError()
+        {
+            var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
+            var issuerAudienceses = new[]
+            {
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
+            };
+
+            var samlToken = File.ReadAllText(@"Resources\ExpiredSecurityToken.xml");
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, (options, response) =>
+            {
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("The Token is expired", errors["error_description"]);
+                return Task.FromResult(0);
+            },
+            samlToken: () => samlToken);
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_ModifiedEncryptedSecurityToken_ReturnsError()
+        {
+            var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
+            var issuerAudienceses = new[]
+            {
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
+            };
+
+            var loggerMock = new Mock<ILogger>();
+
+            var loggerFactoryMock = new Mock<ILoggerFactory>();
+            loggerFactoryMock
+                .Setup(x => x.Create("Digst.OioIdws.Rest.Server.AuthorizationServer.OioIdwsAuthorizationServiceMiddleware"))
+                .Returns(() => loggerMock.Object);
+
+            var samlToken = GetSamlTokenXml();
+
+            var xml = XElement.Parse(samlToken);
+
+            var namespaceManager = new XmlNamespaceManager(new NameTable());
+            namespaceManager.AddNamespace("e", "http://www.w3.org/2001/04/xmlenc#");
+            var elm = xml.XPathSelectElement("//e:EncryptedKey/e:CipherData/e:CipherValue", namespaceManager);
+
+            elm.Value = "modified";
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, (options, response) =>
+            {
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("Token could not be parsed", errors["error_description"]);
+                return Task.FromResult(0);
+            },
+            samlToken: () => xml.ToString(),
+            setLogger: () => loggerFactoryMock.Object);
+
+            loggerMock.Verify(v => v.WriteCore(TraceEventType.Error, 103, 
+                It.Is<object>(x =>((IDictionary<string, object>)x)["ValidationError"].ToString() == "Token could not be parsed"), 
+                It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public async Task IssueAccessTokenFromStsToken_ModifiedUnencryptedSecurityToken_ReturnsError()
+        {
+            var clientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a");
+            var issuerAudienceses = new[]
+            {
+                new IssuerAudiences("2e7a061560fa2c5e141a634dc1767dacaeec8d12", "sts cert")
+                    .Audience(new Uri("https://wsp.itcrew.dk")),
+            };
+
+            var loggerMock = new Mock<ILogger>();
+
+            var loggerFactoryMock = new Mock<ILoggerFactory>();
+            loggerFactoryMock
+                .Setup(x => x.Create("Digst.OioIdws.Rest.Server.AuthorizationServer.OioIdwsAuthorizationServiceMiddleware"))
+                .Returns(() => loggerMock.Object);
+
+            var decryptedSamlToken = GetDecryptedSamlToken();
+
+            var xml = XElement.Parse(decryptedSamlToken);
+
+            var namespaceManager = new XmlNamespaceManager(new NameTable());
+            namespaceManager.AddNamespace("a", "urn:oasis:names:tc:SAML:2.0:assertion");
+            var elm = xml.XPathSelectElement("//a:Conditions", namespaceManager);
+            var attr = elm.Attribute("NotOnOrAfter");
+            attr.Value = DateTime.UtcNow.AddHours(1).ToString("O");
+
+            await PerformValidationTestAsync(clientCertificate, issuerAudienceses, async (options, response) =>
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
+                Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
+                Assert.AreEqual("Token could not be parsed", errors["error_description"]);
+                
+            },
+            samlToken: () => xml.ToString(),
+            setLogger: () => loggerFactoryMock.Object);
+
+            loggerMock.Verify(v => v.WriteCore(TraceEventType.Error, 103, 
+                It.Is<object>(x =>((IDictionary<string, object>)x)["ValidationError"].ToString() == "Token could not be parsed"),
+                It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
+        }
+
+        private string GetDecryptedSamlToken()
+        {
+            var encryptedSamlToken = GetSamlTokenXml();
+
+            var decryptedSamlToken = "";
+
+            using (var reader = new StringReader(encryptedSamlToken))
+            {
+                using (var xmlReader = XmlReader.Create(reader))
+                {
+                    var samlHandler = new Saml2SecurityTokenHandler
+                    {
+                        Configuration = new SecurityTokenHandlerConfiguration
+                        {
+                            ServiceTokenResolver = new X509CertificateStoreTokenResolver()
+                        }
+                    };
+
+                    var token = samlHandler.ReadToken(xmlReader);
+
+                    using (var writer = new StringWriter())
+                    {
+                        using (var xmlWriter = XmlWriter.Create(writer))
+                        {
+                            samlHandler.WriteToken(xmlWriter, token);
+                        }
+                        decryptedSamlToken = writer.GetStringBuilder().ToString();
+                    }
+                }
+            }
+            return decryptedSamlToken;
+        }
+
+        async Task PerformValidationTestAsync(
+            X509Certificate2 clientCertificate, 
+            IEnumerable<IssuerAudiences> issuerAudiences, 
+            Func<OioIdwsAuthorizationServiceOptions, HttpResponseMessage, Task> assert,
+            Func<string> samlToken = null,
+            Func<ILoggerFactory> setLogger = null)
+        {
+            var requestSamlToken = samlToken != null ? samlToken() : GetSamlTokenXml();
+
+            var options = new OioIdwsAuthorizationServiceOptions
+            {
+                AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
+                AccessTokenRetrievalPath = new PathString("/accesstoken"),
+                IssuerAudiences = () => Task.FromResult(issuerAudiences.ToArray()),
+                CertificateValidator = X509CertificateValidator.None //no reason for tests to require proper certificate validation
+            };
+
+            using (var server = TestServerWithClientCertificate.Create(() => clientCertificate, app =>
+            {
+                app.UseOioIdwsAuthorizationService(options);
+
+                if(setLogger != null)
+                {
+                    app.SetLoggerFactory(setLogger());
+                }
+            }))
+            {
+                server.BaseAddress = new Uri("https://localhost/");
+
+                var response = await server.HttpClient.PostAsync("/accesstoken/issue",
+                            new FormUrlEncodedContent(new[]
+                            {
+                                new KeyValuePair<string, string>("saml-token", Utils.ToBase64(requestSamlToken)),
+                            }));
+
+                await assert(options, response);
+            }
+        }
 
         private string GetSamlTokenXml()
         {

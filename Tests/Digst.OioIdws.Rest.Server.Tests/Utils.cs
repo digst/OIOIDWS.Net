@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Digst.OioIdws.Rest.AuthorizationService.Tests
+namespace Digst.OioIdws.Rest.Server.Tests
 {
     public static class Utils
     {
@@ -18,6 +14,18 @@ namespace Digst.OioIdws.Rest.AuthorizationService.Tests
                     writer.Write(str);
                 }
                 return Convert.ToBase64String(stream.ToArray());
+            }
+        }
+
+        public static string FromBase64(string str)
+        {
+            var bytes = Convert.FromBase64String(str);
+            using (var stream = new MemoryStream(bytes))
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
             }
         }
     }

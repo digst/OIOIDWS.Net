@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
+using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin;
+using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer
@@ -18,6 +21,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             TokenValidator = new TokenValidator();
             ServiceTokenResolver = new X509CertificateStoreTokenResolver();
             CertificateValidator = X509CertificateValidator.ChainTrust;
+            MaxClockSkew = TimeSpan.FromMinutes(5);
+            SystemClock = new SystemClock();
         }
 
         /// <summary>
@@ -56,5 +61,25 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// Never intended to be replaced. It's only here to allow for internal testing
         /// </summary>
         internal ITokenValidator TokenValidator { get; set; }
+        /// <summary>
+        /// Used during token validation (access token issuing) and when token information is accessed
+        /// </summary>
+        public TimeSpan MaxClockSkew { get; set; }
+        /// <summary>
+        /// The data format used to protect the information contained in the access token. 
+        /// If not provided by the application the default data protection provider depends on the host server. 
+        /// The SystemWeb host on IIS will use ASP.NET machine key data protection, and HttpListener and other self-hosted
+        /// servers will use DPAPI data protection.
+        /// </summary>
+        public ISecureDataFormat<AuthenticationProperties> TokenDataFormat { get; set; }
+        /// <summary>
+        /// When the <see cref="AccessTokenRetrievalPath"/> is used, the WSP must provide a client certificate from this trusted list
+        /// </summary>
+        public IEnumerable<string> TrustedWspCertificateThumbprints { get; set; }
+        /// <summary>
+        /// Used to know what the current clock time is when calculating or validating token expiration. When not assigned default is based on
+        /// DateTimeOffset.UtcNow. This is typically needed only for unit testing.
+        /// </summary>
+        public ISystemClock SystemClock { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace Digst.OioIdws.Rest.Client
 
         public bool IsValid()
         {
-            //todo: time skew?
             return (RetrievedAtUtc + ExpiresIn) > DateTime.UtcNow;
         }
     }

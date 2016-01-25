@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel.Security;
 using System.Threading.Tasks;
 using System.Xml;
 using Digst.OioIdws.Rest.Common;
@@ -17,12 +18,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 
         public async Task<TokenValidationResult> ValidateTokenAsync(string token, X509Certificate2 clientCertificate, OioIdwsAuthorizationServiceOptions options)
         {
-            //todo: decrypt token, test if it's an Assertion or EncryptedAssertion
-            //todo validate assertion was issued by STS
-            //todo validate signature value and digest
-            //todo validate assertion xml, is not expired
-            //todo validate AudienceRestriction identifies WSP
-            //todo: return proper error codes
             using (var reader = new StringReader(token))
             {
                 using (var xmlReader = XmlReader.Create(reader))
@@ -35,13 +30,22 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                         }
                     };
 
+
+                    Saml2SecurityToken securityToken;
+
                     //Parses the token, as well as decrypting it
-                    var securityToken = samlHandler.ReadToken(xmlReader) as Saml2SecurityToken;
-
-                    //var sb = new StringBuilder();
-                    //var writer = new XmlTextWriter(new StringWriter(sb));
-                    //samlHandler.WriteToken(writer, securityToken);
-
+                    try
+                    {
+                        securityToken = samlHandler.ReadToken(xmlReader) as Saml2SecurityToken;
+                    }
+                    catch (Exception ex)
+                    {
+                        //If it's an CryptographicException the token might have been tampered with, e.g. signature validation failed
+                        //If it's an EncryptedTokenDecryptionFailedException the handler could not locate the proper certificate via the specified ServiceTokenResolver
+                        //Finally it could be a host of miscellanious errors during parsing which should not happen under normal circumstances. Either way, the exception is passed on for logging
+                        return TokenValidationResult.Error("Token could not be parsed", ex);
+                    }
+                    
                     if (securityToken == null)
                     {
                         return TokenValidationResult.Error("Token could not be decrypted to a valid Saml2SecurityToken");
@@ -90,13 +94,15 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                         return TokenValidationResult.Error($"Issuer certificate '{issuerToken.Certificate.Thumbprint}' was unknown");
                     }
 
+                    samlHandler.Configuration.CertificateValidator = options.CertificateValidator;
+                    samlHandler.Configuration.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                    samlHandler.Configuration.MaxClockSkew = options.MaxClockSkew;
                     samlHandler.Configuration.IssuerNameRegistry = new SpecificIssuerNameRegistry(issuerAudience.IssuerThumbprint, issuerAudience.IssuerFriendlyName);
                     samlHandler.Configuration.AudienceRestriction = new AudienceRestriction();
                     issuerAudience.ToList().ForEach(a => samlHandler.Configuration.AudienceRestriction.AllowedAudienceUris.Add(a));
 
                     ClaimsIdentity identity;
 
-                    //todo handle exception
                     try
                     {
                         identity = samlHandler.ValidateToken(securityToken).First();
@@ -105,7 +111,16 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                     {
                         return TokenValidationResult.Error("Audience was not known");
                     }
-                    
+                    catch (SecurityTokenExpiredException)
+                    {
+                        return TokenValidationResult.Error("The Token is expired");
+                    }
+                    catch (SecurityTokenValidationException ex)
+                    {
+                        //This covers whatever else validation errors might happen, such as token not yet valid and replay attacks
+                        return TokenValidationResult.Error("The Token could not be validated", ex);
+                    }
+
                     return new TokenValidationResult
                     {
                         Success = true,

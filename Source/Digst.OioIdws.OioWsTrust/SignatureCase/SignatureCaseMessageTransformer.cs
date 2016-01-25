@@ -78,8 +78,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
         public const string Wst13Prefix = "wst";
 
         // Datetime formats
-        private const string WrongDateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
-        private const string CorrectDateTimeFormat = "yyyy-MM-ddTHH:mm:ssZ"; // Results in format 2015-01-14T14:50:24Z mandated by spec.
+        private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ssZ"; // Results in format 2015-01-14T14:50:24Z mandated by spec.
 
 
         public void ModifyMessageAccordingToStsNeeds(ref Message request, X509Certificate2 clientCertificate)
@@ -161,7 +160,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
                 // Expiry time is currently not on the format specified by the spec. The spec says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
                 // Verify life time of SOAP message
                 var messageExpireTimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires", namespaceManager);
-                var messageExpireZuluTime = DateTime.ParseExact(messageExpireTimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+                var messageExpireZuluTime = GetPatchedDateTime(messageExpireTimeElement.Value);
                 var currentZuluTime = DateTime.UtcNow;
                 if(currentZuluTime >= messageExpireZuluTime)
                     throw new InvalidOperationException("SOAP message has expired. Current Zulu time was: " + currentZuluTime + ", message Zulu expiry time was: " + messageExpireZuluTime);
@@ -169,16 +168,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
                 // Verify life time of RSTS
                 var rstsExpireTimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/wst:RequestSecurityTokenResponseCollection/wst:RequestSecurityTokenResponse/wst:Lifetime/wsu:Expires", namespaceManager);
 
-                DateTime rstsExpireZuluTime;
-                try
-                {
-                    rstsExpireZuluTime = DateTime.ParseExact(rstsExpireTimeElement.Value, CorrectDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-                }
-                catch (FormatException)
-                {
-                    //Due to incosistence in the date formats from the STS, we do a second parse attempt using the wrong format
-                    rstsExpireZuluTime = DateTime.ParseExact(rstsExpireTimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-                }
+                var rstsExpireZuluTime = GetPatchedDateTime(rstsExpireTimeElement.Value);
 
                 if (currentZuluTime >= rstsExpireZuluTime)
                     throw new InvalidOperationException("RSTS has expired. Current Zulu time was: " + currentZuluTime + ", RSTS Zulu expiry time was: " + rstsExpireZuluTime);
@@ -213,6 +203,22 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
                 response.Headers.UnderstoodHeaders.Add(
                     response.Headers.Single(x => "Security" == x.Name && Wsse10Namespace == x.Namespace));
             }
+        }
+
+        /// <summary>
+        /// NemLogin STS doesn't have a strict datetime format, therefore we patch it ourselves to remove variant millisecond component
+        /// </summary>
+        /// <param name="dateTimeString"></param>
+        /// <returns></returns>
+        static DateTime GetPatchedDateTime(string dateTimeString)
+        {
+            var index = dateTimeString.IndexOf(".", StringComparison.Ordinal);
+            if (index != -1)
+            {
+                dateTimeString = dateTimeString.Substring(0, index) + "Z";
+            }
+
+            return DateTime.ParseExact(dateTimeString, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
         }
 
         private static void RemoveOuterEnvelopeElementIfMessageIsASoapFault(ref XDocument xDocument, ref Message response)
@@ -304,7 +310,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             // Add Security element
             var createdElement = new XElement(XName.Get("Created", WsuNamespace));
             var currentTime = DateTime.UtcNow;
-            createdElement.Value = currentTime.ToString(CorrectDateTimeFormat, CultureInfo.InvariantCulture);
+            createdElement.Value = currentTime.ToString(DateTimeFormat, CultureInfo.InvariantCulture);
             var expiresElement = new XElement(XName.Get("Expires", WsuNamespace));
             expiresElement.Value = currentTime.AddMinutes(5).ToString("s") + "Z"; // Make request expire after 5 minutes.
             var timestampElement = new XElement(XName.Get("Timestamp", WsuNamespace));
@@ -351,9 +357,9 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             // Change lifetime expires format if present from "yyyy-MM-ddTHH:mm:ss.fffZ" to "yyyy-MM-ddTHH:mm:ssZ"
             var lifetimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/trust:Lifetime/wsu:Expires", namespaceManager);
             if (lifetimeElement != null)
-                lifetimeElement.Value =
-                    DateTime.ParseExact(lifetimeElement.Value, WrongDateTimeFormat, CultureInfo.InvariantCulture,
-                        DateTimeStyles.AdjustToUniversal).ToString(CorrectDateTimeFormat, CultureInfo.InvariantCulture);
+            {
+                lifetimeElement.Value = GetPatchedDateTime(lifetimeElement.Value).ToString(DateTimeFormat, CultureInfo.InvariantCulture); 
+            }
         }
 
         private static void ManipulateRstrBody(XDocument xDocument)

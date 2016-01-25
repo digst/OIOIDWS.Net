@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessTokenType.cs" />
+    <Compile Include="AccessTokenTypeParser.cs" />
     <Compile Include="AuthenticationErrorCodes.cs" />
     <Compile Include="HttpHeaderUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

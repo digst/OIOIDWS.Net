@@ -1,0 +1,9 @@
+﻿This describes how to create a new release for Digst.OioIdws.Rest.Server
+
+if you don't have nuget.exe, download it from: https://dist.nuget.org/index.html
+
+* Increment the version number of the assemblies in assemblyinfo.cs
+* Change the release note in the .nuspec file
+* Build the project in release mode
+* Pack the project: nuget pack Digst.OioIdws.Rest.Server.csproj -Symbols -Properties Configuration=Release
+* Push the package: nuget push 'package name'

@@ -5,7 +5,7 @@ namespace Digst.OioIdws.Rest.Common
 {
     public static class HttpHeaderUtils
     {
-        public static IDictionary<string, string> ParseBearerSchemeParameter(string parameters)
+        public static IDictionary<string, string> ParseOAuthSchemeParameter(string parameters)
         {
             return parameters
                 .Split(',')

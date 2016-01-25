@@ -53,24 +53,33 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationServer\AccessTokenExpiredException.cs" />
+    <Compile Include="AuthorizationServer\Issuing\AuthenticationPropertiesExtensions.cs" />
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceAppBuilderExtensions.cs" />
-    <Compile Include="AuthorizationServer\TokenStorage\OioIdwsToken.cs" />
+    <Compile Include="AuthorizationServer\OioIdwsMatchEndpointContext.cs" />
+    <Compile Include="LoggerExtensions.cs" />
+    <Compile Include="AuthorizationServer\Log.cs" />
+    <Compile Include="OioIdwsLogEntry.cs" />
     <Compile Include="Wsp\IdentityBuilder.cs" />
     <Compile Include="Wsp\IIdentityBuilder.cs" />
     <Compile Include="AuthorizationServer\IssuerAudiences.cs" />
     <Compile Include="AuthorizationServer\Issuing\AccessToken.cs" />
     <Compile Include="AuthorizationServer\Issuing\AccessTokenGenerator.cs" />
     <Compile Include="AuthorizationServer\Issuing\AccessTokenIssuer.cs" />
+    <Compile Include="Wsp\InMemoryTokenCache.cs" />
+    <Compile Include="Wsp\ITokenCache.cs" />
     <Compile Include="Wsp\ITokenProvider.cs" />
+    <Compile Include="Wsp\Log.cs" />
     <Compile Include="Wsp\OioIdwsAuthenticationHandler.cs" />
     <Compile Include="Wsp\OioIdwsAuthenticationMiddleware.cs" />
     <Compile Include="Wsp\OioIdwsAuthenticationOptions.cs" />
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceHandler.cs" />
     <Compile Include="AuthorizationServer\TokenStorage\OioIdwsClaim.cs" />
-    <Compile Include="AuthorizationServer\OioIdwsMatchEndpointContext.cs" />
+    <Compile Include="AuthorizationServer\TokenStorage\OioIdwsToken.cs" />
     <Compile Include="Wsp\InMemoryTokenProvider.cs" />
     <Compile Include="AuthorizationServer\TokenRetrieval\AccessTokenRetriever.cs" />
     <Compile Include="AuthorizationServer\Issuing\ITokenValidator.cs" />
@@ -85,8 +94,10 @@
     <Compile Include="AuthorizationServer\TokenStorage\InMemorySecurityTokenStore.cs" />
     <Compile Include="Wsp\RestTokenProvider.cs" />
     <Compile Include="Wsp\OioIdwsAuthenticationAppBuilderExtensions.cs" />
+    <Compile Include="Wsp\RetrieveTokenResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Digst.OioIdws.Rest.Server.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +105,10 @@
       <Project>{b367bf97-79f3-4bba-8a2f-9a21ffdf9950}</Project>
       <Name>Digst.OioIdws.Rest.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
+    <None Include="Release instructions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

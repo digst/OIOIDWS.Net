@@ -10,18 +10,14 @@ namespace Digst.OioIdws.Rest.Server.Tests
 {
     public class TestServerWithClientCertificate : TestServer
     {
-        private readonly X509Certificate2 _clientCertificate;
+        private readonly Func<X509Certificate2> _clientCertificate;
 
-        public TestServerWithClientCertificate(X509Certificate2 clientCertificate)
+        public TestServerWithClientCertificate(Func<X509Certificate2> clientCertificate)
         {
-            if (clientCertificate == null)
-            {
-                throw new ArgumentNullException(nameof(clientCertificate));
-            }
             _clientCertificate = clientCertificate;
         }
 
-        public static TestServerWithClientCertificate Create(X509Certificate2 clientCertificate, Action<IAppBuilder> startup)
+        public static TestServerWithClientCertificate Create(Func<X509Certificate2> clientCertificate, Action<IAppBuilder> startup)
         {
             var server = new TestServerWithClientCertificate(clientCertificate);
             server.Configure(startup);
@@ -31,7 +27,10 @@ namespace Digst.OioIdws.Rest.Server.Tests
         public new Task Invoke(IDictionary<string, object> environment)
         {
             //adds the client certificate to the OWIN request
-            environment["ssl.ClientCertificate"] = _clientCertificate;
+            if (_clientCertificate != null)
+            {
+                environment["ssl.ClientCertificate"] = _clientCertificate();
+            }
             return base.Invoke(environment);
         }
 

@@ -16,14 +16,14 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 
         public InMemorySecurityTokenStore()
         {
-            var timer = new Timer(Cleanup, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
+            var timer = new Timer(Cleanup, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
         
         private void Cleanup(object state)
         {
             foreach (var item in _store)
             {
-                if (item.Value.ValidUntilUtc < DateTime.UtcNow)
+                if (item.Value.ExpiresUtc < DateTimeOffset.UtcNow)
                 {
                     OioIdwsToken deletedValue;
                     _store.TryRemove(item.Key, out deletedValue);
@@ -55,12 +55,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
             OioIdwsToken oioIdwsToken;
             _store.TryGetValue(accessToken, out oioIdwsToken);
 
-            if (oioIdwsToken?.ValidUntilUtc > DateTime.UtcNow)
+            if (oioIdwsToken?.ExpiresUtc > DateTime.UtcNow)
             {
                 return Task.FromResult(oioIdwsToken);
             }
 
-            return null;
+            return Task.FromResult<OioIdwsToken>(null);
         }
     }
 }

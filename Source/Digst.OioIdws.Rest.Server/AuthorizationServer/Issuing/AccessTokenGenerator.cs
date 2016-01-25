@@ -22,8 +22,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         /// <returns></returns>
         public string GenerateAccesstoken()
         {
-            //todo: figure out how to sign the token
-
             //The random byte generates 256 possible values, that are split into 64 available characters, giving us 6 bits of entropy per character
             //20 charactes * 6 bits = 120 bits entropy
             var length = 20; 

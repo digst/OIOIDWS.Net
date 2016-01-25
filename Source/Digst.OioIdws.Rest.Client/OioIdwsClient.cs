@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -48,6 +46,12 @@ namespace Digst.OioIdws.Rest.Client
             }
         }
 
+        /// <summary>
+        /// Creates a handler that takes care of issuing tokens and renewing tokens when expiring. 
+        /// It can be used inside a HttpClient or similar that supports it.
+        /// The handler is not thread-safe, but you can create multiple instances
+        /// </summary>
+        /// <returns></returns>
         public HttpMessageHandler CreateMessageHandler()
         {
             return new OioIdwsRequestHandler(this);
@@ -76,46 +80,70 @@ namespace Digst.OioIdws.Rest.Client
                 throw new ArgumentNullException(nameof(securityToken));
             }
 
-            var sb = new StringBuilder();
+            string samlToken;
 
-            using (var writer = XmlWriter.Create(sb))
+            using (var stream = new MemoryStream())
             {
-                securityToken.TokenXml.WriteTo(writer);
+                using (var writer = XmlWriter.Create(stream))
+                {
+                    securityToken.TokenXml.WriteTo(writer);
+                }
+
+                samlToken = Convert.ToBase64String(stream.ToArray());
             }
 
-
-            //todo: Detect token type, only add client certificate if holder-of-key
             var requestHandler = new WebRequestHandler
             {
                 ClientCertificates = {Settings.ClientCertificate}
             };
 
+            var formFields = new Dictionary<string, string>
+            {
+                {"saml-token", samlToken}
+            };
+
+            if (Settings.DesiredAccessTokenExpiry.HasValue)
+            {
+                formFields["should-expire-in"] = ((int) Settings.DesiredAccessTokenExpiry.Value.TotalSeconds).ToString();
+            }
+
             var client = new HttpClient(requestHandler);
             var response = await client.PostAsync(
                 Settings.AccessTokenIssuerEndpoint, 
-                new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("saml-token", sb.ToString())
-                }),
+                new FormUrlEncodedContent(formFields),
                 cancellationToken);
 
-            //todo handle errors related to security token
-
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            if (!response.IsSuccessStatusCode)
             {
-                //todo handle www-auth header scheme?
-                //todo: proper handling of auth errors
-                var authHeader = response.Headers.WwwAuthenticate?.FirstOrDefault();
-                if (authHeader != null)
+                //just find the first valid authenticate header we recognize
+                var challenge = response.Headers.WwwAuthenticate
+                    .Select(x => new
+                    {
+                        Type = AccessTokenTypeParser.FromString(x.Scheme),
+                        x.Parameter
+                    })
+                    .FirstOrDefault(x => x.Type.HasValue);
+
+                if (challenge != null)
                 {
-                    throw new InvalidOperationException($"401 unauthorized: {authHeader.Parameter}");
+                    var parms = HttpHeaderUtils.ParseOAuthSchemeParameter(challenge.Parameter);
+                    throw new OioIdwsChallengeException(
+                        challenge.Type.Value,
+                        parms["error"],
+                        parms["error_description"],
+                        $@"Got unexpected challenge while issuing access token from '{Settings.AccessTokenIssuerEndpoint}'
+({response.StatusCode})': {parms["error"]} - {parms["error_description"]}");
                 }
+
+                throw new InvalidOperationException(
+                    $@"Got unexpected response while issuing access token from '{Settings.AccessTokenIssuerEndpoint}'
+{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
             }
 
-            var json = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
             var jsonValue = JObject.Parse(json);
 
-            return new AccessToken
+            var accessToken = new AccessToken
             {
                 Value = (string) jsonValue["access_token"],
                 ExpiresIn = TimeSpan.FromSeconds((int) jsonValue["expires_in"]),
@@ -123,16 +151,20 @@ namespace Digst.OioIdws.Rest.Client
                 Type = ParseAccessTokenType((string) jsonValue["token_type"]),
                 TypeString = (string) jsonValue["token_type"]
             };
+
+            return accessToken;
         }
 
-        private AccessTokenType ParseAccessTokenType(string type)
+        private AccessTokenType ParseAccessTokenType(string str)
         {
-            switch (type.ToLowerInvariant())
+            var type = AccessTokenTypeParser.FromString(str);
+
+            if (!type.HasValue)
             {
-                case "bearer": return AccessTokenType.Bearer;
-                case "holder-of-key": return AccessTokenType.HolderOfKey;
-                default: throw new InvalidOperationException($"Unknown access token type '{type}'");
+                throw new InvalidOperationException($"Unknown access token type '{str}'");
             }
+
+            return type.Value;
         }
     }
 }

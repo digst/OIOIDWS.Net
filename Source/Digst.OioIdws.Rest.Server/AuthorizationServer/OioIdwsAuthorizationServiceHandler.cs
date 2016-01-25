@@ -36,21 +36,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         public override async Task<bool> InvokeAsync()
         {   
-            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
-
-            if (cert != null)
-            {
-                try
-                {
-                    Options.CertificateValidator.Validate(cert);
-                }
-                catch (SecurityTokenValidationException ex)
-                {
-                    _logger.WriteError($"Validating client certificate with thumbprint '{cert.Thumbprint} failed", ex);
-                    return false;
-                }
-            }
-
             if (!string.Equals(Request.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
             {
                 _logger.WriteWarning("Authorization Server ignoring request because it's not https");
@@ -59,7 +44,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
             var matchRequestContext = new OioIdwsMatchEndpointContext(Context, Options)
             {
-                ClientCertificate = cert
+                ClientCertificate = () => GetValidatedClientCertificate()
             };
 
             if (Context.Request.Path.Equals(Options.AccessTokenIssuerPath) && Context.Request.Method == "POST")
@@ -76,14 +61,11 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             {
                 if (matchRequestContext.IsAccessTokenIssueEndpoint)
                 {
-                    _logger.WriteVerbose("Invoking access token issuer");
                     await _accessTokenIssuer.IssueAsync(matchRequestContext);
                 }
 
                 if (matchRequestContext.IsAccessTokenRetrievalEndpoint)
                 {
-                    //todo trust/validate WSP?
-                    _logger.WriteVerbose("Invoking access token retrieval");
                     await _accessTokenRetriever.RetrieveAsync(matchRequestContext);
                 }
             }
@@ -95,6 +77,26 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
             return matchRequestContext.IsRequestCompleted;
         }
+
+        private X509Certificate2 GetValidatedClientCertificate()
+        {
+            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
+
+            if (cert != null)
+            {
+                try
+                {
+                    Options.CertificateValidator.Validate(cert);
+                }
+                catch (SecurityTokenValidationException ex)
+                {
+                    _logger.WriteEntry(Log.ClientCertificateValdationFailed(cert.Thumbprint, ex));
+                    return null;
+                }
+            }
+
+            return cert;
+        } 
 
         protected override Task<AuthenticationTicket> AuthenticateCoreAsync()
         {

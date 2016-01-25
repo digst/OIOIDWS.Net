@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateUtil.cs" />
     <Compile Include="ConsoleLoggerFactory.cs" />
     <Compile Include="MyService.cs" />
     <Compile Include="Program.cs" />

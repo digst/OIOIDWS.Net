@@ -6,7 +6,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
 {
     public class OioIdwsToken
     {
-        public DateTime ValidUntilUtc { get; set; }
+        public DateTimeOffset ExpiresUtc { get; set; }
         public AccessTokenType Type { get; set; }
         public string CertificateThumbprint { get; set; }
         public ICollection<OioIdwsClaim> Claims { get; set; }

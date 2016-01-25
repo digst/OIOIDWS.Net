@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.Rest.Common;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Provider;
 
@@ -13,11 +15,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         public bool IsAccessTokenIssueEndpoint { get; set; }
         public bool IsAccessTokenRetrievalEndpoint { get; set; }
-        public X509Certificate2 ClientCertificate { get; set; }
+        public Func<X509Certificate2> ClientCertificate { get; set; }
 
         public void SetFailed(string errorCode, string errorDescription)
         {
-            Response.SetAuthenticationFailed(errorCode, errorDescription);
+            //Bearer scheme is default since in most cases we don't know which one it is due to decrypted assertion
+            Response.SetAuthenticationFailed(AccessTokenType.Bearer, errorCode, errorDescription);
             RequestCompleted();
         }
     }
