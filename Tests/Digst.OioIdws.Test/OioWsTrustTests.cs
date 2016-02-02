@@ -10,7 +10,7 @@ using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.Oioidws.Test
+namespace Digst.OioIdws.Test
 {
     [TestClass]
     public class OioWsTrustTests

@@ -8,7 +8,7 @@ using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
 
-namespace Digst.Oioidws.Test
+namespace Digst.OioIdws.Test
 {
     [TestClass]
     public class LibBasLongRunningTests

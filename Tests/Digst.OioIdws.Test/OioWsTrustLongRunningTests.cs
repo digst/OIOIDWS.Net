@@ -6,7 +6,7 @@ using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.Oioidws.Test
+namespace Digst.OioIdws.Test
 {
     /// <summary>
     /// This test suite is not working. Hence, the expiration time has not been tested.
