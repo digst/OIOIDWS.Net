@@ -43,11 +43,15 @@ In order to run the examples with production certificates ... the following prer
 The REST implementation builds upon the components of the SOAP implementation. A new library Digst.OioIdws.OioWsTrust has been introduced for sharing the code between SOAP and REST variants.
 
 It consists of three components, ditributed as Nuget packages:
-Digst.OioIdws.Rest.AuthorizationService - the AS that stores information from the security token and issues access tokens
-Digst.OioIdws.Rest.Authentication - the authentication middleware that logs the user into the WSP
-Digst.OioIdws.Rest.Client - client for handling communication between STS, AS and WSP
+Digst.OioIdws.Rest.Server 
+	- the AS that stores information from the security token and issues access tokens
+	- the authentication middleware that logs the user into the WSP
+Digst.OioIdws.Rest.Client
+	- client for handling communication between STS, AS and WSP
 
 -- Running the examples --
+Certificates from SOAP section must be isntalled.
+
 The following must be added to the hosts file
 
 127.0.0.1 digst.oioidws.rest.as

@@ -19,7 +19,7 @@ namespace Digst.OioIdws.Rest.Examples.AS
 
             public bool WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
             {
-                Console.WriteLine($"{_name} (requestid:{CallContext.LogicalGetData("correlationIdentifier")}): {eventType} - {formatter(state, exception)}");
+                Console.WriteLine($"{_name} (requestid:{CallContext.LogicalGetData("correlationIdentifier")}, source info:{CallContext.LogicalGetData("sourceInfo")}): {eventType} - {formatter(state, exception)}");
                 return true;
             }
         }

@@ -17,7 +17,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         public OioIdwsAuthorizationServiceOptions() : base("OioIdwsAuthorizationService")
         {
             AccessTokenExpiration = TimeSpan.FromSeconds(3600);
-            AccessTokenGenerator = new AccessTokenGenerator();
+            KeyGenerator = new KeyGenerator();
             TokenValidator = new TokenValidator();
             ServiceTokenResolver = new X509CertificateStoreTokenResolver();
             CertificateValidator = X509CertificateValidator.ChainTrust;
@@ -56,7 +56,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// <summary>
         /// Never intended to be replaced. It's only here to allow for internal testing
         /// </summary>
-        internal IAccessTokenGenerator AccessTokenGenerator { get; set; }
+        internal IKeyGenerator KeyGenerator { get; set; }
         /// <summary>
         /// Never intended to be replaced. It's only here to allow for internal testing
         /// </summary>

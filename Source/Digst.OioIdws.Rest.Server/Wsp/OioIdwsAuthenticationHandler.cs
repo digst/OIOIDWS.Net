@@ -38,7 +38,6 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
                     if (!requestAccessTokenType.HasValue)
                     {
-                        //StoreAuthenticationFailed(AuthenticationErrorCodes.InvalidRequest, "Unknown authentication scheme", AccessTokenType.Bearer);
                         _logger.WriteVerbose($"Ignoring unhandled authorization scheme '{authHeader.Scheme}'");
                         return null;
                     }
@@ -99,8 +98,10 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
             return null;
         }
+
         /// <summary>
-        /// AccessTokenType.Beare i default if not possible to determine
+        /// Stores authentication information for this request inside this handler instance. Handlers are created per request,
+        /// and if a challenge is found necessary, these values are used for generated proper challenge
         /// </summary>
         /// <param name="error"></param>
         /// <param name="errorDescription"></param>

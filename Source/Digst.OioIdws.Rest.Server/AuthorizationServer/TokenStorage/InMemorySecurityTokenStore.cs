@@ -31,29 +31,29 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage
             }
         }
 
-        public Task StoreTokenAsync(string accessToken, OioIdwsToken oioIdwsToken)
+        public Task StoreTokenAsync(string key, OioIdwsToken oioIdwsToken)
         {
             if (oioIdwsToken == null)
             {
                 throw new ArgumentNullException(nameof(oioIdwsToken));
             }
-            if (String.IsNullOrEmpty(accessToken))
+            if (String.IsNullOrEmpty(key))
             {
-                throw new ArgumentException("Argument is null or empty", nameof(accessToken));
+                throw new ArgumentException("Argument is null or empty", nameof(key));
             }
 
-            var alreadyAdded = !_store.TryAdd(accessToken, oioIdwsToken);
+            var alreadyAdded = !_store.TryAdd(key, oioIdwsToken);
             if (alreadyAdded)
             {
-                throw new InvalidOperationException($"The access token '{accessToken}' has already been stored and it's not allowed to rewrite stored access tokens");
+                throw new InvalidOperationException($"The access token '{key}' has already been stored and it's not allowed to rewrite stored access tokens");
             }
             return Task.FromResult(0);
         }
 
-        public Task<OioIdwsToken> RetrieveTokenAsync(string accessToken)
+        public Task<OioIdwsToken> RetrieveTokenAsync(string key)
         {
             OioIdwsToken oioIdwsToken;
-            _store.TryGetValue(accessToken, out oioIdwsToken);
+            _store.TryGetValue(key, out oioIdwsToken);
 
             if (oioIdwsToken?.ExpiresUtc > DateTime.UtcNow)
             {

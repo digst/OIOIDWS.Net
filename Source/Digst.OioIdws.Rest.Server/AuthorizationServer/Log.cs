@@ -30,10 +30,10 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             return new OioIdwsLogEntry(TraceEventType.Information, 104, "Token validation completed successfully");
         }
 
-        public static OioIdwsLogEntry NewAccessTokenValueGenerator(string accessTokenValue)
+        public static OioIdwsLogEntry NewUniqueKeyGenerated(string key)
         {
-            return new OioIdwsLogEntry(TraceEventType.Information, 105, "New access token value '{AccessTokenValue}' was generated")
-                .Property("AccessTokenValue", accessTokenValue);
+            return new OioIdwsLogEntry(TraceEventType.Information, 105, "New OioIdwsTokenKey '{OioIdwsTokenKey}' was generated")
+                .Property("OioIdwsTokenKey", key);
         }
 
         public static OioIdwsLogEntry TokenIssuedWithExpiration(string accessToken, TimeSpan expiresIn)

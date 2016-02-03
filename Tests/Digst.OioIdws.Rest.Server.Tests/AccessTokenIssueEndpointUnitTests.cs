@@ -32,12 +32,12 @@ namespace Digst.OioIdws.Rest.Server.Tests
             var requestSamlToken = Utils.ToBase64("accesstoken1");
             var accessToken = "dummy";
 
-            var accessTokenGeneratorMock = new Mock<IAccessTokenGenerator>();
+            var accessTokenGeneratorMock = new Mock<IKeyGenerator>();
             var tokenStoreMock = new Mock<ISecurityTokenStore>();
             var tokenValidatorMock = new Mock<ITokenValidator>();
 
             accessTokenGeneratorMock
-                .Setup(x => x.GenerateAccesstoken())
+                .Setup(x => x.GenerateUniqueKey())
                 .Returns(accessToken);
 
             tokenValidatorMock
@@ -57,7 +57,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
             {
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
-                AccessTokenGenerator = accessTokenGeneratorMock.Object,
+                KeyGenerator = accessTokenGeneratorMock.Object,
                 TokenValidator = tokenValidatorMock.Object,
                 IssuerAudiences = () => Task.FromResult(new []
                 {
@@ -87,7 +87,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 Assert.AreEqual((int)options.AccessTokenExpiration.TotalSeconds, accesssTokenFromResponse["expires_in"]);
             }
 
-            accessTokenGeneratorMock.Verify(x => x.GenerateAccesstoken(), Times.Once);
+            accessTokenGeneratorMock.Verify(x => x.GenerateUniqueKey(), Times.Once);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         [TestCategory(Constants.UnitTest)]
         public async Task IssueAccessToken_InvalidRequest_ReturnsUnauthorized()
         {
-            var accessTokenGeneratorMock = new Mock<IAccessTokenGenerator>();
+            var accessTokenGeneratorMock = new Mock<IKeyGenerator>();
             var tokenStoreMock = new Mock<ISecurityTokenStore>();
 
             using (var server = TestServer.Create(app =>
@@ -130,7 +130,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                     AccessTokenRetrievalPath = new PathString("/accesstoken"),
                     IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
-                    AccessTokenGenerator = accessTokenGeneratorMock.Object,
+                    KeyGenerator = accessTokenGeneratorMock.Object,
                     SecurityTokenStore = tokenStoreMock.Object,
                 });
             }))

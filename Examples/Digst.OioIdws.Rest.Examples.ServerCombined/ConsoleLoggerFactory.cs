@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Microsoft.Owin.Logging;
 
 namespace Digst.OioIdws.Rest.Examples.ServerCombined
@@ -18,7 +19,7 @@ namespace Digst.OioIdws.Rest.Examples.ServerCombined
 
             public bool WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
             {
-                Console.WriteLine($"{_name}: {eventType} - {formatter(state, exception)}");
+                Console.WriteLine($"{_name} (requestid:{CallContext.LogicalGetData("correlationIdentifier")}, source info:{CallContext.LogicalGetData("sourceInfo")}): {eventType} - {formatter(state, exception)}");
                 return true;
             }
         }

@@ -27,7 +27,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         public async Task Authenticates_UseInMemoryTokenStore_IsAuthorized()
         {
             var accessToken = "dummy";
-            var accessTokenValue = "token1";
+            var oioIdwsTokenKey = "token1";
             var token = new OioIdwsToken
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
@@ -43,7 +43,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
             var storeMock = new Mock<ISecurityTokenStore>();
             storeMock
-                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
+                .Setup(x => x.RetrieveTokenAsync(oioIdwsTokenKey))
                 .ReturnsAsync(token);
 
             var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();
@@ -52,7 +52,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 .Returns(new AuthenticationProperties
                 {
                     ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
-                    Dictionary = {{"value", accessTokenValue}}
+                    Dictionary = {{"value", oioIdwsTokenKey}}
                 });
 
             using (var server = TestServer.Create(app =>
@@ -93,7 +93,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         public async Task Authenticates_TokenExpired_IsUnauthorized()
         {
             var accessToken = "dummy";
-            var accessTokenValue = "token1";
+            var oioIdwsTokenKey = "token1";
             var token = new OioIdwsToken
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(-1),
@@ -109,13 +109,13 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
             var storeMock = new Mock<ISecurityTokenStore>();
             storeMock
-                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
+                .Setup(x => x.RetrieveTokenAsync(oioIdwsTokenKey))
                 .ReturnsAsync(token);
 
             var authProperties = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(-1), 
-                Dictionary = {{"value", accessTokenValue}}
+                Dictionary = {{"value", oioIdwsTokenKey}}
             };
 
             var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();

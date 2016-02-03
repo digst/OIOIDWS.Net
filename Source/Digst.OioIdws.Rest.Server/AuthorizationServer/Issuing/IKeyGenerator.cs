@@ -1,7 +1,7 @@
 ﻿namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
-    internal interface IAccessTokenGenerator
+    internal interface IKeyGenerator
     {
-        string GenerateAccesstoken();
+        string GenerateUniqueKey();
     }
 }

@@ -45,8 +45,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 var accessTokenJson = JObject.Parse(await response.Content.ReadAsStringAsync());
                 var accessToken = (string)accessTokenJson["access_token"];
 
-                var accessTokenValue = options.TokenDataFormat.Unprotect(accessToken).Dictionary["value"];
-                var token = await options.SecurityTokenStore.RetrieveTokenAsync(accessTokenValue);
+                var oioIdwsTokenKey = options.TokenDataFormat.Unprotect(accessToken).Dictionary["value"];
+                var token = await options.SecurityTokenStore.RetrieveTokenAsync(oioIdwsTokenKey);
 
                 Assert.IsNotNull(token);
                 Assert.AreEqual("34051178", token.Claims.Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
@@ -69,9 +69,9 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 Assert.AreEqual("application/json", response.Content.Headers.ContentType.MediaType);
                 var accessToken = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                var accessTokenValue = options.TokenDataFormat.Unprotect((string)accessToken["access_token"]).Value();
+                var oioIdwsTokenKey = options.TokenDataFormat.Unprotect((string)accessToken["access_token"]).Value();
 
-                var token = await options.SecurityTokenStore.RetrieveTokenAsync(accessTokenValue);
+                var token = await options.SecurityTokenStore.RetrieveTokenAsync(oioIdwsTokenKey);
                 Assert.IsNotNull(token);
                 Assert.AreEqual(clientCertificate.Thumbprint?.ToLowerInvariant(), token.CertificateThumbprint);
 

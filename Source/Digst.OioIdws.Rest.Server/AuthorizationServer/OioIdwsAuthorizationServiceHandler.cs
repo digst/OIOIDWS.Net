@@ -29,7 +29,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         protected override Task InitializeCoreAsync()
         {
-            _accessTokenIssuer = new AccessTokenIssuer(Options.AccessTokenGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
+            _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
             return Task.FromResult(0);
         }

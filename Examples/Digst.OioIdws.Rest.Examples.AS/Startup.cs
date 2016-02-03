@@ -16,10 +16,12 @@ namespace Digst.OioIdws.Rest.Examples.AS
 
             app.Use(async (ctx, next) =>
             {
-                //For correlating logs
-                CallContext.LogicalSetData("correlationIdentifier", ctx.Environment["owin.RequestId"]);
+                //Example for correlating logs, track source address
+                CallContext.LogicalSetData("callContext", ctx.Environment["owin.RequestId"]);
+                CallContext.LogicalSetData("sourceInfo", $"{ctx.Request.RemoteIpAddress}:{ctx.Request.RemotePort}");
                 await next();
-                CallContext.LogicalSetData("correlationIdentifier", null);
+                CallContext.FreeNamedDataSlot("callContext");
+                CallContext.FreeNamedDataSlot("sourceInfo");
             })
             .UseErrorPage()
             .UseOioIdwsAuthorizationService(new OioIdwsAuthorizationServiceOptions

@@ -14,20 +14,20 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 {
     internal class AccessTokenIssuer
     {
-        private readonly IAccessTokenGenerator _accessTokenGenerator;
+        private readonly IKeyGenerator _keyGenerator;
         private readonly ISecurityTokenStore _securityTokenStore;
         private readonly ITokenValidator _tokenValidator;
         private readonly ILogger _logger;
 
         public AccessTokenIssuer(
-            IAccessTokenGenerator accessTokenGenerator, 
+            IKeyGenerator keyGenerator, 
             ISecurityTokenStore securityTokenStore, 
             ITokenValidator tokenValidator, 
             ILogger logger)
         {
-            if (accessTokenGenerator == null)
+            if (keyGenerator == null)
             {
-                throw new ArgumentNullException(nameof(accessTokenGenerator));
+                throw new ArgumentNullException(nameof(keyGenerator));
             }
             if (securityTokenStore == null)
             {
@@ -41,7 +41,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 throw new ArgumentNullException(nameof(logger));
             }
-            _accessTokenGenerator = accessTokenGenerator;
+            _keyGenerator = keyGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
             _logger = logger;
@@ -51,7 +51,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         {
             if (string.IsNullOrEmpty(context.Request.ContentType))
             {
-                context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "No content type was specified");
+                SetInvalidRequest(context, "No content type was specified");
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
 
             if (!ct.MediaType.Equals(validContentType, StringComparison.InvariantCultureIgnoreCase))
             {
-                context.SetFailed(AuthenticationErrorCodes.InvalidRequest, $"Content type '{validContentType}' is required.");
+                SetInvalidRequest(context, $"Content type '{validContentType}' is required.");
                 return;
             }
 
@@ -70,7 +70,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             
             if (string.IsNullOrEmpty(tokenValueBase64))
             {
-                context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token was missing");
+                SetInvalidRequest(context, "saml-token was missing");
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             }
             catch (Exception)
             {
-                context.SetFailed(AuthenticationErrorCodes.InvalidRequest, "saml-token must be in base64");
+                SetInvalidRequest(context, "saml-token must be in base64");
                 return;
             }
 
@@ -101,7 +101,10 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             if (!samlTokenValidation.Success)
             {
                 _logger.WriteEntry(Log.IssuingTokenDenied(samlTokenValidation.ErrorDescription, samlTokenValidation.ValidationException));
-                context.SetFailed(AuthenticationErrorCodes.InvalidToken, samlTokenValidation.ErrorDescription);
+                
+                // Scheme is mandatory and Holder-Of-Key is currently the only supportede scheme at NemLog-in STS. Hence, we specify Holder-Of-Key.
+                context.Response.SetAuthenticationFailed(AccessTokenType.HolderOfKey, AuthenticationErrorCodes.InvalidToken, samlTokenValidation.ErrorDescription);
+                context.RequestCompleted();
                 return;
             }
 
@@ -137,10 +140,20 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 }).ToList(),
             };
 
-            var accessTokenValue = _accessTokenGenerator.GenerateAccesstoken();
-            _logger.WriteEntry(Log.NewAccessTokenValueGenerator(accessTokenValue));
+            var accessToken = await GenerateAccessTokenAsync(context, storedToken);
 
-            await _securityTokenStore.StoreTokenAsync(accessTokenValue, storedToken);
+            await WriteAccessTokenAsync(context.Response, accessToken, samlTokenValidation.AccessTokenType, expiresIn);
+            _logger.WriteEntry(Log.TokenIssuedWithExpiration(accessToken, expiresIn));
+
+            context.RequestCompleted();
+        }
+
+        private async Task<string> GenerateAccessTokenAsync(OioIdwsMatchEndpointContext context, OioIdwsToken storedToken)
+        {
+            var uniqueKey = _keyGenerator.GenerateUniqueKey();
+            _logger.WriteEntry(Log.NewUniqueKeyGenerated(uniqueKey));
+
+            await _securityTokenStore.StoreTokenAsync(uniqueKey, storedToken);
             _logger.WriteVerbose("Token information was committed to the Token Store");
 
             //store the Expiry time directly in the protected access token, allowing the Authorization Server to quickly validate the token when asked to retrieve information
@@ -148,13 +161,15 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 ExpiresUtc = storedToken.ExpiresUtc
             };
-            properties.Value(accessTokenValue);
+            properties.Value(uniqueKey);
 
             var accessToken = context.Options.TokenDataFormat.Protect(properties);
+            return accessToken;
+        }
 
-            await WriteAccessTokenAsync(context.Response, accessToken, samlTokenValidation.AccessTokenType, expiresIn);
-            _logger.WriteEntry(Log.TokenIssuedWithExpiration(accessToken, expiresIn));
-
+        private void SetInvalidRequest(OioIdwsMatchEndpointContext context, string message)
+        {
+            _logger.WriteWarning($"Returned invalid request: {message}");
             context.RequestCompleted();
         }
 

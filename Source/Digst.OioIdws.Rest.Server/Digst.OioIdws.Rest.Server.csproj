@@ -68,7 +68,7 @@
     <Compile Include="Wsp\IIdentityBuilder.cs" />
     <Compile Include="AuthorizationServer\IssuerAudiences.cs" />
     <Compile Include="AuthorizationServer\Issuing\AccessToken.cs" />
-    <Compile Include="AuthorizationServer\Issuing\AccessTokenGenerator.cs" />
+    <Compile Include="AuthorizationServer\Issuing\KeyGenerator.cs" />
     <Compile Include="AuthorizationServer\Issuing\AccessTokenIssuer.cs" />
     <Compile Include="Wsp\InMemoryTokenCache.cs" />
     <Compile Include="Wsp\ITokenCache.cs" />
@@ -86,7 +86,7 @@
     <Compile Include="AuthorizationServer\Issuing\TokenValidator.cs" />
     <Compile Include="AuthorizationServer\Issuing\TokenValidationResult.cs" />
     <Compile Include="AuthorizationServer\OwinContextExtensions.cs" />
-    <Compile Include="AuthorizationServer\Issuing\IAccessTokenGenerator.cs" />
+    <Compile Include="AuthorizationServer\Issuing\IKeyGenerator.cs" />
     <Compile Include="AuthorizationServer\TokenStorage\ISecurityTokenStore.cs" />
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceMiddleware.cs" />
     <Compile Include="AuthorizationServer\OioIdwsAuthorizationServiceOptions.cs" />

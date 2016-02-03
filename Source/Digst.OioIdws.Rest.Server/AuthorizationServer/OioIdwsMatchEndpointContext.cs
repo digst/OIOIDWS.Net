@@ -16,12 +16,5 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         public bool IsAccessTokenIssueEndpoint { get; set; }
         public bool IsAccessTokenRetrievalEndpoint { get; set; }
         public Func<X509Certificate2> ClientCertificate { get; set; }
-
-        public void SetFailed(string errorCode, string errorDescription)
-        {
-            //Bearer scheme is default since in most cases we don't know which one it is due to decrypted assertion
-            Response.SetAuthenticationFailed(AccessTokenType.Bearer, errorCode, errorDescription);
-            RequestCompleted();
-        }
     }
 }

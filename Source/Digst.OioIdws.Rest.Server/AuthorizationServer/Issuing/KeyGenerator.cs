@@ -5,7 +5,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
     /// <summary>
     /// Inspired by http://stackoverflow.com/questions/19298801/generating-random-string-using-rngcryptoserviceprovider
     /// </summary>
-    internal class AccessTokenGenerator : IAccessTokenGenerator
+    internal class KeyGenerator : IKeyGenerator
     {
         private static readonly char[] AvailableCharacters =
         {
@@ -20,7 +20,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         /// Generates a token with at least 64 bits of entropy
         /// </summary>
         /// <returns></returns>
-        public string GenerateAccesstoken()
+        public string GenerateUniqueKey()
         {
             //The random byte generates 256 possible values, that are split into 64 available characters, giving us 6 bits of entropy per character
             //20 charactes * 6 bits = 120 bits entropy

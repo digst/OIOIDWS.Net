@@ -29,7 +29,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
             var wspCertificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
 
             var accessToken = "dummy";
-            var accessTokenValue = "accesstoken1";
+            var oioIdwsTokenKey = "accesstoken1";
             var token = new OioIdwsToken
             {
                 Type = AccessTokenType.Bearer,
@@ -55,7 +55,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
             var tokenStoreMock = new Mock<ISecurityTokenStore>();
             tokenStoreMock
-                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
+                .Setup(x => x.RetrieveTokenAsync(oioIdwsTokenKey))
                 .ReturnsAsync(token);
 
             var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();
@@ -64,7 +64,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 .Returns(new AuthenticationProperties
                 {
                     ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
-                    Dictionary = { { "value", accessTokenValue } }
+                    Dictionary = { { "value", oioIdwsTokenKey } }
                 });
 
             var options = new OioIdwsAuthorizationServiceOptions
@@ -138,13 +138,13 @@ namespace Digst.OioIdws.Rest.Server.Tests
             var wspCertificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
 
             var accessToken = "accessToken1";
-            var accessTokenValue = "tokenValue1";
+            var oioIdwsTokenKey = "tokenValue1";
 
             var tokenInformation = new OioIdwsToken();
 
             var authProperties = new AuthenticationProperties
             {
-                Dictionary = { {"value", accessTokenValue} }
+                Dictionary = { {"value", oioIdwsTokenKey} }
             };
 
             var tokenDataFormatMock = new Mock<ISecureDataFormat<AuthenticationProperties>>();
@@ -162,7 +162,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
             var storeMock = new Mock<ISecurityTokenStore>();
             storeMock
-                .Setup(x => x.RetrieveTokenAsync(accessTokenValue))
+                .Setup(x => x.RetrieveTokenAsync(oioIdwsTokenKey))
                 .Returns(() => Task.FromResult(tokenInformation));
 
             var options = new OioIdwsAuthorizationServiceOptions
