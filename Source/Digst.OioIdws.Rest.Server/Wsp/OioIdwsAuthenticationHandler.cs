@@ -66,7 +66,7 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
                             if (cert?.Thumbprint == null || !cert.Thumbprint.Equals(token.CertificateThumbprint, StringComparison.OrdinalIgnoreCase))
                             {
-                                StoreAuthenticationFailed(AuthenticationErrorCodes.InvalidToken, "A valid certificate must be presented when presenting a holder-of-key token", requestAccessTokenType.Value);
+                                StoreAuthenticationFailed(AuthenticationErrorCodes.InvalidToken, "A valid certificate must be presented when presenting a Holder-of-key token", requestAccessTokenType.Value);
                                 _logger.WriteEntry(Log.HolderOfKeyNoCertificatePresented(accessToken, cert?.Thumbprint));
                                 return null;
                             }

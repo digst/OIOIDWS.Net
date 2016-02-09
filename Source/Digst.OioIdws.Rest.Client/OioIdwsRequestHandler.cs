@@ -29,7 +29,7 @@ namespace Digst.OioIdws.Rest.Client
 
             _client = client;
 
-            //We can't know in advance whether it's a bearer/holder-of-key token we're going to work with. Either way we just add the certificate to the request, if given
+            //We can't know in advance whether it's a Bearer/Holder-of-key token we're going to work with. Either way we just add the certificate to the request, if given
             if (client.Settings.ClientCertificate != null)
             {
                 ClientCertificates.Add(client.Settings.ClientCertificate);
@@ -60,7 +60,7 @@ namespace Digst.OioIdws.Rest.Client
         private async Task<HttpResponseMessage> SendAuthenticatedRequest(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             await EnsureValidAccessTokenAsync(cancellationToken);
-            request.Headers.Authorization = new AuthenticationHeaderValue(_accessToken.TypeString, _accessToken.Value);
+            request.Headers.Authorization = new AuthenticationHeaderValue(AccessTokenTypeParser.ToString(_accessToken.Type), _accessToken.Value);
             return await base.SendAsync(request, cancellationToken);
         }
 

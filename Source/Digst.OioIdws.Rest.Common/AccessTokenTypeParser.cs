@@ -6,12 +6,12 @@ namespace Digst.OioIdws.Rest.Common
     {
         public static AccessTokenType? FromString(string str)
         {
-            if ("bearer".Equals(str, StringComparison.OrdinalIgnoreCase))
+            if ("Bearer".Equals(str, StringComparison.OrdinalIgnoreCase))
             {
                 return AccessTokenType.Bearer;
             }
 
-            if ("holder-of-key".Equals(str, StringComparison.OrdinalIgnoreCase))
+            if ("Holder-of-key".Equals(str, StringComparison.OrdinalIgnoreCase))
             {
                 return AccessTokenType.HolderOfKey;
             }

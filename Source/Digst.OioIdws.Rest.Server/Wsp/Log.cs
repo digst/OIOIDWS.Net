@@ -24,7 +24,7 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
         public static OioIdwsLogEntry HolderOfKeyNoCertificatePresented(string accessToken, string thumbprint)
         {
-            return new OioIdwsLogEntry(TraceEventType.Error, 204, "Token '{AccessToken}' was a holder-of-key but no valid certificate was presented (certificate thumbprint: {CertificateThumbprint})")
+            return new OioIdwsLogEntry(TraceEventType.Error, 204, "Token '{AccessToken}' was a Holder-of-key but no valid certificate was presented (certificate thumbprint: {CertificateThumbprint})")
                 .Property("AccessToken", accessToken)
                 .Property("CertificateThumbprint", thumbprint);
         }

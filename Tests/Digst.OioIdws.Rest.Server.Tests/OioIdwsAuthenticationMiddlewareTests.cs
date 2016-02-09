@@ -125,7 +125,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
                     var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
                     Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
-                    Assert.AreEqual("A valid certificate must be presented when presenting a holder-of-key token", errors["error_description"]);
+                    Assert.AreEqual("A valid certificate must be presented when presenting a Holder-of-key token", errors["error_description"]);
                     return Task.FromResult(0);
                 },
                 tokenFunc: () => new OioIdwsToken { Type = AccessTokenType.HolderOfKey, CertificateThumbprint = "correct cert thumbprint" },
@@ -137,7 +137,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         public async Task Authenticate_CorrectHolderOfKeyCertificate_BuildsPrincipal()
         {
             await ProcessAuthenticateAsync(
-                "holder-of-key",
+                "Holder-of-key",
                 (context, next) =>
                 {
                     //this service requires auth, therefore denies if nu user

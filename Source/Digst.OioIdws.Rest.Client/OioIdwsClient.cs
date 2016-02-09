@@ -148,8 +148,7 @@ namespace Digst.OioIdws.Rest.Client
                 Value = (string) jsonValue["access_token"],
                 ExpiresIn = TimeSpan.FromSeconds((int) jsonValue["expires_in"]),
                 RetrievedAtUtc = DateTime.UtcNow,
-                Type = ParseAccessTokenType((string) jsonValue["token_type"]),
-                TypeString = (string) jsonValue["token_type"]
+                Type = ParseAccessTokenType((string) jsonValue["token_type"])
             };
 
             return accessToken;
