@@ -118,7 +118,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
         [TestMethod]
         [TestCategory(Constants.UnitTest)]
-        public async Task IssueAccessToken_InvalidRequest_ReturnsUnauthorized()
+        public async Task IssueAccessToken_InvalidRequest_ReturnsBadRequest()
         {
             var accessTokenGeneratorMock = new Mock<IKeyGenerator>();
             var tokenStoreMock = new Mock<ISecurityTokenStore>();
@@ -140,7 +140,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 var response = await server.CreateRequest("/accesstoken/issue").PostAsync();
                 Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 
-                var authHeader = response.Headers.WwwAuthenticate.Single(x => x.Scheme == "Bearer");
+                var authHeader = response.Headers.WwwAuthenticate.Single(x => x.Scheme == "Holder-of-key");
                 var bearerParameters = HttpHeaderUtils.ParseOAuthSchemeParameter(authHeader.Parameter);
                 Assert.AreEqual(AuthenticationErrorCodes.InvalidRequest, bearerParameters["error"]);
             }

@@ -170,6 +170,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         private void SetInvalidRequest(OioIdwsMatchEndpointContext context, string message)
         {
             _logger.WriteWarning($"Returned invalid request: {message}");
+            // Scheme is mandatory and Holder-Of-Key is currently the only supportede scheme at NemLog-in STS. Hence, we specify Holder-Of-Key.
+            context.Response.SetAuthenticationFailed(AccessTokenType.HolderOfKey, AuthenticationErrorCodes.InvalidRequest, message);
             context.RequestCompleted();
         }
 
