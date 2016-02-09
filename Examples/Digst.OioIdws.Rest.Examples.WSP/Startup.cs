@@ -15,10 +15,10 @@ namespace Digst.OioIdws.Rest.Examples.WSP
             app.Use(async (ctx, next) =>
             {
                 //Example for correlating logs, track source address
-                CallContext.LogicalSetData("callContext", ctx.Environment["owin.RequestId"]);
+                CallContext.LogicalSetData("correlationIdentifier", ctx.Environment["owin.RequestId"]);
                 CallContext.LogicalSetData("sourceInfo", $"{ctx.Request.RemoteIpAddress}:{ctx.Request.RemotePort}");
                 await next();
-                CallContext.FreeNamedDataSlot("callContext");
+                CallContext.FreeNamedDataSlot("correlationIdentifier");
                 CallContext.FreeNamedDataSlot("sourceInfo");
             })
             .UseErrorPage()
