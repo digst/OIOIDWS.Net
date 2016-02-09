@@ -1,9 +1,8 @@
-﻿NOTE: This is a pre-release where all required security checks and error handling is not fully completed, although it is feature-complete for testing.
-
-Quick start:
+﻿Quick start:
 You can use this package to configure either the AS, WSP or both by configuring it into a OWIN pipeline.
 Dependendent on your requirements the AS and WSP can either run in the same OWIN pipeline sharing internal data structures or in seperate distributed applications using RESTful communication between them.
-The example below shows the simplest possible configuration using in-memory data structures
+The example below shows the simplest possible configuration using in-memory data structures.
+Note: OWIN middlewares typically make no assumptions on how you store your configuration. It's advised that you don't hardcode configuration settings, but store them in .NET configuration, database, or whatever suits you.
 
 	public void Configuration(IAppBuilder app)
         {
@@ -61,11 +60,7 @@ Logging:
 Logging uses OWIN standard logging interface. For configuring the OWIN logger factory see the example in Digst.OioIdws.Rest.Examples.ServerCombined
 The middlewares expect the consumer to correlate logs across requests. One example of how to do this can found in Digst.OioIdws.Rest.Examples.ServerCombined as well.
 
-Replay attack:
-TODO
-
-Test:
-TODO
+Replay attack is only handled in the AS implementation in a single server setup during issuing an access token. Replay attack is not handled in the WSP.
 
 Examples:
 Please checkout the complete OIOIDWS.Net reference implementation at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a couple of example projects that shows how you can run the AS and WSP in the OWIN pipeline:
