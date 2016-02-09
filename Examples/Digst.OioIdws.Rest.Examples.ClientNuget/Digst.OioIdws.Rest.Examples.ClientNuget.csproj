@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Digst.OioIdws.Rest.Examples.ClientNuget</RootNamespace>
     <AssemblyName>Digst.OioIdws.Rest.Examples.ClientNuget</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,19 +35,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0-alpha2\lib\net45\Digst.OioIdws.Common.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.OioWsTrust, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0-alpha2\lib\net45\Digst.OioIdws.OioWsTrust.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0\lib\net45\Digst.OioIdws.OioWsTrust.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.Rest.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0-alpha2\lib\net45\Digst.OioIdws.Rest.Client.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0\lib\net45\Digst.OioIdws.Rest.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.Rest.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0-alpha2\lib\net45\Digst.OioIdws.Rest.Common.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Rest.Client.1.0.0\lib\net45\Digst.OioIdws.Rest.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

@@ -1,9 +1,6 @@
-﻿Welcome to Digst.OioIdws.Rest.Client
-
-NOTE: This is a pre-release where all required security checks and error handling is not fully completed, although it is feature-complete for testing.
-
-Quick start:
+﻿Quick start:
 The client internally handles retrieving security token and exchanging them on the AS for an access token, as long as you use the MessageHandler provided by the OioIdwsClient. It will also handle expiration of either token and refreshing them if needed.
+Note: OWIN middlewares typically make no assumptions on how you store your configuration. It's advised that you don't hardcode configuration settings, but store them in .NET configuration, database, or whatever suits you.
 OioIdwsClient also exposes methods for handling security token and access token manually, if that's your choice.
 
 	var idwsClient = new OioIdwsClient(new OioIdwsClientSettings
@@ -62,13 +59,6 @@ The component supports logging using the WSC's own logging framework. By default
 Replay attack:
 
 - OioWsTrust: Does not guarantee detecting replays in a load balanced setup due to cache has been implemented in memory.
-
-Test:
-Manuel man-in-the-middle attacks has been made using Fiddler. The following tests has been executed:
-	- Tampering response so that response signature does not validate.
-	- Removing signature in response ensuring that WSC does not accept the response.
-	- Replay attack has been tested.
-	- Sending a response that has expired is not accepted by WSC.
 
 Examples:
 Please checkout the complete OIOIDWS.Net reference implementation at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called Digst.OioIdws.Rest.Examples.Client that illustrates how a WSC can use this component.
