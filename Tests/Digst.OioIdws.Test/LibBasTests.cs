@@ -74,6 +74,21 @@ namespace Digst.OioIdws.Test
             Assert.IsTrue(response.StartsWith("Hello"));
         }
 
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void TotalFlowEncryptionSucessTest()
+        {
+            // Arrange
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+
+            // Act
+            var response = channelWithIssuedToken.HelloEncryptAndSign("Schultz");
+
+            // Assert
+            Assert.IsTrue(response.StartsWith("Hello"));
+        }
+
         #region Request tests
 
         [TestMethod]

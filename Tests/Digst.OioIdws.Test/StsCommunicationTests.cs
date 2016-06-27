@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Test
                 StoreLocation = StoreLocation.CurrentUser,
                 StoreName = StoreName.My,
                 X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
+                FindValue = "41 49 9f b4 53 f7 2b ec e4 e8 92 b3 c1 5d 32 0d ef 0f ad aa"
             };
             oioIdwsWscConfiguration.ClientCertificate = clientCertificate;
             oioIdwsWscConfiguration.StsCertificate = new Certificate
