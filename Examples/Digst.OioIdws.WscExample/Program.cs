@@ -24,8 +24,8 @@ namespace Digst.OioIdws.WscExample
             // Call WSP with token
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
-            Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); // Even if the protection level is set to 'None' Digst.OioIdws.Wsc ensures that the body is always at least signed.
-            //Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz"));
+            Console.WriteLine(channelWithIssuedToken.HelloNone("Schultz")); // Even if the protection level is set to 'None' Digst.OioIdws.Wsc ensures that the body is always at least signed.
+            Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz")); 
 
             // Encrypted calls fails client side. However, encryption at message level is not required and no further investigation has been putted into this issue yet.
             // Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); 
