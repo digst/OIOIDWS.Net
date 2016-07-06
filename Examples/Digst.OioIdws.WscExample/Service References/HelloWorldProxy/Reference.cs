@@ -39,6 +39,13 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorResponse")]
         System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncrypted", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(string), Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedStringFault", ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Name="string", Namespace="http://schemas.microsoft.com/2003/10/Serialization/")]
+        string HelloSignErrorNotEncrypted(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncrypted", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedResponse")]
+        System.Threading.Tasks.Task<string> HelloSignErrorNotEncryptedAsync(string name);
+        
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignResponse")]
         string HelloEncryptAndSign(string name);
         
@@ -109,6 +116,14 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
         
         public System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name) {
             return base.Channel.HelloSignErrorAsync(name);
+        }
+        
+        public string HelloSignErrorNotEncrypted(string name) {
+            return base.Channel.HelloSignErrorNotEncrypted(name);
+        }
+        
+        public System.Threading.Tasks.Task<string> HelloSignErrorNotEncryptedAsync(string name) {
+            return base.Channel.HelloSignErrorNotEncryptedAsync(name);
         }
         
         public string HelloEncryptAndSign(string name) {

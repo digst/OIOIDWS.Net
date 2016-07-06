@@ -56,6 +56,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="HelloSignErrorNotEncrypted">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HelloSignErrorNotEncryptedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="HelloSignErrorNotEncryptedResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="HelloEncryptAndSign">
     <xs:complexType>
       <xs:sequence>

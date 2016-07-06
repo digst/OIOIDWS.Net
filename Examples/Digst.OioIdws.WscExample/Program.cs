@@ -28,10 +28,20 @@ namespace Digst.OioIdws.WscExample
             Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz"));
             Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz"));
 
-            //Checking that SOAP faults can be read.SOAP faults are encrypted in Sign and EncryptAndSign mode if no special care is taken.
+            ////Checking that SOAP faults can be read. SOAP faults are encrypted in Sign and EncryptAndSign mode if no special care is taken.
             try
             {
                 channelWithIssuedToken.HelloSignError("Schultz");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            //Checking that SOAP faults can be read when only being signed. SOAP faults are only signed if special care is taken.
+            try
+            {
+                channelWithIssuedToken.HelloSignErrorNotEncrypted("Schultz");
             }
             catch (Exception e)
             {
