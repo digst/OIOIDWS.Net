@@ -89,11 +89,14 @@ WSC<->WSP communication
 
 - Response:
 	- Added extra check that all [LIB-BAS] required WS-Adressing headers are present. E.g. WCF does not require that responses contains the MessageID header.
+	- Support for encrypted responses from WSP when encrypted SAML assertions are in play. The issuse was that WSP uses the decrypted SAML assertion as key in the response, when telling the WSC which SAML assertion must be used for decrypting the response. Solved by having WSC look for a SAML assertion with id 'encryptedassertion' if the key identifier from WSP is unknown. Support for encrypted responses was necessary beceause SOAP faults is encrypted by WCF.
 
-The following is issues not yet solved/supported with this component:
-- (Fixed in Java implementation) Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+The following is compatibillity issues solved in the Java implementation:
+- .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
 	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
 	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
+
+The following is issues not yet solved/supported with this component:
 - Replay attack from STS in a load balanced setup
 - Revocation check of STS certificate.
 

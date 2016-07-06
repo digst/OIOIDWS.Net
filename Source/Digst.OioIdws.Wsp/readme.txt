@@ -50,11 +50,10 @@ WSP<->WSC communication
 	- Added WS-Addressing MessageID as required by [LIB-BAS]. E.g. WCF does not default insert MessageID headers in responses.
 	- Ensure that body is signed even if ProtectionLevel has been set to None. Body must be signed as required by [LIB-BAS].
 
-The following is issues not yet solved with this component:
+The following is compatibillity issues solved in the Java implementation:
 - Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
 	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
 	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
-- SOAP faults are encrypted. It would be desirable that even if the WSC had misconfigured its certificates, that it would still be able read the SOAP faults.
 
 	
 
