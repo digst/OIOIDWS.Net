@@ -28,6 +28,11 @@ namespace Digst.OioIdws.WspExample
             throw new Exception(string.Format("Hello SignError {0}. You can read encrypted SOAP faults ... nice!", name));
         }
 
+        public string HelloSignErrorNotEncrypted(string name)
+        {
+            throw new FaultException<string>("DetailInfo", string.Format("Hello SignError {0}. You can read signed but not encrypted SOAP faults ... nice!", name));
+        }
+
         public string HelloEncryptAndSign(string name)
         {
             return string.Format("Hello EncryptAndSign {0}. Your claims are:\n{1}", name, GetClaims());

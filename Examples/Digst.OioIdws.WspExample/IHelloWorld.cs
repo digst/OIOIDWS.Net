@@ -18,6 +18,13 @@ namespace Digst.OioIdws.WspExample
         [OperationContract(ProtectionLevel = ProtectionLevel.Sign)]
         string HelloSignError(string name);
 
+        /// <summary>
+        /// Soap faults are not encrypted when predefined as a <see cref="FaultContractAttribute"/>
+        /// </summary>
+        [OperationContract(ProtectionLevel = ProtectionLevel.Sign)]
+        [FaultContract(typeof(string))]
+        string HelloSignErrorNotEncrypted(string name);
+
         [OperationContract]
         string HelloEncryptAndSign(string name);
 
