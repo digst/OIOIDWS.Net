@@ -33,15 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Digst.OioIdws.LibBas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.0.0\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Digst.OioIdws.Wsc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.0.0\lib\net45\Digst.OioIdws.Wsc.dll</HintPath>
+    <Reference Include="Digst.OioIdws.OioWsTrust, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.OioWsTrust.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Digst.OioIdws.Wsc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.Wsc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -85,7 +89,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
     <None Include="Service References\HelloWorldProxy\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -96,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\HelloWorldProxy\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

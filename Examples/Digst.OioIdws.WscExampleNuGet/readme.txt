@@ -52,7 +52,7 @@ Replay attack:
 
 - OioWsTrust: Does not guarantee detecting replays in a load balanced setup due to cache has been implemented in memory.
 
-- LibBas: As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken.
+- LibBas: As default WCF handles replay attacks. WCF's replay detection does not guarantee detecting replays in a load balanced setup and when the process is recycled. In these situations custom action must be taken. See https://msdn.microsoft.com/en-us/library/hh598927(v=vs.110).aspx
 
 Test:
 Manuel man-in-the-middle attacks has been made using Fiddler. The following tests has been executed:
@@ -66,6 +66,7 @@ Please checkout the complete OIOIDWS.Net reference implementation at Softwarebø
 Digst.OioIdws.WscExample illustrates how a token can be fetched and used to call a WSP.
 
 The following is issues that Digst.OioIdws.Wsc takes care of because WCF did not support them out of the box:
+WSC<->STS communication
 - RST:
 	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2004/09/policy to http://schemas.xmlsoap.org/ws/2002/12/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
 	- Ensure that "/s:Envelope/s:Body/trust:RequestSecurityToken/wsp:AppliesTo/wsa:EndpointReference/wsa:Address" elements does not contain an ending '/'. NemLog-in STS makes string comparison instead of URI comparison.
@@ -73,15 +74,29 @@ The following is issues that Digst.OioIdws.Wsc takes care of because WCF did not
 
 - RSTR:
 	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2002/12/policy to http://schemas.xmlsoap.org/ws/2004/09/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
-	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token.
+	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token. It also ensures that 
 	- TokenType is missing if not specified in RST even if [NEMLOGIN-STSRULES] states that it will always be included.
 	- Expiry time element "/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires" is currently not on the format specified by [NEMLOGIN-STSRULES]. [NEMLOGIN-STSRULES] says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
 	- WS-Addressing Action element contains the value http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue instead of http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Issue. No code action has been taken here because WCF does not raise any error.
 	
 - SOAP Faults does not follow SOAP 1.1 spec.
 
-The following is issues not yet solved with this component:
-- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+WSC<->WSP communication
+- Request:
+	- Ensure that body is signed even if ProtectionLevel has been set to None. Body must be signed as required by [LIB-BAS].
+	- Adds LibertyFramework header as required by [LIB-BAS].
+	- Ensures that SecurityTokenReference has a different attribute id than the KeyIdentifier element value as in the examples in [LIB-BAS]. As default they will have the same value. If nothing is done ... it would still work from a technical point of view.
+
+- Response:
+	- Added extra check that all [LIB-BAS] required WS-Adressing headers are present. E.g. WCF does not require that responses contains the MessageID header.
+	- Support for encrypted responses from WSP when encrypted SAML assertions are in play. The issuse was that WSP uses the decrypted SAML assertion as key in the response, when telling the WSC which SAML assertion must be used for decrypting the response. Solved by having WSC look for a SAML assertion with id 'encryptedassertion' if the key identifier from WSP is unknown. Support for encrypted responses was necessary beceause SOAP faults is encrypted by WCF.
+
+The following is compatibillity issues solved in the Java implementation:
+- .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
 	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
 	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
+
+The following is issues not yet solved/supported with this component:
+- Replay attack from STS in a load balanced setup
+- Revocation check of STS certificate.
 
