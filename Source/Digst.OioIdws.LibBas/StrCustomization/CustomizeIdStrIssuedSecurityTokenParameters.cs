@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens;
 using System.ServiceModel.Security.Tokens;
+using Digst.OioIdws.Common.Constants;
 using Digst.OioIdws.Common.Logging;
 
 namespace Digst.OioIdws.LibBas.StrCustomization
@@ -86,6 +87,22 @@ namespace Digst.OioIdws.LibBas.StrCustomization
             }
 
             return clause;
+        }
+
+        protected override bool MatchesKeyIdentifierClause(SecurityToken token, SecurityKeyIdentifierClause keyIdentifierClause,
+            SecurityTokenReferenceStyle referenceStyle)
+        {
+            // WSP uses the decrypted assertion identifier when identifying which SAML token has been used to encrypt the response.
+            // This method override makes the WSC ignore the WSP identifier and always use the encrypted SAML token specified with OioWsTrust.EncryptedAssertionId
+            // The proof token (the WSC certificate including the private key) is associated with the encrypted assertion and then used for decrypting the response.
+
+            // An alternative solution was to have the WSP use the correct encrypted assertion identifier from the beginning.
+            // That could be done by overriding CreateKeyIdentifierClause in DecryptedSaml2SecurityToken class.
+            // The problem with that solution is that in CreateKeyIdentifierClause it could not be determined what the encrypted SAML assertion id was. It could then be hard coded to OioWsTrust.EncryptedAssertionId ... but then the OIOIDWS reference implementatinon would only work with encrypted assertions.
+            // Due to this ... the customization has been done in WSC in order to allow for support for both encrypted and unencrypted SAML assertions.
+            var genericXmlSecurityToken = token as GenericXmlSecurityToken;
+            return (genericXmlSecurityToken != null && genericXmlSecurityToken.ExternalTokenReference != null &&
+                   OioWsTrust.EncryptedAssertionId == genericXmlSecurityToken.ExternalTokenReference.Id) || base.MatchesKeyIdentifierClause(token, keyIdentifierClause, referenceStyle);
         }
     }
 }

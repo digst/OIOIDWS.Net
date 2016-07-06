@@ -26,9 +26,17 @@ namespace Digst.OioIdws.WscExampleNuGet
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
             Console.WriteLine(channelWithIssuedToken.HelloNone("Schultz")); // Even if the protection level is set to 'None' Digst.OioIdws.Wsc ensures that the body is always at least signed.
             Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz"));
+            Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz"));
 
-            // Encrypted calls fails client side. However, encryption at message level is not required and no further investigation has been putted into this issue yet.
-            // Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz")); 
+            //Checking that SOAP faults can be read.SOAP faults are encrypted in Sign and EncryptAndSign mode if no special care is taken.
+            try
+            {
+                channelWithIssuedToken.HelloSignError("Schultz");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Console.ReadKey();
         }

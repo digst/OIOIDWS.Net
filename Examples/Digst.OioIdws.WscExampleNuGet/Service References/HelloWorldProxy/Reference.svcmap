@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="79584145-09f2-4aab-a9b9-49abbb8b1abe" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="478d5eca-79f7-4f96-9dc9-5fe4d02b6c7f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://127.0.0.1:9091/HelloWorld" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:9090/HelloWorld" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="HelloWorld.disco" MetadataType="Disco" ID="634d13b9-4669-4f79-9bec-b7520c568073" SourceId="1" SourceUrl="http://127.0.0.1:9091/HelloWorld?disco" />
-    <MetadataFile FileName="HelloWorld.xsd" MetadataType="Schema" ID="cca7d02b-9f8e-40c8-975b-1ef32f016d1b" SourceId="1" SourceUrl="http://127.0.0.1:9091/HelloWorld?xsd=xsd0" />
-    <MetadataFile FileName="HelloWorld1.xsd" MetadataType="Schema" ID="ad489407-24c1-4c1a-b596-10628bbabebb" SourceId="1" SourceUrl="http://127.0.0.1:9091/HelloWorld?xsd=xsd1" />
-    <MetadataFile FileName="HelloWorld.wsdl" MetadataType="Wsdl" ID="de841ed7-a3d8-47e9-8cf4-a0fda4e23bf4" SourceId="1" SourceUrl="http://127.0.0.1:9091/HelloWorld?wsdl" />
+    <MetadataFile FileName="HelloWorld.xsd" MetadataType="Schema" ID="2330674c-1cee-4cfb-9d69-c326a08ce3a6" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd1" />
+    <MetadataFile FileName="HelloWorld.wsdl" MetadataType="Wsdl" ID="6a10116e-c486-40fc-a776-bb06c8c785e4" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?wsdl" />
+    <MetadataFile FileName="HelloWorld1.xsd" MetadataType="Schema" ID="0a015e9b-d312-4a45-be10-4254b3147eca" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?xsd=xsd0" />
+    <MetadataFile FileName="HelloWorld.disco" MetadataType="Disco" ID="b5c18bbb-639f-43ac-b45b-2555b9378343" SourceId="1" SourceUrl="http://digst.oioidws.wsp:9090/HelloWorld?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

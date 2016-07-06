@@ -61,12 +61,47 @@ namespace Digst.OioIdws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void TotalFlowSucessTest()
+        public void TotalFlowNoneSucessTest()
         {
             // Arrange
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
-            
+
+            // Act
+            var response = channelWithIssuedToken.HelloNone("Schultz");
+
+            // Assert
+            Assert.IsTrue(response.StartsWith("Hello"));
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void TotalFlowNoneSoapFaultSucessTest()
+        {
+            // Arrange
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+
+            // Act
+            try
+            {
+                channelWithIssuedToken.HelloNoneError("Schultz");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsTrue(e.Message.StartsWith("Hello"));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void TotalFlowSignSucessTest()
+        {
+            // Arrange
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+
             // Act
             var response = channelWithIssuedToken.HelloSign("Schultz");
 
@@ -76,7 +111,27 @@ namespace Digst.OioIdws.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void TotalFlowEncryptionSucessTest()
+        public void TotalFlowSignSoapFaultSucessTest()
+        {
+            // Arrange
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+
+            // Act
+            try
+            {
+                channelWithIssuedToken.HelloSignError("Schultz");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsTrue(e.Message.StartsWith("Hello"));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void TotalFlowEncryptAndSignSucessTest()
         {
             // Arrange
             var client = new HelloWorldClient();
@@ -87,6 +142,26 @@ namespace Digst.OioIdws.Test
 
             // Assert
             Assert.IsTrue(response.StartsWith("Hello"));
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void TotalFlowEncryptAndSignSoapFaultSucessTest()
+        {
+            // Arrange
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_securityToken);
+
+            // Act
+            try
+            {
+                channelWithIssuedToken.HelloEncryptAndSignError("Schultz");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                Assert.IsTrue(e.Message.StartsWith("Hello"));
+            }
         }
 
         #region Request tests

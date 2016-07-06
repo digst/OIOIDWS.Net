@@ -14,6 +14,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="HelloNoneError">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HelloNoneErrorResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="HelloNoneErrorResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="HelloSign">
     <xs:complexType>
       <xs:sequence>
@@ -28,6 +42,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="HelloSignError">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HelloSignErrorResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="HelloSignErrorResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="HelloEncryptAndSign">
     <xs:complexType>
       <xs:sequence>
@@ -39,6 +67,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="HelloEncryptAndSignResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HelloEncryptAndSignError">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="HelloEncryptAndSignErrorResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="HelloEncryptAndSignErrorResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

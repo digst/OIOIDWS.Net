@@ -82,6 +82,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
     <None Include="Service References\HelloWorldProxy\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -91,13 +95,7 @@
     <None Include="Service References\HelloWorldProxy\HelloWorld.disco" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadataStorage Include="Service References\HelloWorldProxy\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

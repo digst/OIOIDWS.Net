@@ -21,17 +21,35 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.None, Action="http://tempuri.org/IHelloWorld/HelloNone", ReplyAction="http://tempuri.org/IHelloWorld/HelloNoneResponse")]
         System.Threading.Tasks.Task<string> HelloNoneAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.None, Action="http://tempuri.org/IHelloWorld/HelloNoneError", ReplyAction="http://tempuri.org/IHelloWorld/HelloNoneErrorResponse")]
+        string HelloNoneError(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.None, Action="http://tempuri.org/IHelloWorld/HelloNoneError", ReplyAction="http://tempuri.org/IHelloWorld/HelloNoneErrorResponse")]
+        System.Threading.Tasks.Task<string> HelloNoneErrorAsync(string name);
+        
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignResponse")]
         string HelloSign(string name);
         
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignResponse")]
         System.Threading.Tasks.Task<string> HelloSignAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorResponse")]
+        string HelloSignError(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorResponse")]
+        System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name);
+        
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignResponse")]
         string HelloEncryptAndSign(string name);
         
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignResponse")]
         System.Threading.Tasks.Task<string> HelloEncryptAndSignAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignErrorResponse")]
+        string HelloEncryptAndSignError(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignErrorResponse")]
+        System.Threading.Tasks.Task<string> HelloEncryptAndSignErrorAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +87,14 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
             return base.Channel.HelloNoneAsync(name);
         }
         
+        public string HelloNoneError(string name) {
+            return base.Channel.HelloNoneError(name);
+        }
+        
+        public System.Threading.Tasks.Task<string> HelloNoneErrorAsync(string name) {
+            return base.Channel.HelloNoneErrorAsync(name);
+        }
+        
         public string HelloSign(string name) {
             return base.Channel.HelloSign(name);
         }
@@ -77,12 +103,28 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
             return base.Channel.HelloSignAsync(name);
         }
         
+        public string HelloSignError(string name) {
+            return base.Channel.HelloSignError(name);
+        }
+        
+        public System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name) {
+            return base.Channel.HelloSignErrorAsync(name);
+        }
+        
         public string HelloEncryptAndSign(string name) {
             return base.Channel.HelloEncryptAndSign(name);
         }
         
         public System.Threading.Tasks.Task<string> HelloEncryptAndSignAsync(string name) {
             return base.Channel.HelloEncryptAndSignAsync(name);
+        }
+        
+        public string HelloEncryptAndSignError(string name) {
+            return base.Channel.HelloEncryptAndSignError(name);
+        }
+        
+        public System.Threading.Tasks.Task<string> HelloEncryptAndSignErrorAsync(string name) {
+            return base.Channel.HelloEncryptAndSignErrorAsync(name);
         }
     }
 }

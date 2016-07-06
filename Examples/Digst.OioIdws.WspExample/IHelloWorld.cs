@@ -6,13 +6,22 @@ namespace Digst.OioIdws.WspExample
     [ServiceContract]
     public interface IHelloWorld
     {
-        [OperationContract (ProtectionLevel = ProtectionLevel.None)]
+        [OperationContract(ProtectionLevel = ProtectionLevel.None)]
         string HelloNone(string name);
+
+        [OperationContract(ProtectionLevel = ProtectionLevel.None)]
+        string HelloNoneError(string name);
 
         [OperationContract(ProtectionLevel = ProtectionLevel.Sign)]
         string HelloSign(string name);
 
+        [OperationContract(ProtectionLevel = ProtectionLevel.Sign)]
+        string HelloSignError(string name);
+
         [OperationContract]
         string HelloEncryptAndSign(string name);
+
+        [OperationContract]
+        string HelloEncryptAndSignError(string name);
     }
 }

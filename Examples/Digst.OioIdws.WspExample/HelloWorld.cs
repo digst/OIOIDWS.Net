@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.ServiceModel;
 using System.Text;
 using Digst.OioIdws.Wsp.BasicPrivilegeProfile;
@@ -12,14 +13,29 @@ namespace Digst.OioIdws.WspExample
             return string.Format("Hello None {0}. Your claims are:\n{1}", name, GetClaims());
         }
 
+        public string HelloNoneError(string name)
+        {
+            throw new Exception(string.Format("Hello NoneError {0}. You can read encrypted SOAP faults ... nice!", name));
+        }
+
         public string HelloSign(string name)
         {
             return string.Format("Hello Sign {0}. Your claims are:\n{1}", name, GetClaims());
         }
 
+        public string HelloSignError(string name)
+        {
+            throw new Exception(string.Format("Hello SignError {0}. You can read encrypted SOAP faults ... nice!", name));
+        }
+
         public string HelloEncryptAndSign(string name)
         {
             return string.Format("Hello EncryptAndSign {0}. Your claims are:\n{1}", name, GetClaims());
+        }
+
+        public string HelloEncryptAndSignError(string name)
+        {
+            throw new Exception(string.Format("Hello SignAndEncryptError {0}. You can read encrypted SOAP faults ... nice!", name));
         }
 
         private string GetClaims()

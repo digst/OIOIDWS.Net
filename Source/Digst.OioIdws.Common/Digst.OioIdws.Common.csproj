@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\LibBas.cs" />
+    <Compile Include="Constants\OioWsTrust.cs" />
     <Compile Include="Constants\WsAdressing.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />

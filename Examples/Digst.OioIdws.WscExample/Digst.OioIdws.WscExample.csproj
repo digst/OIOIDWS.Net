@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,10 +70,24 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\HelloWorldProxy\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
+      <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
+      <Name>Digst.OioIdws.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
+      <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
+      <Name>Digst.OioIdws.LibBas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
+      <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>
+      <Name>Digst.OioIdws.Wsc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\HelloWorldProxy\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\HelloWorldProxy\HelloWorld.disco" />
@@ -88,20 +103,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
-      <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
-      <Name>Digst.OioIdws.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
-      <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
-      <Name>Digst.OioIdws.LibBas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
-      <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>
-      <Name>Digst.OioIdws.Wsc</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
