@@ -29,7 +29,7 @@ namespace Digst.OioIdws.LibBas.Bindings
                 X509KeyIdentifierClauseType.Any,
                 SecurityTokenInclusionMode.AlwaysToInitiator);
 
-            var initiatorTokenParameters = new CustomizeIdStrIssuedSecurityTokenParameters(
+            var initiatorTokenParameters = new CustomizedIssuedSecurityTokenParameters(
                 "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0");
             initiatorTokenParameters.UseStrTransform = true;
 

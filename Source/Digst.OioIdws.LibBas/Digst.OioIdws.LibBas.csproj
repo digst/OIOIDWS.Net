@@ -54,7 +54,7 @@
     <Compile Include="Headers\LibertyFrameworkHeader.cs" />
     <Compile Include="MessageInspectors\LibBasMessageInspector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StrCustomization\CustomizeIdStrIssuedSecurityTokenParameters.cs" />
+    <Compile Include="StrCustomization\CustomizedIssuedSecurityTokenParameters.cs" />
     <Compile Include="StrCustomization\StrReferenceSaml2SecurityTokenHandler.cs" />
   </ItemGroup>
   <ItemGroup>

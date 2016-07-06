@@ -6,11 +6,11 @@ using Digst.OioIdws.Common.Logging;
 namespace Digst.OioIdws.LibBas.StrCustomization
 {
     /// <summary>
-    /// Notice that this implementation is NOT necessary from a technical point of view and can easily be removed together with <see cref="CustomizeIdStrIssuedSecurityTokenParameters"/>
+    /// Notice that this implementation is NOT necessary from a technical point of view and can easily be removed together with <see cref="CustomizedIssuedSecurityTokenParameters"/>
     /// It has only been done in order to follow the examples in [LIB-BAS] profile.
     ///  
     /// A custom Saml2SecurityTokenHandler which can write a SecurityTokenReference whose SecurityTokenReference:Id is different from the KeyIdentifier
-    /// Works in conjunction with <see cref="CustomizeIdStrIssuedSecurityTokenParameters"/>
+    /// Works in conjunction with <see cref="CustomizedIssuedSecurityTokenParameters"/>
     /// 
     ///  // Default WCF:
     ///
@@ -32,7 +32,7 @@ namespace Digst.OioIdws.LibBas.StrCustomization
     {
         /// <summary>
         ///     Writes a SecurityTokenReference element. This handler is only required when the
-        ///     <see cref="CustomizeIdStrIssuedSecurityTokenParameters" /> is used.
+        ///     <see cref="CustomizedIssuedSecurityTokenParameters" /> is used.
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="securityKeyIdentifierClause"></param>

@@ -6,40 +6,43 @@ using Digst.OioIdws.Common.Logging;
 namespace Digst.OioIdws.LibBas.StrCustomization
 {
     /// <summary>
-    /// Notice that this implementation is NOT necessary from a technical point of view and can easily be removed together with <see cref="StrReferenceSaml2SecurityTokenHandler"/>
-    /// It has only been done in order to follow the examples in [LIB-BAS] profile.
+    /// Notice that this implementation work in conjunction with <see cref="StrReferenceSaml2SecurityTokenHandler"/>
+    /// This class has two purposes.
+    /// 
+    /// 1. Generate STR with ID's starting with "_str" in order to follow [LIB-BAS] specification examples. This is strictly not necessary and can be removed without violating the specification.
+    /// 2. Support of encrypted responses from WSP in cases where encrypted SAML assertions are in play. This implementation requires the encrypted SAML assertion ID to be <see cref="OioWsTrust.EncryptedAssertionId"/> ... otherwise decryption will not function.
     /// 
     /// This class inherits the IssuedSecurityTokenParameters class which is responsible for customizing the u:Id attribute of a SecurityTokenReference element
     /// Works in conjunction with <see cref="StrReferenceSaml2SecurityTokenHandler"/>
     /// 
     /// As-is, the STR element which .Net generates will look like this:
-
+    ///
     ///  <o:SecurityTokenReference b:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" u:Id="_f23ef5f3-9efb-40f0-bf38-758d3a9589db" xmlns:b="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd">
     ///      <o:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID">_f23ef5f3-9efb-40f0-bf38-758d3a9589db</o:KeyIdentifier>
     ///  </o:SecurityTokenReference>
-
+    ///
     /// Note that it uses the assertion Id which is "_f23ef5f3-9efb-40f0-bf38-758d3a9589db" for both KeyIdentifier and SecurityTokenReference:Id.
     /// While this is perfectly fine, Liberty Basic SOAP binding spec's message sample uses a different id value for SecurityTokenReference:Id.
     /// Thus, this custom class is used to customize that Id as a proof that this sample can generate a message that is identical to Liberty's sample message
     /// 
     /// Thanks to SafeWhere/Kombit for this solution. Taken from https://github.com/Safewhere/kombit-common
     /// </summary>
-    public class CustomizeIdStrIssuedSecurityTokenParameters : IssuedSecurityTokenParameters
+    public class CustomizedIssuedSecurityTokenParameters : IssuedSecurityTokenParameters
     {
         /// <summary>
-        ///     Instantiates an object of type CustomizeIdStrIssuedSecurityTokenParameters
+        ///     Instantiates an object of type CustomizedIssuedSecurityTokenParameters
         /// </summary>
         /// <param name="tokenType">Token type</param>
-        public CustomizeIdStrIssuedSecurityTokenParameters(string tokenType) : base(tokenType)
+        public CustomizedIssuedSecurityTokenParameters(string tokenType) : base(tokenType)
         {
         }
 
         /// <summary>
-        ///     Instantiates an object of type CustomizeIdStrIssuedSecurityTokenParameters from an existing
-        ///     CustomizeIdStrIssuedSecurityTokenParameters object.
+        ///     Instantiates an object of type CustomizedIssuedSecurityTokenParameters from an existing
+        ///     CustomizedIssuedSecurityTokenParameters object.
         /// </summary>
-        /// <param name="other">An existing CustomizeIdStrIssuedSecurityTokenParameters object</param>
-        public CustomizeIdStrIssuedSecurityTokenParameters(CustomizeIdStrIssuedSecurityTokenParameters other)
+        /// <param name="other">An existing CustomizedIssuedSecurityTokenParameters object</param>
+        public CustomizedIssuedSecurityTokenParameters(CustomizedIssuedSecurityTokenParameters other)
             : base(other)
         {
         }
@@ -50,7 +53,7 @@ namespace Digst.OioIdws.LibBas.StrCustomization
         /// <returns>The cloned object</returns>
         protected override SecurityTokenParameters CloneCore()
         {
-            return new CustomizeIdStrIssuedSecurityTokenParameters(this);
+            return new CustomizedIssuedSecurityTokenParameters(this);
         }
 
         /// <summary>
@@ -89,17 +92,19 @@ namespace Digst.OioIdws.LibBas.StrCustomization
             return clause;
         }
 
+        /// <summary>
+        /// WSP uses the decrypted assertion identifier when identifying which SAML token has been used to encrypt the response.
+        /// This method override makes the WSC ignore the WSP identifier and always use the encrypted SAML token specified with <see cref="OioWsTrust.EncryptedAssertionId"/>
+        /// The proof token (the WSC certificate including the private key) is associated with the encrypted assertion and then used for decrypting the response.
+        ///
+        /// An alternative solution was to have the WSP use the correct encrypted assertion identifier from the beginning.
+        /// That could be done by overriding CreateKeyIdentifierClause in <see cref="Digst.OioIdws.Wsp.DecryptedAssertionSupport.DecryptedSaml2SecurityToken"/>.
+        /// The problem with that solution is that in CreateKeyIdentifierClause it could not be determined what the encrypted SAML assertion id was. It could then be hard coded to <see cref="OioWsTrust.EncryptedAssertionId"/> ... but then the OIOIDWS reference implementatinon would only work with encrypted assertions.
+        /// Due to this ... the customization has been done in WSC in order to allow for support for both encrypted and unencrypted SAML assertions.
+        /// </summary>
         protected override bool MatchesKeyIdentifierClause(SecurityToken token, SecurityKeyIdentifierClause keyIdentifierClause,
             SecurityTokenReferenceStyle referenceStyle)
         {
-            // WSP uses the decrypted assertion identifier when identifying which SAML token has been used to encrypt the response.
-            // This method override makes the WSC ignore the WSP identifier and always use the encrypted SAML token specified with OioWsTrust.EncryptedAssertionId
-            // The proof token (the WSC certificate including the private key) is associated with the encrypted assertion and then used for decrypting the response.
-
-            // An alternative solution was to have the WSP use the correct encrypted assertion identifier from the beginning.
-            // That could be done by overriding CreateKeyIdentifierClause in DecryptedSaml2SecurityToken class.
-            // The problem with that solution is that in CreateKeyIdentifierClause it could not be determined what the encrypted SAML assertion id was. It could then be hard coded to OioWsTrust.EncryptedAssertionId ... but then the OIOIDWS reference implementatinon would only work with encrypted assertions.
-            // Due to this ... the customization has been done in WSC in order to allow for support for both encrypted and unencrypted SAML assertions.
             var genericXmlSecurityToken = token as GenericXmlSecurityToken;
             return (genericXmlSecurityToken != null && genericXmlSecurityToken.ExternalTokenReference != null &&
                    OioWsTrust.EncryptedAssertionId == genericXmlSecurityToken.ExternalTokenReference.Id) || base.MatchesKeyIdentifierClause(token, keyIdentifierClause, referenceStyle);
