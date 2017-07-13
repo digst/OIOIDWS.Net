@@ -73,3 +73,4 @@ Now the REST example projects Digst.OioIdws.Rest.Examples.AS and Digst.OioIdws.R
 There's also an example project Digst.OioIdws.Rest.Examples.ServerCombined for running the AS and WSP components in the same application. It will be hosted at https://digst.oioidws.rest.wsp:10002
 
 Now the Digst.OioIdws.Rest.Examples.Client can be run from a elevated command line (in order to access the private keys in certificate store) to retrieve a SecurityToken from the STS, store it on the AS and invoke the WSP using the issued access token.
+
