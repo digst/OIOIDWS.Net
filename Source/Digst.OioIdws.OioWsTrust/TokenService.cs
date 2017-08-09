@@ -45,8 +45,29 @@ namespace Digst.OioIdws.OioWsTrust
         /// </summary>
         public SecurityToken GetToken()
         {
-            Logger.Instance.Trace($@"RequestToken called with the client certificate: {_config.ClientCertificate.SubjectName.Name} ({_config.ClientCertificate.Thumbprint})");
-            Logger.Instance.Trace($@"RequestToken called with the STS certificate: {_config.StsCertificate.SubjectName.Name} ({_config.StsCertificate.Thumbprint})");
+            return GetTokenInternal(null);
+        }
+
+        /// <summary>
+        /// <see cref="ITokenService.GetTokenWithBootstrapToken"/>
+        /// </summary>
+        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
+        {
+            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
+
+            return GetTokenInternal(bootstrapToken);
+        }
+
+        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
+        {
+            Logger.Instance.Trace(
+                $@"RequestToken called with the client certificate: {_config.ClientCertificate.SubjectName.Name} ({
+                        _config.ClientCertificate.Thumbprint
+                    })");
+            Logger.Instance.Trace(
+                $@"RequestToken called with the STS certificate: {_config.StsCertificate.SubjectName.Name} ({
+                        _config.StsCertificate.Thumbprint
+                    })");
 
             try
             {
@@ -61,7 +82,7 @@ namespace Digst.OioIdws.OioWsTrust
                 stsBinding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap11WSAddressing10,
                     Encoding.UTF8));
                 // ManualAddressing must be true in order to make sure that wsa header elements are not altered in the HttpsTransportChannel which happens after xml elements have been digitally signed.
-                stsBinding.Elements.Add(new HttpsTransportBindingElement() { ManualAddressing = true });
+                stsBinding.Elements.Add(new HttpsTransportBindingElement() {ManualAddressing = true});
 
                 // Setup channel factory and apply client credentials
                 var factory = new WSTrustChannelFactory(stsBinding, new EndpointAddress(_config.StsEndpointAddress));
@@ -78,14 +99,23 @@ namespace Digst.OioIdws.OioWsTrust
                     // We specify it in case that NemLogin STS supports other token types in the future.
                     // Currently if TokenType is not specified ... then TokenType is also not specified in the RequestSecurityTokenResponse (RSTR). According to spec it should always be specified in the RSTR. Specifying TokenType in the RST triggers the TokenType to be specified in the RSTR.
                     TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0",
-                    UseKey = new UseKey(new X509SecurityToken(_config.ClientCertificate)), // The UseKey must be set in order for WCF to know which certificate must be used for signing the request from WSC to WSP. Thus, the usekey is actually the same as the proof key in the holder-of-key scenario.
-                    KeyType = KeyTypes.Asymmetric // The KeyType must be set to Asymmetric in order for WCF to know that it must use the UseKey as proof token.
+                    UseKey =
+                        new UseKey(new X509SecurityToken(_config
+                            .ClientCertificate)), // The UseKey must be set in order for WCF to know which certificate must be used for signing the request from WSC to WSP. Thus, the usekey is actually the same as the proof key in the holder-of-key scenario.
+                    KeyType =
+                        KeyTypes
+                            .Asymmetric // The KeyType must be set to Asymmetric in order for WCF to know that it must use the UseKey as proof token.
                 };
                 // Lifetime is only specified if it has been configured. Should result in a default life time (8 hours) on issued token if not specified. If specified, STS is not obligated to honor this range and may return a token with a shorter life time in RSTR.
                 if (_config.TokenLifeTimeInMinutes.HasValue)
                 {
                     requestSecurityToken.Lifetime = new Lifetime(null,
                         DateTime.UtcNow.AddMinutes(_config.TokenLifeTimeInMinutes.Value));
+                }
+                // ActAs is only set if a bootstrap token is supplied.
+                if (bootstrapToken != null)
+                {
+                    requestSecurityToken.ActAs = new SecurityTokenElement(bootstrapToken);
                 }
 
                 // Request token and return

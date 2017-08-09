@@ -28,6 +28,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
     ///     </S11:Header>
     ///     <S11:Body>
     ///         <wst:RequestSecurityToken>
+    ///             <wst14:ActAs>...</wst14:ActAs> - Only present in bootstrap case scenario
     ///             <wst:RequestType>...</wst:RequestType>
     ///             <wsp:AppliesTo>...</wsp:AppliesTo>
     ///         </wst:RequestSecurityToken>
@@ -243,12 +244,13 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
 
             // First remove all namespaces and then readd them in order to control prefixes. 
             // This is really not necessary ... it was done to make it easier to compare with official examples that uses the prefixes specified below.
-            envelopeElement.DescendantsAndSelf().Attributes().Where(n => n.IsNamespaceDeclaration).Remove();
-            envelopeElement.Add(new XAttribute(XNamespace.Xmlns + S11Prefix, S11Namespace));
-            envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WsaPrefix, WsaNamespace));
-            envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WspPrefix, WspNamespace));
-            envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WssePrefix, Wsse10Namespace));
-            envelopeElement.Add(new XAttribute(XNamespace.Xmlns + Wst13Prefix, Wst13Namespace));
+            // Commented out as it breaks the signature on the bootstrap token
+            // envelopeElement.DescendantsAndSelf().Attributes().Where(n => n.IsNamespaceDeclaration).Remove();
+            // envelopeElement.Add(new XAttribute(XNamespace.Xmlns + S11Prefix, S11Namespace));
+            // envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WsaPrefix, WsaNamespace));
+            // envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WspPrefix, WspNamespace));
+            // envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WssePrefix, Wsse10Namespace));
+            // envelopeElement.Add(new XAttribute(XNamespace.Xmlns + Wst13Prefix, Wst13Namespace));
 
             // This namespace is required. If not added then Id attributes is not correctly prefixed with "wsu" and RST becomes invalid according to standard.
             envelopeElement.Add(new XAttribute(XNamespace.Xmlns + WsuPrefix, WsuNamespace));

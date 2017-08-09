@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens;
 using System.Runtime.Caching;
-using Digst.OioIdws.OioWsTrust.Utils;
 
 namespace Digst.OioIdws.OioWsTrust
 {
@@ -12,8 +11,8 @@ namespace Digst.OioIdws.OioWsTrust
     public class TokenServiceCache : ITokenService
     {
         private readonly ITokenService _tokenService;
-        private readonly MemoryCache _tokenCache = MemoryCache.Default;
-        private const string TokenKey = "TokenKey";
+        private static readonly MemoryCache TokenCache = new MemoryCache(typeof(TokenServiceCache).FullName);
+        private const string WscTokenKey = "WscTokenKey";
         private readonly TimeSpan _cacheClockSkew;
 
         public TokenServiceCache(TokenServiceConfiguration config)
@@ -28,12 +27,31 @@ namespace Digst.OioIdws.OioWsTrust
         /// </summary>
         public SecurityToken GetToken()
         {
-            var securityToken = (SecurityToken)_tokenCache.Get(TokenKey);
-            
+            return GetTokenInternal(null);
+        }
+
+        /// <summary>
+        /// <see cref="ITokenService.GetTokenWithBootstrapToken"/>
+        /// Furtermore this implementation caches the token automatically according to the token expiration time.
+        /// </summary>
+        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
+        {
+            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
+
+            return GetTokenInternal(bootstrapToken);
+        }
+
+        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
+        {
+            var cacheKey = bootstrapToken != null ? bootstrapToken.Id : WscTokenKey;
+
+            var securityToken = (SecurityToken) TokenCache.Get(cacheKey);
+
             if (securityToken == null)
             {
-                 securityToken = _tokenService.GetToken();
-                _tokenCache.Add(new CacheItem(TokenKey, securityToken), new CacheItemPolicy{AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew });
+                securityToken = _tokenService.GetToken();
+                TokenCache.Add(new CacheItem(cacheKey, securityToken),
+                    new CacheItemPolicy {AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew});
             }
 
             return securityToken;
