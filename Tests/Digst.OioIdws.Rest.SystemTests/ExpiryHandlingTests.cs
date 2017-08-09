@@ -57,7 +57,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                     AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                     IssuerAudiences = () => Task.FromResult(new[]
                     {
-                        new IssuerAudiences("2E7A061560FA2C5E141A634DC1767DACAEEC8D12", "test cert")
+                        new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "test cert")
                             .Audience(new Uri("https://wsp.itcrew.dk")),
                     }),
                     SecurityTokenStore = tokenStoreWrapper.Object,
@@ -88,7 +88,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                     AccessTokenIssuerEndpoint = new Uri(serverEndpoint + "/accesstoken/issue"),
                     SecurityTokenService = new OioIdwsStsSettings
                     {
-                        Certificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"),
+                        Certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
                         EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                         TokenLifeTime = TimeSpan.FromMinutes(5)
                     },

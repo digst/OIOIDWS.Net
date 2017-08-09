@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
@@ -23,8 +24,15 @@ namespace Digst.OioIdws.Test
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            // Check certificates
+            if (!CertMaker.rootCertIsTrusted())
+                CertMaker.trustRootCert();
+
             // Start proxy server (to simulate man in the middle attacks)
-            FiddlerApplication.Startup(8877, true, true, false);
+            if (!FiddlerApplication.IsStarted())
+            {
+                FiddlerApplication.Startup(8877, true, true, false);
+            }
         }
 
         [ClassCleanup]
@@ -47,7 +55,7 @@ namespace Digst.OioIdws.Test
         public void TotalFlowSucessTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             // Act
             var securityToken = tokenService.GetToken();
@@ -63,7 +71,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToBodyTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -74,6 +82,11 @@ namespace Digst.OioIdws.Test
                 oS.utilReplaceInRequest("<wst:Lifetime>", "<wst:Lifetime testAttribute=\"Tampered\">");
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
+            //while (true)
+            //{
+            //    Thread.Sleep(1);
+            //}
 
             // Act
             try
@@ -93,7 +106,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -123,7 +136,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -166,7 +179,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToHeaderToTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -196,7 +209,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -246,7 +259,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToTokenTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -297,7 +310,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestFailDueToReplayAttackTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             byte[] recordedRequest = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
@@ -348,7 +361,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToBodyTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -393,7 +406,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -451,7 +464,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToHeaderRelatesToTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -509,7 +522,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -554,7 +567,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -619,7 +632,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseFailDueToReplayAttackTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             byte[] recordedResponse = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)

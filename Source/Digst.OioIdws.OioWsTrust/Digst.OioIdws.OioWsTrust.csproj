@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TokenIssuingRequestConfiguration.cs" />
-    <Compile Include="ITokenIssuingService.cs" />
+    <Compile Include="ITokenService.cs" />
+    <Compile Include="TokenServiceConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplyAttackCache.cs" />
     <Compile Include="SignatureCase\ISignatureCaseMessageTransformer.cs" />
@@ -55,7 +55,8 @@
     <Compile Include="SignatureCase\SignatureCaseChannel.cs" />
     <Compile Include="SignatureCase\SignatureCaseChannelFactory.cs" />
     <Compile Include="SignatureCase\SignatureCaseMessageTransformer.cs" />
-    <Compile Include="TokenIssuingService.cs" />
+    <Compile Include="TokenService.cs" />
+    <Compile Include="TokenServiceCache.cs" />
     <Compile Include="Utils\RSAPKCS1SHA256SignatureDescription.cs" />
     <Compile Include="Utils\SignedXMLWithIdResolvement.cs" />
     <Compile Include="Utils\XmlSignatureUtils.cs" />

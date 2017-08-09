@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.OioWsTrust;
 
 namespace Digst.OioIdws.Rest.Client
 {
     public class OioIdwsStsSettings
     {
+        public OioIdwsStsSettings()
+        {
+            UseTokenCache = true;
+        }
+
         /// <summary>
         /// Represents the SecurityTokenService certificate containing only the public key. This should be a FOCES certificate.
         /// </summary>
@@ -23,5 +29,17 @@ namespace Digst.OioIdws.Rest.Client
         /// All values above 480 minutes (8 hours) will result in a token life time of 8 hours.
         /// </summary>
         public TimeSpan? TokenLifeTime { get; set; }
+
+        /// <summary>
+        /// <see cref="TokenServiceConfiguration.CacheClockSkew"/>
+        /// </summary>
+        public TimeSpan? CacheClockSkew { get; set; }
+
+
+        /// <summary>
+        /// Specifies wheter or not to use the token cache variant <see cref="TokenServiceCache"/> or <see cref="TokenService"/>.
+        /// If true <see cref="TokenServiceCache"/> is used which is the default.
+        /// </summary>
+        public bool UseTokenCache { get; set; }
     }
 }

@@ -49,25 +49,6 @@ namespace Digst.OioIdws.Test
         }
 
         /// <summary>
-        /// Tests that the XML signature can be verified on the resulting request after having been through the complete WCF channel stack. Request has been taken by using Fiddler.
-        /// </summary>
-        [TestMethod]
-        [TestCategory(Constants.UnitTest)]
-        public void SignatureWscWspRequestTest()
-        {
-            // Arrange
-            var rtsSoapMessageSigned = XDocument.Load(@"Resources\WscWspRequest.xml");
-
-            var cert = new X509Certificate2(Convert.FromBase64String("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"));
-
-            // Act
-            var verified = XmlSignatureUtils.VerifySignature(rtsSoapMessageSigned, cert);
-
-            // Assert
-            Assert.IsTrue(verified);
-        }
-
-        /// <summary>
         /// Tests that our <see cref="XmlSignatureUtils.VerifySignature"/> works with the RSTR comming from the STS. Response has been taken by using Fiddler.
         /// </summary>
         [TestMethod]

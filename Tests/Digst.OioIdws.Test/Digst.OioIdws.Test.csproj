@@ -69,7 +69,6 @@
     </Compile>
     <Compile Include="SignatureTests.cs" />
     <Compile Include="LibBasTests.cs" />
-    <Compile Include="StsCommunicationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">

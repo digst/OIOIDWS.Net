@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;
+using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
@@ -25,7 +26,10 @@ namespace Digst.OioIdws.Test
         public static void Setup(TestContext context)
         {
             // Start proxy server (to simulate man in the middle attacks)
-            FiddlerApplication.Startup(8877, true, true, false);
+            if (!FiddlerApplication.IsStarted())
+            {
+                FiddlerApplication.Startup(8877, true, true, false);
+            }
         }
 
         [ClassCleanup]
@@ -48,7 +52,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustRequestExpiredTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -80,7 +84,7 @@ namespace Digst.OioIdws.Test
         public void OioWsTrustResponseExpiredTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {

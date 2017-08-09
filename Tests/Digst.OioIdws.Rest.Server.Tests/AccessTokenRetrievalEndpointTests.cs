@@ -26,7 +26,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         [TestCategory(Constants.UnitTest)]
         public async Task RetrieveAccessToken_Success_TokenInformationIsInResponse()
         {
-            var wspCertificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
+            var wspCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a");
 
             var accessToken = "dummy";
             var oioIdwsTokenKey = "accesstoken1";
@@ -74,7 +74,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
                 SecurityTokenStore = tokenStoreMock.Object,
                 TokenDataFormat = tokenDataFormatMock.Object,
-                TrustedWspCertificateThumbprints = new[] { "2e7a061560fa2c5e141a634dc1767dacaeec8d12" },
+                TrustedWspCertificateThumbprints = new[] { "d9f10c97aa647727adb64a349bb037c5c23c9a7a" },
                 CertificateValidator = X509CertificateValidator.None //no reason for tests to validate certs
             };
 
@@ -125,7 +125,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
                 //with untrusted certificate
-                certificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
+                certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a");
                 response = await server.HttpClient.GetAsync($"/accesstoken?accesstoken1");
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
             }
@@ -135,7 +135,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
         [TestCategory(Constants.UnitTest)]
         public async Task RetrieveAccessToken_ExpiredAccessToken_ReturnsUnauthorized()
         {
-            var wspCertificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12");
+            var wspCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a");
 
             var accessToken = "accessToken1";
             var oioIdwsTokenKey = "tokenValue1";
@@ -170,7 +170,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
                 IssuerAudiences = () => Task.FromResult(new IssuerAudiences[0]),
-                TrustedWspCertificateThumbprints = new[] { "2e7a061560fa2c5e141a634dc1767dacaeec8d12" },
+                TrustedWspCertificateThumbprints = new[] { "d9f10c97aa647727adb64a349bb037c5c23c9a7a" },
                 CertificateValidator = X509CertificateValidator.None, //no reason for tests to validate certs
                 TokenDataFormat = tokenDataFormatMock.Object,
                 SystemClock = timeMock.Object,

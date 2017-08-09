@@ -51,7 +51,7 @@ Digst.OioIdws.Rest.Examples.ServerCombined.exe");
                 AccessTokenIssuerEndpoint = new Uri(asEndpoint),
                 SecurityTokenService = new OioIdwsStsSettings
                 {
-                    Certificate = CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"),
+                    Certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
                     EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                 }
             };

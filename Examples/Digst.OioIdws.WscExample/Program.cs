@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Digst.OioIdws.WscExample.HelloWorldProxy;
 using log4net.Config;
@@ -18,7 +19,7 @@ namespace Digst.OioIdws.WscExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
             var securityToken = tokenService.GetToken();
 
             // Call WSP with token

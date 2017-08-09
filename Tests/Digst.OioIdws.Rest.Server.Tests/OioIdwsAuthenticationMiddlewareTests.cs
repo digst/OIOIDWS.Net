@@ -129,7 +129,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     return Task.FromResult(0);
                 },
                 tokenFunc: () => new OioIdwsToken { Type = AccessTokenType.HolderOfKey, CertificateThumbprint = "correct cert thumbprint" },
-                certificateFunc: () => CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"));
+                certificateFunc: () => CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"));
         }
 
         [TestMethod]
@@ -149,8 +149,8 @@ namespace Digst.OioIdws.Rest.Server.Tests
                     Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                     return Task.FromResult(0);
                 },
-                tokenFunc: () => new OioIdwsToken { Type = AccessTokenType.HolderOfKey, CertificateThumbprint = "2e7a061560fa2c5e141a634dc1767dacaeec8d12" },
-                certificateFunc: () => CertificateUtil.GetCertificate("2e7a061560fa2c5e141a634dc1767dacaeec8d12"),
+                tokenFunc: () => new OioIdwsToken { Type = AccessTokenType.HolderOfKey, CertificateThumbprint = "d9f10c97aa647727adb64a349bb037c5c23c9a7a" },
+                certificateFunc: () => CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
                 identityFunc: token => token != null ? new ClaimsIdentity() : null /*returns no identity if no token*/);
         }
 

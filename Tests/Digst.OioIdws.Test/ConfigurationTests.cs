@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.Wsc.OioWsTrust;
+using Digst.OioIdws.OioWsTrust;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
+using Digst.OioIdws.Wsc;
+using Digst.OioIdws.Wsc.OioWsTrust;
 
 namespace Digst.OioIdws.Test
 {
@@ -13,13 +15,11 @@ namespace Digst.OioIdws.Test
         [TestCategory(Constants.UnitTest)]
         public void ConfigMissingInConfigurationTest()
         {
-            // Arrange
-            ITokenService tokenService = new TokenService();
             
             // Act
             try
             {
-                tokenService.GetToken(null);
+                new TokenService(null);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -34,35 +34,22 @@ namespace Digst.OioIdws.Test
         public void WspEndpointIDMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
-            var oioIdwsWscConfiguration = new Configuration();
-            oioIdwsWscConfiguration.ClientCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.CurrentUser,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
-            };
-            oioIdwsWscConfiguration.StsCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.LocalMachine,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "2e7a061560fa2c5e141a634dc1767dacaeec8d12"
-            };
-            oioIdwsWscConfiguration.StsEndpointAddress =
+            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
+            tokenServiceConfiguration.StsCertificate = new X509Certificate2();
+            tokenServiceConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
 
             // Act
             try
             {
-                tokenService.GetToken(oioIdwsWscConfiguration);
+                new TokenService(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
             catch (ArgumentException e)
             {
-                Assert.AreEqual("WspEndpointID", e.Message);
+                Assert.AreEqual("WspEndpointId", e.Message);
             }
         }
 
@@ -71,28 +58,15 @@ namespace Digst.OioIdws.Test
         public void StsEndpointAddressMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
-            var oioIdwsWscConfiguration = new Configuration();
-            oioIdwsWscConfiguration.ClientCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.CurrentUser,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
-            };
-            oioIdwsWscConfiguration.StsCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.LocalMachine,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "2e7a061560fa2c5e141a634dc1767dacaeec8d12"
-            };
-            oioIdwsWscConfiguration.WspEndpointID = "https://saml.nnit001.dmz.inttest";
+            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
+            tokenServiceConfiguration.StsCertificate = new X509Certificate2();
+            tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
 
             // Act
             try
             {
-                tokenService.GetToken(oioIdwsWscConfiguration);
+                new TokenService(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -107,24 +81,16 @@ namespace Digst.OioIdws.Test
         public void StsCertificateMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
-            var oioIdwsWscConfiguration = new Configuration();
-            oioIdwsWscConfiguration.ClientCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.CurrentUser,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "ce3b36692d8d5b731dd1157849a31f1599e524da"
-            };
-            oioIdwsWscConfiguration.StsEndpointAddress =
+            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
+            tokenServiceConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
-            oioIdwsWscConfiguration.WspEndpointID = "https://saml.nnit001.dmz.inttest";
-
+            tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
 
             // Act
             try
             {
-                tokenService.GetToken(oioIdwsWscConfiguration);
+                new TokenService(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -139,23 +105,16 @@ namespace Digst.OioIdws.Test
         public void ClientCertificateMissingInConfigurationTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService();
-            var oioIdwsWscConfiguration = new Configuration();
-            oioIdwsWscConfiguration.StsCertificate = new Certificate
-            {
-                StoreLocation = StoreLocation.LocalMachine,
-                StoreName = StoreName.My,
-                X509FindType = X509FindType.FindByThumbprint,
-                FindValue = "2e7a061560fa2c5e141a634dc1767dacaeec8d12"
-            };
-            oioIdwsWscConfiguration.StsEndpointAddress =
+            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            tokenServiceConfiguration.StsCertificate = new X509Certificate2();
+            tokenServiceConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
-            oioIdwsWscConfiguration.WspEndpointID = "https://saml.nnit001.dmz.inttest";
+            tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
 
             // Act
             try
             {
-                tokenService.GetToken(oioIdwsWscConfiguration);
+                new TokenService(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert

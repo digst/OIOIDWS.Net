@@ -15,6 +15,7 @@ namespace Digst.OioIdws.Rest.Client
 {
     public class OioIdwsClient
     {
+        private readonly ITokenService _tokenService;
         public OioIdwsClientSettings Settings { get; }
 
         public OioIdwsClient(OioIdwsClientSettings settings)
@@ -44,6 +45,30 @@ namespace Digst.OioIdws.Rest.Client
             {
                 throw new ArgumentNullException(nameof(settings.SecurityTokenService.Certificate), "Certificate for the SecurityTokenService must be set");
             }
+
+            var tokenServiceConfiguration = new TokenServiceConfiguration
+            {
+                ClientCertificate = Settings.ClientCertificate,
+                StsCertificate = Settings.SecurityTokenService.Certificate,
+                StsEndpointAddress = Settings.SecurityTokenService.EndpointAddress.ToString(),
+                TokenLifeTimeInMinutes = (int?) Settings.SecurityTokenService.TokenLifeTime.GetValueOrDefault().TotalMinutes,
+                SendTimeout = Settings.SecurityTokenService.SendTimeout,
+                WspEndpointId = Settings.AudienceUri.ToString()
+            };
+
+            if (settings.SecurityTokenService.CacheClockSkew.HasValue)
+            {
+                tokenServiceConfiguration.CacheClockSkew = settings.SecurityTokenService.CacheClockSkew.Value;
+            }
+
+            if (settings.SecurityTokenService.UseTokenCache)
+            {
+                _tokenService = new TokenServiceCache(tokenServiceConfiguration);
+            }
+            else
+            {
+                _tokenService = new TokenService(tokenServiceConfiguration);
+            }
         }
 
         /// <summary>
@@ -59,16 +84,7 @@ namespace Digst.OioIdws.Rest.Client
 
         public GenericXmlSecurityToken GetSecurityToken()
         {
-            var tokenService = new TokenIssuingService();
-            return (GenericXmlSecurityToken) tokenService.RequestToken(new TokenIssuingRequestConfiguration
-            {
-                ClientCertificate = Settings.ClientCertificate,
-                StsCertificate = Settings.SecurityTokenService.Certificate,
-                StsEndpointAddress = Settings.SecurityTokenService.EndpointAddress.ToString(),
-                TokenLifeTimeInMinutes = (int?)Settings.SecurityTokenService.TokenLifeTime.GetValueOrDefault().TotalMinutes,
-                SendTimeout = Settings.SecurityTokenService.SendTimeout,
-                WspEndpointId = Settings.AudienceUri.ToString(),
-            });
+            return (GenericXmlSecurityToken) _tokenService.GetToken();
         }
 
         public async Task<AccessToken> GetAccessTokenAsync(

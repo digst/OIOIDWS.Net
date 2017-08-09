@@ -46,11 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OioWsTrust\CertificateUtil.cs" />
     <Compile Include="OioWsTrust\Configuration.cs" />
-    <Compile Include="OioWsTrust\ITokenService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OioWsTrust\TokenService.cs" />
-    <Compile Include="Utils\CertificateUtil.cs" />
+    <Compile Include="OioWsTrust\TokenServiceConfigurationFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config.install.xdt" />

@@ -9,11 +9,12 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.HelloWorldProxy;
-using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
+using Digst.OioIdws.Wsc.OioWsTrust;
 
 namespace Digst.OioIdws.Test
 {
@@ -30,14 +31,21 @@ namespace Digst.OioIdws.Test
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            // Check certificates
+            if (!CertMaker.rootCertIsTrusted())
+                CertMaker.trustRootCert();
+
             // Start proxy server (to simulate man in the middle attacks)
-            FiddlerApplication.Startup(8877, true, false, false);
+            if (!FiddlerApplication.IsStarted())
+            {
+                FiddlerApplication.Startup(8877, true, false, false);
+            }
 
             // Start WSP
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
             _securityToken = tokenService.GetToken();
         }
 

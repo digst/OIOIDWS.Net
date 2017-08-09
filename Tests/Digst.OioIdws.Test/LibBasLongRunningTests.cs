@@ -2,11 +2,12 @@
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;
+using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.HelloWorldProxy;
-using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
+using Digst.OioIdws.Wsc.OioWsTrust;
 
 namespace Digst.OioIdws.Test
 {
@@ -22,7 +23,10 @@ namespace Digst.OioIdws.Test
         public static void Setup(TestContext context)
         {
             // Start proxy server (to simulate man in the middle attacks)
-            FiddlerApplication.Startup(8877, true, false, false);
+            if (!FiddlerApplication.IsStarted())
+            {
+                FiddlerApplication.Startup(8877, true, false, false);
+            }
 
             // Start WSP
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
@@ -52,7 +56,7 @@ namespace Digst.OioIdws.Test
         {
             // Arrange
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
             var securityToken = tokenService.GetToken();
             var client = new HelloWorldClient();
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
@@ -79,7 +83,7 @@ namespace Digst.OioIdws.Test
         {
             // Arrange
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
             var securityToken = tokenService.GetToken();
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
@@ -116,7 +120,7 @@ namespace Digst.OioIdws.Test
         {
             // Arrange
             // Retrieve token
-            ITokenService tokenService = new TokenService();
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
             var securityToken = tokenService.GetToken();
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)

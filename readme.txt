@@ -65,8 +65,8 @@ It is necessary to install into both location to avoid certificate warnings, sin
 
 Next, the certificates must be bound to an ip/port on your machine
 
-netsh http add sslcert ipport=0.0.0.0:10001 certhash=F194C2379F8DEF480FF310B785829254136CA8AE appid={00000000-0000-0000-0000-000000000000}
-netsh http add sslcert ipport=0.0.0.0:10002 certhash=F0549886736E2F726F96D38D86EF4B65A8A6B2D1 appid={00000000-0000-0000-0000-000000000000}
+netsh http add sslcert ipport=0.0.0.0:10001 certhash=5AFB4FB6C6BD0E6D14FB6F1DDDDC86330A2C623E appid={00000000-0000-0000-0000-000000000000}
+netsh http add sslcert ipport=0.0.0.0:10002 certhash=29EF4FA3EA7CDBE4FCAEEB2A7F34961852915EEC appid={00000000-0000-0000-0000-000000000000}
 
 Now the REST example projects Digst.OioIdws.Rest.Examples.AS and Digst.OioIdws.Rest.Examples.WSP can be started from a elevated command line (to allow the HttpListener in Katana to register the URL on your machine) which will now listen to the hosts https://digst.oioidws.rest.as:10001 and https://digst.oioidws.rest.wsp:10002
 

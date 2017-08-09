@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.Wsc.OioWsTrust;
 
-namespace Digst.OioIdws.Wsc.Utils
+namespace Digst.OioIdws.Wsc.OioWsTrust
 {
     public class CertificateUtil
     {

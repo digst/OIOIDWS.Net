@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.OioWsTrust;
 
 namespace Digst.OioIdws.Wsc.OioWsTrust
 {
@@ -102,6 +103,25 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
                 this["stsCertificate"] = value;
             }
         }
+
+        /// <summary>
+        /// This is used to determine how many seconds before the token actually expires ... the token should be removed from the cache.
+        /// E.g. if token will expire in 100 seconds and <see cref="CacheClockSkewInSeconds"/> is set to 10 seconds ... then the token will be removed from the cache after 90 seconds.
+        /// If not set ... the default value is 300 seconds.
+        /// This configuration setting is only used in conjunction with <see cref="TokenServiceCache"/>
+        /// </summary>
+        [ConfigurationProperty("cacheClockSkewInSeconds", IsRequired = false)]
+        public int? CacheClockSkewInSeconds
+        {
+            get
+            {
+                return (int?)this["cacheClockSkewInSeconds"];
+            }
+            set
+            {
+                this["cacheClockSkewInSeconds"] = value;
+            }
+        }
     }
 
     public class Certificate : ConfigurationElement
@@ -129,9 +149,13 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         public StoreName StoreName
         {
             get
-            { return (StoreName)this["storeName"]; }
+            {
+                return (StoreName)this["storeName"];
+            }
             set
-            { this["storeName"] = value; }
+            {
+                this["storeName"] = value;
+            }
         }
 
         /// <summary>
@@ -141,9 +165,13 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         public X509FindType X509FindType
         {
             get
-            { return (X509FindType)this["x509FindType"]; }
+            {
+                return (X509FindType)this["x509FindType"];
+            }
             set
-            { this["x509FindType"] = value; }
+            {
+                this["x509FindType"] = value;
+            }
         }
 
         /// <summary>
@@ -153,9 +181,13 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         public string FindValue
         {
             get
-            { return (string)this["findValue"]; }
+            {
+                return (string)this["findValue"];
+            }
             set
-            { this["findValue"] = value; }
+            {
+                this["findValue"] = value;
+            }
         }
     }
 }
