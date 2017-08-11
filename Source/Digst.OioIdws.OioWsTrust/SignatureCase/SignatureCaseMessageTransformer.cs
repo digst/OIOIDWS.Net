@@ -43,6 +43,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
         public const string Wsp12Namespace = "http://schemas.xmlsoap.org/ws/2004/09/policy"; // Corresponds to WS-Policy 1.2.
         public const string WspNamespace = "http://schemas.xmlsoap.org/ws/2002/12/policy"; // Corresponds to WS-SecurityPolicy
         public const string Wst13Namespace = "http://docs.oasis-open.org/ws-sx/ws-trust/200512";
+        public const string Wst14Namespace = "http://docs.oasis-open.org/ws-sx/ws-trust/200802";
         public const string WsuNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
         public const string Wsse10Namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
         public const string Wsse11Namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd";
@@ -52,7 +53,7 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
         public const string WcfDiagnosticsNamespace = "http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics";
         
         // STS Entity ID's
-        public const string BootstrapTokenCaseEntityId = "https://bootstrap.sts.nemlog-in.dk/"; // Currently not used
+        public const string BootstrapTokenCaseEntityId = "https://bootstrap.sts.nemlog-in.dk/"; 
         public const string LocalTokenCaseEntityId = " https://local.sts.nemlog-in.dk/"; // Currently not used
         public const string SignatureCaseEntityId = "https://signature.sts.nemlog-in.dk/";
         
@@ -282,6 +283,8 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             namespaceManager.AddNamespace("s", S11Namespace);
             namespaceManager.AddNamespace("vs", VsDebuggerNamespace);
             namespaceManager.AddNamespace("vcf", WcfDiagnosticsNamespace);
+            namespaceManager.AddNamespace("wst13", Wst13Namespace);
+            namespaceManager.AddNamespace("wst14", Wst14Namespace);
 
             // The spec states that all header elements (also those not used by the STS) must be included in the signature. Hence, we need to remove the debugger element.
             // Remove VS debugger element. It is only present when running in debug mode. So removing the element is just to make life easier for developers.
@@ -306,7 +309,10 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             // a:To is normally set to the URI of the service endpoint by the framework which is not what we need here and therefore we neeed to set it manually.
             // In order to work ... ManualAddressing must be set to true on HttpsTransportBindingElement or else the a:To is overwritten in the HttpsTransportChannel.
             var toElement = new XElement(XName.Get("To", WsaNamespace));
-            toElement.Value = SignatureCaseEntityId;
+            toElement.Value = IsBootstrapScenario(xDocument, namespaceManager) 
+                ? BootstrapTokenCaseEntityId 
+                : SignatureCaseEntityId;
+
             messageIdElement.AddAfterSelf(toElement);
             
             // Add Security element
@@ -328,6 +334,11 @@ namespace Digst.OioIdws.OioWsTrust.SignatureCase
             securityElement.Add(binarySecurityTokenElement);
             var headerElement = xDocument.XPathSelectElement("/s:Envelope/s:Header", namespaceManager);
             headerElement.Add(securityElement);
+        }
+
+        private static bool IsBootstrapScenario(XDocument xDocument, XmlNamespaceManager namespaceManager)
+        {
+            return xDocument.XPathSelectElement("/s:Envelope/s:Body/wst13:RequestSecurityToken/wst14:ActAs", namespaceManager) != null;
         }
 
         private static void ManipulateBody(XDocument xDocument)
