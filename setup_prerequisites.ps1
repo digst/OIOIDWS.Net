@@ -13,8 +13,8 @@ $certpassword = ConvertTo-SecureString -String "Test1234" -AsPlainText -Force
 $certpassword2 = ConvertTo-SecureString -String "test1234" -AsPlainText -Force
 
 write-host "Installing boostrap example ssl certificate"
-$bootstrapSslcertificate = Import-PfxCertificate 'misc\certificates\serviceprovider ssl.pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
-$bootstrapSslcertificate = Import-PfxCertificate 'misc\certificates\serviceprovider ssl.pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+$bootstrapSslcertificate = Import-PfxCertificate 'misc\certificates\SP SSL (oiosaml-net.dk).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
+$bootstrapSslcertificate = Import-PfxCertificate 'misc\certificates\SP SSL (oiosaml-net.dk).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 write-host "Installed boostrap example ssl certificate $($bootstrapSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing serviceprovider's signing certificate"
