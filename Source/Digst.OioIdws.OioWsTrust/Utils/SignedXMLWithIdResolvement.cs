@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.Xml;
 using System.Xml;
-using Digst.OioIdws.OioWsTrust.SignatureCase;
+using Digst.OioIdws.OioWsTrust.ProtocolChannel;
 
 namespace Digst.OioIdws.OioWsTrust.Utils
 {

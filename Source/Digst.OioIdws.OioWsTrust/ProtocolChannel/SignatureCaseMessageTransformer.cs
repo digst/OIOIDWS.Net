@@ -11,7 +11,7 @@ using System.Xml.XPath;
 using Digst.OioIdws.Common.Logging;
 using Digst.OioIdws.OioWsTrust.Utils;
 
-namespace Digst.OioIdws.OioWsTrust.SignatureCase
+namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
     /// <summary>
     /// This class implements the signature case part of specification [NEMLOGIN-STSRULES].

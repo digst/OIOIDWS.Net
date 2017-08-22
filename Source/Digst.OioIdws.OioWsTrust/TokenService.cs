@@ -6,8 +6,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Security;
 using System.Text;
 using Digst.OioIdws.Common.Logging;
-using Digst.OioIdws.OioWsTrust.SignatureCase;
-using Digst.OioIdws.OioWsTrust.Utils;
+using Digst.OioIdws.OioWsTrust.ProtocolChannel;
 
 namespace Digst.OioIdws.OioWsTrust
 {

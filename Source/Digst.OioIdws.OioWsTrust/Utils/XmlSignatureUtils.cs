@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
 using System.Xml.Linq;
-using Digst.OioIdws.OioWsTrust.SignatureCase;
+using Digst.OioIdws.OioWsTrust.ProtocolChannel;
 
 namespace Digst.OioIdws.OioWsTrust.Utils
 {
