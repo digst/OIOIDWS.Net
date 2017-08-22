@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Remoting.Messaging;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Client;
@@ -38,7 +37,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                         IssuerAudiences = () => Task.FromResult(new[]
                         {
                             new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "test cert")
-                                .Audience(new Uri("https://wsp.itcrew.dk")),
+                                .Audience(new Uri("https://wsp.oioidws-net.dk")),
                         }),
                     })
                     .Use(async (context, next) =>
@@ -50,8 +49,8 @@ namespace Digst.OioIdws.Rest.SystemTests
             {
                 var settings = new OioIdwsClientSettings
                 {
-                    ClientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a"),
-                    AudienceUri = new Uri("https://wsp.itcrew.dk"),
+                    ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
+                    AudienceUri = new Uri("https://wsp.oioidws-net.dk"),
                     AccessTokenIssuerEndpoint = new Uri(serverEndpoint + "/accesstoken/issue"),
                     SecurityTokenService = new OioIdwsStsSettings
                     {

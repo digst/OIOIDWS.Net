@@ -2,6 +2,7 @@
 using System.IO;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -79,14 +80,9 @@ namespace Digst.OioIdws.Test
                 if (StsHostName != oS.hostname)
                     return;
 
-                oS.utilReplaceInRequest("<wst:Lifetime>", "<wst:Lifetime testAttribute=\"Tampered\">");
+                oS.utilReplaceInRequest("<trust:Lifetime>", "<trust:Lifetime testAttribute=\"Tampered\">");
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
-
-            //while (true)
-            //{
-            //    Thread.Sleep(1);
-            //}
 
             // Act
             try
@@ -114,7 +110,7 @@ namespace Digst.OioIdws.Test
                 if (StsHostName != oS.hostname)
                     return;
 
-                oS.utilReplaceInRequest("<wsa:Action", "<wsa:Action testAttribute=\"Tampered\"");
+                oS.utilReplaceInRequest("<a:Action", "<a:Action testAttribute=\"Tampered\"");
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
@@ -187,7 +183,7 @@ namespace Digst.OioIdws.Test
                 if (StsHostName != oS.hostname)
                     return;
 
-                oS.utilReplaceInRequest("<wsa:To", "<wsa:To testAttribute=\"Tampered\"");
+                 oS.utilReplaceInRequest("<a:To", "<a:To testAttribute=\"Tampered\"");
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 

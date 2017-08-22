@@ -41,9 +41,9 @@ namespace Digst.OioIdws.Rest.SystemTests
                         IssuerAudiences = () => Task.FromResult(new[]
                         {
                             new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "test cert")
-                                .Audience(new Uri("https://wsp.itcrew.dk")),
+                                .Audience(new Uri("https://wsp.oioidws-net.dk")),
                         }),
-                        TrustedWspCertificateThumbprints = new[] {"dc35c0466ad606422adff717c9cb8e3274d8772e"},
+                        TrustedWspCertificateThumbprints = new[] {"1F0830937C74B0567D6B05C07B6155059D9B10C7"},
                     });
             });
 
@@ -57,7 +57,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                     {
                         TokenProvider =
                             new RestTokenProvider(new Uri(asEndpoint + "/accesstoken"),
-                                CertificateUtil.GetCertificate("dc35c0466ad606422adff717c9cb8e3274d8772e"))
+                                CertificateUtil.GetCertificate("1F0830937C74B0567D6B05C07B6155059D9B10C7"))
 
                     })
                     .Use(async (context, next) =>
@@ -71,8 +71,8 @@ namespace Digst.OioIdws.Rest.SystemTests
 
             var settings = new OioIdwsClientSettings
             {
-                ClientCertificate = CertificateUtil.GetCertificate("0919ed32cf8758a002b39c10352be7dcccf1222a"),
-                AudienceUri = new Uri("https://wsp.itcrew.dk"),
+                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
+                AudienceUri = new Uri("https://wsp.oioidws-net.dk"),
                 AccessTokenIssuerEndpoint = new Uri(asEndpoint + "/accesstoken/issue"),
                 SecurityTokenService = new OioIdwsStsSettings
                 {

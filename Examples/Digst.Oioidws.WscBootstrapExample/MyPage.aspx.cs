@@ -109,7 +109,7 @@ namespace WebsiteDemo
 
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
 
-            return channelWithIssuedToken.HelloSign("World");
+            return channelWithIssuedToken.HelloSign("Oiosaml-net.dk TEST");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Digst.OioIdws.Rest.Examples.ServerCombinedNuget
                 IssuerAudiences = () => Task.FromResult(new[]
                 {
                     new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "test cert")
-                        .Audience(new Uri("https://wsp.itcrew.dk")),
+                        .Audience(new Uri("https://wsp.oioidws-net.dk")),
                 }),
             })
             .Use<MyService>();
