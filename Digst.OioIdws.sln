@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.Oioidws.WscBootstrapE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.LibBas.Test", "Tests\Digst.OioIdws.LibBas.Test\Digst.OioIdws.LibBas.Test.csproj", "{75814AC9-8E36-4CDF-8697-D800A143411A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.LibBas.LongRunningTest", "Tests\Digst.OioIdws.LibBas.LongRunningTest\Digst.OioIdws.LibBas.LongRunningTest.csproj", "{FA632557-8F3E-492B-8DA3-D2686938FBC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,10 @@ Global
 		{75814AC9-8E36-4CDF-8697-D800A143411A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75814AC9-8E36-4CDF-8697-D800A143411A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75814AC9-8E36-4CDF-8697-D800A143411A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA632557-8F3E-492B-8DA3-D2686938FBC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA632557-8F3E-492B-8DA3-D2686938FBC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA632557-8F3E-492B-8DA3-D2686938FBC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA632557-8F3E-492B-8DA3-D2686938FBC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,5 +204,6 @@ Global
 		{AA1D71AB-D8B3-4450-A068-BA77D169F289} = {23D96302-91BF-40F0-A372-C288A919A7D4}
 		{5CABB53A-798E-4725-B755-18A60ECC5D31} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
 		{75814AC9-8E36-4CDF-8697-D800A143411A} = {23D96302-91BF-40F0-A372-C288A919A7D4}
+		{FA632557-8F3E-492B-8DA3-D2686938FBC8} = {23D96302-91BF-40F0-A372-C288A919A7D4}
 	EndGlobalSection
 EndGlobal
