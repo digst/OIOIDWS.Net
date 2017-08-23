@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.LibBas", "Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj", "{1DC7EA39-865D-4386-A814-9062441056FE}"
 EndProject
@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.WscExample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.WspExample", "Examples\Digst.OioIdws.WspExample\Digst.OioIdws.WspExample.csproj", "{5B3CA328-4AFC-4F8E-BE25-75AACCFF5D54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Test", "Tests\Digst.OioIdws.Test\Digst.OioIdws.Test.csproj", "{D162D619-F3F3-407F-9FB4-5B5EC00AA33D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.OioWsTrust.Test", "Tests\Digst.OioIdws.Test\Digst.OioIdws.OioWsTrust.Test.csproj", "{D162D619-F3F3-407F-9FB4-5B5EC00AA33D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Wsc", "Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj", "{43DC7EFC-447D-4D7D-A497-5CC7C60A006D}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.SystemTests", "Tests\Digst.OioIdws.Rest.SystemTests\Digst.OioIdws.Rest.SystemTests.csproj", "{AA1D71AB-D8B3-4450-A068-BA77D169F289}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.Oioidws.WscBootstrapExample", "Examples\Digst.Oioidws.WscBootstrapExample\Digst.Oioidws.WscBootstrapExample.csproj", "{5CABB53A-798E-4725-B755-18A60ECC5D31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.LibBas.Test", "Tests\Digst.OioIdws.LibBas.Test\Digst.OioIdws.LibBas.Test.csproj", "{75814AC9-8E36-4CDF-8697-D800A143411A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,6 +163,10 @@ Global
 		{5CABB53A-798E-4725-B755-18A60ECC5D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CABB53A-798E-4725-B755-18A60ECC5D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CABB53A-798E-4725-B755-18A60ECC5D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75814AC9-8E36-4CDF-8697-D800A143411A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75814AC9-8E36-4CDF-8697-D800A143411A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75814AC9-8E36-4CDF-8697-D800A143411A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75814AC9-8E36-4CDF-8697-D800A143411A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,5 +197,6 @@ Global
 		{7B85283D-EAB3-42A4-B6B1-E75A73B6C920} = {ADF6BF1F-D0D7-462D-AB68-EA852C2F67E5}
 		{AA1D71AB-D8B3-4450-A068-BA77D169F289} = {23D96302-91BF-40F0-A372-C288A919A7D4}
 		{5CABB53A-798E-4725-B755-18A60ECC5D31} = {7E8C8722-21B6-4A9E-8289-7751D9A4581F}
+		{75814AC9-8E36-4CDF-8697-D800A143411A} = {23D96302-91BF-40F0-A372-C288A919A7D4}
 	EndGlobalSection
 EndGlobal

@@ -7,8 +7,8 @@
     <ProjectGuid>{D162D619-F3F3-407F-9FB4-5B5EC00AA33D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Test</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Test</AssemblyName>
+    <RootNamespace>Digst.OioIdws.OioWsTrust.Test</RootNamespace>
+    <AssemblyName>Digst.OioIdws.OioWsTrust.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationTests.cs" />
-    <Compile Include="LibBasLongRunningTests.cs" />
     <Compile Include="OioWsTrustLongRunningTests.cs" />
     <Compile Include="OioWsTrustTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,7 +67,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="SignatureTests.cs" />
-    <Compile Include="LibBasTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">

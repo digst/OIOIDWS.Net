@@ -5,6 +5,5 @@ namespace Digst.OioIdws.Test.Common
         public const string UnitTest = "UnitTest";
         public const string IntegrationTest = "IntegrationTest";
         public const string IntegrationTestLongRunning = "IntegrationTestLongRunning";
-        public const string SystemTest = "SystemTest";
     }
 }

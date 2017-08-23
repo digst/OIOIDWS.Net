@@ -1,21 +1,22 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;
-using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Test
+namespace Digst.OioIdws.OioWsTrust.Test
 {
     /// <summary>
-    /// This test suite is not working. Hence, the expiration time has not been tested.
-    /// https in combination with Fiddler makes WCF create an extra HttpWebRequest inside a existing HttpWebRequest. The existing HttpWebRequest has the correctly timeout value of 1 day due to debug property being set to true in app.config. However, the extra internally created HttpWebRequest has the default value of 100 seconds ... and this makes the this test suite fail.
-    /// The problem starts in the line proxyAddress = chain.Enumerator.Current; line number 898 in System.Net.ServerPointManager. Current is null when Fiddler is not running and the consequence is that no extra interanlly HttpWebRequest is created.
+    /// This test suite is not working. Hence, it has not been testet that NemLog-in STS rejects the RST SOAP message if the <wsu:Expires>2015-11-04T11:59:13Z</wsu:Expires> time has been exceeded.
+    /// One could argue that it is not up to OIOIDWS.Net to test that NemLog-in STS behaves correctly.
+    /// https in combination with Fiddler makes WCF create an extra HttpWebRequest inside a existing HttpWebRequest. The existing HttpWebRequest has the correctly timeout value of 1 day due to debug property being set to true in app.config. However, the extra internally created HttpWebRequest has the default value of 100 seconds ... and this makes the test suite fail.
+    /// The problem starts in the line proxyAddress = chain.Enumerator.Current; line number 898 in System.Net.ServerPointManager. Current is null when Fiddler is not running and the consequence is that no extra internally HttpWebRequest is created.
     /// Switching to http is not an option as NemLog-in STS only accepts https.
     /// </summary>
     [TestClass]
+    [Ignore]
     public class OioWsTrustLongRunningTests
     {
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;

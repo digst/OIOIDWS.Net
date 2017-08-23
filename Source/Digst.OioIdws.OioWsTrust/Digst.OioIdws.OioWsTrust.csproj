@@ -47,11 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITokenService.cs" />
-    <Compile Include="ProtocolChannel\ISignatureCaseMessageTransformer.cs" />
-    <Compile Include="ProtocolChannel\SignatureCaseBindingElement.cs" />
-    <Compile Include="ProtocolChannel\SignatureCaseChannel.cs" />
-    <Compile Include="ProtocolChannel\SignatureCaseChannelFactory.cs" />
-    <Compile Include="ProtocolChannel\SignatureCaseMessageTransformer.cs" />
+    <Compile Include="ProtocolChannel\IOioWsTrustMessageTransformer.cs" />
+    <Compile Include="ProtocolChannel\OioWsTrustBindingElement.cs" />
+    <Compile Include="ProtocolChannel\OioWsTrustChannel.cs" />
+    <Compile Include="ProtocolChannel\OioWsTrustChannelFactory.cs" />
+    <Compile Include="ProtocolChannel\OioWsTrustMessageTransformer.cs" />
     <Compile Include="TokenServiceConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplyAttackCache.cs" />
@@ -67,6 +67,7 @@
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

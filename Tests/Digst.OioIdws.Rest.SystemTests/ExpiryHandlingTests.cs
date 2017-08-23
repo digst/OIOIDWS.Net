@@ -27,7 +27,7 @@ namespace Digst.OioIdws.Rest.SystemTests
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        [TestCategory(Constants.SystemTest)]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
         public async Task CallWspService_ShortTokenLifeTime_RenegotiatesAccessToken()
         {
             var serverEndpoint = "https://digst.oioidws.rest.wsp:10002";

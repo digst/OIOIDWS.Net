@@ -2,17 +2,15 @@
 using System.IO;
 using System.ServiceModel;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Test
+namespace Digst.OioIdws.OioWsTrust.Test
 {
     [TestClass]
     public class OioWsTrustTests
@@ -30,10 +28,7 @@ namespace Digst.OioIdws.Test
                 CertMaker.trustRootCert();
 
             // Start proxy server (to simulate man in the middle attacks)
-            if (!FiddlerApplication.IsStarted())
-            {
-                FiddlerApplication.Startup(8877, true, true, false);
-            }
+            FiddlerApplication.Startup(8877, true, true, false);
         }
 
         [ClassCleanup]

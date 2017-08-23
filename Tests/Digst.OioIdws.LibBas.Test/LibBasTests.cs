@@ -6,18 +6,20 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Digst.OioIdws.LibBas.Test.HelloWorldProxy;
 using Digst.OioIdws.OioWsTrust;
-using Digst.OioIdws.Test.HelloWorldProxy;
-using Fiddler;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
 using Digst.OioIdws.Wsc.OioWsTrust;
+using Fiddler;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Test
+namespace Digst.OioIdws.LibBas.Test
 {
+
     [TestClass]
     public class LibBasTests
     {
@@ -36,11 +38,8 @@ namespace Digst.OioIdws.Test
                 CertMaker.trustRootCert();
 
             // Start proxy server (to simulate man in the middle attacks)
-            if (!FiddlerApplication.IsStarted())
-            {
-                FiddlerApplication.Startup(8877, true, false, false);
-            }
-
+            FiddlerApplication.Startup(8877, true, false, false);
+            
             // Start WSP
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
@@ -822,6 +821,120 @@ namespace Digst.OioIdws.Test
             {
                 // Assert
                 Assert.IsNotNull(mse, "The nonce is invalid or replayed.");
+            }
+        }
+
+        #endregion
+
+        #region Long running test
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
+        public void TotalFlowTokenExpiredTest()
+        {
+            // Arrange
+            // Retrieve token
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+
+            // Act
+            try
+            {
+                Thread.Sleep(610000); // Wait 10 minutes and 10 seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that token is expired
+                channelWithIssuedToken.HelloSign("Schultz");
+                Assert.IsTrue(false, "Expected exception was not thrown!!!");
+            }
+            catch (MessageSecurityException mse)
+            {
+                // Assert
+                var fe = mse.InnerException as FaultException;
+                Assert.IsNotNull(fe, "Expected inner fault exception");
+                Assert.AreEqual("At least one security token in the message could not be validated.", fe.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
+        public void LibBasRequestExpiredTest()
+        {
+            // Arrange
+            // Retrieve token
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                Thread.Sleep(610000); // Wait 10 minutes seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that the request is expired
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+
+            // Act
+            try
+            {
+                channelWithIssuedToken.HelloSign("Schultz");
+                Assert.IsTrue(false, "Expected exception was not thrown!!!");
+            }
+            catch (MessageSecurityException mse)
+            {
+                // Assert
+                var fe = mse.InnerException as FaultException;
+                Assert.IsNotNull(fe, "Expected inner fault exception");
+                Assert.AreEqual("An error occurred when verifying security for the message.", fe.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
+        public void LibBasResponseExpiredTest()
+        {
+            // Arrange
+            // Retrieve token
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                // it not set then Thread.Sleep is ignored on the response.
+                oS.bBufferResponse = true;
+            };
+            FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
+
+            _fiddlerApplicationOnBeforeResponse = delegate (Session oS)
+            {
+                // Only act on requests to WSP
+                if (WspHostName != oS.hostname)
+                    return;
+
+                Thread.Sleep(610000); // Wait 10 minutes seconds. 5 minutes token time + 5 minutes clockscrew + 10 seconds extra to be sure that the response is expired
+            };
+            FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
+
+            var client = new HelloWorldClient();
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+
+            // Act
+            try
+            {
+                channelWithIssuedToken.HelloSign("Schultz");
+                Assert.IsTrue(false, "Expected exception was not thrown!!!");
+            }
+            catch (MessageSecurityException mse)
+            {
+                // Assert
+                Assert.IsTrue(mse.Message.StartsWith("The security timestamp is stale because its expiration time"));
             }
         }
 

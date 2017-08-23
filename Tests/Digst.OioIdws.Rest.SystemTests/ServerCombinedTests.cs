@@ -20,7 +20,7 @@ namespace Digst.OioIdws.Rest.SystemTests
     public class ServerCombinedTests
     {
         [TestMethod]
-        [TestCategory(Constants.SystemTest)]
+        [TestCategory(Constants.IntegrationTest)]
         public async Task CallWspService_Authenticates_ReturnsUserInformation()
         {
             var serverEndpoint = "https://digst.oioidws.rest.wsp:10002";

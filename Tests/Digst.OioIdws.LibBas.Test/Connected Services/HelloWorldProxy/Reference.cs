@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Digst.OioIdws.OioWsTrust.Test.Service_References.HelloWorldProxy {
+namespace Digst.OioIdws.LibBas.Test.HelloWorldProxy {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -39,6 +39,13 @@ namespace Digst.OioIdws.OioWsTrust.Test.Service_References.HelloWorldProxy {
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignError", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorResponse")]
         System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncrypted", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(string), Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedStringFault", ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Name="string", Namespace="http://schemas.microsoft.com/2003/10/Serialization/")]
+        string HelloSignErrorNotEncrypted(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncrypted", ReplyAction="http://tempuri.org/IHelloWorld/HelloSignErrorNotEncryptedResponse")]
+        System.Threading.Tasks.Task<string> HelloSignErrorNotEncryptedAsync(string name);
+        
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.EncryptAndSign, Action="http://tempuri.org/IHelloWorld/HelloEncryptAndSign", ReplyAction="http://tempuri.org/IHelloWorld/HelloEncryptAndSignResponse")]
         string HelloEncryptAndSign(string name);
         
@@ -53,12 +60,12 @@ namespace Digst.OioIdws.OioWsTrust.Test.Service_References.HelloWorldProxy {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IHelloWorldChannel : IHelloWorld, System.ServiceModel.IClientChannel {
+    public interface IHelloWorldChannel : Digst.OioIdws.LibBas.Test.HelloWorldProxy.IHelloWorld, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class HelloWorldClient : System.ServiceModel.ClientBase<IHelloWorld>, IHelloWorld {
+    public partial class HelloWorldClient : System.ServiceModel.ClientBase<Digst.OioIdws.LibBas.Test.HelloWorldProxy.IHelloWorld>, Digst.OioIdws.LibBas.Test.HelloWorldProxy.IHelloWorld {
         
         public HelloWorldClient() {
         }
@@ -109,6 +116,14 @@ namespace Digst.OioIdws.OioWsTrust.Test.Service_References.HelloWorldProxy {
         
         public System.Threading.Tasks.Task<string> HelloSignErrorAsync(string name) {
             return base.Channel.HelloSignErrorAsync(name);
+        }
+        
+        public string HelloSignErrorNotEncrypted(string name) {
+            return base.Channel.HelloSignErrorNotEncrypted(name);
+        }
+        
+        public System.Threading.Tasks.Task<string> HelloSignErrorNotEncryptedAsync(string name) {
+            return base.Channel.HelloSignErrorNotEncryptedAsync(name);
         }
         
         public string HelloEncryptAndSign(string name) {

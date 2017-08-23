@@ -5,7 +5,7 @@ using Digst.OioIdws.OioWsTrust.Utils;
 using Digst.OioIdws.Test.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Test
+namespace Digst.OioIdws.OioWsTrust.Test
 {
     [TestClass]
     public class SignatureTests

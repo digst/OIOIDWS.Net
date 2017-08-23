@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.OioWsTrust;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Digst.OioIdws.Test.Common;
-using Digst.OioIdws.Wsc;
-using Digst.OioIdws.Wsc.OioWsTrust;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Test
+namespace Digst.OioIdws.OioWsTrust.Test
 {
     [TestClass]
     public class ConfigurationTests
