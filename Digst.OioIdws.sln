@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.WscExample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.WspExample", "Examples\Digst.OioIdws.WspExample\Digst.OioIdws.WspExample.csproj", "{5B3CA328-4AFC-4F8E-BE25-75AACCFF5D54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.OioWsTrust.Test", "Tests\Digst.OioIdws.Test\Digst.OioIdws.OioWsTrust.Test.csproj", "{D162D619-F3F3-407F-9FB4-5B5EC00AA33D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.OioWsTrust.Test", "Tests\Digst.OioIdws.OioWsTrust.Test\Digst.OioIdws.OioWsTrust.Test.csproj", "{D162D619-F3F3-407F-9FB4-5B5EC00AA33D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Wsc", "Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj", "{43DC7EFC-447D-4D7D-A497-5CC7C60A006D}"
 EndProject
