@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{ADF6BF1F-D0D7-462D-AB68-EA852C2F67E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.ServerCombinedNuget", "Examples\Digst.OioIdws.Rest.Examples.ServerCombinedNuget\Digst.OioIdws.Rest.Examples.ServerCombinedNuget.csproj", "{3EC07E91-4AE4-4D2C-BE73-F10E2A86DAC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget", "Examples\Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget\Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget.csproj", "{3EC07E91-4AE4-4D2C-BE73-F10E2A86DAC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.ClientNuget", "Examples\Digst.OioIdws.Rest.Examples.ClientNuget\Digst.OioIdws.Rest.Examples.ClientNuget.csproj", "{7B85283D-EAB3-42A4-B6B1-E75A73B6C920}"
 EndProject
