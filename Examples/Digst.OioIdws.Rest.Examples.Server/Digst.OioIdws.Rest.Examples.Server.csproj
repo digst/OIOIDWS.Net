@@ -7,8 +7,8 @@
     <ProjectGuid>{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Rest.Examples.WSP</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Rest.Examples.WSP</AssemblyName>
+    <RootNamespace>Digst.OioIdws.Rest.Examples.Server</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Rest.Examples.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
