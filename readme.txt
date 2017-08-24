@@ -1,4 +1,4 @@
-﻿Welcome to OIOIDWS reference implementation in .Net
+﻿Welcome to the OIOIDWS reference implementation in .Net
 
 Introduction:
 OIOIDWS.Net is a .Net-based reference implementation of the OIOIDWS 1.0.1a profile which is described at http://digitaliser.dk/resource/526486.
@@ -41,7 +41,7 @@ This is what the root folder contains:
 - Tests: Contains various unit and integration tests.
 	- Digst.OioIdws.LibBas.LongRunningTest: Contains long running tests of Digst.OioIdws.LibBas
 	- Digst.OioIdws.LibBas.Test: Contains tests of Digst.OioIdws.LibBas
-	- Digst.OioIdws.OioWsTrust.Test: Contains tests of Digst.OioIdws.LibBas
+	- Digst.OioIdws.OioWsTrust.Test: Contains tests of Digst.OioIdws.OioWsTrust
 	- Digst.OioIdws.Rest.Server.Tests: Contains tests of Digst.OioIdws.Rest.Server
 	- Digst.OioIdws.Rest.SystemTests: Contains tests ofDigst.OioIdws.Rest.Client and Digst.OioIdws.Rest.Server
 	- Digst.OioIdws.Test.Common
@@ -60,7 +60,7 @@ In order to run the examples or integration tests ... the following prerequisite
 
 The examples can be run throug an elevated command prompt or throug
 
-In order to run the examples with production certificates ... the following prerequisites must be in place:
+In order to run the examples with production certificates ... the following certificates must be in place:
 - The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 
 - The WSC must acquire a FOCES certificate. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
