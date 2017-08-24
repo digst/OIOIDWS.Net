@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IdentityModel.Tokens;
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;

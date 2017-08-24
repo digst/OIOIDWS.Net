@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Owin.Logging;
 
-namespace Digst.OioIdws.Rest.Examples.ServerCombinedNuget
+namespace Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget
 {
     internal class ConsoleLoggerFactory : ILoggerFactory
     {

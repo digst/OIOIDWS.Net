@@ -7,7 +7,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Owin;
 
-namespace Digst.OioIdws.Rest.Examples.ServerCombinedNuget
+namespace Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget
 {
     class Startup
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{3EC07E91-4AE4-4D2C-BE73-F10E2A86DAC4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Digst.OioIdws.Rest.Examples.ServerCombinedNuget</RootNamespace>
-    <AssemblyName>Digst.OioIdws.Rest.Examples.ServerCombinedNuget</AssemblyName>
+    <RootNamespace>Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -73,10 +73,6 @@
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
-      <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
-      <Name>Digst.OioIdws.LibBas</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
       <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
       <Name>Digst.OioIdws.OioWsTrust</Name>
