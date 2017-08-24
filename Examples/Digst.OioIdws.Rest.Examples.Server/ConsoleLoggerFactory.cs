@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.Owin.Logging;
 
-namespace Digst.OioIdws.Rest.Examples.WSP
+namespace Digst.OioIdws.Rest.Examples.Server
 {
     internal class ConsoleLoggerFactory : ILoggerFactory
     {

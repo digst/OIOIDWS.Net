@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 
-namespace Digst.OioIdws.Rest.Examples.ServerCombined
+namespace Digst.OioIdws.Rest.Examples.ServerAndASCombined
 {
     class MyService : OwinMiddleware
     {

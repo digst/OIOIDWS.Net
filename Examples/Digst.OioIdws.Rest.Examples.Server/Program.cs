@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Owin.Hosting;
 
-namespace Digst.OioIdws.Rest.Examples.WSP
+namespace Digst.OioIdws.Rest.Examples.Server
 {
     class Program
     {

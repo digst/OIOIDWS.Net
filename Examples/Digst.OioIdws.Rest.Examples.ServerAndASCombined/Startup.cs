@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Selectors;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Server.AuthorizationServer;
@@ -8,7 +7,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Owin;
 
-namespace Digst.OioIdws.Rest.Examples.ServerCombined
+namespace Digst.OioIdws.Rest.Examples.ServerAndASCombined
 {
     class Startup
     {

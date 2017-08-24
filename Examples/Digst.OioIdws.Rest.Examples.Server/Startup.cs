@@ -4,7 +4,7 @@ using Digst.OioIdws.Rest.Server.Wsp;
 using Microsoft.Owin.Logging;
 using Owin;
 
-namespace Digst.OioIdws.Rest.Examples.WSP
+namespace Digst.OioIdws.Rest.Examples.Server
 {
     class Startup
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Digst.OioIdws.Rest.Examples.WSP
+namespace Digst.OioIdws.Rest.Examples.Server
 {
     public class CertificateUtil
     {
