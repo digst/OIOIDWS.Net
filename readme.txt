@@ -14,8 +14,10 @@ This is what the root folder contains:
 	- Digst.OioIdws.Rest.Examples.ServerAndASCombined: Example on how to run the WSP/Server in the REST variant of OIOIDWS where the AS is running in the same process	.
 	- Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget: Same as Digst.OioIdws.Rest.Examples.ServerCombined but based on the latest public available NuGet package.
 	- Digst.OioIdws.Rest.Examples.Server: Example on how to run the WSP/Server in the REST variant of OIOIDWS.
-	- Digst.Oioidws.WscBootstrapExample: Example on how to run the WSC/Client in the SOAP variant of OIOIDWS in the bootstrap token scenario.
-	- Digst.OioIdws.WscExample: Example on how to run the WSC/Client in the SOAP variant of OIOIDWS in the signature case scenario.
+	- Digst.Oioidws.WscBootstrapExample: Example on how to run the WSC/Client in the SOAP variant of OIOIDWS in the bootstrap token scenario. It shows how to build a small SAML 2.0 Service Provider (SP) that also acts as a Web Service Consumer (WSC). It requires the Digst.OioIdws.WspExample to be up and running. See [OIO-BTP] for more information on configuring the SP to recieve bootstrap tokens. Note that when running the bootstrap scenario, the end-users’ identity is what the WSP sees, whereas in the signature scenario, it is the identity of the WSC that is seen by the WSP. The following things are already setup but is relevant to know when setting up your own combined SP/WSC in production:
+		- The "urn:liberty:disco:2006-08:DiscoveryEPR" needs to be part of the RequestedAttributes in the SP metadata that is registered in the IdP. This informs the IdP to return a bootstrap token.
+		- The SP and WSC must be registered with the same certificate in the NemLog-in administration module.
+	- Digst.OioIdws.WscExample: Example on how to run the WSC/Client in the SOAP variant of OIOIDWS in the signature case scenario. It requires the Digst.OioIdws.WspExample to be up and running. 
 	- Digst.OioIdws.WscExampleNuGet: Same as Digst.OioIdws.WscExample but based on the latest public available NuGet package.
 	- Digst.OioIdws.WscJavaExample: Example on how to run the WSC/Client in the SOAP variant of OIOIDWS in the signature case scenario against a Java WSP/Server. Requires that a Java WSP/Server is up and running. Checkout OIOIDWS.Java on how to do that.
 	- Digst.OioIdws.WspExample: Example on how to run the WSP/Server in the SOAP variant of OIOIDWS.
@@ -58,9 +60,9 @@ In order to run the examples or integration tests ... the following prerequisite
 
 - The external IP address must be white listed at NETS in order to be able to make revocation check of the test OCES certificates.
 
-The examples can be run throug an elevated command prompt or throug
+The examples can be run through an elevated command prompt or through Visual Studio in elevated mode.
 
-In order to run the examples with production certificates ... the following certificates must be in place:
+In order to run the examples with production certificates ... the WSC and WSP must be registered in the NemLog-in administration module and the following certificates must be in place:
 - The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 
 - The WSC must acquire a FOCES certificate. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
@@ -69,4 +71,4 @@ In order to run the examples with production certificates ... the following cert
 
 - Information about how to order FOCES certificates from NETS DANID can be found here: http://www.nets.eu/dk-da/Produkter/Sikkerhed/Funktionssignatur/Pages/default.aspx.
  
-- In order to register a WSC and WSP you must consult Digitaliseringsstyrelsen at nemlogin@digst.dk. See also "NemLog-in administration" which can be found at https://digitaliser.dk/resource/2561041, but at the moment it is not possible to create WSC's and WSP's yourself. 
+- In order to register a WSC and WSP you must contact Digitaliseringsstyrelsen at nemlogin@digst.dk. See also "NemLog-in administration" which can be found at https://digitaliser.dk/resource/2561041, but at the moment it is not possible to create WSC's and WSP's yourself. 

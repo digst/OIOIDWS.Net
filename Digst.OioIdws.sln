@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.OioWsTrust", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Test.Common", "Tests\Digst.OioIdws.Test.Common\Digst.OioIdws.Test.Common.csproj", "{17CD5683-886B-4856-82B0-25BD99172764}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.AuthorizationServer", "Examples\Digst.OioIdws.Rest.Examples.AS\Digst.OioIdws.Rest.Examples.AuthorizationServer.csproj", "{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.AS", "Examples\Digst.OioIdws.Rest.Examples.AS\Digst.OioIdws.Rest.Examples.AS.csproj", "{42A3CEC6-00FF-4BB9-916D-BFCE85DCCC88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digst.OioIdws.Rest.Examples.Server", "Examples\Digst.OioIdws.Rest.Examples.Server\Digst.OioIdws.Rest.Examples.Server.csproj", "{0C7B6D2D-4192-422C-AB73-DFF75ACB07C3}"
 EndProject
