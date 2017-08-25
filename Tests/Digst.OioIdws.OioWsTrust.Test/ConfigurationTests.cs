@@ -16,7 +16,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenService(null);
+                new TokenServiceCache(null);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -40,7 +40,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenService(tokenServiceConfiguration);
+                new TokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -63,7 +63,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenService(tokenServiceConfiguration);
+                new TokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -87,7 +87,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenService(tokenServiceConfiguration);
+                new TokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -111,7 +111,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenService(tokenServiceConfiguration);
+                new TokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert

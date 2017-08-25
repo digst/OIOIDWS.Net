@@ -5,7 +5,6 @@ using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -29,6 +28,22 @@ namespace Digst.OioIdws.Rest.Server.Tests
     [TestClass]
     public class AccessTokenIssueEndpointIntegrationTests
     {
+        private static ITokenService _tokenService;
+
+        [ClassInitialize]
+        public static void Setup(TestContext context)
+        {
+            _tokenService = new TokenServiceCache(new TokenServiceConfiguration
+            {
+                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
+                StsCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
+                SendTimeout = TimeSpan.FromDays(1),
+                StsEndpointAddress = "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc",
+                TokenLifeTimeInMinutes = 5,
+                WspEndpointId = "https://wsp.oioidws-net.dk"
+            });
+        }
+
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_ValidateSuccess_ReturnsCorrectly()
@@ -334,16 +349,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
         private string GetSamlTokenXml()
         {
-            var tokenService = new TokenService(new TokenServiceConfiguration
-            {
-                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
-                StsCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
-                SendTimeout = TimeSpan.FromDays(1),
-                StsEndpointAddress = "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc",
-                TokenLifeTimeInMinutes = 5,
-                WspEndpointId = "https://wsp.oioidws-net.dk"
-            });
-            var securityToken = (GenericXmlSecurityToken)tokenService.GetToken();
+            var securityToken = (GenericXmlSecurityToken)_tokenService.GetToken();
 
             return securityToken.TokenXml.OuterXml;
         }

@@ -90,7 +90,7 @@ namespace WebsiteDemo
         private string Run(SecurityToken bootstrapToken)
         {
             // Retrieve token
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
             SecurityToken securityToken = null;
             if (bootstrapToken != null)
             {

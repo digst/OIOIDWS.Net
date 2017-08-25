@@ -18,11 +18,14 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         private static Process _process;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
+        private static ITokenService _tokenService;
         private const string WspHostName = "digst.oioidws.wsp";
         
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            _tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
                 CertMaker.trustRootCert();
@@ -57,11 +60,8 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         public void TotalFlowTokenExpiredTest()
         {
             // Arrange
-            // Retrieve token
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
 
             // Act
             try
@@ -84,10 +84,6 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         public void LibBasRequestExpiredTest()
         {
             // Arrange
-            // Retrieve token
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -99,7 +95,7 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
 
             // Act
             try
@@ -121,10 +117,6 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         public void LibBasResponseExpiredTest()
         {
             // Arrange
-            // Retrieve token
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -147,7 +139,7 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
 
             // Act
             try
