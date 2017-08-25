@@ -9,14 +9,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Digst.OioIdws.OioWsTrust.Test
 {
     /// <summary>
-    /// This test suite is not working. Hence, it has not been testet that NemLog-in STS rejects the RST SOAP message if the <wsu:Expires>2015-11-04T11:59:13Z</wsu:Expires> time has been exceeded.
+    /// Some tests in this test suite is not working and are ignored. Hence, it has not been testet that NemLog-in STS rejects the RST SOAP message if the <wsu:Expires>2015-11-04T11:59:13Z</wsu:Expires> time has been exceeded.
     /// One could argue that it is not up to OIOIDWS.Net to test that NemLog-in STS behaves correctly.
     /// https in combination with Fiddler makes WCF create an extra HttpWebRequest inside a existing HttpWebRequest. The existing HttpWebRequest has the correctly timeout value of 1 day due to debug property being set to true in app.config. However, the extra internally created HttpWebRequest has the default value of 100 seconds ... and this makes the test suite fail.
     /// The problem starts in the line proxyAddress = chain.Enumerator.Current; line number 898 in System.Net.ServerPointManager. Current is null when Fiddler is not running and the consequence is that no extra internally HttpWebRequest is created.
     /// Switching to http is not an option as NemLog-in STS only accepts https.
     /// </summary>
     [TestClass]
-    [Ignore]
     public class OioWsTrustLongRunningTests
     {
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
@@ -50,6 +49,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTestLongRunning)]
+        [Ignore]
         public void OioWsTrustRequestExpiredTest()
         {
             // Arrange
@@ -82,6 +82,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTestLongRunning)]
+        [Ignore]
         public void OioWsTrustResponseExpiredTest()
         {
             // Arrange
@@ -120,5 +121,32 @@ namespace Digst.OioIdws.OioWsTrust.Test
                 Assert.IsTrue(mse.Message.StartsWith("The security timestamp is stale because its expiration time"));
             }
         }
+
+        #region ITokenService tests
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTestLongRunning)]
+        public void OioWsTrustTokenServiceCacheGivesDifferentTokenTest()
+        {
+            // Arrange
+            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+            Thread.Sleep(590000); // Sleep 10 minutes - 10 seconds
+
+            // Act 1
+            var securityToken2 = tokenService.GetToken();
+
+            // Assert 1
+            Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");
+
+            // Act 2
+            Thread.Sleep(20000); // Sleep 20 seconds more and token should be expired.
+            var securityToken3 = tokenService.GetToken();
+
+            // Assert 2
+            Assert.AreNotEqual(securityToken, securityToken3, "Expected that tokens was Not the same");
+        }
+
+        #endregion
     }
 }

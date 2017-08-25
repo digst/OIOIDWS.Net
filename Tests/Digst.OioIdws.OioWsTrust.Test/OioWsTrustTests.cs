@@ -680,5 +680,38 @@ namespace Digst.OioIdws.OioWsTrust.Test
 
         #endregion
 
+        #region ITokenService tests
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void OioWsTrustTokenServiceGivesDifferentTokensTest()
+        {
+            // Arrange
+            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+
+            // Act
+            var securityToken2 = tokenService.GetToken();
+
+            // Assert
+            Assert.AreNotEqual(securityToken, securityToken2, "Expected that tokens was NOT the same");
+        }
+
+        [TestMethod]
+        [TestCategory(Constants.IntegrationTest)]
+        public void OioWsTrustTokenServiceCacheGivesTheSameTokenTest()
+        {
+            // Arrange
+            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = tokenService.GetToken();
+
+            // Act
+            var securityToken2 = tokenService.GetToken();
+
+            // Assert
+            Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");
+        }
+
+        #endregion
     }
 }

@@ -51,7 +51,7 @@ namespace Digst.OioIdws.OioWsTrust
             {
                 securityToken = _tokenService.GetToken();
                 TokenCache.Add(new CacheItem(cacheKey, securityToken),
-                    new CacheItemPolicy {AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew});
+                    new CacheItemPolicy {AbsoluteExpiration = securityToken.ValidTo + _cacheClockSkew});
             }
 
             return securityToken;
