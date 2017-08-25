@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.OioWsTrust;
 
 namespace Digst.OioIdws.Wsc.OioWsTrust
 {

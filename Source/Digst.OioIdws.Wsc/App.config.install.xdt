@@ -84,7 +84,8 @@
     <bindings>
       <LibBasBinding xdt:Transform="InsertIfMissing">
         <!-- useHttps must be true in production but can be set to false under development -->
-        <binding  name="LibBasBindingConfiguration" useHttps="true"/>
+        <!-- A default value of 65536 bytes are used if maxReceivedMessageSize is not specified or the empty string is specified. -->
+        <binding  name="LibBasBindingConfiguration" useHttps="true" maxReceivedMessageSize="{OPTIONAL}"/>
       </LibBasBinding>
     </bindings>
   </system.serviceModel>

@@ -14,11 +14,28 @@ namespace Digst.OioIdws.LibBas.Bindings
         {
             var libBasBinding = (LibBasBinding) binding;
             libBasBinding.UseHttps = UseHttps;
+            libBasBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
         }
 
         protected override Type BindingElementType
         {
             get { return typeof (LibBasBinding); }
+        }
+
+        /// <summary>
+        /// Specifies max size of message recieved in bytes. If not set, default value on <see cref="TransportBindingElement.MaxReceivedMessageSize"/> are used.
+        /// </summary>
+        [ConfigurationProperty("maxReceivedMessageSize", IsRequired = false, DefaultValue = null)]
+        public int? MaxReceivedMessageSize
+        {
+            get
+            {
+                return (int?)this["maxReceivedMessageSize"];
+            }
+            set
+            {
+                this["maxReceivedMessageSize"] = value;
+            }
         }
 
         /// <summary>
@@ -43,6 +60,7 @@ namespace Digst.OioIdws.LibBas.Bindings
             {
                 var properties = base.Properties;
                 properties.Add(new ConfigurationProperty("useHttps", typeof (bool), true));
+                properties.Add(new ConfigurationProperty("maxReceivedMessageSize", typeof (int?), null));
                 return properties;
             }
         }
@@ -52,6 +70,7 @@ namespace Digst.OioIdws.LibBas.Bindings
             base.InitializeFrom(binding);
             var libBasBinding = (LibBasBinding)binding;
             UseHttps = libBasBinding.UseHttps;
+            MaxReceivedMessageSize = libBasBinding.MaxReceivedMessageSize;
         }
     }
 }

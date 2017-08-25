@@ -4,7 +4,7 @@ using Digst.OioIdws.OioWsTrust;
 namespace Digst.OioIdws.Wsc.OioWsTrust
 {
     /// <summary>
-    /// This factory class ca be used to generate a <see cref="TokenServiceConfiguration"/> configuration based on a <see cref="Configuration"/> configuration.
+    /// This factory class can be used to generate a <see cref="TokenServiceConfiguration"/> configuration based on a <see cref="Configuration"/> configuration.
     /// </summary>
     public class TokenServiceConfigurationFactory
     {

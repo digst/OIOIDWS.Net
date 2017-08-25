@@ -7,6 +7,7 @@ namespace Digst.OioIdws.LibBas.Bindings
     public class LibBasBinding : CustomBinding
     {
         private bool _useHttps = true;
+        private int? _maxReceivedMessageSize;
 
         /// <summary>
         /// True specifies that transport layer security is required. False indicates the opposite.
@@ -17,9 +18,23 @@ namespace Digst.OioIdws.LibBas.Bindings
             set { _useHttps = value; }
         }
 
+        /// <summary>
+        /// Specifies max size of message recieved in bytes. If not set, default value on <see cref="TransportBindingElement.MaxReceivedMessageSize"/> are used.
+        /// </summary>
+        internal int? MaxReceivedMessageSize
+        {
+            get { return _maxReceivedMessageSize; }
+            set { _maxReceivedMessageSize = value; }
+        }
+
         public override BindingElementCollection CreateBindingElements()
         {
             var transport = _useHttps ? new HttpsTransportBindingElement() : new HttpTransportBindingElement();
+            if (_maxReceivedMessageSize.HasValue)
+            {
+                transport.MaxReceivedMessageSize = _maxReceivedMessageSize.Value;
+            }
+
             var encoding = new TextMessageEncodingBindingElement();
             // [LIB-BAS] requires SOAP 1.1 and WS-Adressing 1.0
             encoding.MessageVersion = MessageVersion.Soap11WSAddressing10;
