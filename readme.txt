@@ -27,6 +27,7 @@ This is what the root folder contains:
 	- Certificates: Alle certificates needed to run the examples.
 	- SOAP examples: Contains examples on requests and responses for both OioWsTrust communication between WSC and STS and LibBas communication between WSC and WSP. 
 	- Specifications: All the specifications related to OIOIDWS are located here in PDF. They are only placed here to document how the specifications were at the time of development. All specifications are named [XXX] and are also referenced by that name.
+	- Token examples: Contains examples on IdP issued bootstrap token and STS issued access token.
 
 - Setup: Contains powershell script to auto setup the development environment.
 
