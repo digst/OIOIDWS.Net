@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <configSections xdt:Transform="InsertIfMissing"/>
+  <!-- Add configSections as first child element under configuration if not already present -->
+  <configSections xdt:Transform="InsertBefore(/configuration/*[1])"/> 
+  
   <configSections>
-    <section name="oioIdwsWcfConfiguration" type="Digst.OioIdws.Wsc.OioWsTrust.Configuration, Digst.OioIdws.Wsc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
-    <section name="oioIdwsLoggingConfiguration" type="Digst.OioIdws.Common.Logging.Configuration, Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+    <section name="oioIdwsWcfConfiguration" type="Digst.OioIdws.Wsc.OioWsTrust.Configuration, Digst.OioIdws.Wsc" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+    <section name="oioIdwsLoggingConfiguration" type="Digst.OioIdws.Common.Logging.Configuration, Digst.OioIdws.Common" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
   </configSections>
-  <oioIdwsWcfConfiguration stsEndpointAddress="{REQURIED}" wspEndpointID="{REQURIED}" tokenLifeTimeInMinutes="{OPTIONAL}" debugMode="{OPTIONAL}" xdt:Transform="InsertIfMissing">
+  
+    <oioIdwsWcfConfiguration stsEndpointAddress="{REQURIED}" wspEndpointID="{REQURIED}" tokenLifeTimeInMinutes="{OPTIONAL}" debugMode="{OPTIONAL}" xdt:Transform="InsertIfMissing">
     <clientCertificate storeLocation="{REQURIED}" storeName="{REQURIED}" x509FindType="{REQURIED}" findValue="{REQURIED}"/>
     <stsCertificate storeLocation="{REQURIED}" storeName="{REQURIED}" x509FindType="{REQURIED}" findValue="{REQURIED}"/>
   </oioIdwsWcfConfiguration>

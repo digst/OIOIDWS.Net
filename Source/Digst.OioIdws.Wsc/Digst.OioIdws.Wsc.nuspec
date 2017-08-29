@@ -11,8 +11,8 @@
     <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>This version now supports encrypted responses from WSP when encrypted SAML assertions are in play.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>This version now supports automatic caching of tokens and the bootstrap scenario.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>OIOIDWS WSC NEMLOGIN NEMLOG-IN</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net45" />
@@ -20,12 +20,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\Release\Digst.OioIdws.Common.dll" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.Common.pdb" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.LibBas.dll" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.LibBas.pdb" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.OioWsTrust.dll" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.OioWsTrust.pdb" target="lib\net45" />
     <file src="App.config.install.xdt" target="content"/>
     <file src="App.config.uninstall.xdt" target="content"/>
     <file src="readme.txt" target=""/>
