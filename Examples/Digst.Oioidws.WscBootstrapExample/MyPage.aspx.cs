@@ -77,10 +77,19 @@ namespace WebsiteDemo
             string rawToken = Saml20Identity.Current["urn:liberty:disco:2006-08:DiscoveryEPR"][0].AttributeValue[0];
             byte[] raw = Convert.FromBase64String(rawToken);
 
-            var xmlTextReader = new XmlTextReader(new StreamReader(new MemoryStream(raw)));
-            SecurityTokenHandler handler = new Saml2SecurityTokenHandler();
-            handler.Configuration = new SecurityTokenHandlerConfiguration();
-            SecurityToken bootstrapToken = handler.ReadToken(xmlTextReader);
+            SecurityToken bootstrapToken;
+            using (var memoryStream = new MemoryStream(raw))
+            {
+                using (var streamReader = new StreamReader(memoryStream))
+                {
+                    using (var xmlTextReader = new XmlTextReader(streamReader))
+                    {
+                        SecurityTokenHandler handler = new Saml2SecurityTokenHandler();
+                        handler.Configuration = new SecurityTokenHandlerConfiguration();
+                        bootstrapToken = handler.ReadToken(xmlTextReader);
+                    }
+                }
+            }
 
             ServiceResponse = Run(bootstrapToken);
 
@@ -104,8 +113,8 @@ namespace WebsiteDemo
             // Call WSP with token
             var client = new HelloWorldClient();
 
-            // disable revocation check, don't do this in production!
-            client.ClientCredentials.ServiceCertificate.Authentication.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
+            // enable revocation check if not white listed at Nets, don't do this in production!
+            //client.ClientCredentials.ServiceCertificate.Authentication.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
 
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
 
