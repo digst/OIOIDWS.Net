@@ -126,6 +126,16 @@ namespace Digst.OioIdws.OioWsTrust
                 var wsTrustChannelContract = factory.CreateChannel();
                 var securityToken = wsTrustChannelContract.Issue(requestSecurityToken);
 
+                // Tried makeing this method async with the following statement ... but an error "Manual addressing is enabled on this factory, so all messages sent must be pre-addressed." occurs when the async pattern is used
+                // var securityToken = await Task.Factory.FromAsync((callback, stateObject) => wsTrustChannelContract.BeginIssue(requestSecurityToken, callback, stateObject), result => wsTrustChannelContract.EndIssue(result, out RequestSecurityTokenResponse requestSecurityTokenResponse), null);
+                // also tried the following approach which gives the same result:
+                //SecurityToken securityToken = null;
+                //wsTrustChannelContract.BeginIssue(requestSecurityToken, callback =>
+                //{
+                //    securityToken = wsTrustChannelContract.EndIssue(callback, out RequestSecurityTokenResponse requestSecurityTokenResponse);
+                //    Console.WriteLine("sdfd");
+                //}, null);
+
                 return securityToken;
             }
             // Log all errors and rethrow
