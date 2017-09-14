@@ -43,12 +43,6 @@ namespace Digst.OioIdws.Rest.Client
             }
         }
 
-        /// <summary>
-        /// Normally the handler will perform expiration test to avoid using tokens about to expire and instead re-negotiate security token and access token immediately.
-        /// Setting this property to true will disable this, forcing the handler to experience invalid_token challenge.
-        /// </summary>
-        public bool DisableClientSideExpirationValidation { get; set; }
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var response = await SendAuthenticatedRequest(request, cancellationToken);
@@ -79,7 +73,7 @@ namespace Digst.OioIdws.Rest.Client
 
         private async Task EnsureValidAccessTokenAsync(CancellationToken cancellationToken)
         {
-            if (_accessToken == null || (!DisableClientSideExpirationValidation && !_accessToken.IsValid()))
+            if (_accessToken == null || !_accessToken.IsValid())
             {
                 var securityToken = _client.GetSecurityToken();
                 _accessToken = await _client.GetAccessTokenAsync(securityToken, cancellationToken);

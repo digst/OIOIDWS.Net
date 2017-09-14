@@ -76,8 +76,9 @@ namespace Digst.OioIdws.Rest.SystemTests
                             return;
                         }
 
-                        var identity = (ClaimsIdentity)context.Request.User.Identity;
-                        await context.Response.WriteAsync(identity.Claims.Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
+                        var identity = (ClaimsIdentity) context.Request.User.Identity;
+                        await context.Response.WriteAsync(identity.Claims
+                            .Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
                     });
             }))
             {
@@ -89,7 +90,8 @@ namespace Digst.OioIdws.Rest.SystemTests
                     SecurityTokenService = new OioIdwsStsSettings
                     {
                         Certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
-                        EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
+                        EndpointAddress =
+                            new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                         TokenLifeTime = TimeSpan.FromMinutes(5)
                     },
                     DesiredAccessTokenExpiry = TimeSpan.FromSeconds(5), //set a very low token expiry time
@@ -98,7 +100,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                 var idwsClient = new OioIdwsClient(settings);
 
                 {
-                    var handler = (OioIdwsRequestHandler)idwsClient.CreateMessageHandler();
+                    var handler = (OioIdwsRequestHandler) idwsClient.CreateMessageHandler();
 
                     var httpClient = new HttpClient(handler)
                     {
@@ -113,7 +115,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                 }
 
                 {
-                    var handler = (OioIdwsRequestHandler)idwsClient.CreateMessageHandler();
+                    var handler = (OioIdwsRequestHandler) idwsClient.CreateMessageHandler();
 
                     var httpClient = new HttpClient(handler)
                     {
@@ -128,25 +130,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                     Assert.AreEqual("34051178", str);
                 }
 
-                //force the client to actually attempt using an expired token, testing the handling of invalid_token challenge
-
-                {
-                    var handler = (OioIdwsRequestHandler)idwsClient.CreateMessageHandler();
-                    handler.DisableClientSideExpirationValidation = true;
-
-                    var httpClient = new HttpClient(handler)
-                    {
-                        BaseAddress = new Uri(serverEndpoint)
-                    };
-                    Thread.Sleep(TimeSpan.FromSeconds(30));
-                    //third request, time has passed, token should be renegotiated
-                    var response = await httpClient.GetAsync("/myservice");
-                    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-                    var str = await response.Content.ReadAsStringAsync();
-                    Assert.AreEqual("34051178", str);
-                }
-
-                Assert.AreEqual(3, tokensIssuedCount);
+                Assert.AreEqual(2, tokensIssuedCount);
             }
         }
 
