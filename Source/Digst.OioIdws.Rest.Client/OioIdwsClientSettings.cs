@@ -14,7 +14,7 @@ namespace Digst.OioIdws.Rest.Client
         /// </summary>
         public OioIdwsClientSettings()
         {
-            CacheClockSkew = TimeSpan.FromSeconds(300);
+            CacheClockSkew = TimeSpan.FromSeconds(60);
             UseTokenCache = true;
         }
 
@@ -38,13 +38,15 @@ namespace Digst.OioIdws.Rest.Client
         /// Access tokens will have an expire time controlled by the Authorization Server. The client can make a request to control the expiration, based on this value.
         /// It's not a part of the spec and thereby only supported in the .NET implementation.
         /// The server will only allow issuing tokens with a lower expires_in based on this request.
+        /// Should be longer than <see cref="CacheClockSkew"/>. Otherwise, the access token will never be cached.
         /// </summary>
         public TimeSpan? DesiredAccessTokenExpiry { get; set; }
         /// <summary>
         /// This is used to determine how long before the token actually expires ... the token should be removed from the cache.
         /// E.g. if token will expire in 100 seconds and <see cref="CacheClockSkew"/> is set to 10 seconds ... then the token will be removed from the cache after 90 seconds.
-        /// If not set ... the default value is 300 seconds.
+        /// If not set ... the default value is 60 seconds.
         /// This configuration setting is only used in conjunction with <see cref="AccessTokenServiceCache"/>
+        /// Should be shorter than <see cref="DesiredAccessTokenExpiry"/>. Otherwise, the access token will never be cached. 
         /// </summary>
         public TimeSpan CacheClockSkew { get; set; }
         /// <summary>

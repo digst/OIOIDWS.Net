@@ -25,6 +25,7 @@ namespace Digst.OioIdws.OioWsTrust
         /// If specified, according to specification the STS is not obligated to honor this range and may return a token with a shorter life time in RSTR.
         /// All values above 480 minutes (8 hours) will result in a token life time of 8 hours from STS.
         /// All values below 1 minute will result in a token life time of 8 hours from STS.
+        /// Should be longer than <see cref="CacheClockSkew"/>. Otherwise, the STS token will never be cached.
         /// </summary>
         public int? TokenLifeTimeInMinutes { get; set; }
 
@@ -45,6 +46,7 @@ namespace Digst.OioIdws.OioWsTrust
         /// E.g. if token will expire in 100 seconds and <see cref="CacheClockSkew"/> is set to 10 seconds ... then the token will be removed from the cache after 90 seconds.
         /// If not set ... the default value is 60 seconds.
         /// This configuration setting is only used in conjunction with <see cref="StsTokenServiceCache"/>
+        /// Should be shorter than <see cref="TokenLifeTimeInMinutes"/>. Otherwise, the access token will never be cached. 
         /// </summary>
         public TimeSpan CacheClockSkew { get; set; }
     }
