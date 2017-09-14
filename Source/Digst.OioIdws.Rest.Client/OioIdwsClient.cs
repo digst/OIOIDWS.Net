@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Client.AccessToken;
 using Digst.OioIdws.Rest.Common;
 using Newtonsoft.Json.Linq;
 
@@ -15,9 +16,26 @@ namespace Digst.OioIdws.Rest.Client
 {
     public class OioIdwsClient
     {
-        private readonly ITokenService _tokenService;
+        private readonly SecurityToken _bootstrapToken;
+        private readonly IStsTokenService _stsTokenService;
+        private readonly IAccessTokenService _accessTokenService;
         public OioIdwsClientSettings Settings { get; }
 
+        /// <summary>
+        /// Used in the bootstrap case scenario.
+        /// One instance of <see cref="OioIdwsClient"/> must be created for each user.
+        /// </summary>
+        /// <param name="settings"></param>
+        public OioIdwsClient(OioIdwsClientSettings settings, SecurityToken bootstrapToken) : this (settings)
+        {
+            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
+            _bootstrapToken = bootstrapToken;
+        }
+
+        /// <summary>
+        /// Used in the signature case scenario
+        /// </summary>
+        /// <param name="settings"></param>
         public OioIdwsClient(OioIdwsClientSettings settings)
         {
             Settings = settings;
@@ -46,7 +64,7 @@ namespace Digst.OioIdws.Rest.Client
                 throw new ArgumentNullException(nameof(settings.SecurityTokenService.Certificate), "Certificate for the SecurityTokenService must be set");
             }
 
-            var tokenServiceConfiguration = new TokenServiceConfiguration
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration
             {
                 ClientCertificate = Settings.ClientCertificate,
                 StsCertificate = Settings.SecurityTokenService.Certificate,
@@ -63,11 +81,20 @@ namespace Digst.OioIdws.Rest.Client
 
             if (settings.SecurityTokenService.UseTokenCache)
             {
-                _tokenService = new TokenServiceCache(tokenServiceConfiguration);
+                _stsTokenService = new StsTokenServiceCache(tokenServiceConfiguration);
             }
             else
             {
-                _tokenService = new TokenService(tokenServiceConfiguration);
+                _stsTokenService = new StsTokenService(tokenServiceConfiguration);
+            }
+
+            if (settings.UseTokenCache)
+            {
+                _accessTokenService = new AccessTokenServiceCache(Settings);
+            }
+            else
+            {
+                _accessTokenService = new AccessTokenService(Settings);
             }
         }
 
@@ -84,102 +111,21 @@ namespace Digst.OioIdws.Rest.Client
 
         public GenericXmlSecurityToken GetSecurityToken()
         {
-            return (GenericXmlSecurityToken) _tokenService.GetToken();
+            if (_bootstrapToken != null)
+            {
+                return (GenericXmlSecurityToken)_stsTokenService.GetTokenWithBootstrapToken(_bootstrapToken);
+            }
+            else
+            {
+                return (GenericXmlSecurityToken)_stsTokenService.GetToken();
+            }
         }
 
-        public async Task<AccessToken> GetAccessTokenAsync(
+        public async Task<AccessToken.AccessToken> GetAccessTokenAsync(
             GenericXmlSecurityToken securityToken,
             CancellationToken cancellationToken)
         {
-            if (securityToken == null)
-            {
-                throw new ArgumentNullException(nameof(securityToken));
-            }
-
-            string samlToken;
-
-            using (var stream = new MemoryStream())
-            {
-                using (var writer = XmlWriter.Create(stream))
-                {
-                    securityToken.TokenXml.WriteTo(writer);
-                }
-
-                samlToken = Convert.ToBase64String(stream.ToArray());
-            }
-
-            var requestHandler = new WebRequestHandler
-            {
-                ClientCertificates = {Settings.ClientCertificate}
-            };
-
-            var formFields = new Dictionary<string, string>
-            {
-                {"saml-token", samlToken}
-            };
-
-            if (Settings.DesiredAccessTokenExpiry.HasValue)
-            {
-                formFields["should-expire-in"] = ((int) Settings.DesiredAccessTokenExpiry.Value.TotalSeconds).ToString();
-            }
-
-            var client = new HttpClient(requestHandler);
-            var response = await client.PostAsync(
-                Settings.AccessTokenIssuerEndpoint, 
-                new FormUrlEncodedContent(formFields),
-                cancellationToken);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                //just find the first valid authenticate header we recognize
-                var challenge = response.Headers.WwwAuthenticate
-                    .Select(x => new
-                    {
-                        Type = AccessTokenTypeParser.FromString(x.Scheme),
-                        x.Parameter
-                    })
-                    .FirstOrDefault(x => x.Type.HasValue);
-
-                if (challenge != null)
-                {
-                    var parms = HttpHeaderUtils.ParseOAuthSchemeParameter(challenge.Parameter);
-                    throw new OioIdwsChallengeException(
-                        challenge.Type.Value,
-                        parms["error"],
-                        parms["error_description"],
-                        $@"Got unexpected challenge while issuing access token from '{Settings.AccessTokenIssuerEndpoint}'
-({response.StatusCode})': {parms["error"]} - {parms["error_description"]}");
-                }
-
-                throw new InvalidOperationException(
-                    $@"Got unexpected response while issuing access token from '{Settings.AccessTokenIssuerEndpoint}'
-{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var jsonValue = JObject.Parse(json);
-
-            var accessToken = new AccessToken
-            {
-                Value = (string) jsonValue["access_token"],
-                ExpiresIn = TimeSpan.FromSeconds((int) jsonValue["expires_in"]),
-                RetrievedAtUtc = DateTime.UtcNow,
-                Type = ParseAccessTokenType((string) jsonValue["token_type"])
-            };
-
-            return accessToken;
-        }
-
-        private AccessTokenType ParseAccessTokenType(string str)
-        {
-            var type = AccessTokenTypeParser.FromString(str);
-
-            if (!type.HasValue)
-            {
-                throw new InvalidOperationException($"Unknown access token type '{str}'");
-            }
-
-            return type.Value;
+            return await _accessTokenService.GetTokenAsync(securityToken, cancellationToken);
         }
     }
 }

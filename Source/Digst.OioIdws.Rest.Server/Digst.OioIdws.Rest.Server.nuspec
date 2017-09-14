@@ -16,10 +16,6 @@
     <tags>OIOIDWS REST AS WSP NEMLOGIN NEMLOG-IN</tags>
   </metadata>
   <files>
-    <file src="bin\Release\Digst.OioIdws.Rest.Common.dll" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.Rest.Common.pdb" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.Rest.Server.dll" target="lib\net45" />
-    <file src="bin\Release\Digst.OioIdws.Rest.Server.pdb" target="lib\net45" />
     <file src="readme.txt" target=""/>
   </files>
 </package>

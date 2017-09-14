@@ -19,7 +19,7 @@ namespace Digst.OioIdws.Rest.Client
     {
         private readonly OioIdwsClient _client;
         private GenericXmlSecurityToken _securityToken;
-        private AccessToken _accessToken;
+        private AccessToken.AccessToken _accessToken;
         public OioIdwsRequestHandler(OioIdwsClient client)
         {
             if (client == null)

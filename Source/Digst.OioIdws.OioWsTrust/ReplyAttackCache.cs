@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Runtime.Caching;
 
 namespace Digst.OioIdws.OioWsTrust
@@ -9,7 +10,7 @@ namespace Digst.OioIdws.OioWsTrust
     /// </summary>
     class ReplyAttackCache
     {
-        private static ObjectCache _cache = new MemoryCache("ReplayAttackCache");
+        private static ObjectCache _cache = new MemoryCache("ReplayAttackCache", new NameValueCollection { { "pollingInterval", "00:00:30" } });
 
         /// <summary>
         /// Add an item to the cache.

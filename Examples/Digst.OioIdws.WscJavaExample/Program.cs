@@ -19,8 +19,8 @@ namespace Digst.OioIdws.WscJavaExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
+            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = stsTokenService.GetToken();
 
             // Call WSP with token
             var client = new HelloWorldPortTypeClient();

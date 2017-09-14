@@ -92,8 +92,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval
                 context.Response.StatusCode = 404;
                 return;
             }
-            
-            //we might as well check expiry against that stored along with the token information
+
+            // we might as well check expiry against that stored along with the token information even that we know that OioIdwsToken from token store always have the same expiry time as the access token ... this is set set in the AccessTokenIssuer.IssueAsync().
             if (token.ExpiresUtc + context.Options.MaxClockSkew < context.Options.SystemClock.UtcNow)
             {
                 TokenExpired(context, accessToken);

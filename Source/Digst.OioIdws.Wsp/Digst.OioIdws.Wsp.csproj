@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Digst.OioIdws.Wsp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Digst.OioIdws.Wsp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="BasicPrivilegeProfile\BasicPrivilegeProfileModel2.cs">
       <DependentUpon>BasicPrivilegeProfileModel2.xsd</DependentUpon>
     </Compile>
@@ -51,7 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config.install.xdt" />
+    <None Include="App.config.install.xdt">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App.config.uninstall.xdt" />
     <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileModel2.xsd">
       <SubType>Designer</SubType>

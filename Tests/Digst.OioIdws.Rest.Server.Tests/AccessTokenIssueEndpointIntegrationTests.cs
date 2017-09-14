@@ -28,12 +28,12 @@ namespace Digst.OioIdws.Rest.Server.Tests
     [TestClass]
     public class AccessTokenIssueEndpointIntegrationTests
     {
-        private static ITokenService _tokenService;
+        private static IStsTokenService _stsTokenService;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            _tokenService = new TokenServiceCache(new TokenServiceConfiguration
+            _stsTokenService = new StsTokenServiceCache(new StsTokenServiceConfiguration
             {
                 ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
                 StsCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
@@ -349,7 +349,7 @@ namespace Digst.OioIdws.Rest.Server.Tests
 
         private string GetSamlTokenXml()
         {
-            var securityToken = (GenericXmlSecurityToken)_tokenService.GetToken();
+            var securityToken = (GenericXmlSecurityToken)_stsTokenService.GetToken();
 
             return securityToken.TokenXml.OuterXml;
         }

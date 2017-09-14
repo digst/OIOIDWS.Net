@@ -71,8 +71,10 @@
     <asp:Button Id="Btn_Relogin" runat="server" Enabled="true" Text="ForceAuthn" OnClick="Btn_Relogin_Click" />
     <asp:Button Id="Btn_Passive" runat="server" Enabled="true" Text="Passive login" OnClick="Btn_Passive_Click" />
     <asp:Button Id="Btn_ReloginNoForceAuthn" runat="server" Enabled="true" Text="No ForceAuthn" OnClick="Btn_ReloginNoForceAuthn_Click" />
-    <asp:Button Id="Btn_CallServiceWithToken" runat="server" Enabled="true" Text="Call Service with bootstrap token" OnClick="Btn_CallServiceWithToken_Click" />
-    <asp:Button Id="Btn_CallService" runat="server" Enabled="true" Text="Call Service without bootstrap token" OnClick="Btn_CallService_Click" />
+    <asp:Button Id="Btn_CallServiceWithToken" runat="server" Enabled="true" Text="Call SOAP Service with bootstrap token" OnClick="Btn_CallServiceWithToken_Click" />
+    <asp:Button Id="Btn_CallService" runat="server" Enabled="true" Text="Call SOAP Service without bootstrap token" OnClick="Btn_CallService_Click" />
+    <asp:Button Id="Btn_CallRestServiceWithToken" runat="server" Enabled="true" Text="Call REST Service with bootstrap token" OnClick="Btn_CallRestServiceWithToken_Click" />
+    <asp:Button Id="Btn_CallRestService" runat="server" Enabled="true" Text="Call REST Service without bootstrap token" OnClick="Btn_CallRestService_Click" />
     
     </div>
 

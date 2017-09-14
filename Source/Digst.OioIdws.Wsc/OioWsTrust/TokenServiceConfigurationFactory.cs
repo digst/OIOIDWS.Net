@@ -4,13 +4,13 @@ using Digst.OioIdws.OioWsTrust;
 namespace Digst.OioIdws.Wsc.OioWsTrust
 {
     /// <summary>
-    /// This factory class can be used to generate a <see cref="TokenServiceConfiguration"/> configuration based on a <see cref="Configuration"/> configuration.
+    /// This factory class can be used to generate a <see cref="StsTokenServiceConfiguration"/> configuration based on a <see cref="Configuration"/> configuration.
     /// </summary>
     public class TokenServiceConfigurationFactory
     {
-        public static TokenServiceConfiguration CreateConfiguration(Configuration wscConfiguration)
+        public static StsTokenServiceConfiguration CreateConfiguration(Configuration wscConfiguration)
         {
-            var tokenServiceConfiguration = new TokenServiceConfiguration
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration
             {
                 ClientCertificate = CertificateUtil.GetCertificate(wscConfiguration.ClientCertificate),
                 StsCertificate = CertificateUtil.GetCertificate(wscConfiguration.StsCertificate),
@@ -27,7 +27,7 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
             return tokenServiceConfiguration;
         }
 
-        public static TokenServiceConfiguration CreateConfiguration()
+        public static StsTokenServiceConfiguration CreateConfiguration()
         {
             var wscConfiguration =
                 (Configuration) System.Configuration.ConfigurationManager.GetSection("oioIdwsWcfConfiguration");

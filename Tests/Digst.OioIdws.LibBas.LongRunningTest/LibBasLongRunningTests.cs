@@ -18,13 +18,13 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         private static Process _process;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
-        private static ITokenService _tokenService;
+        private static IStsTokenService _stsTokenService;
         private const string WspHostName = "digst.oioidws.wsp";
         
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            _tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            _stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
 
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
@@ -61,7 +61,7 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try
@@ -95,7 +95,7 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try
@@ -139,7 +139,7 @@ namespace Digst.OioIdws.LibBas.LongRunningTest
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try

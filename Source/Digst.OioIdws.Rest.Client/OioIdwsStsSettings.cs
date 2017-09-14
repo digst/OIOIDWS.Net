@@ -31,14 +31,14 @@ namespace Digst.OioIdws.Rest.Client
         public TimeSpan? TokenLifeTime { get; set; }
 
         /// <summary>
-        /// <see cref="TokenServiceConfiguration.CacheClockSkew"/>
+        /// <see cref="StsTokenServiceConfiguration.CacheClockSkew"/>
         /// </summary>
         public TimeSpan? CacheClockSkew { get; set; }
 
 
         /// <summary>
-        /// Specifies wheter or not to use the token cache variant <see cref="TokenServiceCache"/> or <see cref="TokenService"/>.
-        /// If true <see cref="TokenServiceCache"/> is used which is the default.
+        /// Specifies wheter or not to use the token cache variant <see cref="StsTokenServiceCache"/> or <see cref="StsTokenService"/>.
+        /// If true <see cref="StsTokenServiceCache"/> is used which is the default.
         /// </summary>
         public bool UseTokenCache { get; set; }
     }

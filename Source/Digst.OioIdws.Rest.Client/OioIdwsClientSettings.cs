@@ -1,10 +1,17 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.Rest.Client.AccessToken;
 
 namespace Digst.OioIdws.Rest.Client
 {
     public class OioIdwsClientSettings
     {
+        public OioIdwsClientSettings()
+        {
+            CacheClockSkew = TimeSpan.FromSeconds(300);
+            UseTokenCache = true;
+        }
+
         /// <summary>
         /// Represents the client certificate including the private key. This should be either a MOCES, FOCES or VOCES certificate.
         /// </summary>
@@ -27,5 +34,17 @@ namespace Digst.OioIdws.Rest.Client
         /// The server will only allow issuing tokens with a lower expires_in based on this request.
         /// </summary>
         public TimeSpan? DesiredAccessTokenExpiry { get; set; }
+        /// <summary>
+        /// This is used to determine how long before the token actually expires ... the token should be removed from the cache.
+        /// E.g. if token will expire in 100 seconds and <see cref="CacheClockSkew"/> is set to 10 seconds ... then the token will be removed from the cache after 90 seconds.
+        /// If not set ... the default value is 300 seconds.
+        /// This configuration setting is only used in conjunction with <see cref="AccessTokenServiceCache"/>
+        /// </summary>
+        public TimeSpan CacheClockSkew { get; set; }
+        /// <summary>
+        /// Specifies wheter or not to use the token cache variant <see cref="AccessTokenServiceCache"/> or <see cref="AccessTokenService"/>.
+        /// If true <see cref="AccessTokenServiceCache"/> is used which is the default.
+        /// </summary>
+        public bool UseTokenCache { get; set; }
     }
 }

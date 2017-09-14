@@ -16,7 +16,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenServiceCache(null);
+                new StsTokenServiceCache(null);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -31,7 +31,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void WspEndpointIDMissingInConfigurationTest()
         {
             // Arrange
-            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
@@ -40,7 +40,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenServiceCache(tokenServiceConfiguration);
+                new StsTokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -55,7 +55,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void StsEndpointAddressMissingInConfigurationTest()
         {
             // Arrange
-            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsCertificate = new X509Certificate2();
             tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
@@ -63,7 +63,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenServiceCache(tokenServiceConfiguration);
+                new StsTokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -78,7 +78,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void StsCertificateMissingInConfigurationTest()
         {
             // Arrange
-            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
@@ -87,7 +87,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenServiceCache(tokenServiceConfiguration);
+                new StsTokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -102,7 +102,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void ClientCertificateMissingInConfigurationTest()
         {
             // Arrange
-            var tokenServiceConfiguration = new TokenServiceConfiguration();
+            var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.StsCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
                 "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
@@ -111,7 +111,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                new TokenServiceCache(tokenServiceConfiguration);
+                new StsTokenServiceCache(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert

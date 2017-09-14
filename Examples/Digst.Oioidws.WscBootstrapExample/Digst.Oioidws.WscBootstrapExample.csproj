@@ -109,8 +109,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dk.nita.saml20, Version=1.7.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\dk.nita.saml20.1.7.13\lib\net35\dk.nita.saml20.dll</HintPath>
+    <Reference Include="dk.nita.saml20, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\dk.nita.saml20.2.0.0\lib\net45\dk.nita.saml20.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.1\lib\net40-full\log4net.dll</HintPath>
@@ -121,6 +121,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.identitymodel.services" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
@@ -150,6 +151,7 @@
     <Content Include="MyPage.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateUtil.cs" />
     <Compile Include="Default.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Default.aspx</DependentUpon>
@@ -214,17 +216,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
-      <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
-      <Name>Digst.OioIdws.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
       <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
       <Name>Digst.OioIdws.LibBas</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
-      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Project>{021345B3-85F0-4AE3-9989-DC96772C7799}</Project>
       <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\source\Digst.OioIdws.Rest.Client\Digst.OioIdws.Rest.Client.csproj">
+      <Project>{7e94185f-75da-4e26-80cd-d3bda207fe5f}</Project>
+      <Name>Digst.OioIdws.Rest.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
       <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>

@@ -51,10 +51,10 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void TotalFlowSucessTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             // Act
-            var securityToken = tokenService.GetToken();
+            var securityToken = stsTokenService.GetToken();
 
             // Assert
             Assert.IsNotNull(securityToken);
@@ -67,7 +67,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToBodyTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -82,7 +82,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -97,7 +97,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -112,7 +112,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -127,7 +127,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -155,7 +155,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -170,7 +170,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToHeaderToTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -185,7 +185,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -200,7 +200,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -235,7 +235,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -250,7 +250,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToTokenTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -286,7 +286,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -301,7 +301,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestFailDueToReplayAttackTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             byte[] recordedRequest = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
@@ -327,12 +327,12 @@ namespace Digst.OioIdws.OioWsTrust.Test
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
-            tokenService.GetToken();
+            stsTokenService.GetToken();
 
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -352,7 +352,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToBodyTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -382,7 +382,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -397,7 +397,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -440,7 +440,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -455,7 +455,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToHeaderRelatesToTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -498,7 +498,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -513,7 +513,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -543,7 +543,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -558,7 +558,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -608,7 +608,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -623,7 +623,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseFailDueToReplayAttackTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             byte[] recordedResponse = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
@@ -663,12 +663,12 @@ namespace Digst.OioIdws.OioWsTrust.Test
             };
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
-            tokenService.GetToken();
+            stsTokenService.GetToken();
             
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -680,18 +680,18 @@ namespace Digst.OioIdws.OioWsTrust.Test
 
         #endregion
 
-        #region ITokenService tests
+        #region IStsTokenService tests
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
         public void OioWsTrustTokenServiceGivesDifferentTokensTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = stsTokenService.GetToken();
 
             // Act
-            var securityToken2 = tokenService.GetToken();
+            var securityToken2 = stsTokenService.GetToken();
 
             // Assert
             Assert.AreNotEqual(securityToken, securityToken2, "Expected that tokens was NOT the same");
@@ -702,11 +702,11 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustTokenServiceCacheGivesTheSameTokenTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
+            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = stsTokenService.GetToken();
 
             // Act
-            var securityToken2 = tokenService.GetToken();
+            var securityToken2 = stsTokenService.GetToken();
 
             // Assert
             Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");

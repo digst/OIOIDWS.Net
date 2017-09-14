@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Digst.OioIdws.OioWsTrust.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Digst.OioIdws.OioWsTrust.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,17 +48,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITokenService.cs" />
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="IStsTokenService.cs" />
     <Compile Include="ProtocolChannel\IOioWsTrustMessageTransformer.cs" />
     <Compile Include="ProtocolChannel\OioWsTrustBindingElement.cs" />
     <Compile Include="ProtocolChannel\OioWsTrustChannel.cs" />
     <Compile Include="ProtocolChannel\OioWsTrustChannelFactory.cs" />
     <Compile Include="ProtocolChannel\OioWsTrustMessageTransformer.cs" />
-    <Compile Include="TokenServiceConfiguration.cs" />
+    <Compile Include="StsTokenServiceConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplyAttackCache.cs" />
-    <Compile Include="TokenService.cs" />
-    <Compile Include="TokenServiceCache.cs" />
+    <Compile Include="StsTokenService.cs" />
+    <Compile Include="StsTokenServiceCache.cs" />
     <Compile Include="Utils\RSAPKCS1SHA256SignatureDescription.cs" />
     <Compile Include="Utils\SignedXMLWithIdResolvement.cs" />
     <Compile Include="Utils\XmlSignatureUtils.cs" />

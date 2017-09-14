@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IdentityModel.Tokens;
 using System.IO;
-using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -25,8 +22,7 @@ namespace Digst.OioIdws.LibBas.Test
     {
         private static Process _process;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
-        private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
-        private static TokenServiceCache _tokenService;
+        private static StsTokenServiceCache _stsTokenService;
         private const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         private const string WspHostName = "digst.oioidws.wsp";
 
@@ -44,7 +40,7 @@ namespace Digst.OioIdws.LibBas.Test
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
-            _tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            _stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
         }
 
         [ClassCleanup]
@@ -62,7 +58,6 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Unregister event handlers after each test so tests do not interfere with each other.
             FiddlerApplication.BeforeRequest -= _fiddlerApplicationOnBeforeRequest;
-            FiddlerApplication.BeforeResponse -= _fiddlerApplicationOnBeforeResponse;
         }
 
         [TestMethod]
@@ -71,7 +66,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             var response = channelWithIssuedToken.HelloNone("Schultz");
@@ -86,7 +81,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try
@@ -106,7 +101,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             var response = channelWithIssuedToken.HelloSign("Schultz");
@@ -121,7 +116,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try
@@ -141,7 +136,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             var response = channelWithIssuedToken.HelloEncryptAndSign("Schultz");
@@ -156,7 +151,7 @@ namespace Digst.OioIdws.LibBas.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
 
             // Act
             try
@@ -189,7 +184,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -229,7 +224,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -261,7 +256,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -294,7 +289,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -326,7 +321,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             HelloWorldClient client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -375,7 +370,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -423,7 +418,7 @@ namespace Digst.OioIdws.LibBas.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -463,7 +458,7 @@ namespace Digst.OioIdws.LibBas.Test
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_tokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
             channelWithIssuedToken.HelloSign("Schultz");
 
             // Act

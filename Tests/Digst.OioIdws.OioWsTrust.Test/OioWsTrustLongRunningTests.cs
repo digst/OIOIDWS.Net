@@ -53,7 +53,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustRequestExpiredTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -68,7 +68,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (MessageSecurityException mse)
@@ -86,7 +86,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
         public void OioWsTrustResponseExpiredTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenService(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
 
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -112,7 +112,7 @@ namespace Digst.OioIdws.OioWsTrust.Test
             // Act
             try
             {
-                tokenService.GetToken();
+                stsTokenService.GetToken();
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (MessageSecurityException mse)
@@ -122,26 +122,26 @@ namespace Digst.OioIdws.OioWsTrust.Test
             }
         }
 
-        #region ITokenService tests
+        #region IStsTokenService tests
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTestLongRunning)]
         public void OioWsTrustTokenServiceCacheGivesDifferentTokenTest()
         {
             // Arrange
-            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = tokenService.GetToken();
-            Thread.Sleep(590000); // Sleep 10 minutes - 10 seconds
+            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            var securityToken = stsTokenService.GetToken();
+            Thread.Sleep(230000); // Sleep 4 minutes - 10 seconds ... 4 minutes due to default clock skew of 1 minut
 
             // Act 1
-            var securityToken2 = tokenService.GetToken();
+            var securityToken2 = stsTokenService.GetToken();
 
             // Assert 1
             Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");
 
             // Act 2
             Thread.Sleep(20000); // Sleep 20 seconds more and token should be expired.
-            var securityToken3 = tokenService.GetToken();
+            var securityToken3 = stsTokenService.GetToken();
 
             // Assert 2
             Assert.AreNotEqual(securityToken, securityToken3, "Expected that tokens was Not the same");

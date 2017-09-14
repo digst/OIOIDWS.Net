@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Web;
 using System.Web.UI;
 using dk.nita.saml20.config;
@@ -8,7 +9,10 @@ using dk.nita.saml20.protocol;
 using System.IdentityModel.Tokens;
 using System.Xml;
 using System.IO;
+using System.Net.Http;
+using System.Text;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Client;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using WebsiteDemo.HelloWorldProxy;
 
@@ -65,7 +69,7 @@ namespace WebsiteDemo
         {
             ServiceResponse = "";
 
-            ServiceResponse = Run(null);
+            ServiceResponse = RunSoap(null);
 
             Response.Redirect("MyPage.aspx");
         }
@@ -74,40 +78,25 @@ namespace WebsiteDemo
         {
             ServiceResponse = "";
 
-            string rawToken = Saml20Identity.Current["urn:liberty:disco:2006-08:DiscoveryEPR"][0].AttributeValue[0];
-            byte[] raw = Convert.FromBase64String(rawToken);
+            var bootstrapToken = GetBootstrapToken();
 
-            SecurityToken bootstrapToken;
-            using (var memoryStream = new MemoryStream(raw))
-            {
-                using (var streamReader = new StreamReader(memoryStream))
-                {
-                    using (var xmlTextReader = new XmlTextReader(streamReader))
-                    {
-                        SecurityTokenHandler handler = new Saml2SecurityTokenHandler();
-                        handler.Configuration = new SecurityTokenHandlerConfiguration();
-                        bootstrapToken = handler.ReadToken(xmlTextReader);
-                    }
-                }
-            }
-
-            ServiceResponse = Run(bootstrapToken);
+            ServiceResponse = RunSoap(bootstrapToken);
 
             Response.Redirect("MyPage.aspx");
         }
 
-        private string Run(SecurityToken bootstrapToken)
+        private string RunSoap(SecurityToken bootstrapToken)
         {
             // Retrieve token
-            ITokenService tokenService = new TokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
             SecurityToken securityToken = null;
             if (bootstrapToken != null)
             {
-                securityToken = tokenService.GetTokenWithBootstrapToken(bootstrapToken);
+                securityToken = stsTokenService.GetTokenWithBootstrapToken(bootstrapToken);
             }
             else
             {
-                securityToken = tokenService.GetToken();
+                securityToken = stsTokenService.GetToken();
             }
 
             // Call WSP with token
@@ -119,6 +108,87 @@ namespace WebsiteDemo
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
 
             return channelWithIssuedToken.HelloSign("Oiosaml-net.dk TEST");
+        }
+
+        protected void Btn_CallRestService_Click(object sender, EventArgs e)
+        {
+            ServiceResponse = "";
+
+            ServiceResponse = RunRest(null);
+
+            Response.Redirect("MyPage.aspx");
+        }
+
+        protected void Btn_CallRestServiceWithToken_Click(object sender, EventArgs e)
+        {
+            ServiceResponse = "";
+
+            var bootstrapToken = GetBootstrapToken();
+
+            ServiceResponse = RunRest(bootstrapToken);
+
+            Response.Redirect("MyPage.aspx");
+        }
+
+        private static string RunRest(SecurityToken bootstrapToken)
+        {
+            //configures the internal logger for OIO WS-TRUST communication
+            //LoggerFactory.SetLogger(new ConsoleLogger());
+
+            var settings = new OioIdwsClientSettings
+            {
+                ClientCertificate =
+                    CertificateUtil.GetCertificate(ConfigurationManager.AppSettings["ClientCertificate"]),
+                AudienceUri = new Uri(ConfigurationManager.AppSettings["AudienceUri"]),
+                AccessTokenIssuerEndpoint = new Uri(ConfigurationManager.AppSettings["AsEndpoint"]),
+                SecurityTokenService = new OioIdwsStsSettings
+                {
+                    Certificate = CertificateUtil.GetCertificate(ConfigurationManager.AppSettings["StsCertificate"]),
+                    EndpointAddress = new Uri(ConfigurationManager.AppSettings["StsEndpointAddress"]),
+                    TokenLifeTime =
+                        TimeSpan.FromSeconds(int.Parse(ConfigurationManager.AppSettings["TokenLifeTimeInSeconds"])),
+                    UseTokenCache = false
+                }
+            };
+
+            var idwsClient = bootstrapToken != null ? new OioIdwsClient(settings, bootstrapToken) : new OioIdwsClient(settings);
+
+            var httpClient = new HttpClient(idwsClient.CreateMessageHandler());
+
+            //first invocation - security token is retrieved and stored in the AS, access token cached by client
+            var response = httpClient.GetAsync(ConfigurationManager.AppSettings["WspTestEndpointAddress"]).Result;
+            return response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().Result;
+        }
+
+        private static SecurityToken GetBootstrapToken()
+        {
+            string rawToken = Saml20Identity.Current["urn:liberty:disco:2006-08:DiscoveryEPR"][0].AttributeValue[0];
+            byte[] raw = Convert.FromBase64String(rawToken);
+
+            using (var memoryStream = new MemoryStream(raw))
+            {
+                string content;
+                using (StreamReader reader = new StreamReader(memoryStream, Encoding.Unicode))
+                {
+                    content = reader.ReadToEnd();
+                }
+            }
+
+            SecurityToken bootstrapToken;
+            using (var memoryStream = new MemoryStream(raw))
+            {
+
+                using (var streamReader = new StreamReader(memoryStream))
+                {
+                    using (var xmlTextReader = new XmlTextReader(streamReader))
+                    {
+                        SecurityTokenHandler handler = new Saml2SecurityTokenHandler();
+                        handler.Configuration = new SecurityTokenHandlerConfiguration();
+                        bootstrapToken = handler.ReadToken(xmlTextReader);
+                    }
+                }
+            }
+            return bootstrapToken;
         }
     }
 }

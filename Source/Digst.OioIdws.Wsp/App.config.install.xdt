@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <!-- Add configSections as first child element under configuration if not already present -->
+  <!-- Add configSections as first child element under configuration. Does not take into account if a configSections element already exists. And potentially there can be two configSections after this transform. -->
   <configSections xdt:Transform="InsertBefore(/configuration/*[1])"/>
-  
-  <configSections>
+
+  <!-- Add sections to the last configSections element. This will ensure that the first configSections element remains empty if two configSections elements exist. -->
+  <configSections xdt:Locator="XPath(/configuration/configSections[last()])">
     <section name="system.identityModel" type="System.IdentityModel.Configuration.SystemIdentityModelSection, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
   </configSections>
 
+  <!-- Remove any configSections element. There will be an empty configSections element if a configSections element existed prior to installing this package -->
+  <!-- This 'hack' is nescessary because the transformation InsertBefore does not support the Condition syntax -->
+  <configSections xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+  
   <system.serviceModel xdt:Transform="InsertIfMissing"/>
   
   <!-- Extentions -->
