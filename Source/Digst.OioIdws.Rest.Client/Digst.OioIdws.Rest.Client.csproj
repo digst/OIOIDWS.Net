@@ -33,15 +33,6 @@
     <DocumentationFile>bin\Release\Digst.OioIdws.Rest.Client.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Digst.OioIdws.LibBas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
-    </Reference>
-    <Reference Include="Digst.OioIdws.Wsc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.1.1.1\lib\net45\Digst.OioIdws.Wsc.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -75,7 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
-      <Project>{021345B3-85F0-4AE3-9989-DC96772C7799}</Project>
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
       <Name>Digst.OioIdws.OioWsTrust</Name>
     </ProjectReference>
     <ProjectReference Include="..\Digst.OioIdws.Rest.Common\Digst.OioIdws.Rest.Common.csproj">

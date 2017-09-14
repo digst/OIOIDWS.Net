@@ -13,13 +13,14 @@ namespace Digst.OioIdws.OioWsTrust
     {
         private readonly IStsTokenService _stsTokenService;
         private static readonly MemoryCache TokenCache = new MemoryCache(typeof(StsTokenServiceCache).FullName, new NameValueCollection { { "pollingInterval", "00:00:30" } });
-        private const string WscTokenKey = "WscTokenKey";
         private readonly TimeSpan _cacheClockSkew;
+        private readonly string _wspEndpointId;
 
         public StsTokenServiceCache(StsTokenServiceConfiguration config)
         {
             _stsTokenService = new StsTokenService(config);
             _cacheClockSkew = config.CacheClockSkew;
+            _wspEndpointId = config.WspEndpointId;
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Digst.OioIdws.OioWsTrust
 
         private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
         {
-            var cacheKey = bootstrapToken != null ? bootstrapToken.Id : WscTokenKey;
+            var cacheKey = bootstrapToken != null ? bootstrapToken.Id + _wspEndpointId : _wspEndpointId;
 
             var securityToken = (SecurityToken) TokenCache.Get(cacheKey);
 

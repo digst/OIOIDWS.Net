@@ -47,6 +47,7 @@ namespace Digst.OioIdws.Rest.Examples.Client
 
             {
                 //second invocation - cached access token is reused
+                httpClient = new HttpClient(idwsClient.CreateMessageHandler());
                 var wspTestEndpointAddress2 = ConfigurationManager.AppSettings["WspTestEndpointAddress2"];
                 if (!string.IsNullOrWhiteSpace(wspTestEndpointAddress2))
                 {

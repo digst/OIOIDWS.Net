@@ -1,41 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Rest.Client.AccessToken;
-using Digst.OioIdws.Rest.Common;
-using Newtonsoft.Json.Linq;
 
 namespace Digst.OioIdws.Rest.Client
 {
+    /// <summary>
+    /// Class which represents a client/WSC in the OIOIDWS.Net REST scenario.
+    /// It can be used to retrieve STS tokens and access tokens in a custom middleware implementation.
+    /// It also gives middleware implementation <see cref="OioIdwsRequestHandler"/> that supports <see cref="HttpClient"/>.
+    /// </summary>
     public class OioIdwsClient
     {
-        private readonly SecurityToken _bootstrapToken;
         private readonly IStsTokenService _stsTokenService;
         private readonly IAccessTokenService _accessTokenService;
+        
+        /// <summary>
+        /// The settings that is used for communicating with STS and AS.
+        /// </summary>
         public OioIdwsClientSettings Settings { get; }
+
+        /// <summary>
+        /// The bootstrap token that the client is initialized with.
+        /// </summary>
+        public SecurityToken BootstrapToken { get; } 
+
 
         /// <summary>
         /// Used in the bootstrap case scenario.
         /// One instance of <see cref="OioIdwsClient"/> must be created for each user.
         /// </summary>
-        /// <param name="settings"></param>
         public OioIdwsClient(OioIdwsClientSettings settings, SecurityToken bootstrapToken) : this (settings)
         {
             if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
-            _bootstrapToken = bootstrapToken;
+            BootstrapToken = bootstrapToken;
         }
 
         /// <summary>
         /// Used in the signature case scenario
         /// </summary>
-        /// <param name="settings"></param>
         public OioIdwsClient(OioIdwsClientSettings settings)
         {
             Settings = settings;
@@ -90,7 +96,7 @@ namespace Digst.OioIdws.Rest.Client
 
             if (settings.UseTokenCache)
             {
-                _accessTokenService = new AccessTokenServiceCache(Settings);
+                _accessTokenService = new AccessTokenServiceCache(this);
             }
             else
             {
@@ -106,14 +112,18 @@ namespace Digst.OioIdws.Rest.Client
         /// <returns></returns>
         public HttpMessageHandler CreateMessageHandler()
         {
-            return new OioIdwsRequestHandler(this);
+            return new OioIdwsRequestHandler(this, (_accessTokenService as AccessTokenServiceCache)?.GetCachedAccessTokenIfNotExpired());
         }
 
+        /// <summary>
+        /// Retrives a STS token based on <see cref="Settings"/>
+        /// </summary>
+        /// <returns></returns>
         public GenericXmlSecurityToken GetSecurityToken()
         {
-            if (_bootstrapToken != null)
+            if (BootstrapToken != null)
             {
-                return (GenericXmlSecurityToken)_stsTokenService.GetTokenWithBootstrapToken(_bootstrapToken);
+                return (GenericXmlSecurityToken)_stsTokenService.GetTokenWithBootstrapToken(BootstrapToken);
             }
             else
             {
@@ -121,6 +131,10 @@ namespace Digst.OioIdws.Rest.Client
             }
         }
 
+        /// <summary>
+        /// Retrives an access token based on <see cref="Settings"/>
+        /// </summary>
+        /// <returns></returns>
         public async Task<AccessToken.AccessToken> GetAccessTokenAsync(
             GenericXmlSecurityToken securityToken,
             CancellationToken cancellationToken)

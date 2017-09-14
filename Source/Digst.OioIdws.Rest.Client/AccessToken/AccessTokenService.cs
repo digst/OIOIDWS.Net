@@ -15,7 +15,7 @@ namespace Digst.OioIdws.Rest.Client.AccessToken
     /// <summary>
     /// <see cref="IAccessTokenService"/>
     /// </summary>
-    internal class AccessTokenService : IAccessTokenService
+    public class AccessTokenService : IAccessTokenService
     {
         // It is an internal class. So we just reuse the client settings object instead of creating a new.
         private readonly OioIdwsClientSettings _settings;
@@ -23,7 +23,7 @@ namespace Digst.OioIdws.Rest.Client.AccessToken
         /// <summary>
         /// // It is an internal class and it is assumed that the settings has been verified by the client <see cref="OioIdwsClient"/>
         /// </summary>
-        internal AccessTokenService(OioIdwsClientSettings settings)
+        public AccessTokenService(OioIdwsClientSettings settings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
             _settings = settings;

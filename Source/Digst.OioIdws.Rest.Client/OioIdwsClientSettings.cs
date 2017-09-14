@@ -4,8 +4,14 @@ using Digst.OioIdws.Rest.Client.AccessToken;
 
 namespace Digst.OioIdws.Rest.Client
 {
+    /// <summary>
+    /// Settings related to communication with AS
+    /// </summary>
     public class OioIdwsClientSettings
     {
+        /// <summary>
+        /// Constructor that defaults makes use of token cache and uses a default value of 5 minutes in clock skew in the cache implementation.
+        /// </summary>
         public OioIdwsClientSettings()
         {
             CacheClockSkew = TimeSpan.FromSeconds(300);
@@ -44,6 +50,8 @@ namespace Digst.OioIdws.Rest.Client
         /// <summary>
         /// Specifies wheter or not to use the token cache variant <see cref="AccessTokenServiceCache"/> or <see cref="AccessTokenService"/>.
         /// If true <see cref="AccessTokenServiceCache"/> is used which is the default.
+        /// Be aware that if <see cref="OioIdwsStsSettings.TokenLifeTime"/> is shorter than <see cref="DesiredAccessTokenExpiry"/> then it is the longest life time of these two that determines the actual caching time.
+        /// Thus, if <see cref="OioIdwsStsSettings.TokenLifeTime"/> is 5 minutes and <see cref="DesiredAccessTokenExpiry"/> is 1 hour then a new access token is still only fetched each 1 hour.
         /// </summary>
         public bool UseTokenCache { get; set; }
     }

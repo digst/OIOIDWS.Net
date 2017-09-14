@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Protocols.WSTrust;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
@@ -14,13 +13,20 @@ namespace Digst.OioIdws.Rest.Client
     /// <summary>
     /// Can be used by HttpClient or similar to handle plumbing of issuing tokens and token expirations.
     /// The handler is not thread-safe.
+    /// Renews tokens one time if access is denied.
+    /// Uses <see cref="OioIdwsClient"/> to retrieve STS and access tokens.
     /// </summary>
     public class OioIdwsRequestHandler : WebRequestHandler
     {
         private readonly OioIdwsClient _client;
-        private GenericXmlSecurityToken _securityToken;
         private AccessToken.AccessToken _accessToken;
-        public OioIdwsRequestHandler(OioIdwsClient client)
+
+        /// <summary>
+        /// Constructor that always uses a client certificate if one exist for TLS client authentication.
+        /// </summary>
+        /// <param name="client">Backpointer to OioIdwsClient</param>
+        /// <param name="accessToken">An optional access token. Can be used if client already has access to a cached token.</param>
+        public OioIdwsRequestHandler(OioIdwsClient client, AccessToken.AccessToken accessToken)
         {
             if (client == null)
             {
@@ -28,6 +34,7 @@ namespace Digst.OioIdws.Rest.Client
             }
 
             _client = client;
+            _accessToken = accessToken;
 
             //We can't know in advance whether it's a Bearer/Holder-of-key token we're going to work with. Either way we just add the certificate to the request, if given
             if (client.Settings.ClientCertificate != null)
@@ -49,7 +56,6 @@ namespace Digst.OioIdws.Rest.Client
             if (response.StatusCode == HttpStatusCode.Unauthorized && IsInvalidToken(response))
             {
                 //if the request is denied due to the token no longer being valid, we flush the tokens, ensure they are reloaded, and refire the request
-                _securityToken = null;
                 _accessToken = null;
                 response = await SendAuthenticatedRequest(request, cancellationToken);
             }
@@ -75,8 +81,8 @@ namespace Digst.OioIdws.Rest.Client
         {
             if (_accessToken == null || (!DisableClientSideExpirationValidation && !_accessToken.IsValid()))
             {
-                _securityToken = _client.GetSecurityToken();
-                _accessToken = await _client.GetAccessTokenAsync(_securityToken, cancellationToken);
+                var securityToken = _client.GetSecurityToken();
+                _accessToken = await _client.GetAccessTokenAsync(securityToken, cancellationToken);
             }
         }
     }
