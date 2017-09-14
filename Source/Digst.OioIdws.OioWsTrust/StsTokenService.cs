@@ -77,7 +77,7 @@ namespace Digst.OioIdws.OioWsTrust
                     Logger.Instance.Warning($"RequestToken send timeout set to {_config.SendTimeout.Value}");
                     stsBinding.SendTimeout = _config.SendTimeout.Value;
                 }
-                stsBinding.Elements.Add(new SignatureCaseBindingElement(_config.StsCertificate));
+                stsBinding.Elements.Add(new OioWsTrustBindingElement(_config.StsCertificate));
                 stsBinding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap11WSAddressing10,
                     Encoding.UTF8));
                 // ManualAddressing must be true in order to make sure that wsa header elements are not altered in the HttpsTransportChannel which happens after xml elements have been digitally signed.

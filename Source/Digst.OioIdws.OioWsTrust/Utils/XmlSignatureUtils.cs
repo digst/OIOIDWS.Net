@@ -44,12 +44,12 @@ namespace Digst.OioIdws.OioWsTrust.Utils
             }
 
             // Include a reference to the certificate
-            var referenceElement = doc.CreateElement(SignatureCaseMessageTransformer.WssePrefix,
+            var referenceElement = doc.CreateElement(OioWsTrustMessageTransformer.WssePrefix,
                 "Reference",
-                SignatureCaseMessageTransformer.Wsse10Namespace);
+                OioWsTrustMessageTransformer.Wsse10Namespace);
             referenceElement.SetAttribute("URI", "#sec-binsectoken"); // Attribute must be in the empty namespace.
-            var securityTokenReferenceElement = doc.CreateElement(SignatureCaseMessageTransformer.WssePrefix, "SecurityTokenReference",
-                SignatureCaseMessageTransformer.Wsse10Namespace);
+            var securityTokenReferenceElement = doc.CreateElement(OioWsTrustMessageTransformer.WssePrefix, "SecurityTokenReference",
+                OioWsTrustMessageTransformer.Wsse10Namespace);
             securityTokenReferenceElement.AppendChild(referenceElement);
             signedXml.KeyInfo.AddClause(new KeyInfoNode(securityTokenReferenceElement));
 
@@ -57,10 +57,10 @@ namespace Digst.OioIdws.OioWsTrust.Utils
 
             // Append the computed signature. The signature must be placed as the sibling of the BinarySecurityToken element.
             var nsManager = new XmlNamespaceManager(doc.NameTable);
-            nsManager.AddNamespace(SignatureCaseMessageTransformer.S11Prefix, SignatureCaseMessageTransformer.S11Namespace);
-            nsManager.AddNamespace(SignatureCaseMessageTransformer.WssePrefix, SignatureCaseMessageTransformer.Wsse10Namespace);
-            var securityNode = doc.SelectSingleNode("/" + SignatureCaseMessageTransformer.S11Prefix + ":Envelope/" + SignatureCaseMessageTransformer.S11Prefix + ":Header/" + SignatureCaseMessageTransformer.WssePrefix + ":Security", nsManager);
-            var binarySecurityTokenNode = doc.SelectSingleNode("/" + SignatureCaseMessageTransformer.S11Prefix + ":Envelope/" + SignatureCaseMessageTransformer.S11Prefix + ":Header/" + SignatureCaseMessageTransformer.WssePrefix + ":Security/" + SignatureCaseMessageTransformer.WssePrefix + ":BinarySecurityToken", nsManager);
+            nsManager.AddNamespace(OioWsTrustMessageTransformer.S11Prefix, OioWsTrustMessageTransformer.S11Namespace);
+            nsManager.AddNamespace(OioWsTrustMessageTransformer.WssePrefix, OioWsTrustMessageTransformer.Wsse10Namespace);
+            var securityNode = doc.SelectSingleNode("/" + OioWsTrustMessageTransformer.S11Prefix + ":Envelope/" + OioWsTrustMessageTransformer.S11Prefix + ":Header/" + OioWsTrustMessageTransformer.WssePrefix + ":Security", nsManager);
+            var binarySecurityTokenNode = doc.SelectSingleNode("/" + OioWsTrustMessageTransformer.S11Prefix + ":Envelope/" + OioWsTrustMessageTransformer.S11Prefix + ":Header/" + OioWsTrustMessageTransformer.WssePrefix + ":Security/" + OioWsTrustMessageTransformer.WssePrefix + ":BinarySecurityToken", nsManager);
             securityNode.InsertAfter(doc.ImportNode(signedXml.GetXml(), true), binarySecurityTokenNode);
 
             var signedDocument = ToXDocument(doc);

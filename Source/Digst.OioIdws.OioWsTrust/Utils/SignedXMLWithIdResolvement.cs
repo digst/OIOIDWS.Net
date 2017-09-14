@@ -14,7 +14,7 @@ namespace Digst.OioIdws.OioWsTrust.Utils
         }
 
         /// <summary>
-        /// Id attributes are prefixed with <see cref="SignatureCaseMessageTransformer.WsuPrefix"/> and can not be resolved by the standard implementation. This implementation handles this.
+        /// Id attributes are prefixed with <see cref="OioWsTrustMessageTransformer.WsuPrefix"/> and can not be resolved by the standard implementation. This implementation handles this.
         /// </summary>
         public override XmlElement GetIdElement(XmlDocument document, string idValue)
         {
@@ -24,9 +24,9 @@ namespace Digst.OioIdws.OioWsTrust.Utils
             if (idElem == null)
             {
                 var nsManager = new XmlNamespaceManager(document.NameTable);
-                nsManager.AddNamespace(SignatureCaseMessageTransformer.WsuPrefix, SignatureCaseMessageTransformer.WsuNamespace);
+                nsManager.AddNamespace(OioWsTrustMessageTransformer.WsuPrefix, OioWsTrustMessageTransformer.WsuNamespace);
 
-                idElem = document.SelectSingleNode("//*[@" + SignatureCaseMessageTransformer.WsuPrefix + ":Id=\"" + idValue + "\"]", nsManager) as XmlElement;
+                idElem = document.SelectSingleNode("//*[@" + OioWsTrustMessageTransformer.WsuPrefix + ":Id=\"" + idValue + "\"]", nsManager) as XmlElement;
             }
 
             return idElem;

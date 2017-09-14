@@ -6,7 +6,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     /// <summary>
     /// Transforms the messages to be compliant with the Signature case scenario of the specification [NEMLOGIN-STSRULES]
     /// </summary>
-    public interface ISignatureCaseMessageTransformer
+    public interface IOioWsTrustMessageTransformer
     {
         /// <summary>
         /// Transforms a default WCF/WIF RST request into a proprietary request that NemLog-in STS understands.

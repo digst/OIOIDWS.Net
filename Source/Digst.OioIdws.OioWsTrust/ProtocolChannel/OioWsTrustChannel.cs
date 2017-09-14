@@ -4,12 +4,12 @@ using System.ServiceModel.Channels;
 
 namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
-    public class SignatureCaseChannel : ChannelBase, IRequestChannel
+    public class OioWsTrustChannel : ChannelBase, IRequestChannel
     {
-        private readonly SignatureCaseChannelFactory _channelManager;
+        private readonly OioWsTrustChannelFactory _channelManager;
         private readonly IRequestChannel _innerChannel;
 
-        public SignatureCaseChannel(SignatureCaseChannelFactory channelManager, IRequestChannel innerChannel)
+        public OioWsTrustChannel(OioWsTrustChannelFactory channelManager, IRequestChannel innerChannel)
             : base(channelManager)
         {
             if (channelManager == null) throw new ArgumentNullException("channelManager");
@@ -25,7 +25,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
         public Message Request(Message message, TimeSpan timeout)
         {
-            var signatureCaseMessageTransformer = new SignatureCaseMessageTransformer();
+            var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer();
             signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.ClientCertificate);
             var respsonse = _innerChannel.Request(message, timeout);
             

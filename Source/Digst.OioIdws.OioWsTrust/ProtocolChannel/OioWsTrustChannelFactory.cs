@@ -5,13 +5,13 @@ using System.ServiceModel.Channels;
 
 namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
-    public class SignatureCaseChannelFactory : ChannelFactoryBase<IRequestChannel>
+    public class OioWsTrustChannelFactory : ChannelFactoryBase<IRequestChannel>
     {
         private readonly IChannelFactory<IRequestChannel> _innerFactory;
         private readonly X509Certificate2 _clientCertificate;
         private readonly X509Certificate2 _stsCertificate;
 
-        public SignatureCaseChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, X509Certificate2 stsCertificate)
+        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, X509Certificate2 stsCertificate)
         {
             if (innerFactory == null) throw new ArgumentNullException("innerFactory");
             if (clientCertificate == null) throw new ArgumentNullException("clientCertificate");
@@ -50,7 +50,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
         protected override IRequestChannel OnCreateChannel(EndpointAddress address, Uri via)
         {   
-            return new SignatureCaseChannel(this, _innerFactory.CreateChannel(address, via));
+            return new OioWsTrustChannel(this, _innerFactory.CreateChannel(address, via));
         }
     }
 }

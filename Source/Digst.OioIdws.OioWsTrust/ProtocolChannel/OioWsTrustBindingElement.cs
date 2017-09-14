@@ -6,20 +6,20 @@ using System.ServiceModel.Description;
 
 namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
-    public class SignatureCaseBindingElement : BindingElement
+    public class OioWsTrustBindingElement : BindingElement
     {
         private readonly X509Certificate2 _stsCertificate;
 
         public override BindingElement Clone()
         {
-            return new SignatureCaseBindingElement(_stsCertificate);
+            return new OioWsTrustBindingElement(_stsCertificate);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="stsCertificate">The certificate used for validating the signature in the response from STS</param>
-        public SignatureCaseBindingElement(X509Certificate2 stsCertificate)
+        public OioWsTrustBindingElement(X509Certificate2 stsCertificate)
         {
             if (stsCertificate == null) throw new ArgumentNullException("stsCertificate");
             _stsCertificate = stsCertificate;
@@ -51,7 +51,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 throw new InvalidOperationException("No Client certificate was configured.");
 
             var innerFactory = context.BuildInnerChannelFactory<IRequestChannel>();
-            var factory = new SignatureCaseChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsCertificate);
+            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsCertificate);
             return (IChannelFactory<TChannel>) factory;
         }
     }

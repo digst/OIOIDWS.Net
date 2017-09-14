@@ -35,7 +35,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     ///     </S11:Body>
     /// </S11:Envelope>
     /// </summary>
-    public class SignatureCaseMessageTransformer : ISignatureCaseMessageTransformer
+    public class OioWsTrustMessageTransformer : IOioWsTrustMessageTransformer
     {
         // Namespaces
         public const string WsaNamespace = "http://www.w3.org/2005/08/addressing";
