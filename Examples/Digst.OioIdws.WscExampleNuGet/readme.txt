@@ -32,18 +32,24 @@ Requirements:
 How to use:
 Download package through NuGet. Open configuration file and fill out all {REQUIRED} attributes. Also fill out all {OPTIONAL} attributes or remove these if not needed. See configuration file Digst.OioIdws.Wsc.OioWsTrust.Configuration for details about each configuration element.
 
-The component exposes the following two method through the interface Digst.OioIdws.Wsc.ITokenService:
+The component has two implementations of the interface Digst.OioIdws.OioWsTrust.ITokenService which can be initialized runtime or through configuration:
+- TokenService: Retrieves a token from STS on each call
+- TokenServiceCache: Retrieves a token from STS and caches the token for the duration of the token life time. STS is only called again if the token is not present in the cache.
 
-- SecurityToken GetToken();
-- SecurityToken GetToken(Configuration config);
+Use the implementations through the Digst.OioIdws.OioWsTrust.ITokenService interface.
+- SecurityToken GetToken(): Use this method in the signature case scenario
+- SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken): Use this method in the bootstrap token scenario.
 
-They can be used to obtain a token from STS and afterwards used for calling a WSP.
+In order to use OIOIDWS.Net with production certificates ... the WSC and WSP must be registered in the NemLog-in administration module and the following certificates must be in place:
+- The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 
-The first method uses the configuration made in the config file. This method is appropriate when there only exist one client certificate and one WSP.
+- The WSC must acquire a FOCES certificate. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
 
-The second method can be used when runtime configuration is needed. This can be useful in situations where multiple client certificates are in play (e.g. when using MOCES certificates) or WSC is using multiple WSP.
+- The WSP must acquire a FOCES certificate. This certificate (the public part without the private key) must be distributed out-of-band to both WSC and STS. WSC needs it in order to trust responses from the WSP and STS needs it in order to encrypt the token. The service must also be registered in STS (through "NemLog-in administration") with an endpoint ID. This ID is used in both configurations of the WSC and WSP. The WSC needs the endpoint ID in order to request a token for a specific WSP. The WSP needs the endpoint ID in order to verify that the token is issued to the right WSP.
 
-After having fetched a token from STS, the token can be used for calling a WSP. The component does not cache the tokens. Hence, the WSC must itself implement caching support if needed. 
+- Information about how to order FOCES certificates from NETS DANID can be found here: http://www.nets.eu/dk-da/Produkter/Sikkerhed/Funktionssignatur/Pages/default.aspx.
+ 
+- In order to register a WSC and WSP you must contact Digitaliseringsstyrelsen at nemlogin@digst.dk. See also "NemLog-in administration" which can be found at https://digitaliser.dk/resource/2561041, but at the moment it is not possible to create WSC's and WSP's yourself. 
 
 Logging:
 The component supports logging using the WSC's own logging framework. See Digst.OioIdws.Common.Logging.Configuration for details how to do this. Please notice that tokens are written out when using the Debug level. This could expose a security risk when bearer tokens with a valid life time are written to disk. Hence, do not use Debug level in production.
@@ -61,10 +67,6 @@ Manuel man-in-the-middle attacks has been made using Fiddler. The following test
 	- Replay attack has been tested.
 	- Sending a response that has expired is not accepted by WSC.
 
-Examples:
-Please checkout the complete OIOIDWS.Net reference implementation at Softwarebørsen (https://svn.softwareborsen.dk/OIOIDWS/trunk). Here is a project called Digst.OioIdws.WscExample that illustrates how a WSC can use this component.
-Digst.OioIdws.WscExample illustrates how a token can be fetched and used to call a WSP.
-
 The following is issues that Digst.OioIdws.Wsc takes care of because WCF did not support them out of the box:
 WSC<->STS communication
 - RST:
@@ -74,7 +76,7 @@ WSC<->STS communication
 
 - RSTR:
 	- AppliesTo element is changed from namespace http://schemas.xmlsoap.org/ws/2002/12/policy to http://schemas.xmlsoap.org/ws/2004/09/policy. This is done in order to be compliant with the WS-Trust 1.3 specification.
-	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token. It also ensures that 
+	- The RequestedAttachedReference and RequestedUnattachedReference has been changed from generic references to SAML 2.0 references. This has been done in order for WCF to recognize the encrypted assertion as an SAML 2.0 token.
 	- TokenType is missing if not specified in RST even if [NEMLOGIN-STSRULES] states that it will always be included.
 	- Expiry time element "/s:Envelope/s:Header/wsse:Security/wsu:Timestamp/wsu:Expires" is currently not on the format specified by [NEMLOGIN-STSRULES]. [NEMLOGIN-STSRULES] says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.
 	- WS-Addressing Action element contains the value http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue instead of http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Issue. No code action has been taken here because WCF does not raise any error.

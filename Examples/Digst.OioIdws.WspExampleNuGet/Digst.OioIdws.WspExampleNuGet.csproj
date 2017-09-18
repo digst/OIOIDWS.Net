@@ -32,20 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digst.OioIdws.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Digst.OioIdws.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.LibBas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Digst.OioIdws.LibBas, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.Wsp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.1.0.0\lib\net45\Digst.OioIdws.Wsp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Digst.OioIdws.Wsp, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.Wsp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

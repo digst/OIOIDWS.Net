@@ -10,14 +10,14 @@ if($pushPackages.IsPresent)
     write-host "pushing package Digst.OioIdws.Wsc" -ForegroundColor Yellow
     .\nuget.exe push $("Digst.OioIdws.Wsc.$version.nupkg") -Source https://www.nuget.org/api/v2/package
 
-    #write-host "pushing package Digst.OioIdws.Wsp" -ForegroundColor Yellow
-    #.\nuget.exe push $("Digst.OioIdws.Wsp.$version.nupkg") -Source https://www.nuget.org/api/v2/package
+    write-host "pushing package Digst.OioIdws.Wsp" -ForegroundColor Yellow
+    .\nuget.exe push $("Digst.OioIdws.Wsp.$version.nupkg") -Source https://www.nuget.org/api/v2/package
     
-    #write-host "pushing package Digst.OioIdws.Rest.Client" -ForegroundColor Yellow
-    #.\nuget.exe push $("Digst.OioIdws.Rest.Client.$version.nupkg") -Source https://www.nuget.org/api/v2/package
+    write-host "pushing package Digst.OioIdws.Rest.Client" -ForegroundColor Yellow
+    .\nuget.exe push $("Digst.OioIdws.Rest.Client.$version.nupkg") -Source https://www.nuget.org/api/v2/package
 
-    #write-host "pushing package Digst.OioIdws.Rest.Server" -ForegroundColor Yellow
-    #.\nuget.exe push $("Digst.OioIdws.Rest.Server.$version.nupkg") -Source https://www.nuget.org/api/v2/package
+    write-host "pushing package Digst.OioIdws.Rest.Server" -ForegroundColor Yellow
+    .\nuget.exe push $("Digst.OioIdws.Rest.Server.$version.nupkg") -Source https://www.nuget.org/api/v2/package
 }
 else
 {
