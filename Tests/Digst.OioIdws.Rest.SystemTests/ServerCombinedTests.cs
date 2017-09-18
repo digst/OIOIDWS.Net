@@ -25,7 +25,7 @@ namespace Digst.OioIdws.Rest.SystemTests
         {
             var serverEndpoint = "https://digst.oioidws.rest.wsp:10002";
 
-            using (WebApp.Start(serverEndpoint, app =>
+            var wspServer = WebApp.Start(serverEndpoint, app =>
             {
                 app.SetLoggerFactory(new ConsoleLoggerFactory());
 
@@ -43,9 +43,10 @@ namespace Digst.OioIdws.Rest.SystemTests
                     .Use(async (context, next) =>
                     {
                         var identity = (ClaimsIdentity) context.Request.User.Identity;
-                        await context.Response.WriteAsync(identity.Claims.Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
+                        await context.Response.WriteAsync(identity.Claims
+                            .Single(x => x.Type == "dk:gov:saml:attribute:CvrNumberIdentifier").Value);
                     });
-            }))
+            });
             {
                 var settings = new OioIdwsClientSettings
                 {
@@ -59,6 +60,7 @@ namespace Digst.OioIdws.Rest.SystemTests
                         TokenLifeTime = TimeSpan.FromMinutes(5)
                     },
                     DesiredAccessTokenExpiry = TimeSpan.FromMinutes(5),
+                    UseTokenCache = false
                 };
 
                 var idwsClient = new OioIdwsClient(settings);
@@ -72,6 +74,8 @@ namespace Digst.OioIdws.Rest.SystemTests
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
                 var str = await response.Content.ReadAsStringAsync();
                 Assert.AreEqual("34051178", str);
+
+                wspServer.Dispose();
             }
         }
     }

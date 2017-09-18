@@ -67,7 +67,7 @@ Set-CertificatePermission $wspCertificate.Thumbprint $username
 add-HostEntry "127.0.0.1" "oiosaml-net.dk"
 add-HostEntry "127.0.0.1" "digst.oioidws.rest.as"
 add-HostEntry "127.0.0.1" "digst.oioidws.rest.wsp"
-add-HostEntry "127.0.0.1 Digst.OioIdws.Wsp"
+add-HostEntry "127.0.0.1" "Digst.OioIdws.Wsp"
 
 write-host "Setup completed!"
 write-host "You should now open the solution in Visual Studio, build it and run it!"

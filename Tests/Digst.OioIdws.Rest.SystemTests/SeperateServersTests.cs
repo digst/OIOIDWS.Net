@@ -79,7 +79,8 @@ namespace Digst.OioIdws.Rest.SystemTests
                     Certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
                     EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                     TokenLifeTime = TimeSpan.FromMinutes(5)
-                }
+                },
+                UseTokenCache = false
             };
 
             var idwsClient = new OioIdwsClient(settings);
