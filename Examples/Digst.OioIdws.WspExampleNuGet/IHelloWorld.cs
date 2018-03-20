@@ -1,9 +1,11 @@
 ﻿using System.Net.Security;
 using System.ServiceModel;
+using Digst.OioIdws.Wsp.Wsdl;
 
 namespace Digst.OioIdws.WspExampleNuGet
 {
     [ServiceContract]
+    [WsdlExportExtension]
     public interface IHelloWorld
     {
         [OperationContract(ProtectionLevel = ProtectionLevel.None)]

@@ -32,17 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digst.OioIdws.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.2.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
+    <Reference Include="Digst.OioIdws.Common, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.3.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.Soap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.2.0.0\lib\net45\Digst.OioIdws.Soap.dll</HintPath>
+    <Reference Include="Digst.OioIdws.OioWsTrust, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.3.0.0\lib\net45\Digst.OioIdws.OioWsTrust.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.OioWsTrust, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.2.0.0\lib\net45\Digst.OioIdws.OioWsTrust.dll</HintPath>
+    <Reference Include="Digst.OioIdws.Soap, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.3.0.0\lib\net45\Digst.OioIdws.Soap.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.Wsc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsc.2.0.0\lib\net45\Digst.OioIdws.Wsc.dll</HintPath>
+    <Reference Include="Digst.OioIdws.Wsc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsc.3.0.0\lib\net45\Digst.OioIdws.Wsc.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>

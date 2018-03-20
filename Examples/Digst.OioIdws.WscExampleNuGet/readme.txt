@@ -27,7 +27,14 @@ The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog
 All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "Misc\Specifications" folder on Softwarebørsen. It is the copies on Softwarebørsen that this implementation follows.
 
 Requirements:
-.Net 4.5 Framework.
+- .Net 4.5 Framework.
+
+- Transport Layer Security (TLS):
+  * The "OIO IDWS SOAP 1.1" specification states that in order to maintain "Message Confidentiality", "a secure transport protocol with strong encryption such as 'TLS 1.2' MUST be used.".
+
+  * As '.NET' doesn't have support to enforce this setting for a 'WCF Services', this must bet done on an 'Operating System' level by using a tool like IIS Crypto (https://www.nartac.com/Products/IISCrypto) (freeware) where a template, for example 'PCI 3.1', can be chosen and afterwards by unmarking all protocols, except 'TLS 1.2', will ensure to enforce this requirement.
+
+  * It's important that this is done centrally at the '.NET WSP' as we can't limit the 'WSC''s to only use 'TLS 1.2' as they communicate with the 'STS' over 'TLS 1.0'.
 
 How to use:
 Download package through NuGet. Open configuration file and fill out all {REQUIRED} attributes. Also fill out all {OPTIONAL} attributes or remove these if not needed. See configuration file Digst.OioIdws.Wsc.OioWsTrust.Configuration for details about each configuration element.
@@ -101,4 +108,3 @@ The following is compatibillity issues solved in the Java implementation:
 The following is issues not yet solved/supported with this component:
 - Replay attack from STS in a load balanced setup
 - Revocation check of STS certificate.
-
