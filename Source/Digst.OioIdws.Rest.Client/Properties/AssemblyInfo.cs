@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Digst.OioIdws.Rest.Client")]
-[assembly: AssemblyDescription("Digst.OioIdws.Rest.Client is a .Net-based reference implementation of the OIOIDWS REST 1.0.1a profile. The Toolkit can be used by services to act as a Web Service Client (WSC)")]
+[assembly: AssemblyDescription("Digst.OioIdws.Rest.Client is a .Net-based reference implementation of the OIOIDWS REST 1.1 profile. The Toolkit can be used by services to act as a Web Service Client (WSC)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Digitaliseringsstyrelsen")]
 [assembly: AssemblyProduct("Digst.OioIdws.Rest.Client")]

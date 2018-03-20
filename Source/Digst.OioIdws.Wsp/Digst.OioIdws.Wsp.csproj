@@ -11,6 +11,7 @@
     <AssemblyName>Digst.OioIdws.Wsp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,10 +64,12 @@
     <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileModel2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Digst.OioIdws.Wsp.nuspec" />
+    <None Include="Digst.OioIdws.Wsp.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Release instructions.html" />
+    <None Include="NuGetBuildPackPublish.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
@@ -76,9 +79,13 @@
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
+    <ProjectReference Include="..\Digst.OioIdws.Soap\Digst.OioIdws.Soap.csproj">
       <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
-      <Name>Digst.OioIdws.LibBas</Name>
+      <Name>Digst.OioIdws.Soap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Wsp.Wsdl\Digst.OioIdws.Wsp.Wsdl.csproj">
+      <Project>{4535c5e6-a44e-4952-8edb-ba207b16b8a8}</Project>
+      <Name>Digst.OioIdws.Wsp.Wsdl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

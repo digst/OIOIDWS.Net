@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <s:Header>
+    <a:Action s:mustUnderstand="1" u:Id="_2">http://tempuri.org/IHelloWorld/HelloNoneResponse</a:Action>
+    <a:RelatesTo u:Id="_3">urn:uuid:18d091e3-abc8-4e8c-994a-cc7497a0b9b8</a:RelatesTo>
+    <MessageID u:Id="_4" xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:a388038a-b754-40d2-b876-034ca58a99dc</MessageID>
+    <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <u:Timestamp u:Id="uuid-1cd6714d-f5ae-408e-a66f-4c4f3a8619e6-1">
+        <u:Created>2018-03-16T14:21:13.023Z</u:Created>
+        <u:Expires>2018-03-16T14:26:13.023Z</u:Expires>
+      </u:Timestamp>
+      <o:BinarySecurityToken u:Id="uuid-0e3c20d9-85e3-43e4-9801-5d22e4611551-8" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
+        MIIGLTCCBRWgAwIBAgIEWBlpjTANBgkqhkiG9w0BAQsFADBHMQswCQYDVQQGEwJESzESMBAGA1UECgwJVFJVU1QyNDA4MSQwIgYDVQQDDBtUUlVTVDI0MDggU3lzdGVtdGVzdCBYSVggQ0EwHhcNMTcwODExMTAzOTA3WhcNMjAwODExMTAzODMwWjCBmjELMAkGA1UEBhMCREsxMTAvBgNVBAoMKERpZ2l0YWxpc2VyaW5nc3N0eXJlbHNlbiAvLyBDVlI6MzQwNTExNzgxWDAgBgNVBAUTGUNWUjozNDA1MTE3OC1GSUQ6NDU4OTA0MjMwNAYDVQQDDC13c3Aub2lvaWR3cy1uZXQuZGsgVEVTVCAoZnVua3Rpb25zY2VydGlmaWthdCkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvvG6Aa3AMV2ezsGCjN6yjE/NdabY1z0IAE3W7PRq3xUuL+AvOLb6NVD6jFJ+I24/osBK4KJgfTpMIAiN4dhLMCBiwu8c2vM9tCv3Bo2hKY5VfS5bqzUHrR6VqIgsFg6+PiGD2oYlWU/raRNpOHpEt5FPM50ckpisToPsRzFtO78okCGvVwDZ9LvtY7EwWggX0u7ml253av5GUbAfwe8F8ZiwiLglWEBhICaGn3jcReNobrVgyhVtTFTgdExa7Nz910bhfhlQpmqZZjKwCcxN19UYaucOfjoIwT0BB6Om0s0TAfYuvHt06nVDa0WTy3x/kKLpZjg4hOQLTl1YDAFHDAgMBAAGjggLLMIICxzAOBgNVHQ8BAf8EBAMCA7gwgZcGCCsGAQUFBwEBBIGKMIGHMDwGCCsGAQUFBzABhjBodHRwOi8vb2NzcC5zeXN0ZW10ZXN0MTkudHJ1c3QyNDA4LmNvbS9yZXNwb25kZXIwRwYIKwYBBQUHMAKGO2h0dHA6Ly9mLmFpYS5zeXN0ZW10ZXN0MTkudHJ1c3QyNDA4LmNvbS9zeXN0ZW10ZXN0MTktY2EuY2VyMIIBIAYDVR0gBIIBFzCCARMwggEPBg0rBgEEAYH0UQIEBgQCMIH9MC8GCCsGAQUFBwIBFiNodHRwOi8vd3d3LnRydXN0MjQwOC5jb20vcmVwb3NpdG9yeTCByQYIKwYBBQUHAgIwgbwwDBYFRGFuSUQwAwIBARqBq0RhbklEIHRlc3QgY2VydGlmaWthdGVyIGZyYSBkZW5uZSBDQSB1ZHN0ZWRlcyB1bmRlciBPSUQgMS4zLjYuMS40LjEuMzEzMTMuMi40LjYuNC4yLiBEYW5JRCB0ZXN0IGNlcnRpZmljYXRlcyBmcm9tIHRoaXMgQ0EgYXJlIGlzc3VlZCB1bmRlciBPSUQgMS4zLjYuMS40LjEuMzEzMTMuMi40LjYuNC4yLjCBqwYDVR0fBIGjMIGgMDygOqA4hjZodHRwOi8vY3JsLnN5c3RlbXRlc3QxOS50cnVzdDI0MDguY29tL3N5c3RlbXRlc3QxOS5jcmwwYKBeoFykWjBYMQswCQYDVQQGEwJESzESMBAGA1UECgwJVFJVU1QyNDA4MSHello None Schultz. Your claims are:
+        Type: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier, Value: https://wsc.oioidws-net.dk
+        Type: dk:gov:saml:attribute:SpecVer, Value: DK-SAML-2.0
+        Type: dk:gov:saml:attribute:AssuranceLevel, Value: 3
+        Type: dk:gov:saml:attribute:CvrNumberIdentifier, Value: 34051178
+
+        QwIgYDVQQDDBtUUlVTVDI0MDggU3lzdGVtdGVzdCBYSVggQ0ExDzANBgNVBAMMBkNSTDEyMTAfBgNVHSMEGDAWgBTMAlUM5IF0ryBU1REUV5yRUjh/oDAdBgNVHQ4EFgQUDUmfSNfbDCgV5A5mjeG04EPAha8wCQYDVR0TBAIwADANBgkqhkiG9w0BAQsFAAOCAQEAQZWVUoO2IlhNNQc4Vxs1HtyV5UwNc3xiFpkXuWI3i2X+DXJjaEx7oxxgPtWpeiQ49Xy6lO6hsD22q2U3GcwQ+3ljsq5jL19TNNSya5p4d9Z2X7HsqCv9O7YDN3rIc+B1UJGy+CxKUp2wKyMTlvIVACwWCApmnZ9X08gqUMTO2GvXPfXGTC17aRBPemutjWxhRgaDcPhst4js0HeyL4I/qpZS8NXx40Y7pCObGBc0Me7zjJ4sgur2bw5CK4NYAQOQhuaqjWNItZlz4m2yKz7eStA9KWj0m2S7ZmEjKm280xneEUXciJAJOhk1SZ0j4Rs3hTx78y+d8lzCtepK9wuEFQ==
+      </o:BinarySecurityToken>
+      <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+          <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+          <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+          <Reference URI="#_1">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>syM86AQGKChPZDqixjg4hK1i0C8=</DigestValue>
+          </Reference>
+          <Reference URI="#_2">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>g+ubZA1Z9Q5SwRaV2alNextETnU=</DigestValue>
+          </Reference>
+          <Reference URI="#_3">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>deiyp/vaxNLe0OfjVvXEdM0l8Ik=</DigestValue>
+          </Reference>
+          <Reference URI="#_4">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>wgsD/6/7mgcKR07Ea1oO3bqCp6c=</DigestValue>
+          </Reference>
+          <Reference URI="#uuid-1cd6714d-f5ae-408e-a66f-4c4f3a8619e6-1">
+            <Transforms>
+              <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            </Transforms>
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue>O2sGv4oNeQ96bMCPEO1Pte526Zc=</DigestValue>
+          </Reference>
+        </SignedInfo>
+        <SignatureValue>ZI4d56K6JQsguDl5906CPuB8lPfMZx/ImrIKUqFclEl6Iin3eiBEFuIOh1bnvrKLMJpZndqwPdRAudMWIHF1qOjM/+q7dYS9QoF0MMcCPv5t2Zuj67aGV0DiPkBY5w2DccYhVjuBtyqsUGN7IpJVqZyvzZdzsy0bfnFidob+k9L51zvJvVHfn3/5XK3JA8qXhQ/5wRvrWHQbmv401tsMucg52LRBLpRuie0ti5U4M+/K35Eaom2axHoSv2JTuk6grFnrBUow/kfYBXppHAebc+hP7cGHqOnujXRLwn+6fHaNKRj85Zt+fPRNWCkL8qx1HwCNFI2k0H2u6lpUB6SzJg==</SignatureValue>
+        <KeyInfo>
+          <o:SecurityTokenReference>
+            <o:Reference URI="#uuid-0e3c20d9-85e3-43e4-9801-5d22e4611551-8"/>
+          </o:SecurityTokenReference>
+        </KeyInfo>
+      </Signature>
+    </o:Security>
+  </s:Header>
+  <s:Body u:Id="_1">
+    <HelloNoneResponse xmlns="http://tempuri.org/">
+      <HelloNoneResult>
+        Hello None Schultz. Your claims are:
+        Type: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier, Value: https://wsc.oioidws-net.dk&#xD;
+        Type: dk:gov:saml:attribute:SpecVer, Value: DK-SAML-2.0&#xD;
+        Type: dk:gov:saml:attribute:AssuranceLevel, Value: 3&#xD;
+        Type: dk:gov:saml:attribute:CvrNumberIdentifier, Value: 34051178&#xD;
+      </HelloNoneResult>
+    </HelloNoneResponse>
+  </s:Body>
+</s:Envelope>

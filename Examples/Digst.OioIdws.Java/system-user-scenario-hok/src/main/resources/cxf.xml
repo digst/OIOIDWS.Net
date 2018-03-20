@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+     xsi:schemaLocation="
+        http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://cxf.apache.org/transports/http/configuration
+        http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+
+  <http-conf:conduit name="*">
+    <!-- The production STS does not like chunking (something with the load balancer) -->
+    <http-conf:client AllowChunking="false"/>
+  </http-conf:conduit>
+
+  <cxf:bus>
+    <cxf:features>
+      <cxf:logging />
+    </cxf:features>
+  </cxf:bus>
+
+  <!--
+  <jaxws:client name="{http://www.example.org/contract/HelloWorld}HelloWorldPort" createdFromAPI="true">
+  -->
+  <jaxws:client name="{http://tempuri.org/}SoapBinding_IHelloWorld" createdFromAPI="true">
+    <jaxws:properties>
+      <!--
+      <entry key="ws-security.sts.applies-to" value="https://wsp.itcrew.dk" />
+      -->
+      <entry key="ws-security.sts.applies-to" value="https://wsp.oioidws-net.dk" />
+      <!--
+      <entry key="ws-security.signature.username" value="java ref. test (funktionscertifikat)" />
+      -->
+      <entry key="ws-security.signature.username" value="oiosaml-net.dk test (funktionscertifikat)" />
+      <entry key="ws-security.signature.properties" value="client.properties" />
+      <entry key="ws-security.callback-handler" value="client.callback.ClientCallbackHandler" />
+
+      <!-- the response from the STS is not BSP 1.1 compliant (missing c14n transform in the signature) -->
+      <entry key="ws-security.is-bsp-compliant" value="false" />
+
+      <entry key="ws-security.sts.client">
+        <bean class="client.sts.DigstSTSClient">
+          <constructor-arg ref="cxf" />
+
+          <property name="wsdlLocation" value="src/main/resources/sts.wsdl" />
+          <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+          <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}STS_Port" />
+          <property name="sendRenewing" value="false" />
+          <property name="sendKeyType" value="false" />
+          <property name="requiresEntropy" value="false" />
+          <property name="tokenType" value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" />
+
+          <property name="properties">
+            <map>
+              <!-- this is used to sign the request to the STS -->
+              <!-- 
+              <entry key="ws-security.signature.username" value="java ref. test (funktionscertifikat)" />
+              -->
+              <entry key="ws-security.signature.username" value="oiosaml-net.dk test (funktionscertifikat)" />
+              <entry key="ws-security.signature.properties" value="client.properties" />
+
+              <!-- this is used to verify the signature on the response from the STS -->
+              <entry key="ws-security.encryption.username" value="sts" />
+              <entry key="ws-security.encryption.properties" value="sts.properties" />
+            </map>
+          </property>
+        </bean>
+      </entry>
+    </jaxws:properties>
+  </jaxws:client>
+</beans>

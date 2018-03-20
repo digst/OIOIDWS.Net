@@ -11,6 +11,7 @@
     <AssemblyName>Digst.OioIdws.WspExample</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +52,7 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+      <Generator>C:\Program Files %28x86%29\Microsoft Visual Studio\2017\Community\Xml\Schemas\1033\DotNetConfig.xsd</Generator>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +60,13 @@
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Soap\Digst.OioIdws.Soap.csproj">
       <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
-      <Name>Digst.OioIdws.LibBas</Name>
+      <Name>Digst.OioIdws.Soap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsp.Wsdl\Digst.OioIdws.Wsp.Wsdl.csproj">
+      <Project>{4535c5e6-a44e-4952-8edb-ba207b16b8a8}</Project>
+      <Name>Digst.OioIdws.Wsp.Wsdl</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsp\Digst.OioIdws.Wsp.csproj">
       <Project>{bb72ff55-203d-4908-a396-1bf223473f3d}</Project>

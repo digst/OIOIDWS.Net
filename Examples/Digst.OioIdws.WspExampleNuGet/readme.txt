@@ -1,14 +1,14 @@
 ﻿Welcome to Digst.OioIdws.Wsp
 
 Introduction:
-Digst.OioIdws.Wsp is a .Net-based reference implementation of the OIOIDWS 1.0.1a profile which is described at http://digitaliser.dk/resource/526486.
+Digst.OioIdws.Wsp is a .Net-based reference implementation of the OIOIDWS 1.1 profile which is described at http://digitaliser.dk/resource/526486.
 This package can be used by services to act as a Web Service Producer (WSP).
 The goal of this component is to make it easy for Web Service Providers (WSP) to support the OIO Identity-based Web Services (OIOIDWS) profile.
 
 The implementation is based on the following standards for communication with a web service consumer (WSC). 
-[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates LIB-BAS between WSC and WSP.
+[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates OIO-IDWS-SOAP between WSC and WSP.
 
-[LIB-BAS] - Liberty Basic SOAP Binding Profile Version 1.0: LIB-BAS is a scaled-down version of the "Liberty ID-WSF 2.0 profile" from 2006 and can be used without reading the "Liberty ID-WSF 2.0 profile". Liberty ID-WSF 2.0 profiles WS-Security, WS-Addressing and SAML. LIB-BAS specifies the use of SOAP 1.1, WS-Adressing 1.0 and WS-Security.WS-Security 1.0 namespaces are used in the examples but the reference list points to WS-Security 1.1. This implementation uses WS-Secuity 1.0 in order to be compliant with the examples. Furtermore, it mandates the use of SAML 2.0 assertions.
+[OIO-IDWS-SOAP] - OIO IDWS SOAP Binding Profile Version 1.1: OIO-IDWS-SOAP is a scaled-down version of the "Liberty ID-WSF 2.0 profile" from 2006 and can be used without reading the "Liberty ID-WSF 2.0 profile". Liberty ID-WSF 2.0 profiles WS-Security, WS-Addressing and SAML. OIO-IDWS-SOAP specifies the use of SOAP 1.1, WS-Adressing 1.0 and WS-Security.WS-Security 1.0 namespaces are used in the examples but the reference list points to WS-Security 1.1. This implementation uses WS-Secuity 1.0 in order to be compliant with the examples. Furtermore, it mandates the use of SAML 2.0 assertions.
 
 [OIO-IDT] - OIO SAML Profile for Identity Tokens 1.0: Specifies that only "Holder of key" confirmation method should be allowed.
 
@@ -55,14 +55,14 @@ WSP<->WSC communication
 	- Support of encrypted assertions. According to the two statements beneath the "Web Services Security SAML Token Profile" says that the key identifier must reference the id of the SAML assertion and the SubjectConfirmation is the proof key. In this case the SAML assertion is encrypted and therefore the key identifier is referencing the id of the encrypted assertion. When WCF encounters an encrypted assertion it is automatically replaced with the decrypted assertion. The result is that the key identifier now references an id that is not present anymore. It seems strange that WIF does not take this into account when looking after the decrypted SAML assertion (when they have putted effort into decrypting the assertion), and makes me wonder if it could be solved by configuration. However, I could only make it work with the custom DecryptedSaml2SecurityToken implementation. It basically just says "yes I have an assertion with the id 'encryptedassertion' even if it is not true". The implementation will fail if NemLog-in STS changes strategy and does not use the static identifier 'encryptedassertion'.
 		- When a key identifier is used to reference a SAML assertion, it MUST contain as its element value the corresponding SAML assertion identifier.
 		- A SAML assertion may be referenced from a <ds:KeyInfo> element of a <ds:Signature> element in a <wsse:Security> header. In this case, the assertion contains a SubjectConfirmation element that identifies the key used in the signature calculation.
-	- Adds LibertyFramework header as required by [LIB-BAS]
+	- Adds header as required by [OIO-IDWS-SOAP]
 
 - Outgoing response:
-	- Added WS-Addressing MessageID as required by [LIB-BAS]. E.g. WCF does not default insert MessageID headers in responses.
-	- Ensure that body is signed even if ProtectionLevel has been set to None. Body must be signed as required by [LIB-BAS].
+	- Added WS-Addressing MessageID as required by [OIO-IDWS-SOAP]. E.g. WCF does not default insert MessageID headers in responses.
+	- Ensure that body is signed even if ProtectionLevel has been set to None. Body must be signed as required by [OIO-IDWS-SOAP].
 
 The following is compatibillity issues solved in the Java implementation:
-- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+- Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\OioIdWsSoap folder. In the examples it can been seen that:
 	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
 	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
 

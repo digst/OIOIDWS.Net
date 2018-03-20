@@ -7,24 +7,24 @@
   <system.serviceModel>
     <extensions>
       <bindingExtensions>
-        <add name="LibBasBinding" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+        <add name="SoapBinding" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
       </bindingExtensions>
       <behaviorExtensions>
-        <add name="LibBasBehavior" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+        <add name="SoapBehavior" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
       </behaviorExtensions>
     </extensions>
     <behaviors>
       <endpointBehaviors>
-        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+        <behavior name="SoapBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
       </endpointBehaviors>
     </behaviors>
     <behaviors>
       <serviceBehaviors>
-        <behavior name="LibBasServiceBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
+        <behavior name="SoapServiceBehaviourConfiguration" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
       </serviceBehaviors>
     </behaviors>
     <bindings>
-      <LibBasBinding xdt:Transform="Remove"/>
+      <SoapBinding xdt:Transform="Remove"/>
     </bindings>
     <services>
       <service name="{REQUIRED}" xdt:Transform="Remove" xdt:Locator="Match(name)"/>
@@ -112,5 +112,31 @@
   </system.identityModel>
   <system.identityModel xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)"/>
 
-</configuration>
+  <!-- WSDL Export Extension Types : BEGIN  -->
+  <system.web>
+    <webServices>
+      <serviceDescriptionFormatExtensionTypes>
+        <add type="Digst.OioIdws.Wsp.Wsdl.Bindings.Policy, Digst.OioIdws.Wsp.Wsdl"
+             xdt:Transform="Remove"
+             xdt:Locator="Match(type)"/>
+        <add type="Digst.OioIdws.Wsp.Wsdl.Bindings.PolicyReference, Digst.OioIdws.Wsp.Wsdl"
+             xdt:Transform="Remove"
+             xdt:Locator="Match(type)"/>
+      </serviceDescriptionFormatExtensionTypes>
+    </webServices>
+  </system.web>
 
+  <system.web>
+    <webServices>
+      <serviceDescriptionFormatExtensionTypes xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+    </webServices>
+  </system.web>
+
+  <system.web>
+    <webServices xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+  </system.web>
+
+  <system.web xdt:Transform="Remove" xdt:Locator="Condition(count(*)=0)" />
+  <!-- WSDL Export Extension Types : END -->
+
+</configuration>

@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>README</title>
+</head>
+<body>
+
+    <h1 id="readme">README</h1>
+<h2 id="getting-started-with-oioidws.net">Getting started with OIOIDWS.Net</h2>
+<p><code>OIOIDWS.Net</code> is a <code>.Net</code>-based reference implementation of the <code>OIOIDWS 1.0.1a</code> profile.</p>
+<p>The <code>OIOIDWS.Net</code> components can be used by service providers to act as a Web
+Service Consumer (<code>WSC</code>) or Web Service Producer (<code>WSP</code>), using the <code>SOAP</code> or
+<code>REST</code> standard.</p>
+<p>This is the codebase that the <code>OIOIDWS.Net</code> components are built from.</p>
+<h3 id="resource-links">Resource links</h3>
+<ul>
+<li><a href="https://digitaliser.dk/group/705156">Project maintenance</a></li>
+<li><a href="https://www.nuget.org/profiles/Digitaliseringsstyrelsen">Nuget packages (prefixed Digst.OioIdws)</a></li>
+<li><a href="https://svn.softwareborsen.dk/OIOIDWS/">Code repository</a></li>
+</ul>
+<h3 id="repository-content">Repository content</h3>
+<ul>
+<li><strong>Build</strong>: Contains script to create and publish <code>NuGet</code> packages:</li>
+<li><strong>Examples</strong>: Contains examples that illustrates how to use <code>OIOIDWS.Net</code>.
+<ul>
+<li><strong>Digst.OioIdws.Rest.Examples.AS</strong>: Example on how to run the Authentication Server in the <code>REST</code> variant of <code>OIOIDWS</code>. <code>AS</code> stands for Authorization Server and is the same term used in [<code>OIO-IDWS-REST</code>].</li>
+<li><strong>Digst.OioIdws.Rest.Examples.Client</strong>: Example on how to run the <code>WSC/Client</code> in the <code>REST</code> variant of <code>OIOIDWS</code> in the signature case scenario. In <code>app.config</code> it can be configured whether to use the <code>Digst.OioIdws.Rest.Examples.ServerAndASCombined</code> example or <code>Digst.OioIdws.Rest.Examples.Server</code> combined with <code>Digst.OioIdws.Rest.Examples.AS</code> example.</li>
+<li><strong>Digst.OioIdws.Rest.Examples.ClientNuget</strong>: Contains code that illustrates how to use <code>OIOIDWS.Net</code>.</li>
+<li><strong>Digst.OioIdws.Rest.Examples.ServerAndASCombined</strong>: Same as <code>Digst.OioIdws.Rest.Examples.Client</code> but based on the latest public available <code>NuGet</code> package.</li>
+<li><strong>Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget</strong>: Example on how to run the <code>WSP/Server</code> in the <code>REST</code> variant of <code>OIOIDWS</code> where the <code>AS</code> is running in the same process.</li>
+<li><strong>Digst.OioIdws.Rest.Examples.Server</strong>: Same as <code>Digst.OioIdws.Rest.Examples.ServerCombined</code> but based on the latest public available <code>NuGet</code> package.</li>
+<li><strong>Digst.Oioidws.WscBootstrapExample</strong>: Example on how to run the <code>WSP/Server</code> in the <code>REST</code> variant of <code>OIOIDWS</code>.</li>
+<li><strong>Digst.OioIdws.WscExample</strong>: Example on how to run the <code>WSC/Client</code> in the <code>SOAP</code> variant of <code>OIOIDWS</code> in the bootstrap token scenario. It shows how to build a small <code>SAML 2.0</code> Service Provider (<code>SP</code>) that also acts as a Web Service Consumer (<code>WSC</code>). It requires the <code>Digst.OioIdws.WspExample</code> to be up and running. See [<code>OIO-BTP</code>] for more information on configuring the <code>SP</code> to recieve bootstrap tokens. Note that when running the bootstrap scenario, the end-users' identity is what the <code>WSP</code> sees, whereas in the signature scenario, it is the identity of the <code>WSC</code> that is seen by the <code>WSP</code>. The following things are already setup but is relevant to know when setting up your own combined <code>SP/WSC</code> in production:
+<ul>
+<li>The <code>SP</code> and <code>WSC</code> must be registered with the same certificate in the <code>NemLog-in</code> administration module.</li>
+</ul>
+</li>
+<li><strong>Digst.OioIdws.WscExampleConfByCode</strong>: Same as <code>Digst.OioIdws.WscExample</code> but configured with code instead of <code>App.config</code>. It's ideal to be used for <code>debug</code> purpouses.</li>
+<li><strong>Digst.OioIdws.WscExampleNuGet</strong>: Same as <code>Digst.OioIdws.WscExample</code> but based on the latest public available <code>NuGet</code> package.</li>
+<li><strong>Digst.OioIdws.WspExample</strong>: Example on how to run the <code>WSP/Server</code> in the <code>SOAP</code> variant of <code>OIOIDWS</code>.</li>
+<li><strong>Digst.OioIdws.WspExampleNuGet</strong>: Same as <code>Digst.OioIdws.WspExample</code> but based on the latest public available <code>NuGet</code> package.</li>
+<li><strong>Digst.OioIdws.Java</strong>: Contains examples that uses <code>Java (WSC/WSP) &lt;-&gt; .NET (WSC/WSP)</code>
+<ul>
+<li><strong>Digst.OioIdws.DotnetWscJavaWspExample</strong>: Example on how to run the <code>WSC/Client</code> in the <code>SOAP</code> variant of <code>OIOIDWS</code> in the signature case scenario against a <code>Java WSP/Server</code>. Requires that a <code>Java WSP/Server</code> is up and running. Checkout <code>OIOIDWS.Java</code> and <code>Guide to use Java WSP and .NET WSC</code> (in the <code>Examples\Digst.OioIdws.Java</code> folder) on how to do that.</li>
+<li><strong>Digst.OioIdws.DotnetWscJavaWspExampleConfByCode</strong>: Same as <code>Digst.OioIdws.DotnetWscJavaWspExample</code> but configured with code instead of <code>App.config</code>. It's ideal to be used for <code>debug</code> purpouses.</li>
+<li><strong>service-hok</strong>: <code>Java WSP</code> example project taken from the lastest <code>IDWS-JAVA-SOAP</code>. For more information, please read the <code>Guide to use Java WSP and .NET WSC</code> (in the <code>Examples\Digst.OioIdws.Java</code> folder).</li>
+<li><strong>system-user-scenario-hok</strong>: <code>Java WSC</code> example project taken from the lastest <code>IDWS-JAVA-SOAP</code> and adapted to work with the <code>Digst.OioIdws.WspExample</code> project. For more information, please read the <code>Guide to use .NET WSP (+custom WSDL) and Java WSC</code> (in the <code>Examples\Digst.OioIdws.Java</code> folder).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Misc</strong>: Contains miscellaneous stuff
+<ul>
+<li><strong>Certificates</strong>: All certificates needed to run the examples.</li>
+<li><strong>SOAP examples</strong>: Contains examples on requests and responses for both <code>OioWsTrust</code> communication between <code>WSC &lt;-&gt; STS</code> and between <code>WSC &lt;-&gt; WSP</code>.</li>
+<li><strong>Specifications</strong>: All the specifications related to <code>OIOIDWS</code> are located here in <code>PDF</code>. They are only placed here to document how the specifications were at the time of development. All specifications are named [<code>XXX</code>] and are also referenced by that name.</li>
+<li><strong>Token examples</strong>: Contains examples on <code>IdP</code> issued bootstrap token and <code>STS</code> issued access token.</li>
+</ul>
+</li>
+<li><strong>Setup</strong>: Contains <code>PowerShell</code> script to auto setup the development environment.</li>
+<li><strong>Source</strong>: Source code for the <code>OIOIDWS.Net</code> framework
+<ul>
+<li><strong>Digst.OioIdws.Common</strong>: Contains common stuff for the <code>SOAP</code> variant.</li>
+<li><strong>Digst.OioIdws.Soap</strong>: Contains the implementation of the [<code>OIO IDWS SOAP 1.1</code>] specification.</li>
+<li><strong>Digst.OioIdws.OioWsTrust</strong>: Contains the implementation of the [<code>OIO-WST</code>] specification.</li>
+<li><strong>Digst.OioIdws.Rest.Client</strong>: Contains the client implementation of the [<code>OIO-IDWS-REST</code>] specification. It handles the communication between <code>STS</code>, <code>AS</code> and <code>WSP</code>.</li>
+<li><strong>Digst.OioIdws.Rest.Common</strong>: Contains common stuff for the <code>REST</code> variant.</li>
+<li><strong>Digst.OioIdws.Rest.Server</strong>: Contains the server and <code>AS</code> implementation of the [<code>OIO-IDWS-REST</code>] specification. The <code>AS</code> stores information from the security token and issues access tokens. The <code>WSP</code> contains the authentication middleware that logs the user into the <code>WSP</code>.</li>
+<li><strong>Digst.OioIdws.Wsc</strong>: Encapsulates the usage and configuration of <code>Digst.OioIdws.Soap</code> and <code>Digst.OioIdws.OioWsTrust</code>.</li>
+<li><strong>Digst.OioIdws.Wsp</strong>: Encapsulates the usage and configuration of <code>Digst.OioIdws.Soap</code></li>
+<li><strong>Digst.OioIdws.Wsp.Wsdl</strong>: It's part of <code>Digst.OioIdws.Wsp</code> and provides cross-platform capabilities for the exposed <code>ServiceMetadata</code> (<code>WSDL</code>) by the <code>.NET WSP</code>. Usage is <em>optional</em>, but highly recommened as it will ease and minimize the amout of manual task for non-<code>.NET WSC</code> consuming the <code>.NET WSP</code>.</li>
+</ul>
+</li>
+<li><strong>Tests</strong>: Contains various unit and integration tests:
+<ul>
+<li><strong>Digst.OioIdws.Soap.LongRunningTest</strong>: Contains long running tests of <code>Digst.OioIdws.Soap</code>.</li>
+<li><strong>Digst.OioIdws.Soap.Test</strong>: Contains tests of <code>Digst.OioIdws.Soap</code>.</li>
+<li><strong>Digst.OioIdws.Soap.CrossTest</strong>: Contains cross-tests of <code>Digst.OioIdws.Soap</code> combined with <code>Digst.OioIdws.Java</code>.</li>
+<li><strong>Digst.OioIdws.OioWsTrust.Test</strong>: Contains tests of <code>Digst.OioIdws.OioWsTrust</code>.</li>
+<li><strong>Digst.OioIdws.Rest.Server.Tests</strong>: Contains tests of <code>Digst.OioIdws.Rest.Server</code></li>
+<li><strong>Digst.OioIdws.Rest.SystemTests</strong>: Contains tests of <code>Digst.OioIdws.Rest.Client</code> and <code>Digst.OioIdws.Rest.Server</code>.</li>
+<li><strong>Digst.OioIdws.Test.Common</strong>: Common stuff user by the other test libaries.</li>
+</ul>
+</li>
+<li><strong>DEVELOPER-NOTES.md</strong>: Information relevant for developers of <code>OIOIDWS.Net</code> (updates <code>.html</code> when saved in <code>Visual Studio</code>).</li>
+<li><strong>Digst.OioIdws.sln</strong>: <code>Visual Studio 2017</code> solution file.</li>
+<li><strong>README.md</strong>: This file (updates <code>.html</code> when saved in <code>Visual Studio</code>).</li>
+</ul>
+<h3 id="getting-started">Getting started</h3>
+<p>The source code contains everything you need to get a demonstration environment up and running, federating with <code>NemLog-in IdP</code> and <code>NemLog-in STS</code>.</p>
+<p><em>The full documentation of <code>OIOIDWS.Net</code> is a combination of the various readme files, <code>API</code> documentation and the examples provided.</em></p>
+<p>For a quick setup, you must do the following:</p>
+<ul>
+<li>Run the script <code>Setup\setup_prerequisites.ps1</code> from an elevated <code>PowerShell</code>. This installs all required certificates and performs <code>sslcert</code> bindings to be able to host local websites using <code>HTTPS</code>.</li>
+<li>Open the solution <code>Digst.OioIdws.sln</code> in <code>Visual Studio 2017 (Elevated mode)</code> and build it (if you get errors on external dependencies, ensure <code>NuGet</code> packages are being restored).</li>
+<li>The external <code>IP</code> address must be white listed at <code>NETS</code> in order to be able to make revocation check of the test <code>FOCES</code> certificates.</li>
+<li>Set the projects <code>Digst.OioIdws.Rest.Examples.ServerAndASCombined</code>, <code>Digst.OioIdws.WspExample</code> and <code>Digst.Oioidws.WscBootstrapExample</code> as startup projects by right-clicking solution, select <code>properties</code>, selecting <code>Multiple start projects</code>.</li>
+<li>For the web project, you must manually set the <code>Start URL</code> that <code>IIS Express</code> uses. You do this by:
+<ul>
+<li>right click project <code>Digst.Oioidws.WscBootstrapExample</code>, select <code>properties</code>, select the tab <code>Web</code>, alter the <code>Start Action</code> to the radio button <code>Start URL</code>, specifying <a href="https://oiosaml-net.dk:20002">https://oiosaml-net.dk:20002</a>.</li>
+</ul>
+</li>
+<li>Run the solution which should start a <code>SOAP WSP</code>, <code>REST WSP</code> and a combined <code>SOAP/REST WSC</code>.</li>
+</ul>
+<p>This should start one browser window for the <code>SOAP/REST WSC</code> <code>Digst.Oioidws.WscBootstrapExample</code>, and two console windows for <code>Digst.OioIdws.WspExample</code> and <code>Digst.OioIdws.Rest.Examples.ServerAndASCombined</code>.</p>
+<p>In the web site you should now be able to log in using <code>NemLog-in</code>, and make <code>SOAP</code> or <code>REST</code> calls in either the bootstrap signature case scenario.</p>
+<p>You must use an certificate employee certificate from the <a href="https://test-nemlog-in.dk/testportal/">NemLog-In testportal</a>.</p>
+<h3 id="cross-platform-examples-and-testing">Cross-platform Examples and Testing</h3>
+<p>As we have added cross-platform support, if you would like to execute the
+example projects as well as the test projects, you will have to install the
+<code>JAVA JDK/JRE 1.8.2</code>. Please follow the official guides on how to install
+these components and don't forget to create a <code>JAVA_HOME</code> under
+<code>System Properties window</code> &gt; <code>Environment Variables</code> &gt;
+<code>System variables</code> and update the <code>PATH</code> (still in <code>System variables</code>)
+with <code>%JAVA_HOME%\bin</code>.</p>
+<p>If you have done these steps correctly, you should see the following if you
+this from a <code>cmd.exe</code>:</p>
+<pre><code>Microsoft Windows [Version 10.0.16299.309]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+C:\Users\user&gt;echo %JAVA_HOME%
+C:\Program Files\Java\jdk1.8.0_162
+C:\Users\mon&gt;&quot;%JAVA_HOME%\bin\javac&quot; -version
+javac 1.8.0_162
+
+C:\Users\user&gt;
+</code></pre>
+
+
+</body>
+</html>

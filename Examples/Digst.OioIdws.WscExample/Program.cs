@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
+
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Digst.OioIdws.WscExample.HelloWorldProxy;
+
 using log4net.Config;
 
 namespace Digst.OioIdws.WscExample
@@ -24,7 +26,9 @@ namespace Digst.OioIdws.WscExample
 
             // Call WSP with token
             var client = new HelloWorldClient();
+
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+
             Console.WriteLine(channelWithIssuedToken.HelloNone("Schultz")); // Even if the protection level is set to 'None' Digst.OioIdws.Wsc ensures that the body is always at least signed.
             Console.WriteLine(channelWithIssuedToken.HelloSign("Schultz"));
             Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign("Schultz"));
@@ -53,4 +57,3 @@ namespace Digst.OioIdws.WscExample
         }
     }
 }
-        

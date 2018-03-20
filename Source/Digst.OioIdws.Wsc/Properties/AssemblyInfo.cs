@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Digst.OioIdws.Wsc")]
-[assembly: AssemblyDescription("Digst.OioIdws.Wsc is a .Net-based reference implementation of the OIOIDWS 1.0.1a profile. The Toolkit can be used by clients (e.g. service providers) to act as a Web Service Consumer (WSC).")]
+[assembly: AssemblyDescription("Digst.OioIdws.Wsc is a .Net-based reference implementation of the OIOIDWS 1.1 profile. The Toolkit can be used by clients (e.g. service providers) to act as a Web Service Consumer (WSC).")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Digitaliseringsstyrelsen")]
 [assembly: AssemblyProduct("Digst.OioIdws.Wsc")]

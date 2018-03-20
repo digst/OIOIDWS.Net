@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxws="http://cxf.apache.org/jaxws"
+      xmlns:cxf="http://cxf.apache.org/core"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://cxf.apache.org/core
+         http://cxf.apache.org/schemas/core.xsd
+         http://cxf.apache.org/jaxws
+         http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
+   
+    <jaxws:endpoint 
+        id="helloworld"
+        implementor="service.HelloWorldPortTypeImpl"
+        wsdlLocation="WEB-INF/wsdl/HelloWorld-Hok.wsdl"
+        address="/helloworld">
+
+       <jaxws:properties>
+          <entry key="ws-security.callback-handler" value="service.callback.KeystorePasswordCallback" />
+          <entry key="ws-security.signature.properties" value="serviceKeystore.properties" />
+          <entry key="ws-security.saml2.validator" value="service.saml.DigstSamlAssertionValidator" />
+          <entry key="ws-security.timestamp.timeToLive" value="300" />
+
+          <!--  the token issued by the STS is not BSP compliant -->
+          <entry key="ws-security.is-bsp-compliant" value="false" />
+       </jaxws:properties>
+    </jaxws:endpoint>
+</beans>

@@ -396,7 +396,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             requestSecurityTokenResponseElement.Add(newAppliesToElement);
 
             // Replace RequestedAttachedReference and RequestedUnattachedReference with true saml2 SecurityTokenReference elements
-            // This is needed because WCF otherwise does not know that the token is an encrypted SAML2 assertion and would therefore not be able to create a correct SecurityTokenReference according to the LIB-BAS profile when making the call from WSC to WSP.
+            // This is needed because WCF otherwise does not know that the token is an encrypted SAML2 assertion and would therefore not be able to create a correct SecurityTokenReference according to the OIO-IDWS-SOAP profile when making the call from WSC to WSP.
             var referenceElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedAttachedReference/wsse:SecurityTokenReference/wsse:Reference", namespaceManager);
             var assertionReferenceId = referenceElement.Attribute(XName.Get("URI")).Value.Substring(1); // Substring is used to convert e.g. '#encryptedassertion' to 'encryptedassertion'
 

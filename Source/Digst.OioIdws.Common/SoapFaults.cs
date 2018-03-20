@@ -27,16 +27,6 @@ namespace Digst.OioIdws.Common
         }
 
         /// <summary>
-        /// Indicates a problem with the [LIB-BAS] version.
-        /// </summary>
-        /// <param name="faultString"></param>
-        /// <returns></returns>
-        public static MessageFault CreateLibBasFrameWorkMisMatchSoapFault(string faultString)
-        {
-            return CreateSoapFault("FrameworkVersionMismatch", LibBas.HeaderNameSpace, faultString);
-        }
-
-        /// <summary>
         /// Creates a soap fault where the fault code is placed in the name space http://schemas.xmlsoap.org/soap/envelope/
         /// </summary>
         /// <param name="faultCode"></param>

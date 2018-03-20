@@ -35,8 +35,8 @@
     <Reference Include="Digst.OioIdws.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Digst.OioIdws.LibBas, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.LibBas.dll</HintPath>
+    <Reference Include="Digst.OioIdws.Soap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.Soap.dll</HintPath>
     </Reference>
     <Reference Include="Digst.OioIdws.Wsp, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Digst.OioIdws.Wsp.2.0.0\lib\net45\Digst.OioIdws.Wsp.dll</HintPath>

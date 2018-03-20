@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4535C5E6-A44E-4952-8EDB-BA207B16B8A8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Digst.OioIdws.Wsp.Wsdl</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Wsp.Wsdl</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings\Policies\Addressing\UsingAddressing.cs" />
+    <Compile Include="Bindings\Policies\All.cs" />
+    <Compile Include="Bindings\Policies\Common\RequestSecurityTokenTemplate.cs" />
+    <Compile Include="Bindings\Policies\Common\RequestSecurityTokenTemplateKeyType.cs" />
+    <Compile Include="Bindings\Policies\Common\RequestSecurityTokenTemplateTokenType.cs" />
+    <Compile Include="Bindings\Policies\SecurityPolicy.cs" />
+    <Compile Include="Bindings\Policies\ExactlyOne.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Algorithm\AsymmetricAlgorithmSuite.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Algorithm\AsymmetricAlgorithmSuitePolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Algorithm\AsymmetricBasic256.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\AsymmetricBinding.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\AsymmetricBindingPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\IncludeTimestamp.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\InitiatorToken.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\InitiatorTokenPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\InitiatorIssuedToken.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\X509\InitiatorWssX509V3Token10.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\X509\InitiatorX509Token.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Initiator\X509\InitiatorX509TokenPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Layouts\AsymmetricLayout.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Layouts\AsymmetricLayoutPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Layouts\AsymmetricStrict.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\OnlySignEntireHeadersAndBody.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\ProtectTokens.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Recipient\RecipientToken.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Recipient\RecipientTokenPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Recipient\RecipientWssX509V3Token10.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Recipient\RecipientX509Token.cs" />
+    <Compile Include="Bindings\Policies\Security\Asymmetric\Recipient\RecipientX509TokenPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Algorithm\TransportAlgorithmSuite.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Algorithm\TransportAlgorithmSuitePolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Algorithm\TransportBasic256.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\TransportBinding.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\TransportBindingPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Layouts\TransportLayout.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Layouts\TransportLayoutPolicy.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Layouts\TransportStrict.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Tokens\HttpsToken.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Tokens\TransportToken.cs" />
+    <Compile Include="Bindings\Policies\Security\Transport\Tokens\TransportTokenPolicy.cs" />
+    <Compile Include="Bindings\Policies\SignedSupport\SignedSupportingTokens.cs" />
+    <Compile Include="Bindings\Policies\SignedSupport\SignedSupportingTokensPolicy.cs" />
+    <Compile Include="Bindings\Policies\SignedSupport\SignedSupportIssuedToken.cs" />
+    <Compile Include="Bindings\Policies\Trust\Trust13.cs" />
+    <Compile Include="Bindings\Policies\Trust\Trust13Policy.cs" />
+    <Compile Include="Bindings\Policies\Trust\MustSupportIssuedTokens.cs" />
+    <Compile Include="Bindings\Policies\Trust\RequireClientEntropy.cs" />
+    <Compile Include="Bindings\Policies\Trust\RequireServerEntropy.cs" />
+    <Compile Include="Bindings\Policies\Wss\Wss11.cs" />
+    <Compile Include="Bindings\Policies\Wss\Wss11Policy.cs" />
+    <Compile Include="Bindings\Policies\Wss\MustSupportRefKeyIdentifier.cs" />
+    <Compile Include="Bindings\Policies\Wss\MustSupportRefIssuerSerial.cs" />
+    <Compile Include="Bindings\Policies\Wss\MustSupportRefThumbprint.cs" />
+    <Compile Include="Bindings\Policy.cs" />
+    <Compile Include="Bindings\BindingCollection.cs" />
+    <Compile Include="Bindings\BindingNameItem.cs" />
+    <Compile Include="Bindings\PolicyReference.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenType.cs" />
+    <Compile Include="Utils\Namespaces.cs" />
+    <Compile Include="Utils\Parse\Extension.cs" />
+    <Compile Include="Utils\Parse\Attribute.cs" />
+    <Compile Include="Utils\Parse\Element.cs" />
+    <Compile Include="Utils\Policies.cs" />
+    <Compile Include="WsdlExportExtension.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

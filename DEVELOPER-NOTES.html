@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Developer Notes</title>
+</head>
+<body>
+
+    <h1 id="developer-notes">Developer Notes</h1>
+<h2 id="creating-a-new-oioidws.net-release">Creating a new OIOIDWS.Net release</h2>
+<h3 id="update-documentation">Update documentation</h3>
+<p>Ensure documentation is updated with the changes.</p>
+<h3 id="run-tests">Run tests</h3>
+<p>All unit and integration tests must pass prior to releasing.</p>
+<h3 id="build-the-packages">Build the packages</h3>
+<ul>
+<li>Run the <code>BuildPackages.ps1</code>, setting version to a proper version number,
+e.g <code>1.0.0</code> and assemblyVersion to a proper version number, e.g <code>1.0.0.0</code>.
+Use <code>1.0.0-alpha</code>, <code>1.00-beta</code>, etc. as version number to make a pre-release.</li>
+<li>Verify the packages looks good and are ready to publish</li>
+<li>Ensure API key to digitaliseringsstyrelsen's nuget account is installed on your machine</li>
+<li>Push packages to NuGet by running <code>BuildPackages.ps1</code> with the switch <code>-pushPackages</code></li>
+<li>Add a tag in Subversion corresponding to the release</li>
+</ul>
+<h3 id="creating-the-new-resource-on-digitaliser.dk">Creating the new resource on digitaliser.dk</h3>
+<ul>
+<li>Login on <a href="https://digitaliser.dk/">digitaliser.dk</a> and go to the newest version of the
+<a href="http://digitaliser.dk/resource/2513426">ressource</a>.</li>
+<li>Choose Funktioner and click on <code>Opret ny version</code>.</li>
+<li>Change the metadata of the ressource accordingly, remember adding link to
+<code>SVN</code> and the published Nuget packages.</li>
+<li>Publish the new version when ready.</li>
+</ul>
+<h3 id="change-the-frontpage-of-the-group">Change the frontpage of the group</h3>
+<ul>
+<li>Login on digitaliser.dk and go to the <a href="http://digitaliser.dk/group/705156">OIOIDWS group</a>.</li>
+<li>Find the old promotion on the grouppage and remove it.</li>
+<li>Find the new promotion on the grouppage by using the ID from the URL of the
+page showing the new version.</li>
+</ul>
+
+
+</body>
+</html>

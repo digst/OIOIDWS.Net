@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Guide to use Java WSP and .NET WSC</title>
+</head>
+<body>
+
+    <h1 id="guide-to-use-java-wsp-and.net-wsc">Guide to use Java WSP and .NET WSC</h1>
+<ul>
+<li><code>Java</code> WSC:
+<ul>
+<li>Get the latest version of <code>IDWS-JAVA-SOAP</code> from:
+<a href="https://www.digitaliser.dk/resource/3914450">https://www.digitaliser.dk/resource/3914450</a></li>
+<li>Locate <code>oioidws-java\oioidws-scenarios\service-hok\pom.xml</code></li>
+<li>And start the <code>Tomcat</code> server with <code>Maven</code>
+<pre><code>&quot;C:\Program Files\Apache\maven\bin\mvn.cmd&quot; tomcat7:run-war ^
+  -f &quot;..\..\..\..\Examples\Digst.OioIdws.Java\service-hok\pom.xml&quot;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>.NET</code> WSC:
+<ul>
+<li>Get <code>trunk</code> from <a href="https://svn.softwareborsen.dk/OIOIDWS/trunk">https://svn.softwareborsen.dk/OIOIDWS/trunk</a></li>
+<li>As the <code>Java WSP</code> doesn't expose the <code>WSDL</code> online, you will have to create
+the <code>Service Reference</code> with a static <code>WSDL</code> file which you can
+retrieve from:
+<ul>
+<li><code>oioidws-java\oioidws-scenarios\service-hok\src\main\resources\HelloWorld-Hok.wsdl</code></li>
+</ul>
+</li>
+<li>Update the <code>Service Reference</code> for <code>Digst.OioIdws.WscExample</code> and
+make the neccesary changes in code in order to comply with the new service
+<ul>
+<li>Replace:
+<pre><code class="language-csharp">Console.WriteLine(channelWithIssuedToken.HelloNone(&quot;Schultz&quot;)); // Even if the protection level is set to 'None' Digst.OioIdws.Wsc ensures that the body is always at least signed.
+Console.WriteLine(channelWithIssuedToken.HelloSign(&quot;Schultz&quot;));
+Console.WriteLine(channelWithIssuedToken.HelloEncryptAndSign(&quot;Schultz&quot;));
+
+////Checking that SOAP faults can be read. SOAP faults are encrypted in Sign and EncryptAndSign mode if no special care is taken.
+try
+{
+    channelWithIssuedToken.HelloSignError(&quot;Schultz&quot;);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+
+//Checking that SOAP faults can be read when only being signed. SOAP faults are only signed if special care is taken.
+try
+{
+    channelWithIssuedToken.HelloSignErrorNotEncrypted(&quot;Schultz&quot;);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+</code></pre>
+</li>
+<li>With:
+<pre><code class="language-csharp">var helloWorldRequestJohn = new HelloWorldRequest(&quot;John&quot;);
+Console.WriteLine(
+    channelWithIssuedToken.HelloWorld(helloWorldRequestJohn).response
+);
+
+var helloWorldRequestJane = new HelloWorldRequest(&quot;Jane&quot;);
+Console.WriteLine(
+    channelWithIssuedToken.HelloWorld(helloWorldRequestJane).response
+);
+
+try
+{
+    // third call will trigger a SOAPFault
+    var helloWorldRequest = new HelloWorldRequest(&quot;&quot;);
+    Console.WriteLine(
+        channelWithIssuedToken.HelloWorld(helloWorldRequest).response
+    );
+}
+catch (Exception ex)
+{
+    Console.WriteLine(&quot;Expected SOAPFault caught: &quot; + ex.Message);
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>Update the <code>App.config</code> file:
+<pre><code class="language-xml">...
+&lt;!--&lt;oioIdwsWcfConfiguration ... wspEndpointID=&quot;https://wsp.oioidws-net.dk&quot;&gt;--&gt;
+&lt;oioIdwsWcfConfiguration ... wspEndpointID=&quot;https://wsp.itcrew.dk&quot;&gt;
+...
+&lt;!--&lt;clientCertificate findValue=&quot;0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5&quot; ... /&gt;--&gt;
+&lt;clientCertificate findValue=&quot;96A26BF6E07DE6DB74E356472CCA4776FEC9B0DA&quot; ... /&gt;
+...
+&lt;!--
+&lt;add findValue=&quot;1F0830937C74B0567D6B05C07B6155059D9B10C7&quot; 
+     storeLocation=&quot;LocalMachine&quot; 
+     storeName=&quot;My&quot; 
+     targetUri=&quot;https://Digst.OioIdws.Wsp:9090/HelloWorld&quot; 
+     x509FindType=&quot;FindByThumbprint&quot;/&gt;
+--&gt;
+&lt;add findValue=&quot;85398FCF737FB76F554C6F2422CC39D3A35EC26F&quot; 
+     storeLocation=&quot;LocalMachine&quot; 
+     storeName=&quot;My&quot; 
+     targetUri=&quot;https://localhost:8443/HelloWorld/services/helloworld&quot; 
+     x509FindType=&quot;FindByThumbprint&quot;/&gt;
+...
+&lt;!--
+&lt;client&gt;
+  &lt;endpoint address=&quot;https://Digst.OioIdws.Wsp:9090/HelloWorld&quot; 
+            behaviorConfiguration=&quot;SoapBehaviourConfiguration&quot; 
+            binding=&quot;SoapBinding&quot; 
+            bindingConfiguration=&quot;SoapBindingConfiguration&quot; 
+            contract=&quot;HelloWorldProxy.IHelloWorld&quot;&gt;
+  &lt;identity&gt;
+      &lt;dns value=&quot;wsp.oioidws-net.dk TEST (funktionscertifikat)&quot;/&gt;
+  &lt;/identity&gt;
+  &lt;/endpoint&gt;
+&lt;/client&gt;
+--&gt;
+&lt;client&gt;
+  &lt;endpoint address=&quot;https://localhost:8443/HelloWorld/services/helloworld&quot; 
+            behaviorConfiguration=&quot;SoapBehaviourConfiguration&quot; 
+            binding=&quot;SoapBinding&quot; 
+            bindingConfiguration=&quot;SoapBindingConfiguration&quot; 
+            contract=&quot;HelloWorldProxy.HelloWorldPortType&quot;&gt;
+  &lt;identity&gt;
+      &lt;dns value=&quot;eID JAVA test (funktionscertifikat)&quot;/&gt;
+  &lt;/identity&gt;
+  &lt;/endpoint&gt;
+&lt;/client&gt;
+...
+```
+</code></pre>
+</li>
+<li>It's neccesary to install the client certificate in order to sign
+messages. It can be found at:
+<ul>
+<li><code>oioidws-scenarios\system-user-scenario\src\main\resources\client.pfx</code></li>
+</ul>
+</li>
+<li>Run it. You should see:
+<pre><code>Before | Supported Security Protocol(s): Ssl3, Tls
+After  | Supported Security Protocol(s): Tls12
+Hello John
+Hello Jane
+Hello
+Press &lt;Enter&gt; to stop the service.
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</body>
+</html>

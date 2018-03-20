@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Digst.OioIdws.Rest.Server")]
-[assembly: AssemblyDescription("Digst.OioIdws.Rest.Server is a .Net-based reference implementation of the OIOIDWS REST 1.0.1a profile. The Toolkit can be used by services to act as a Web Service Provider (WSP) and/or Authentication Server (AS).")]
+[assembly: AssemblyDescription("Digst.OioIdws.Rest.Server is a .Net-based reference implementation of the OIOIDWS REST 1.1 profile. The Toolkit can be used by services to act as a Web Service Provider (WSP) and/or Authentication Server (AS).")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Digitaliseringsstyrelsen")]
 [assembly: AssemblyProduct("Digst.OioIdws.Rest.Server")]
@@ -36,5 +36,5 @@ using System.Runtime.InteropServices;
 //[assembly: AssemblyFileVersion("1.0.0.0")]
 //[assembly: AssemblyInformationalVersion("1.0.0")]
 
-[assembly: InternalsVisibleTo("Digst.OioIdws.Rest.Server.Tests")]
+[assembly: InternalsVisibleTo("Digst.OioIdws.Rest.Server.Test")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

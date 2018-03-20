@@ -11,8 +11,8 @@
     <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>This version now supports automatic caching of tokens and the bootstrap scenario.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Upgraded to OIO IDWS SOAP profile (v1.1).</releaseNotes>
+    <copyright>Copyright 2018</copyright>
     <tags>OIOIDWS WSC NEMLOGIN NEMLOG-IN</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net45" />

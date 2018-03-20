@@ -1,10 +1,10 @@
 ﻿Introduction:
-Digst.OioIdws.Rest.Server is a .Net-based reference implementation made as OWIN middleware of the OIOIDWS 1.0.1a profile which is described at http://digitaliser.dk/resource/526486.
+Digst.OioIdws.Rest.Server is a .Net-based reference implementation made as OWIN middleware of the OIOIDWS 1.1 profile which is described at http://digitaliser.dk/resource/526486.
 This package can be used by services to act as a Web Service Producer (WSP) and/or Authorization Server (AS).
 The goal of this component is to make it easy for Web Service Providers (WSP) to support the OIO Identity-based Web Services (OIOIDWS REST) profile.
 
 The implementation is based on the following standards for communication with a web service consumer (WSC).
-[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates LIB-BAS between WSC and WSP.
+[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates OIO-IDWS-SOAP between WSC and WSP.
 
 [OIO-IDT] - OIO SAML Profile for Identity Tokens 1.0: Specifies that only "Holder of key" confirmation method should be allowed.
 

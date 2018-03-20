@@ -38,7 +38,7 @@
   <system.serviceModel>
     <extensions>
       <bindingExtensions>
-        <add name="LibBasBinding" type="Digst.OioIdws.LibBas.Bindings.LibBasBindingCollectionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+        <add name="SoapBinding" type="Digst.OioIdws.Soap.Bindings.SoapBindingCollectionElement, Digst.OioIdws.Soap" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
       </bindingExtensions>
     </extensions>
   </system.serviceModel>
@@ -50,7 +50,7 @@
   <system.serviceModel>
     <extensions>
       <behaviorExtensions>
-        <add name="LibBasBehavior" type="Digst.OioIdws.LibBas.Behaviors.LibBasClientBehaviorExtensionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+        <add name="SoapBehavior" type="Digst.OioIdws.Soap.Behaviors.SoapClientBehaviorExtensionElement, Digst.OioIdws.Soap" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
       </behaviorExtensions>
     </extensions>
   </system.serviceModel>
@@ -67,7 +67,7 @@
   <system.serviceModel>
     <behaviors>
       <endpointBehaviors>
-        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+        <behavior name="SoapBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
           <clientCredentials>
           <serviceCertificate>
             <scopedCertificates>
@@ -77,8 +77,8 @@
           </serviceCertificate>
           </clientCredentials>
 
-          <!--Endpoints can only point to a single behaviour configuration. Hence, we need to include the LibBasBehavior in a existing behavior-->
-          <LibBasBehavior/>
+          <!--Endpoints can only point to a single behaviour configuration. Hence, we need to include the SoapBehavior in a existing behavior-->
+          <SoapBehavior/>
         </behavior>
       </endpointBehaviors>
     </behaviors>
@@ -90,11 +90,11 @@
   </system.serviceModel>
   <system.serviceModel>
     <bindings>
-      <LibBasBinding xdt:Transform="InsertIfMissing">
+      <SoapBinding xdt:Transform="InsertIfMissing">
         <!-- useHttps must be true in production but can be set to false under development -->
         <!-- A default value of 65536 bytes are used if maxReceivedMessageSize is not specified or the empty string is specified. -->
-        <binding  name="LibBasBindingConfiguration" useHttps="true" maxReceivedMessageSize="{OPTIONAL}"/>
-      </LibBasBinding>
+        <binding  name="SoapBindingConfiguration" useHttps="true" maxReceivedMessageSize="{OPTIONAL}"/>
+      </SoapBinding>
     </bindings>
   </system.serviceModel>
   
@@ -104,7 +104,7 @@
   </system.serviceModel>
   <system.serviceModel>
     <client>
-      <endpoint address="{REQUIRED}" binding="LibBasBinding" bindingConfiguration="LibBasBindingConfiguration" contract="{REQUIRED}" behaviorConfiguration="LibBasBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(binding)">
+      <endpoint address="{REQUIRED}" binding="SoapBinding" bindingConfiguration="SoapBindingConfiguration" contract="{REQUIRED}" behaviorConfiguration="SoapBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(binding)">
         <identity>
           <!--Common name specified in certificate that identifies the WSP. Should not be necessary due to WSP cerficate already being configured ... but is required by WIF. -->
           <dns value="{REQUIRED}" />

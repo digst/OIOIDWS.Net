@@ -15,7 +15,7 @@ OioIdwsClient also exposes methods for handling security token and access token 
 	}
 
 Introduction:
-Digst.OioIdws.Rest.Client is a .Net-based reference implementation of the OIOIDWS 1.0.1a REST profile which is described at http://digitaliser.dk/resource/526486.
+Digst.OioIdws.Rest.Client is a .Net-based reference implementation of the OIOIDWS 1.1 REST profile which is described at http://digitaliser.dk/resource/526486.
 This package can be used by RESTful service providers to act as a Web Service Consumer (WSC).
 The goal of this component is to make it easy for Web Service Consumers (WSC) to support the OIO Identity-based Web Services (OIOIDWS) profile. 
 OIOIDWS defines five scenarios but it is only "Scenario 5: Rich client and external IdP / STS" that is supported in this version.
@@ -28,7 +28,7 @@ The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog
 
 [NEMLOGIN-STSRULES] - Security Token Service DS – Processing rules 2.0: This document mandate requirements to message interface, processing and formatting that Nemlog-in STS must comply with. The document operationalize requirements that originate from the Danish WS-Trust 1.3 [WST] interoperability profile [OIO-WST] and the associated deployment profile [OIO-WST-DEPL].
 
-[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates LIB-BAS between WSC and WSP.
+[OIO-IDWS] - OIO Identity-Based Web Services 1.1: This document describes the overall business goals and requirements and shows how the different OIO profiles are combined to achieve these. Scenario 1 specifies that either WS-Security or a Liberty WSF-Profile can be used. Scenario 4 mandates OIO-IDWS-SOAP between WSC and WSP.
 
 [OIO-WST] - OIO WS-Trust Profile 1.0.1: This profile is a true subset of WS-Trust 1.3 with the addition of the element <wst14:ActAs> from WS-Trust 1.4.
 
@@ -93,7 +93,7 @@ WSC<->STS communication
 - SOAP Faults does not follow SOAP 1.1 spec.
 
 The following is issues not yet solved/supported with this component:
-- (Fixed in Java implementation) Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\LibBas folder. In the examples it can been seen that:
+- (Fixed in Java implementation) Interoperability with the OIOIDWS Java implementation. .Net and Java currently makes two different digest values based on the STR-TRANSFORM. Examples has been puttet into the Misc\SOAP examples\Soap folder. In the examples it can been seen that:
 	- .Net uses the EncryptedAssertion as root element and Java uses EncryptedData as root element.
 	- .Net modifies the XML and inserts missing namespace declarations so the XML taken out of context is valid as standalone XML ... Java does not do this. Hence, .Net adds namespace xmlns:o=http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd to o:SecurityTokenReference to make the XML valid.
 - Replay attack from STS in a load balanced setup

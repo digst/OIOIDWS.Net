@@ -11,6 +11,7 @@
     <AssemblyName>Digst.OioIdws.Wsc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,9 +73,9 @@
       <Project>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Digst.OioIdws.LibBas\Digst.OioIdws.LibBas.csproj">
+    <ProjectReference Include="..\Digst.OioIdws.Soap\Digst.OioIdws.Soap.csproj">
       <Project>{1DC7EA39-865D-4386-A814-9062441056FE}</Project>
-      <Name>Digst.OioIdws.LibBas</Name>
+      <Name>Digst.OioIdws.Soap</Name>
     </ProjectReference>
     <ProjectReference Include="..\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
       <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
@@ -83,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
-    <None Include="Release instructions.html" />
+    <None Include="NuGetBuildPackPublish.cmd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

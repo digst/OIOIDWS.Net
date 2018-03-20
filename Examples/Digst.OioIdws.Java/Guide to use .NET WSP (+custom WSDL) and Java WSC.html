@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Guide to use .NET WSP (+custom WSDL) and Java WSC</title>
+</head>
+<body>
+
+    <h1 id="guide-to-use.net-wsp-custom-wsdl-and-java-wsc">Guide to use .NET WSP (+custom WSDL) and Java WSC</h1>
+<ul>
+<li><code>.NET</code> WSP:
+<ul>
+<li>Get <code>trunk</code> from <a href="https://svn.softwareborsen.dk/OIOIDWS/trunk">https://svn.softwareborsen.dk/OIOIDWS/trunk</a></li>
+<li>Add existing project <code>Digst.OioIdws.Wsp.Wsdl</code> under <code>Source</code></li>
+<li>Add a project reference from <code>Examples &gt; Digst.OioIdws.WspExample</code> to
+<code>Source &gt; Digst.OioIdws.Wsp.Wsdl</code></li>
+<li>In <code>Examples &gt; Digst.OioIdws.WspExample</code> update:
+<ul>
+<li><code>IHelloWorld.cs</code>:
+<pre><code class="language-csharp">namespace Digst.OioIdws.WspExample
+{
+    [ServiceContract]
+    //[WsdlExportExtension(Token = TokenType.HolderOfKey)]
+    //[WsdlExportExtension(Token = TokenType.Bearer)]
+    [WsdlExportExtension] // Default value -&gt; (Token = TokenType.HolderOfKey)
+    public interface IHelloWorld
+    {
+</code></pre>
+</li>
+<li><code>App.config</code>:
+<pre><code class="language-xml">    &lt;/system.identityModel&gt;
+    &lt;!-- WSDL Export Extension Types --&gt;
+    &lt;system.web&gt;
+    &lt;webServices&gt;
+        &lt;serviceDescriptionFormatExtensionTypes&gt;
+        &lt;add type=&quot;Digst.OioIdws.Wsp.Wsdl.Bindings.Policy,          Digst.OioIdws.Wsp.Wsdl&quot;/&gt;
+        &lt;add type=&quot;Digst.OioIdws.Wsp.Wsdl.Bindings.PolicyReference, Digst.OioIdws.Wsp.Wsdl&quot;/&gt;
+        &lt;/serviceDescriptionFormatExtensionTypes&gt;
+    &lt;/webServices&gt;
+    &lt;/system.web&gt;
+&lt;/configuration&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>Build the solution and set <code>Examples &gt; Digst.OioIdws.WspExample</code> as
+startup project</li>
+<li>Run it. You should see:
+<pre><code>Supported Security Protocol(s): Ssl3, Tls
+The service is ready at https://Digst.OioIdws.Wsp:9090/HelloWorld
+Press &lt;Enter&gt; to stop the service.
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>Java</code> WSC:
+<ul>
+<li>Get the latest version of <code>IDWS-JAVA-SOAP</code> from:
+<a href="https://www.digitaliser.dk/resource/3914450">https://www.digitaliser.dk/resource/3914450</a></li>
+<li>Unpack <code>ZIP</code> file locally and create a <code>Maven</code> project from <code>POM.xml</code>
+file placed in the root of the folder (ex: <code>Netbeans</code> or <code>Eclipse</code>)</li>
+<li>In order to make it work with <code>Examples &gt; Digst.OioIdws.WspExample</code>
+make the following changes to:
+<ul>
+<li><code>oioidws-scenarios\system-user-scenario\pom.xml</code>
+<pre><code class="language-xml">&lt;!-- Allow local trusted store to build online from WSDL over HTTPS --&gt;
+&lt;configuration&gt;
+  &lt;properties&gt;
+    &lt;property&gt;
+      &lt;name&gt;javax.net.ssl.trustStore&lt;/name&gt;
+      &lt;value&gt;${basedir}/src/main/resources/trust-ssl.jks&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+      &lt;name&gt;javax.net.ssl.trustPassword&lt;/name&gt;
+      &lt;value&gt;Test1234&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/properties&gt;
+&lt;/configuration&gt;
+...
+&lt;!-- Generate Java classes from WSDL during build --&gt;
+&lt;wsdlOptions&gt;
+    &lt;wsdlOption&gt;
+    &lt;!-- Use online build version --&gt;
+    &lt;wsdl&gt;
+        https://digst.oioidws.wsp:9090/HelloWorld?wsdl
+    &lt;/wsdl&gt;
+    &lt;!--
+    &lt;wsdl&gt;
+        ${basedir}/src/main/resources/HelloWorld-Hok.wsdl
+    &lt;/wsdl&gt;
+    &lt;wsdlLocation&gt;classpath:HelloWorld-Hok.wsdl&lt;/wsdlLocation&gt;
+    --&gt;
+    &lt;/wsdlOption&gt;
+&lt;/wsdlOptions&gt;
+</code></pre>
+</li>
+<li><code>oioidws-scenarios\system-user-scenario\src\main\resources\cxf.xml</code>
+<pre><code class="language-xml">&lt;!--
+&lt;jaxws:client name=&quot;{http://www.example.org/contract/HelloWorld}HelloWorldPort&quot; createdFromAPI=&quot;true&quot;&gt;
+--&gt;
+&lt;jaxws:client name=&quot;{http://tempuri.org/}SoapBinding_IHelloWorld&quot; createdFromAPI=&quot;true&quot;&gt;
+...
+&lt;!--
+&lt;entry key=&quot;ws-security.sts.applies-to&quot; value=&quot;https://wsp.itcrew.dk&quot; /&gt;
+--&gt;
+&lt;entry key=&quot;ws-security.sts.applies-to&quot; value=&quot;https://wsp.oioidws-net.dk&quot; /&gt;
+&lt;!--
+&lt;entry key=&quot;ws-security.signature.username&quot; value=&quot;java ref. test (funktionscertifikat)&quot; /&gt;
+--&gt;
+&lt;entry key=&quot;ws-security.signature.username&quot; value=&quot;oiosaml-net.dk test (funktionscertifikat)&quot; /&gt;
+...
+&lt;!-- this is used to sign the request to the STS --&gt;
+&lt;!--
+&lt;entry key=&quot;ws-security.signature.username&quot; value=&quot;java ref. test (funktionscertifikat)&quot; /&gt;
+--&gt;
+&lt;entry key=&quot;ws-security.signature.username&quot; value=&quot;oiosaml-net.dk test (funktionscertifikat)&quot; /&gt;
+</code></pre>
+</li>
+<li><code>oioidws-scenarios\system-user-scenario\src\main\resources\client.properties</code>
+<pre><code class="language-text">org.apache.ws.security.crypto.merlin.keystore.alias=oiosaml-net.dk test (funktionscertifikat)
+org.apache.ws.security.crypto.merlin.file=trust-wsc.jks
+...
+org.apache.ws.security.crypto.merlin.truststore.file=trust-sts.jks
+</code></pre>
+</li>
+<li><code>oioidws-scenarios\system-user-scenario\src\main\resources\sts.properties</code>
+<pre><code class="language-text">org.apache.ws.security.crypto.merlin.file=trust-sts.jks
+</code></pre>
+</li>
+<li><code>oioidws-scenarios\system-user-scenario\src\main\java\client\WSClient.java</code>
+<pre><code class="language-Java">// import org.example.contract.helloworld.HelloWorldPortType;
+// import org.example.contract.helloworld.HelloWorldService;
+import org.tempuri.HelloWorld;
+import org.tempuri.IHelloWorld;
+
+public class WSClient {
+
+    private static String trustStoreJavaX = &quot;javax.net.ssl.trustStore&quot;;
+    private static String trustStorePath = &quot;src/main/resources/trust-ssl.jks&quot;;
+    private static String trustStorePassword = &quot;Test1234&quot;;
+
+    public static void main (String[] args) {
+
+        // This is a hack to support the self-signed SSL certificate used on the
+        // WSP in a real production setting, the service would be protected by 
+        // a trusted SSL certificate and setting a custom truststore like this 
+        // would not be needed
+        System.setProperty(trustStoreJavaX, trustStorePath);
+        System.setProperty(trustStoreJavaX + &quot;Password&quot;, trustStorePassword);
+
+        // HelloWorldService service = new HelloWorldService();
+        // HelloWorldPortType port = service.getHelloWorldPort();
+        HelloWorld service = new HelloWorld();
+        IHelloWorld port = service.getLibBasBindingIHelloWorld();
+
+        // first call will also call the STS
+        hello(port, &quot;John&quot;);
+
+        // second call will reuse the cached token we got from the first call
+        hello(port, &quot;Jane&quot;);
+
+        // third call will trigger a SOAPFault
+        try {
+            hello(port, &quot;&quot;);
+            System.out.println(&quot;Call did not fail as expected!&quot;);
+        }
+        catch (SOAPFaultException ex) {
+            System.out.println(&quot;Expected SOAPFault caught: &quot; + ex.getMessage());
+        }
+    }
+
+    // public static void hello(HelloWorldPortType port, String name) {
+    public static void hello(IHelloWorld port, String name) {
+        // String resp = port.helloWorld(name);
+        String resp = port.helloNone(name);
+        System.out.println(resp);
+    }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>In order to create the correct <code>trust stores</code>, use the following script:
+<code>OIOIDWS\trunk\Examples\Digst.OioIdws.Java\certs\create_trust_stores.cmd</code>
+which will produce the following three files:
+<ul>
+<li><code>trust-ssl.jks</code></li>
+<li><code>trust-sts.jks</code></li>
+<li><code>trust-wsc.jks</code></li>
+</ul>
+</li>
+<li>Built the solution and run it</li>
+</ul>
+</li>
+</ul>
+
+
+</body>
+</html>

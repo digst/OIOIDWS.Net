@@ -26,7 +26,7 @@
   <system.serviceModel>
     <extensions>
       <bindingExtensions>
-        <add name="LibBasBinding" type="Digst.OioIdws.LibBas.Bindings.LibBasBindingCollectionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+        <add name="SoapBinding" type="Digst.OioIdws.Soap.Bindings.SoapBindingCollectionElement, Digst.OioIdws.Soap" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
       </bindingExtensions>
     </extensions>
   </system.serviceModel>
@@ -38,7 +38,7 @@
   <system.serviceModel>
     <extensions>
       <behaviorExtensions>
-        <add name="LibBasBehavior" type="Digst.OioIdws.LibBas.Behaviors.LibBasServiceBehaviorExtensionElement, Digst.OioIdws.LibBas" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
+        <add name="SoapBehavior" type="Digst.OioIdws.Soap.Behaviors.SoapServiceBehaviorExtensionElement, Digst.OioIdws.Soap" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"/>
       </behaviorExtensions>
     </extensions>
   </system.serviceModel>
@@ -55,8 +55,8 @@
   <system.serviceModel>
     <behaviors>
       <endpointBehaviors>
-        <behavior name="LibBasBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
-          <LibBasBehavior/>
+        <behavior name="SoapBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+          <SoapBehavior/>
         </behavior>
       </endpointBehaviors>
     </behaviors>
@@ -69,7 +69,7 @@
   <system.serviceModel>
     <behaviors>
       <serviceBehaviors>
-        <behavior name="LibBasServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+        <behavior name="SoapServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
           <!--serviceCredentials specifies the certificate used for signing the response to the client-->
           <!--Setting useIdentityConfiguration to true enables WIF (System.IdentityModel configuration) and ensures that the specified service certificate is also used as decrypting key for decrypting the encrypted SAML assertion.-->
           <!--Setting useIdentityConfiguration to true in a service behavior did not work because it happens too late in the pipe line and the service certificate would not be set to be the decrypting key-->
@@ -87,10 +87,10 @@
   </system.serviceModel>
   <system.serviceModel>
     <bindings>
-      <LibBasBinding xdt:Transform="InsertIfMissing">
+      <SoapBinding xdt:Transform="InsertIfMissing">
         <!-- useHttps must be true in production but can be set to false under development -->
-        <binding  name="LibBasBindingConfiguration" useHttps="true"/>
-      </LibBasBinding>
+        <binding  name="SoapBindingConfiguration" useHttps="true"/>
+      </SoapBinding>
     </bindings>
   </system.serviceModel>
   
@@ -101,10 +101,10 @@
   <system.serviceModel>
     <services>
       <!-- name must be the full name of the service that implements the contract specified under endpoint -->
-       <service name="{REQUIRED}" behaviorConfiguration="LibBasServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
+       <service name="{REQUIRED}" behaviorConfiguration="SoapServiceBehaviourConfiguration" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)">
          <!-- address is the endpint at which the service listens to incoming requests, contract is the full name of the interface which the service must implement. -->
         <endpoint address="{REQUIRED}"
-          binding="LibBasBinding" bindingConfiguration="LibBasBindingConfiguration" contract="{REQUIRED}" behaviorConfiguration="LibBasBehaviourConfiguration">
+          binding="SoapBinding" bindingConfiguration="SoapBindingConfiguration" contract="{REQUIRED}" behaviorConfiguration="SoapBehaviourConfiguration">
         </endpoint>
       </service>
     </services>
@@ -173,6 +173,36 @@
       </securityTokenHandlers>
     </identityConfiguration>
   </system.identityModel>
+
+  <!-- WSDL Export Extension Types : BEGIN  -->
+  <system.web xdt:Transform="InsertIfMissing">
+  </system.web>
+
+  <system.web>
+    <webServices xdt:Transform="InsertIfMissing">
+    </webServices>
+  </system.web>
   
+  <system.web>
+    <webServices>
+      <serviceDescriptionFormatExtensionTypes xdt:Transform="InsertIfMissing">
+      </serviceDescriptionFormatExtensionTypes>
+    </webServices>
+  </system.web>
+  
+  <system.web>
+    <webServices>
+      <serviceDescriptionFormatExtensionTypes>
+        <add type="Digst.OioIdws.Wsp.Wsdl.Bindings.Policy, Digst.OioIdws.Wsp.Wsdl"
+             xdt:Transform="InsertIfMissing" 
+             xdt:Locator="Match(type)"/>
+        <add type="Digst.OioIdws.Wsp.Wsdl.Bindings.PolicyReference, Digst.OioIdws.Wsp.Wsdl"
+             xdt:Transform="InsertIfMissing"
+             xdt:Locator="Match(type)"/>
+      </serviceDescriptionFormatExtensionTypes>
+    </webServices>
+  </system.web>
+  <!-- WSDL Export Extension Types : END -->
+
 </configuration>
 

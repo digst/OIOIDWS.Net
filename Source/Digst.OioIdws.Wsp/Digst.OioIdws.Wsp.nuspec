@@ -11,8 +11,8 @@
     <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial version of Digst.OioIdws.Wsp. This version only supports signature case.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Upgraded to OIO IDWS SOAP profile (v1.1) and added support for cross platform WSDL, see the Example section in readme.txt.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
     <tags>OIOIDWS WSP NEMLOGIN NEMLOG-IN</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net45" />
