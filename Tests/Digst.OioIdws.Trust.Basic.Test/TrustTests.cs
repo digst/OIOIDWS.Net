@@ -748,7 +748,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
         {
             // Arrange
             IStsTokenService stsTokenService =
-                new StsTokenService(
+                new StsTokenServiceCache(
                     TokenServiceConfigurationFactory.CreateConfiguration()
                 );
             var securityToken = stsTokenService.GetToken();
