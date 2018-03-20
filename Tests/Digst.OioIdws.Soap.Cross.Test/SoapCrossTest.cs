@@ -174,7 +174,7 @@ namespace Digst.OioIdws.Soap.CrossTest
         public void DotnetWscCallJavaWspTest()
         {
             // Ensure that the WSP is up and running.
-            Thread.Sleep(15000);
+            Thread.Sleep(30000);
 
             var succeeded = false;
 
