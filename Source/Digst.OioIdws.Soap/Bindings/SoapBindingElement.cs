@@ -14,6 +14,7 @@ namespace Digst.OioIdws.Soap.Bindings
         {
             var SoapBinding = (SoapBinding) binding;
             SoapBinding.UseHttps = UseHttps;
+            SoapBinding.UseSTRTransform = UseSTRTransform;
             SoapBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
         }
 
@@ -54,12 +55,29 @@ namespace Digst.OioIdws.Soap.Bindings
             }
         }
 
+        /// <summary>
+        /// Specifies whether STRTransform is used.
+        /// </summary>
+        [ConfigurationProperty("useSTRTransform", IsRequired = false, DefaultValue = true)]
+        public bool UseSTRTransform
+        {
+            get
+            {
+                return (bool)this["useSTRTransform"];
+            }
+            set
+            {
+                this["useSTRTransform"] = value;
+            }
+        }
+
         protected override ConfigurationPropertyCollection Properties
         {
             get
             {
                 var properties = base.Properties;
                 properties.Add(new ConfigurationProperty("useHttps", typeof (bool), true));
+                properties.Add(new ConfigurationProperty("useSTRTransform", typeof(bool), true));
                 properties.Add(new ConfigurationProperty("maxReceivedMessageSize", typeof (int?), null));
                 return properties;
             }
@@ -70,6 +88,7 @@ namespace Digst.OioIdws.Soap.Bindings
             base.InitializeFrom(binding);
             var SoapBinding = (SoapBinding)binding;
             UseHttps = SoapBinding.UseHttps;
+            UseSTRTransform = SoapBinding.UseSTRTransform;
             MaxReceivedMessageSize = SoapBinding.MaxReceivedMessageSize;
         }
     }

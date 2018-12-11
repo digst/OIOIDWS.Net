@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -74,15 +73,6 @@ Digst.OioIdws.Rest.Examples.ServerCombined.exe");
                     Console.WriteLine(responseString);
                 }
             }
-        }
-    }
-
-    internal class ConsoleLogger : ILogger
-    {
-        public void WriteCore(TraceEventType eventType, int eventId, object state, Exception exception,
-            Func<object, Exception, string> formatter)
-        {
-            Console.WriteLine($"{eventType}: {formatter(state, exception)}");
         }
     }
 }

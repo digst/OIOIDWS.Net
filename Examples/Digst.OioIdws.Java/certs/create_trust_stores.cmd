@@ -1,17 +1,17 @@
 @echo off
 
-set KEYTOOL="C:\Program Files\Java\jre1.8.0_162\bin\keytool.exe"
+set KEYTOOL="C:\Program Files (x86)\Java\jre1.8.0_181\bin\keytool.exe"
 
-set CERT_CA1="..\..\..\Misc\Certificates\TRUST2048 Systemtest VII Primary CA.cer"
-set CERT_CA2="..\..\..\Misc\Certificates\TRUST2048 Systemtest XIX CA.cer"
-set CERT_STS="..\..\..\Misc\Certificates\STS (Digitaliseringsstyrelsen - NemLog-in Test).cer"
-set CERT_WSP="..\..\..\Misc\Certificates\java\wsp\wsp.oioidws-net.dk TEST (funktionscertifikat).cer"
+set CERT_CA1="C:\Projects\OIOIDWS-dev\Misc\Certificates\TRUST2048 Systemtest VII Primary CA.cer"
+set CERT_CA2="C:\Projects\OIOIDWS-dev\Misc\Certificates\TRUST2048 Systemtest XIX CA.cer"
+set CERT_STS="C:\Projects\OIOIDWS-dev\Misc\Certificates\STS (Digitaliseringsstyrelsen - NemLog-in Test).cer"
+set CERT_WSP="C:\Projects\OIOIDWS-dev\Misc\Certificates\java\wsp\wsp.oioidws-net.dk TEST (funktionscertifikat).cer"
 
-set CERT_NLI="..\..\..\Misc\Certificates\java\ssl\test-nemlog-in.dk.cer"
-set CERT_SSL="..\..\..\Misc\Certificates\java\ssl\digst.oioidws.wsp.cer"
+set CERT_NLI="C:\Projects\OIOIDWS-dev\Misc\Certificates\java\ssl\test-nemlog-in.dk.cer"
+set CERT_SSL="C:\Projects\OIOIDWS-dev\Misc\Certificates\java\ssl\digst.oioidws.wsp.cer"
 
-set CERT_WSC="..\..\..\Misc\Certificates\java\wsc\Oiosaml-net.dk TEST (funktionscertifikat).cer"
-set CERT_PFX="..\..\..\Misc\Certificates\SP and WSC (Oiosaml-net.dk TEST).pfx"
+set CERT_WSC="C:\Projects\OIOIDWS-dev\Misc\Certificates\java\wsc\Oiosaml-net.dk TEST (funktionscertifikat).cer"
+set CERT_PFX="C:\Projects\OIOIDWS-dev\Misc\Certificates\SP and WSC (Oiosaml-net.dk TEST).pfx"
 
 set KEYSTORE_STS=".\trust-sts.jks"
 set KEYSTORE_SSL=".\trust-ssl.jks"

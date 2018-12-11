@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
@@ -44,12 +45,16 @@ namespace Digst.OioIdws.OioWsTrust.Utils
             }
 
             // Include a reference to the certificate
-            var referenceElement = doc.CreateElement(OioWsTrustMessageTransformer.WssePrefix,
+            var referenceElement = doc.CreateElement(Constants.WssePrefix,
                 "Reference",
-                OioWsTrustMessageTransformer.Wsse10Namespace);
+                Constants.Wsse10Namespace);
             referenceElement.SetAttribute("URI", "#sec-binsectoken"); // Attribute must be in the empty namespace.
-            var securityTokenReferenceElement = doc.CreateElement(OioWsTrustMessageTransformer.WssePrefix, "SecurityTokenReference",
-                OioWsTrustMessageTransformer.Wsse10Namespace);
+
+            //Local Java STS requirement - Appears to work with NemLogin STS as well: 
+            referenceElement.SetAttribute("ValueType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3");
+
+            var securityTokenReferenceElement = doc.CreateElement(Constants.WssePrefix, "SecurityTokenReference",
+                Constants.Wsse10Namespace);
             securityTokenReferenceElement.AppendChild(referenceElement);
             signedXml.KeyInfo.AddClause(new KeyInfoNode(securityTokenReferenceElement));
 
@@ -57,10 +62,10 @@ namespace Digst.OioIdws.OioWsTrust.Utils
 
             // Append the computed signature. The signature must be placed as the sibling of the BinarySecurityToken element.
             var nsManager = new XmlNamespaceManager(doc.NameTable);
-            nsManager.AddNamespace(OioWsTrustMessageTransformer.S11Prefix, OioWsTrustMessageTransformer.S11Namespace);
-            nsManager.AddNamespace(OioWsTrustMessageTransformer.WssePrefix, OioWsTrustMessageTransformer.Wsse10Namespace);
-            var securityNode = doc.SelectSingleNode("/" + OioWsTrustMessageTransformer.S11Prefix + ":Envelope/" + OioWsTrustMessageTransformer.S11Prefix + ":Header/" + OioWsTrustMessageTransformer.WssePrefix + ":Security", nsManager);
-            var binarySecurityTokenNode = doc.SelectSingleNode("/" + OioWsTrustMessageTransformer.S11Prefix + ":Envelope/" + OioWsTrustMessageTransformer.S11Prefix + ":Header/" + OioWsTrustMessageTransformer.WssePrefix + ":Security/" + OioWsTrustMessageTransformer.WssePrefix + ":BinarySecurityToken", nsManager);
+            nsManager.AddNamespace(Constants.S11Prefix, Constants.S11Namespace);
+            nsManager.AddNamespace(Constants.WssePrefix, Constants.Wsse10Namespace);
+            var securityNode = doc.SelectSingleNode("/" + Constants.S11Prefix + ":Envelope/" + Constants.S11Prefix + ":Header/" + Constants.WssePrefix + ":Security", nsManager);
+            var binarySecurityTokenNode = doc.SelectSingleNode("/" + Constants.S11Prefix + ":Envelope/" + Constants.S11Prefix + ":Header/" + Constants.WssePrefix + ":Security/" + Constants.WssePrefix + ":BinarySecurityToken", nsManager);
             securityNode.InsertAfter(doc.ImportNode(signedXml.GetXml(), true), binarySecurityTokenNode);
 
             var signedDocument = ToXDocument(doc);

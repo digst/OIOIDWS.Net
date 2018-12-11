@@ -10,16 +10,16 @@
     )]
     public sealed class AsymmetricAlgorithmSuitePolicy : BindingNameItem<AsymmetricAlgorithmSuite>
     {
-        BindingCollection<AsymmetricBasic256, AsymmetricAlgorithmSuitePolicy> basic256;
+        BindingCollection<AsymmetricBasic256Sha256, AsymmetricAlgorithmSuitePolicy> basic256Sha256;
 
-        [XmlElement(ElementName = "Basic256")]
-        public BindingCollection<AsymmetricBasic256, AsymmetricAlgorithmSuitePolicy> Basic256
+        [XmlElement(ElementName = "Basic256Sha256")]
+        public BindingCollection<AsymmetricBasic256Sha256, AsymmetricAlgorithmSuitePolicy> Basic256Sha256
         {
             get
             {
-                if (basic256 == null) basic256 =
-                        new BindingCollection<AsymmetricBasic256, AsymmetricAlgorithmSuitePolicy>(this);
-                return basic256;
+                if (basic256Sha256 == null) basic256Sha256 =
+                        new BindingCollection<AsymmetricBasic256Sha256, AsymmetricAlgorithmSuitePolicy>(this);
+                return basic256Sha256;
             }
         }
     }

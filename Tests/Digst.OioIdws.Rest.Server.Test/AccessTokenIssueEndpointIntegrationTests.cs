@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer;
-using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Common.Utils;
+using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,19 +28,19 @@ namespace Digst.OioIdws.Rest.Server.Test
     [TestClass]
     public class AccessTokenIssueEndpointIntegrationTests
     {
-        private static IStsTokenService _stsTokenService;
+        private static ISecurityTokenServiceClient _stsTokenService;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            _stsTokenService = new StsTokenServiceCache(new StsTokenServiceConfiguration
+            _stsTokenService = new NemloginSecurityTokenServiceClient(new SecurityTokenServiceClientConfiguration
             {
-                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
+                WscCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
                 StsCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
                 SendTimeout = TimeSpan.FromDays(1),
-                StsEndpointAddress = "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc",
-                TokenLifeTimeInMinutes = 5,
-                WspEndpointId = "https://wsp.oioidws-net.dk"
+                ServiceTokenUrl = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
+                TokenLifeTime = TimeSpan.FromMinutes(5),
+                WscIdentifier = "https://wsp.oioidws-net.dk",
             });
         }
 
@@ -84,7 +84,7 @@ namespace Digst.OioIdws.Rest.Server.Test
                 Assert.AreEqual("application/json", response.Content.Headers.ContentType.MediaType);
                 var accessToken = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                var oioIdwsTokenKey = options.TokenDataFormat.Unprotect((string)accessToken["access_token"]).Value();
+                var oioIdwsTokenKey = options.TokenDataFormat.Unprotect((string) accessToken["access_token"]).Value();
 
                 var token = await options.SecurityTokenStore.RetrieveTokenAsync(oioIdwsTokenKey);
                 Assert.IsNotNull(token);
@@ -349,7 +349,7 @@ namespace Digst.OioIdws.Rest.Server.Test
 
         private string GetSamlTokenXml()
         {
-            var securityToken = (GenericXmlSecurityToken)_stsTokenService.GetToken();
+            var securityToken = (GenericXmlSecurityToken)_stsTokenService.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             return securityToken.TokenXml.OuterXml;
         }

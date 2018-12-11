@@ -8,22 +8,33 @@ using System.Xml.XPath;
 using Digst.OioIdws.Common.Utils;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Fiddler;
+
+using Digst.OioIdws.OioWsTrust.TokenCache;
 
 namespace Digst.OioIdws.Trust.Basic.Test
 {
     [TestClass]
     public class TrustTests
     {
+        private static ISecurityTokenServiceClient _stsTokenService;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
         private const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         private const string StsHostName = "securetokenservice.test-nemlog-in.dk";
+        private const string WspUri = "https://wsp.oioidws-net.dk";
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            ITokenCache tokenCache = new MemoryTokenCache();
+
+            _stsTokenService =
+                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
+
+
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
                 CertMaker.trustRootCert();
@@ -57,13 +68,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void TotalFlowSucessTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = 
-                new StsTokenService(
+            ISecurityTokenServiceClient stsTokenService =
+                new NemloginSecurityTokenServiceClient(
                     TokenServiceConfigurationFactory.CreateConfiguration()
                 );
 
             // Act
-            var securityToken = stsTokenService.GetToken();
+            var securityToken = stsTokenService.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             // Assert
             Assert.IsNotNull(securityToken);
@@ -76,11 +87,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToBodyTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = 
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -94,7 +100,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -109,8 +115,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -124,7 +128,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -139,8 +143,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = new StsTokenService(TokenServiceConfigurationFactory.CreateConfiguration());
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -167,7 +169,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -182,11 +184,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToHeaderToTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = 
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -200,7 +197,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -215,11 +212,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService = 
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -243,7 +235,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
                             namespaceManager);
                     var dateTime = DateTime.Parse(createdTimestampElement.Value);
                     var addMinutes = dateTime.AddMinutes(1);
-                    var longDateString = addMinutes.ToUniversalTime().ToString(TimeFormat);
+                    var longDateString = addMinutes.ToUniversalTime().ToString("O");
                     createdTimestampElement.Value = longDateString;
                     oS.RequestBody = Encoding.UTF8.GetBytes(bodyAsXml.ToString(SaveOptions.DisableFormatting));
                 }
@@ -253,7 +245,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -268,11 +260,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToTokenTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -307,7 +294,7 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -322,11 +309,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustRequestFailDueToReplayAttackTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             byte[] recordedRequest = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -351,12 +333,12 @@ namespace Digst.OioIdws.Trust.Basic.Test
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
-            stsTokenService.GetToken();
+            var token1 = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
 
             // Act
             try
             {
-                stsTokenService.GetToken();
+                var token2 = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (FaultException fe)
@@ -376,11 +358,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToBodyTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -409,13 +386,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
             {
                 // Assert
-                Assert.AreEqual("SOAP signature recieved from STS does not validate!", ioe.Message);
+                Assert.AreEqual("SOAP signature received from STS does not validate!", ioe.Message);
             }
         }
 
@@ -424,11 +401,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToHeaderMessageIdTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -470,13 +442,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
             {
                 // Assert
-                Assert.AreEqual("SOAP signature recieved from STS does not validate!", ioe.Message);
+                Assert.AreEqual("SOAP signature received from STS does not validate!", ioe.Message);
             }
         }
 
@@ -485,11 +457,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToHeaderRelatesToTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -531,13 +498,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
             {
                 // Assert
-                Assert.AreEqual("SOAP signature recieved from STS does not validate!", ioe.Message);
+                Assert.AreEqual("SOAP signature received from STS does not validate!", ioe.Message);
             }
         }
 
@@ -546,11 +513,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToHeaderActionTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -579,13 +541,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                var token = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
             {
                 // Assert
-                Assert.AreEqual("SOAP signature recieved from STS does not validate!", ioe.Message);
+                Assert.AreEqual("SOAP signature received from STS does not validate!", ioe.Message);
             }
         }
 
@@ -594,11 +556,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -647,13 +604,13 @@ namespace Digst.OioIdws.Trust.Basic.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
             {
                 // Assert
-                Assert.AreEqual("SOAP signature recieved from STS does not validate!", ioe.Message);
+                Assert.AreEqual("SOAP signature received from STS does not validate!", ioe.Message);
             }
         }
 
@@ -662,11 +619,6 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustResponseFailDueToReplayAttackTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             byte[] recordedResponse = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
@@ -705,12 +657,12 @@ namespace Digst.OioIdws.Trust.Basic.Test
             };
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
-            stsTokenService.GetToken();
+            _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
 
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (InvalidOperationException ioe)
@@ -729,35 +681,31 @@ namespace Digst.OioIdws.Trust.Basic.Test
         public void OioWsTrustTokenServiceGivesDifferentTokensTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
+            ISecurityTokenServiceClient stsTokenService =
+                new NemloginSecurityTokenServiceClient(
                     TokenServiceConfigurationFactory.CreateConfiguration()
                 );
-            var securityToken = stsTokenService.GetToken();
+            var securityToken = stsTokenService.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             // Act
-            var securityToken2 = stsTokenService.GetToken();
+            var securityToken2 = stsTokenService.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             // Assert
-            Assert.AreNotEqual(securityToken, securityToken2, "Expected that tokens was NOT the same");
+            Assert.AreNotEqual(securityToken, securityToken2, "Expected that tokens were NOT the same");
         }
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
         public void OioWsTrustTokenServiceCacheGivesTheSameTokenTest()
         {
-            // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenServiceCache(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-            var securityToken = stsTokenService.GetToken();
+            var cacheClient = new CachedSecurityTokenServiceClient(_stsTokenService, new MemoryTokenCache(), new MemoryTokenCache());
+            var securityToken = cacheClient.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             // Act
-            var securityToken2 = stsTokenService.GetToken();
+            var securityToken2 = cacheClient.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey);
 
             // Assert
-            Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");
+            Assert.AreEqual(securityToken, securityToken2, "Expected that tokens were the same");
         }
 
         #endregion

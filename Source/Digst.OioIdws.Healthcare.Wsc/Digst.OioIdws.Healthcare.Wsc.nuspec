@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.mozilla.org/MPL/1.1/</licenseUrl>
+    <projectUrl>http://http://digitaliser.dk/resource/526486</projectUrl>
+    <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Support for healthcare STS.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>OIOIDWS WSC NEMLOGIN NEMLOG-IN</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net45" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="readme.txt" target=""/>
+  </files>
+</package>

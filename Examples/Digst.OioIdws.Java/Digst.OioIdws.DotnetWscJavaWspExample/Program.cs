@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IdentityModel.Metadata;
 using System.Threading;
+using Digst.OioIdws.DotnetWscJavaWspExample.Service_References.HelloWorldProxy;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy;
 using log4net.Config;
+using KeyType = Digst.OioIdws.OioWsTrust.KeyType;
 
 namespace Digst.OioIdws.DotnetWscJavaWspExample
 {
@@ -19,11 +21,11 @@ namespace Digst.OioIdws.DotnetWscJavaWspExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            IStsTokenService stsTokenService = 
-                new StsTokenServiceCache(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
+            ISecurityTokenServiceClient stsTokenService = 
+                new LocalSecurityTokenServiceClient(
+                    TokenServiceConfigurationFactory.CreateConfiguration(), null
                 );
-            var securityToken = stsTokenService.GetToken();
+            var securityToken = stsTokenService.GetServiceToken("https://localhost:8443/HelloWorld/services/helloworld", KeyType.HolderOfKey);
 
             // Call WSP with token
             var client = new HelloWorldPortTypeClient();

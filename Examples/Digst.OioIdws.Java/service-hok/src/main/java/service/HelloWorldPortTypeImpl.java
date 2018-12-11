@@ -3,6 +3,8 @@ package service;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
 import org.example.contract.helloworld.HelloWorldPortType;
 
 import service.bpp.PrivilegeGroupType;
@@ -13,6 +15,9 @@ import service.saml.AssertionHolder;
 			portName = "HelloWorldPort",
 			serviceName = "HelloWorldService",
 			endpointInterface = "org.example.contract.helloworld.HelloWorldPortType")
+@EndpointProperties(value = {
+           @EndpointProperty(key = "ws-security.asymmetric.signature.algorithm", value = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")
+})
 @BindingType(value = javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class HelloWorldPortTypeImpl implements HelloWorldPortType {
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebsiteDemo.HelloWorldProxy {
+namespace WebsiteDemo.Service_References.HelloWorldProxy {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -53,12 +53,12 @@ namespace WebsiteDemo.HelloWorldProxy {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IHelloWorldChannel : WebsiteDemo.HelloWorldProxy.IHelloWorld, System.ServiceModel.IClientChannel {
+    public interface IHelloWorldChannel : IHelloWorld, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class HelloWorldClient : System.ServiceModel.ClientBase<WebsiteDemo.HelloWorldProxy.IHelloWorld>, WebsiteDemo.HelloWorldProxy.IHelloWorld {
+    public partial class HelloWorldClient : System.ServiceModel.ClientBase<IHelloWorld>, IHelloWorld {
         
         public HelloWorldClient() {
         }

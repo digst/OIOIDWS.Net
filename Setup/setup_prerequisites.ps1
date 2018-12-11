@@ -53,9 +53,13 @@ $serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and
 $serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 write-host "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
-write-host "Installing STS certificate"
+write-host "Installing NemLog-in STS certificate"
 $stsCertificate = Import-Certificate '..\misc\certificates\STS (Digitaliseringsstyrelsen - NemLog-in Test).cer' -CertStoreLocation Cert:\LocalMachine\My
 write-host "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
+
+write-host "Installing intermediate healthcare-STS certificate"
+$stsHealthcareCertificate = Import-Certificate '..\misc\certificates\Test healthcare STS (funktionscertifikat).cer' -CertStoreLocation Cert:\LocalMachine\My
+write-host "Installed STS certificate $($stsHealthcareCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
 
 write-host "Installing WSP certificate for signature checks - beware: the WSC only requires the public key part to verify signatures from the WSP"
 $wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
@@ -63,6 +67,11 @@ $wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-n
 write-host "Installed WSP example certificate $($wspCertificate.Thumbprint) in LocalMachine\My."
 
 # Java - BEGIN
+
+write-host "Installing Test healthcare STS SSL certificate"
+$HealthcareStsSslCertificate = Import-Certificate '..\misc\certificates\Test healthcare STS (SSL).cer' -CertStoreLocation Cert:\LocalMachine\Root
+write-host "Installed healthcare STS SSL certificate $($HealthcareStsSslCertificate.Thumbprint) in LocalMachine\Root."
+
 
 write-host "Installing soap WSP (Java) ssl certificate"
 $soapWspJavaSslCertificate = Import-PfxCertificate '..\misc\certificates\java\ssl-keystore.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
@@ -116,6 +125,8 @@ add-HostEntry "127.0.0.1" "oiosaml-net.dk"
 add-HostEntry "127.0.0.1" "digst.oioidws.rest.as"
 add-HostEntry "127.0.0.1" "digst.oioidws.rest.wsp"
 add-HostEntry "127.0.0.1" "digst.oioidws.wsp"
+add-HostEntry "127.0.0.1" "sts-idws-xua"
+add-HostEntry "127.0.0.1" "idp-idws-xua"
 
 write-host "Setup completed!"
 write-host "You should now open the solution in Visual Studio, build it and run it!"

@@ -2,7 +2,7 @@
 using System.Threading;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Digst.OioIdws.WscExampleNuGet.HelloWorldProxy;
+using Digst.OioIdws.WscExampleNuGet.Service_References.HelloWorldProxy;
 using log4net.Config;
 
 namespace Digst.OioIdws.WscExampleNuGet

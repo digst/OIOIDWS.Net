@@ -1,5 +1,6 @@
 ﻿using System.Security.Authentication;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Security;
 using System.ServiceModel.Security.Tokens;
 using Digst.OioIdws.Soap.StrCustomization;
 
@@ -7,38 +8,32 @@ namespace Digst.OioIdws.Soap.Bindings
 {
     public class SoapBinding : CustomBinding
     {
-        private bool _useHttps = true;
-        private int? _maxReceivedMessageSize;
+        /// <summary>
+        /// True specifies that transport layer security is required.
+        /// </summary>
+        internal bool UseHttps { get; set; } = true;
 
         /// <summary>
-        /// True specifies that transport layer security is required. False indicates the opposite.
+        /// True specifies that STRTransform is used.
         /// </summary>
-        internal bool UseHttps
-        {
-            get { return _useHttps; }
-            set { _useHttps = value; }
-        }
-
+        internal bool UseSTRTransform { get; set; } = true;
+        
         /// <summary>
         /// Specifies max size of message recieved in bytes. If not set, default value on <see cref="TransportBindingElement.MaxReceivedMessageSize"/> are used.
         /// </summary>
-        internal int? MaxReceivedMessageSize
-        {
-            get { return _maxReceivedMessageSize; }
-            set { _maxReceivedMessageSize = value; }
-        }
+        internal int? MaxReceivedMessageSize { get; set; }
 
         public override BindingElementCollection CreateBindingElements()
         {
             var transport =
-                _useHttps
+                UseHttps
                     ? new HttpsTransportBindingElement()
                     : new HttpTransportBindingElement();
 
-            if (_maxReceivedMessageSize.HasValue)
+            if (MaxReceivedMessageSize.HasValue)
             {
                 transport.MaxReceivedMessageSize =
-                    _maxReceivedMessageSize.Value;
+                    MaxReceivedMessageSize.Value;
             }
 
             var encoding = new TextMessageEncodingBindingElement();
@@ -54,9 +49,14 @@ namespace Digst.OioIdws.Soap.Bindings
                 new CustomizedIssuedSecurityTokenParameters(
                     "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
                 );
-            initiatorTokenParameters.UseStrTransform = true;
+
+            //Local Java STS: false, NemLog-in STS: true
+            initiatorTokenParameters.UseStrTransform = UseSTRTransform;
 
             var asymmetric = new AsymmetricSecurityBindingElement(recipientTokenParameters, initiatorTokenParameters);
+
+            //DefaultAlgorithmSuite not set for NemLog-in STS but should always be Basic256Sha256
+            asymmetric.DefaultAlgorithmSuite = SecurityAlgorithmSuite.Basic256Sha256; 
 
             // Must be true in order for client to accept embedded server certificates instead of references. This is required by the [OIO IDWS SOAP 1.1] profile.
             // However, the client must still specify the server certificate explicitly.

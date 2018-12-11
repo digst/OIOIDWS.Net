@@ -10,16 +10,16 @@
     )]
     public sealed class TransportAlgorithmSuitePolicy : BindingNameItem<TransportAlgorithmSuite>
     {
-        BindingCollection<TransportBasic256, TransportAlgorithmSuitePolicy> basic256;
+        BindingCollection<TransportBasic256Sha256, TransportAlgorithmSuitePolicy> basic256Sha256;
 
-        [XmlElement(ElementName = "Basic256")]
-        public BindingCollection<TransportBasic256, TransportAlgorithmSuitePolicy> Basic256
+        [XmlElement(ElementName = "Basic256Sha256")]
+        public BindingCollection<TransportBasic256Sha256, TransportAlgorithmSuitePolicy> Basic256Sha256
         {
             get
             {
-                if (basic256 == null) basic256 =
-                        new BindingCollection<TransportBasic256, TransportAlgorithmSuitePolicy>(this);
-                return basic256;
+                if (basic256Sha256 == null) basic256Sha256 =
+                        new BindingCollection<TransportBasic256Sha256, TransportAlgorithmSuitePolicy>(this);
+                return basic256Sha256;
             }
         }
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM--e -X clean install exec:exec</actionName>
+            <displayName>-e -X clean install exec:exec</displayName>
+            <goals>
+                <goal>-e</goal>
+                <goal>-X</goal>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>exec:exec</goal>
+            </goals>
+        </action>
+    </actions>

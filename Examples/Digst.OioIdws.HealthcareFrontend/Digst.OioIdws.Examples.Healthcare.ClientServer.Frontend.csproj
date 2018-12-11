@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BD61E723-8740-4EB8-8BA1-EED3AA3A6764}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Digst.OioIdws.Examples.Healthcare.ClientServer.Frontend</RootNamespace>
+    <AssemblyName>Digst.OioIdws.Examples.Healthcare.ClientServer.Frontend</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
+      <Project>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</Project>
+      <Name>Digst.OioIdws.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Healthcare.Wsc\Digst.OioIdws.Healthcare.Wsc.csproj">
+      <Project>{81C70494-FA3F-4D93-A10C-AAF339C61EC4}</Project>
+      <Name>Digst.OioIdws.Healthcare.Wsc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Saml2SecurityToken\Digst.OioIdws.Saml2SecurityToken.csproj">
+      <Project>{34DD0A77-9DE1-464F-818C-1A9645E7B1C5}</Project>
+      <Name>Digst.OioIdws.Saml2SecurityToken</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.SamlAttributes\Digst.OioIdws.SamlAttributes.csproj">
+      <Project>{407473C6-0D67-4158-A2A6-0A774819FF2B}</Project>
+      <Name>Digst.OioIdws.SamlAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Examples.Healthcare.ClientServer.Contracts\Digst.OioIdws.Examples.Healthcare.ClientServer.Contracts.csproj">
+      <Project>{6BBD9730-7B28-449D-954E-B093C4D791AF}</Project>
+      <Name>Digst.OioIdws.Examples.Healthcare.ClientServer.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

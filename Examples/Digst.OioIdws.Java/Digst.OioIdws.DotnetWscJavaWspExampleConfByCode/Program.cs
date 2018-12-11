@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading;
-
+using Digst.OioIdws.DotnetWscJavaWspExampleConfByCode.Service_References.HelloWorldProxy;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Digst.OioIdws.DotnetWscJavaWspExampleConfByCode.HelloWorldProxy;
-
+using Digst.OioIdws.Soap.StrCustomization;
 using log4net.Config;
 
 using Channels = System.ServiceModel.Channels;
 using SecurityTokens = System.ServiceModel.Security.Tokens;
 using X509Certificates = System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.OioWsTrust.TokenCache;
 
 namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
 {
@@ -21,15 +21,19 @@ namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
             // log4net is not necessary and is only being used for demonstration
             XmlConfigurator.Configure();
 
+            var tokenCache = new MemoryTokenCache();
+
             // To ensure that the WSP is up and running.
             Thread.Sleep(1000);
 
             // Retrieve token
-            IStsTokenService stsTokenService =
-                new StsTokenServiceCache(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
+            ISecurityTokenServiceClient stsTokenService =
+                new CachedSecurityTokenServiceClient(new NemloginSecurityTokenServiceClient(
+                    TokenServiceConfigurationFactory.CreateConfiguration()),
+                    tokenCache,
+                    tokenCache
                 );
-            var securityToken = stsTokenService.GetToken();
+            var securityToken = stsTokenService.GetServiceToken("https://localhost:8443/HelloWorld/services/helloworld", KeyType.HolderOfKey);
 
             // Call WSP with token
             var hostname = "https://localhost:8443/HelloWorld/services/helloworld";
@@ -50,7 +54,7 @@ namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
                         SecurityTokens.X509KeyIdentifierClauseType.Any,
                         SecurityTokens.SecurityTokenInclusionMode.AlwaysToInitiator
                     ),
-                    new Soap.StrCustomization.CustomizedIssuedSecurityTokenParameters(
+                    new CustomizedIssuedSecurityTokenParameters(
                         "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
                     )
                     {

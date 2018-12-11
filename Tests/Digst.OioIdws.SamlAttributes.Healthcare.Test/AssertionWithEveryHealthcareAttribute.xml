@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<saml:Assertion
+   xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   ID="b07b804c-7c29-ea16-7300-4f3d6f7928ac"
+   Version="2.0"
+   IssueInstant="2004-12-05T09:22:05Z">
+  <saml:Issuer>https://idp.example.org/SAML2</saml:Issuer>
+  <saml:Subject>
+    <saml:NameID
+      Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">
+      3f7b3dcf-1674-4ecd-92c8-1544f346baf8
+    </saml:NameID>
+    <saml:SubjectConfirmation
+      Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+      <saml:SubjectConfirmationData
+        InResponseTo="aaf23196-1773-2113-474a-fe114412ab72"
+        Recipient="https://sp.example.com/SAML2/SSO/POST"
+        NotOnOrAfter="2004-12-05T09:27:05Z"/>
+    </saml:SubjectConfirmation>
+  </saml:Subject>
+  <saml:Conditions
+    NotBefore="2004-12-05T09:17:05Z"
+    NotOnOrAfter="2004-12-05T09:27:05Z">
+    <saml:AudienceRestriction>
+      <saml:Audience>https://sp.example.com/SAML2</saml:Audience>
+    </saml:AudienceRestriction>
+  </saml:Conditions>
+  <saml:AttributeStatement>
+
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserAuthorizationCode">
+      <saml:AttributeValue>7AD6T</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserEducationCode">
+      <saml:AttributeValue>5166</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserEducationType">
+      <saml:AttributeValue>Sygeplejerske</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserAuthorizations">
+      <saml:AttributeValue>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHVhcDpVc2VyQXV0aG9yaXphdGlvbkxpc3QgeG1sbnM6dWFwPSJ1cm46ZGs6aGVhbHRoY2FyZTpzYW1sOnVzZXJfYXV0aG9yaXphdGlvbl9wcm9maWxlOjEuMCI+CiAgICA8dWFwOlVzZXJBdXRob3JpemF0aW9uPgogICAgICAgIDx1YXA6QXV0aG9yaXphdGlvbkNvZGU+MzQxS1k8L3VhcDpBdXRob3JpemF0aW9uQ29kZT4KICAgICAgICA8dWFwOkVkdWNhdGlvbkNvZGU+NzE3MDwvdWFwOkVkdWNhdGlvbkNvZGU+CiAgICAgICAgPHVhcDpFZHVjYXRpb25UeXBlPkzDpmdlPC91YXA6RWR1Y2F0aW9uVHlwZT4KICAgIDwvdWFwOlVzZXJBdXRob3JpemF0aW9uPgogICAgPHVhcDpVc2VyQXV0aG9yaXphdGlvbj4KICAgICAgICA8dWFwOkF1dGhvcml6YXRpb25Db2RlPjdBRDZUPC91YXA6QXV0aG9yaXphdGlvbkNvZGU+CiAgICAJPHVhcDpFZHVjYXRpb25Db2RlPjU0MzM8L3VhcDpFZHVjYXRpb25Db2RlPgogICAgICAgIDx1YXA6RWR1Y2F0aW9uVHlwZT5UYW5kbMOmZ2U8L3VhcDpFZHVjYXRpb25UeXBlPgogICAgPC91YXA6VXNlckF1dGhvcml6YXRpb24+CjwvdWFwOlVzZXJBdXRob3JpemF0aW9uTGlzdD4K</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:HasUserAuthorization">
+      <saml:AttributeValue>true</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:subject-id">
+      <saml:AttributeValue>Hansine Jensen</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:organization">
+      <saml:AttributeValue>Region Hovedstaden</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:organization-id">
+      <saml:AttributeValue>https://www.regionh.dk</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:ihe:iti:xca:2010:homeCommunityId">
+      <saml:AttributeValue>urn:oid:1.2.208</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:npi">
+      <saml:AttributeValue>33257872</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:ihe:iti:xua:2017:subject:provider-identifier">
+      <saml:AttributeValue>
+        <id xmlns="urn:hl7-org:v3" xsi:type="II" root="1.2.208.176.1.1" extension="8041000016000^Sydvestjysk Sygehus" assigningAuthorityName="Sundhedsvæsenets Organisationsregister (SOR)"/>
+      </saml:AttributeValue>
+      <saml:AttributeValue>
+        <id xmlns="urn:hl7-org:v3" xsi:type="II" root="1.2.208.176.2.3" extension="5501^Sydvestjysk Sygehus" assigningAuthorityName="Sygehus-afdelingsklassifikation (SHAK)"/>
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role">
+      <saml:AttributeValue>
+        <Role xmlns="urn:hl7-org:v3" xsi:type="CE" code="7170" codeSystem="1.2.208.176.1.3" codeSystemName="Autorisationsregister" displayName="Læge"/>
+      </saml:AttributeValue>
+      <saml:AttributeValue>
+        <Role xmlns="urn:hl7-org:v3" xsi:type="CE" code="5433" codeSystem="1.2.208.176.1.3" codeSystemName="Autorisationsregister" displayName="Tandlæge"/>
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:ihe:iti:bppc:2007:docid">
+      <saml:AttributeValue>https://example.org/consentdocument</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:ihe:iti:xua:2012:acp">
+      <saml:AttributeValue>oid:exampleoid</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xacml:2.0:resource:resource-id">
+      <saml:AttributeValue>2512484916^^^&amp;1.2.208.176.1.2&amp;ISO</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
+      <saml:AttributeValue>
+        <PurposeOfUse xmlns="urn:hl7-org:v3" xsi:type="CE" code="TREATMENT" codeSystem="urn:oasis:names:tc:xspa:1.0" codeSystemName="Flollop" displayName="Behandling" />
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsRegisteredPharmacist">
+      <saml:AttributeValue>true</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:EvidenceForPatientInCare">
+      <saml:AttributeValue>urn:dk:healthcare:brs:A++</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:ECprNumberIdentifier">
+      <saml:AttributeValue>251248A89F</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:FidNumberIdentifier">
+      <saml:AttributeValue>76794884</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:OneTimePseudonym">
+      <saml:AttributeValue>1b2948e1-5aee-4c22-aed9-23za</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:PersistentPseudonym">
+      <saml:AttributeValue>1b2948e1-5aee-4c22-aed9-23za</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SoleProprietorshipCVR">
+      <saml:AttributeValue>true</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:ChildrenInCustody">
+      <saml:AttributeValue>urn:dk:gov:saml:cprNumberIdentifier:1212120001</saml:AttributeValue>
+      <saml:AttributeValue>urn:dk:gov:saml:cprNumberIdentifier:1212120002</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsOver15">
+      <saml:AttributeValue>true</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsOver18">
+      <saml:AttributeValue>false</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:OnBehalfOf">
+      <saml:AttributeValue>urn:dk:healthcare:saml:actThroughDelegationByAuthorizedHealthcareProfessional:userAuthorization:AuthorizationCode:341KY:EducationCode:5501</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserType">
+      <saml:AttributeValue>Employee</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:GivenConsent">
+      <saml:AttributeValue>urn:dk:healthcare:consent:none</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemName">
+      <saml:AttributeValue>Det Fælles Medicinkort</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemID">
+      <saml:AttributeValue>FMK</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemVersion">
+      <saml:AttributeValue>3.2.1b</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemVendorName">
+      <saml:AttributeValue>IT-system leverandøren i Nørregade</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemVendorID">
+      <saml:AttributeValue>ITN</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemOperationsOrganisationName">
+      <saml:AttributeValue>Driftsorganisationen på bakken</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemOperationsOrganisationID">
+      <saml:AttributeValue>DPB</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemUsingOrganisationName">
+      <saml:AttributeValue>Region Midtjylland</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SystemUsingOrganisationID">
+      <saml:AttributeValue>RM</saml:AttributeValue>
+    </saml:Attribute>
+
+  </saml:AttributeStatement>
+
+</saml:Assertion>
+

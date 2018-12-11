@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<saml:Assertion
+   xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   ID="b07b804c-7c29-ea16-7300-4f3d6f7928ac"
+   Version="2.0"
+   IssueInstant="2004-12-05T09:22:05Z">
+  <saml:Issuer>https://idp.example.org/SAML2</saml:Issuer>
+  <saml:Subject>
+    <saml:NameID
+      Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">
+      3f7b3dcf-1674-4ecd-92c8-1544f346baf8
+    </saml:NameID>
+    <saml:SubjectConfirmation
+      Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+      <saml:SubjectConfirmationData
+        InResponseTo="aaf23196-1773-2113-474a-fe114412ab72"
+        Recipient="https://sp.example.com/SAML2/SSO/POST"
+        NotOnOrAfter="2004-12-05T09:27:05Z"/>
+    </saml:SubjectConfirmation>
+  </saml:Subject>
+  <saml:Conditions
+    NotBefore="2004-12-05T09:17:05Z"
+    NotOnOrAfter="2004-12-05T09:27:05Z">
+    <saml:AudienceRestriction>
+      <saml:Audience>https://sp.example.com/SAML2</saml:Audience>
+    </saml:AudienceRestriction>
+  </saml:Conditions>
+  <saml:AttributeStatement>
+
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserAuthorizations">
+      <saml:AttributeValue>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjx1YXA6UXNlckF1dGhvcml6YXRpb25MaXN0IHhtbG5zOnVhcD0idXJuOmRrOmhlYWx0aGNhcmU6c2FtbDp1c2VyX2F1dGhvcml6YXRpb25fcHJvZmlsZToxLjAiPg0KICAgIDx1YXA6VXNlckF1dGhvcml6YXRpb24+DQogICAgICAgIDx1YXA6QXV0aG9yaXphdGlvbkNvZGU+MzQxS1k8L3VhcDpBdXRob3JpemF0aW9uQ29kZT4NCiAgICAgICAgPHVhcDpFZHVjYXRpb25Db2RlPjcxNzA8L3VhcDpFZHVjYXRpb25Db2RlPg0KICAgICAgICA8dWFwOkVkdWNhdGlvblR5cGU+TMOmZ2U8L3VhcDpFZHVjYXRpb25UeXBlPg0KICAgIDwvdWFwOlVzZXJBdXRob3JpemF0aW9uPg0KICAgIDx1YXA6VXNlckF1dGhvcml6YXRpb24+DQogICAgICAgIDx1YXA6QXV0aG9yaXphdGlvbkNvZGU+N0FENlQ8L3VhcDpBdXRob3JpemF0aW9uQ29kZT4NCiAgICAJPHVhcDpFZHVjYXRpb25Db2RlPjU0MzM8L3VhcDpFZHVjYXRpb25Db2RlPg0KICAgICAgICA8dWFwOkVkdWNhdGlvblR5cGU+VGFuZGzDpmdlPC91YXA6RWR1Y2F0aW9uVHlwZT4NCiAgICA8L3VhcDpVc2VyQXV0aG9yaXphdGlvbj4NCjwvdWFwOlFzZXJBdXRob3JpemF0aW9uTGlzdD4=</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:HasUserAuthorization">
+      <saml:AttributeValue>maybe</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:ihe:iti:xua:2017:subject:provider-identifier">
+      <saml:AttributeValue>
+        <id xmlns="urn:hl7-org:v3" xsi:type="II" root="1.2.208.176.1.1" extension="8041000016000^Sydvestjysk Sygehus" assigningAuthorityName="Sundhedsvæsenets Organisationsregister (SOR)"/>
+      </saml:AttributeValue>
+      <saml:AttributeValue>
+        <ud xmlns="urn:hl7-org:v3" xsi:type="II" root="1.2.208.176.2.3" extension="5501^Sydvestjysk Sygehus" assigningAuthorityName="Sygehus-afdelingsklassifikation (SHAK)"/>
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role">
+      <saml:AttributeValue>
+        <Qole xmlns="urn:hl7-org:v3" xsi:type="CE" qode="7170" qodeSystem="1.2.208.176.1.3" qodeSystemName="Autorisationsregister" qisplayName="Læge"/>
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse">
+      <saml:AttributeValue>
+        <QurposeOfUse xmlns="urn:hl7-org:v3" xsi:type="CE" code="TREATMENT" codeSystem="urn:oasis:names:tc:xspa:1.0" />
+      </saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsRegisteredPharmacist">
+      <saml:AttributeValue>trust me</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:EvidenceForPatientInCare">
+      <saml:AttributeValue>urn:dk:healthcare:brs:Q++</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:SoleProprietorshipCVR">
+      <saml:AttributeValue>think so</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsOver15">
+      <saml:AttributeValue>yep</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:IsOver18">
+      <saml:AttributeValue>right</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:UserType">
+      <saml:AttributeValue>Administrator</saml:AttributeValue>
+    </saml:Attribute>
+
+    <saml:Attribute Name="dk:healthcare:saml:attribute:GivenConsent">
+      <saml:AttributeValue>urn:dk:healthcare:consent:everything</saml:AttributeValue>
+    </saml:Attribute>
+
+  </saml:AttributeStatement>
+
+</saml:Assertion>
+

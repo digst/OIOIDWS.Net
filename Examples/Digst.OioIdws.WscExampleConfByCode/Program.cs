@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading;
-
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Soap.StrCustomization;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Digst.OioIdws.WscExampleConfByCode.HelloWorldProxy;
-
+using Digst.OioIdws.WscExampleConfByCode.Connected_Services.HelloWorldProxy;
 using log4net.Config;
-
 using Channels = System.ServiceModel.Channels;
 using SecurityTokens = System.ServiceModel.Security.Tokens;
 using X509Certificates = System.Security.Cryptography.X509Certificates;
@@ -32,7 +30,7 @@ namespace Digst.OioIdws.WscExampleConfByCode
             var securityToken = stsTokenService.GetToken();
 
             // Call WSP with token
-            var hostname = "https://Digst.OioIdws.Wsp:9090/HelloWorld";
+            var hostname = "https://digst.oioidws.wsp:9090/helloworld";
             var customBinding = new Channels.CustomBinding();
             var endpointAddress = new System.ServiceModel.EndpointAddress(
                 new Uri(hostname),
@@ -49,7 +47,7 @@ namespace Digst.OioIdws.WscExampleConfByCode
                         SecurityTokens.X509KeyIdentifierClauseType.Any,
                         SecurityTokens.SecurityTokenInclusionMode.AlwaysToInitiator
                     ),
-                    new Soap.StrCustomization.CustomizedIssuedSecurityTokenParameters(
+                    new CustomizedIssuedSecurityTokenParameters(
                         "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
                     )
                     {

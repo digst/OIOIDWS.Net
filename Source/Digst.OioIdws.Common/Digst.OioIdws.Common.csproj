@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Digst.OioIdws.Common</RootNamespace>
     <AssemblyName>Digst.OioIdws.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Digst.OioIdws.Common.xml</DocumentationFile>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,11 +32,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Digst.OioIdws.Common.xml</DocumentationFile>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,6 +51,12 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Attributes\AssuranceLevel.cs" />
+    <Compile Include="Attributes\BasicPrivilegesModel2\PrivilegeGroup.cs" />
+    <Compile Include="Attributes\BasicPrivilegesModel2\PrivilegeList.cs" />
+    <Compile Include="Attributes\SamlAttributeValueAttribute.cs" />
+    <Compile Include="Attributes\SamlAttributeValueConverter.cs" />
+    <Compile Include="Attributes\SpecVer.cs" />
     <Compile Include="Constants\OioIdWsSoap.cs" />
     <Compile Include="Constants\OioWsTrust.cs" />
     <Compile Include="Constants\WsAdressing.cs" />
@@ -58,6 +68,21 @@
     <Compile Include="Logging\TraceLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoapFaults.cs" />
+    <Compile Include="Utils\CertificateUtil.cs" />
+    <Compile Include="X509CertificateConfigurationElement.cs" />
+    <Compile Include="XmlSerialization\IChoiceSerializer.cs" />
+    <Compile Include="XmlSerialization\ISequenceSerializer.cs" />
+    <Compile Include="XmlSerialization\ISerializableXmlElement.cs" />
+    <Compile Include="XmlSerialization\ISerializableXmlType.cs" />
+    <Compile Include="XmlSerialization\ITypeSerializer.cs" />
+    <Compile Include="XmlSerialization\MaxOccurs.cs" />
+    <Compile Include="XmlSerialization\MinOccurs.cs" />
+    <Compile Include="XmlSerialization\SerializableXmlExtensions.cs" />
+    <Compile Include="XmlSerialization\XmlReaderExtensions.cs" />
+    <Compile Include="XmlSerialization\XmlWriterExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tokens\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

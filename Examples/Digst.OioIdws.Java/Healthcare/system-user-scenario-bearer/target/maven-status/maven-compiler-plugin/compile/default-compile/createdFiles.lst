@@ -1,0 +1,17 @@
+org\tempuri\HelloNoneResponse.class
+client\callback\ClientCallbackHandler.class
+org\tempuri\HelloSignError.class
+client\sts\XUASTSClient.class
+org\tempuri\IHelloWorld.class
+org\tempuri\HelloNoneError.class
+client\callback\ClaimsCallbackHandler.class
+org\tempuri\HelloSignErrorResponse.class
+org\tempuri\package-info.class
+org\tempuri\ObjectFactory.class
+org\tempuri\HelloSignResponse.class
+org\tempuri\HelloNoneErrorResponse.class
+org\tempuri\HelloWorld.class
+client\WSClient.class
+com\microsoft\schemas\_2003\_10\serialization\ObjectFactory.class
+org\tempuri\HelloSign.class
+org\tempuri\HelloNone.class

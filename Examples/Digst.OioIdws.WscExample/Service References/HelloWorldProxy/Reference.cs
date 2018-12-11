@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Digst.OioIdws.WscExample.HelloWorldProxy {
+namespace Digst.OioIdws.WscExample.Service_References.HelloWorldProxy {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -60,12 +60,12 @@ namespace Digst.OioIdws.WscExample.HelloWorldProxy {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IHelloWorldChannel : Digst.OioIdws.WscExample.HelloWorldProxy.IHelloWorld, System.ServiceModel.IClientChannel {
+    public interface IHelloWorldChannel : IHelloWorld, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class HelloWorldClient : System.ServiceModel.ClientBase<Digst.OioIdws.WscExample.HelloWorldProxy.IHelloWorld>, Digst.OioIdws.WscExample.HelloWorldProxy.IHelloWorld {
+    public partial class HelloWorldClient : System.ServiceModel.ClientBase<IHelloWorld>, IHelloWorld {
         
         public HelloWorldClient() {
         }

@@ -1,40 +1,35 @@
 ﻿using System.Configuration;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Digst.OioIdws.Wsc.OioWsTrust
 {
     public class Configuration : ConfigurationSection
     {
+
         /// <summary>
         /// Endpoint address of STS. E.g. https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc
         /// </summary>
         [ConfigurationProperty("stsEndpointAddress", IsRequired = true)]
         public string StsEndpointAddress
         {
-            get
-            {
-                return (string)this["stsEndpointAddress"];
-            }
-            set
-            {
-                this["stsEndpointAddress"] = value;
-            }
+            get => (string)this["stsEndpointAddress"];
+            set => this["stsEndpointAddress"] = value;
         }
 
         /// <summary>
-        /// Endpoint ID of WSP. E.g. https://saml.nnit001.dmz.inttest
+        /// Identifier of current calling entity. E.g. https://myLocalClient. The value of the client as known by the STS
         /// </summary>
-        [ConfigurationProperty("wspEndpointID", IsRequired = true)]
-        public string WspEndpointID
+        [ConfigurationProperty("wscIdentifier", IsRequired = true)]
+        public string WscIdentifier
         {
-            get
-            {
-                return (string)this["wspEndpointID"];
-            }
-            set
-            {
-                this["wspEndpointID"] = value;
-            }
+            get => (string)this["wscIdentifier"];
+            set => this["wscIdentifier"] = value;
+        }
+
+        [ConfigurationProperty("stsIdentifier", IsRequired = true)]
+        public string StsIdentifier
+        {
+            get => (string)this["stsIdentifier"];
+            set => this["stsIdentifier"] = value;
         }
 
         /// <summary>
@@ -45,14 +40,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         [ConfigurationProperty("tokenLifeTimeInMinutes", IsRequired = false)]
         public int? TokenLifeTimeInMinutes
         {
-            get
-            {
-                return (int?)this["tokenLifeTimeInMinutes"];
-            }
-            set
-            {
-                this["tokenLifeTimeInMinutes"] = value;
-            }
+            get => (int?)this["tokenLifeTimeInMinutes"];
+            set => this["tokenLifeTimeInMinutes"] = value;
         }
 
         /// <summary>
@@ -61,14 +50,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         [ConfigurationProperty("debugMode", DefaultValue = false, IsRequired = false)]
         public bool DebugMode
         {
-            get
-            {
-                return (bool)this["debugMode"];
-            }
-            set
-            {
-                this["debugMode"] = value;
-            }
+            get => (bool)this["debugMode"];
+            set => this["debugMode"] = value;
         }
 
         /// <summary>
@@ -77,14 +60,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         [ConfigurationProperty("clientCertificate", IsRequired = true)]
         public Certificate ClientCertificate
         {
-            get
-            {
-                return (Certificate) this["clientCertificate"];
-            }
-            set
-            {
-                this["clientCertificate"] = value;
-            }
+            get => (Certificate)this["clientCertificate"];
+            set => this["clientCertificate"] = value;
         }
 
         /// <summary>
@@ -93,14 +70,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         [ConfigurationProperty("stsCertificate", IsRequired = true)]
         public Certificate StsCertificate
         {
-            get
-            {
-                return (Certificate)this["stsCertificate"];
-            }
-            set
-            {
-                this["stsCertificate"] = value;
-            }
+            get => (Certificate)this["stsCertificate"];
+            set => this["stsCertificate"] = value;
         }
 
         /// <summary>
@@ -112,81 +83,8 @@ namespace Digst.OioIdws.Wsc.OioWsTrust
         [ConfigurationProperty("cacheClockSkewInSeconds", IsRequired = false)]
         public int? CacheClockSkewInSeconds
         {
-            get
-            {
-                return (int?)this["cacheClockSkewInSeconds"];
-            }
-            set
-            {
-                this["cacheClockSkewInSeconds"] = value;
-            }
-        }
-    }
-
-    public class Certificate : ConfigurationElement
-    {
-        /// <summary>
-        /// Only values defined in the <see cref="StoreLocation"/> enum can be specified.
-        /// </summary>
-        [ConfigurationProperty("storeLocation", IsRequired = true)]
-        public StoreLocation StoreLocation
-        {
-            get
-            {
-                return (StoreLocation)this["storeLocation"];
-            }
-            set
-            {
-                this["storeLocation"] = value;
-            }
-        }
-
-        /// <summary>
-        /// Only values defined in the <see cref="StoreName"/> enum can be specified.
-        /// </summary>
-        [ConfigurationProperty("storeName", IsRequired = true)]
-        public StoreName StoreName
-        {
-            get
-            {
-                return (StoreName)this["storeName"];
-            }
-            set
-            {
-                this["storeName"] = value;
-            }
-        }
-
-        /// <summary>
-        /// Only values defined in the <see cref="X509FindType"/> enum can be specified
-        /// </summary>
-        [ConfigurationProperty("x509FindType", IsRequired = true)]
-        public X509FindType X509FindType
-        {
-            get
-            {
-                return (X509FindType)this["x509FindType"];
-            }
-            set
-            {
-                this["x509FindType"] = value;
-            }
-        }
-
-        /// <summary>
-        /// A value representing the type defined in <see cref="X509FindType"/>
-        /// </summary>
-        [ConfigurationProperty("findValue", IsRequired = true)]
-        public string FindValue
-        {
-            get
-            {
-                return (string)this["findValue"];
-            }
-            set
-            {
-                this["findValue"] = value;
-            }
+            get => (int?)this["cacheClockSkewInSeconds"];
+            set => this["cacheClockSkewInSeconds"] = value;
         }
     }
 }

@@ -3,21 +3,35 @@ param(
     [string] [parameter(Mandatory = $true)] $assemblyVersion, 
     [switch] $pushPackages)
 
+$names = @(
+    'Wsc',
+    'Wsp',
+    'Rest.Client',
+    'Rest.Server',
+    'SamlAttributes',
+    'Healthcare.Wsc',
+    'Healthcare.SamlAttributes'
+    )
+
 $ErrorActionPreference = "Stop"
+
+
+function Build-Package($name) 
+{
+    write-host "Building $name" -ForegroundColor Yellow
+    .\nuget.exe pack ..\Source\$name\$name.csproj -build -Version $version -Symbols -Properties Configuration=Release -IncludeReferencedProjects >4
+}
+
+function Push-Package($name) 
+{
+    write-host "pushing package $name" -ForegroundColor Yellow
+    .\nuget.exe push $("$name.$version.nupkg") -Source https://www.nuget.org/api/v2/package 
+}
+
 
 if($pushPackages.IsPresent)
 {
-    write-host "pushing package Digst.OioIdws.Wsc" -ForegroundColor Yellow
-    .\nuget.exe push $("Digst.OioIdws.Wsc.$version.nupkg") -Source https://www.nuget.org/api/v2/package
-
-    write-host "pushing package Digst.OioIdws.Wsp" -ForegroundColor Yellow
-    .\nuget.exe push $("Digst.OioIdws.Wsp.$version.nupkg") -Source https://www.nuget.org/api/v2/package
-    
-    write-host "pushing package Digst.OioIdws.Rest.Client" -ForegroundColor Yellow
-    .\nuget.exe push $("Digst.OioIdws.Rest.Client.$version.nupkg") -Source https://www.nuget.org/api/v2/package
-
-    write-host "pushing package Digst.OioIdws.Rest.Server" -ForegroundColor Yellow
-    .\nuget.exe push $("Digst.OioIdws.Rest.Server.$version.nupkg") -Source https://www.nuget.org/api/v2/package
+    $names | %{ Push-Package "Digst.OioIdws.$_" }
 }
 else
 {
@@ -32,15 +46,6 @@ else
     write-host "Restoring nuget packages" -ForegroundColor Yellow
     .\nuget.exe restore ..
 
-    write-host "Building nuget package dk.nita.saml20" -ForegroundColor Yellow
-    .\nuget.exe pack ..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj -build -Version $version -Symbols -Properties Configuration=Release -IncludeReferencedProjects
+    $names | %{ Build-Package "Digst.OioIdws.$_" }
 
-    write-host "Building nuget package Digst.OioIdws.Wsp" -ForegroundColor Yellow
-    .\nuget.exe pack ..\Source\Digst.OioIdws.Wsp\Digst.OioIdws.Wsp.csproj -build -Version $version -Symbols -Properties Configuration=Release -IncludeReferencedProjects
-
-    write-host "Building nuget package Digst.OioIdws.Rest.Client" -ForegroundColor Yellow
-    .\nuget.exe pack ..\Source\Digst.OioIdws.Rest.Client\Digst.OioIdws.Rest.Client.csproj -build -Version $version -Symbols -Properties Configuration=Release -IncludeReferencedProjects
-
-    write-host "Building nuget package Digst.OioIdws.Rest.Server" -ForegroundColor Yellow
-    .\nuget.exe pack ..\Source\Digst.OioIdws.Rest.Server\Digst.OioIdws.Rest.Server.csproj -build -Version $version -Symbols -Properties Configuration=Release -IncludeReferencedProjects
 }

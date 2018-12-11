@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using Digst.OioIdws.Common.Logging;
 using log4net;
+using log4net.Core;
+using ILogger = Digst.OioIdws.Common.Logging.ILogger;
 
 namespace Digst.OioIdws.WscExampleConfByCode
 {

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.OioWsTrust.TokenCache;
 using Digst.OioIdws.Rest.Client.AccessToken;
 
 namespace Digst.OioIdws.Rest.Client
@@ -15,7 +16,7 @@ namespace Digst.OioIdws.Rest.Client
     /// </summary>
     public class OioIdwsClient
     {
-        private readonly IStsTokenService _stsTokenService;
+        private readonly ISecurityTokenServiceClient _stsTokenService;
         private readonly IAccessTokenService _accessTokenService;
         
         /// <summary>
@@ -70,14 +71,14 @@ namespace Digst.OioIdws.Rest.Client
                 throw new ArgumentNullException(nameof(settings.SecurityTokenService.Certificate), "Certificate for the SecurityTokenService must be set");
             }
 
-            var tokenServiceConfiguration = new StsTokenServiceConfiguration
+            var tokenServiceConfiguration = new SecurityTokenServiceClientConfiguration
             {
-                ClientCertificate = Settings.ClientCertificate,
+                WscCertificate = Settings.ClientCertificate,
                 StsCertificate = Settings.SecurityTokenService.Certificate,
-                StsEndpointAddress = Settings.SecurityTokenService.EndpointAddress.ToString(),
-                TokenLifeTimeInMinutes = (int?) Settings.SecurityTokenService.TokenLifeTime.GetValueOrDefault().TotalMinutes,
+                ServiceTokenUrl = Settings.SecurityTokenService.EndpointAddress,
+                TokenLifeTime = Settings.SecurityTokenService.TokenLifeTime.GetValueOrDefault(),
                 SendTimeout = Settings.SecurityTokenService.SendTimeout,
-                WspEndpointId = Settings.AudienceUri.ToString()
+                WscIdentifier = "https://wsp.oioidws-net.dk"
             };
 
             if (settings.SecurityTokenService.CacheClockSkew.HasValue)
@@ -85,13 +86,10 @@ namespace Digst.OioIdws.Rest.Client
                 tokenServiceConfiguration.CacheClockSkew = settings.SecurityTokenService.CacheClockSkew.Value;
             }
 
+            _stsTokenService = new NemloginSecurityTokenServiceClient(tokenServiceConfiguration);
             if (settings.SecurityTokenService.UseTokenCache)
             {
-                _stsTokenService = new StsTokenServiceCache(tokenServiceConfiguration);
-            }
-            else
-            {
-                _stsTokenService = new StsTokenService(tokenServiceConfiguration);
+                _stsTokenService = new CachedSecurityTokenServiceClient(_stsTokenService, new MemoryTokenCache(), new MemoryTokenCache());
             }
 
             if (settings.UseTokenCache)
@@ -123,11 +121,11 @@ namespace Digst.OioIdws.Rest.Client
         {
             if (BootstrapToken != null)
             {
-                return (GenericXmlSecurityToken)_stsTokenService.GetTokenWithBootstrapToken(BootstrapToken);
+                return (GenericXmlSecurityToken)_stsTokenService.GetIdentityTokenFromBootstrapToken(BootstrapToken, Settings.AudienceUri.AbsoluteUri, KeyType.HolderOfKey);
             }
             else
             {
-                return (GenericXmlSecurityToken)_stsTokenService.GetToken();
+                return (GenericXmlSecurityToken)_stsTokenService.GetServiceToken(Settings.AudienceUri.AbsoluteUri, KeyType.HolderOfKey);
             }
         }
 

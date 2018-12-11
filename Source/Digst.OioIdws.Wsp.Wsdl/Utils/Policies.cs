@@ -122,10 +122,10 @@
 
                                 foreach (var c in children)
                                 {
-                                    if (c.Name.Equals("Basic256") &&
-                                        AuxMain(c,token,prefix) is AsymmetricBasic256 tb256)
+                                    if (c.Name.Equals("Basic256Sha256") &&
+                                        AuxMain(c,token,prefix) is AsymmetricBasic256Sha256 tb256)
                                     {
-                                        asymmetricAlgorithmSuitePolicy.Basic256.Add(tb256);
+                                        asymmetricAlgorithmSuitePolicy.Basic256Sha256.Add(tb256);
                                     }
                                 }
 
@@ -160,10 +160,10 @@
 
                                 foreach (var c in children)
                                 {
-                                    if (c.Name.Equals("Basic256") &&
-                                        AuxMain(c,token,prefix) is TransportBasic256 tb256)
+                                    if (c.Name.Equals("Basic256Sha256") &&
+                                        AuxMain(c,token,prefix) is TransportBasic256Sha256 tb256)
                                     {
-                                        transportAlgorithmSuitePolicy.Basic256.Add(tb256);
+                                        transportAlgorithmSuitePolicy.Basic256Sha256.Add(tb256);
                                     }
                                 }
 
@@ -177,19 +177,19 @@
                             return null;
                     }
 
-                case "Basic256":
+                case "Basic256Sha256":
 
                     switch (prefix)
                     {
                         case Prefix.Asymmetric:
                             {
-                                var asymmetricBasic256 = new AsymmetricBasic256();
+                                var asymmetricBasic256 = new AsymmetricBasic256Sha256();
 
                                 return asymmetricBasic256 as WSD.NamedItem;
                             }
                         case Prefix.Transport:
                             {
-                                var transportBasic256 = new TransportBasic256();
+                                var transportBasic256 = new TransportBasic256Sha256();
 
                                 return transportBasic256 as WSD.NamedItem;
                             }
@@ -889,9 +889,9 @@
 
             {
                 var algorithmSuitePolicy = new TransportAlgorithmSuitePolicy();
-                var basic256 = new TransportBasic256();
+                var basic256Sha256 = new TransportBasic256Sha256();
 
-                algorithmSuitePolicy.Basic256.Add(basic256);
+                algorithmSuitePolicy.Basic256Sha256.Add(basic256Sha256);
 
                 algorithmSuite.NestedPolicy.Add(algorithmSuitePolicy);
             }
@@ -983,9 +983,9 @@
 
             {
                 var algorithmSuitePolicy = new AsymmetricAlgorithmSuitePolicy();
-                var basic256 = new AsymmetricBasic256();
+                var basic256Sha256 = new AsymmetricBasic256Sha256();
 
-                algorithmSuitePolicy.Basic256.Add(basic256);
+                algorithmSuitePolicy.Basic256Sha256.Add(basic256Sha256);
 
                 algorithmSuite.NestedPolicy.Add(algorithmSuitePolicy);
             }

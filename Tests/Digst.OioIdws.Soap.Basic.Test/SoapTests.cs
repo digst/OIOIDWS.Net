@@ -8,14 +8,15 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Digst.OioIdws.Soap.Basic.Test.HelloWorldProxy;
-using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Common.Utils;
+using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.OioWsTrust.TokenCache;
+using Digst.OioIdws.Soap.Basic.Test.Connected_Services.HelloWorldProxy;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Soap.Test
+namespace Digst.OioIdws.Soap.Basic.Test
 {
 
     [TestClass]
@@ -23,20 +24,37 @@ namespace Digst.OioIdws.Soap.Test
     {
         private static Process _process;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
-        private static StsTokenServiceCache _stsTokenService;
+        private static ISecurityTokenServiceClient _stsTokenService;
         private const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         private const string WspHostName = "digst.oioidws.wsp";
+        private const string WspUri = "https://wsp.oioidws-net.dk";
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            if (_process != null) _process.Kill();
+
+            if (FiddlerApplication.IsStarted())
+            {
+                try
+                {
+                    FiddlerApplication.oProxy.Detach();
+                    FiddlerApplication.oProxy.Dispose();
+                }
+                finally
+                {
+                    FiddlerApplication.Shutdown();
+                }
+                
+            }
+
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
                 CertMaker.trustRootCert();
 
             // Start proxy server (to simulate man in the middle attacks)
             FiddlerApplication.Startup(
-                8877, /* Port */ 
+                8877, /* Port */
                 true, /* Register as System Proxy */
                 true, /* Decrypt SSL */
                 false /* Allow Remote */
@@ -46,7 +64,13 @@ namespace Digst.OioIdws.Soap.Test
             _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
-            _stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            ITokenCache memoryCache = new MemoryTokenCache();
+
+            _stsTokenService = new CachedSecurityTokenServiceClient(
+                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration()),
+                memoryCache,
+                memoryCache
+                );
         }
 
         [ClassCleanup]
@@ -56,13 +80,20 @@ namespace Digst.OioIdws.Soap.Test
             _process.Kill();
 
             // Shut down proxy server
-            FiddlerApplication.Shutdown();
+            try
+            {
+                FiddlerApplication.oProxy.Detach();
+                FiddlerApplication.oProxy.Dispose();
+            }
+            finally
+            {
+                FiddlerApplication.Shutdown();
+            }
         }
 
         [TestCleanup]
         public void CleanupAfterEachTest()
         {
-            // Unregister event handlers after each test so tests do not interfere with each other.
             FiddlerApplication.BeforeRequest -= _fiddlerApplicationOnBeforeRequest;
         }
 
@@ -72,7 +103,7 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             var response = channelWithIssuedToken.HelloNone("Schultz");
@@ -87,7 +118,7 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             try
@@ -107,7 +138,7 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             var response = channelWithIssuedToken.HelloSign("Schultz");
@@ -122,7 +153,7 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             try
@@ -142,7 +173,9 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var issuedToken = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
+
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(issuedToken);
 
             // Act
             var response = channelWithIssuedToken.HelloEncryptAndSign("Schultz");
@@ -157,7 +190,7 @@ namespace Digst.OioIdws.Soap.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             try
@@ -178,7 +211,7 @@ namespace Digst.OioIdws.Soap.Test
         public void SoapRequestFailDueToBodyTamperingTest()
         {
             // Arrange
-            _fiddlerApplicationOnBeforeRequest = delegate(Session oS)
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
                 if (WspHostName != oS.hostname)
@@ -190,7 +223,7 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -230,7 +263,7 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -250,20 +283,20 @@ namespace Digst.OioIdws.Soap.Test
         public void SoapRequestFailDueToHeaderToTamperingTest()
         {
             // Arrange
-            _fiddlerApplicationOnBeforeRequest = delegate(Session oS)
+            _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
                 if (WspHostName != oS.hostname)
                     return;
 
-                oS.utilReplaceInRequest("https://digst.oioidws.wsp:9090/HelloWorld</a:To>",
-                    "https://digst.oioidws.wsp:9090/HelloWorldTampered</a:To>");
+                oS.utilReplaceInRequest("https://digst.oioidws.wsp:9090/helloworld</a:To>",
+                    "https://digst.oioidws.wsp:9090/helloworldTampered</a:To>");
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -295,7 +328,7 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             HelloWorldClient client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -315,7 +348,6 @@ namespace Digst.OioIdws.Soap.Test
         public void SoapRequestFailDueToHeaderSecurityTamperingTest()
         {
             // Arrange
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -344,7 +376,7 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -392,7 +424,7 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -415,24 +447,27 @@ namespace Digst.OioIdws.Soap.Test
             byte[] recordedRequest = null;
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
-                // Only act on requests to WSP
-                if (WspHostName != oS.hostname)
-                    return;
-                if (recordedRequest == null)
+                if (oS.RequestBody.Length > 0)
                 {
-                    // record request
-                    recordedRequest = oS.RequestBody;
-                }
-                else
-                {
-                    // Replay
-                    oS.RequestBody = recordedRequest;
+                    // Only act on requests to WSP
+                    if (WspHostName != oS.hostname)
+                        return;
+                    if (recordedRequest == null)
+                    {
+                        // record request
+                        recordedRequest = oS.RequestBody;
+                    }
+                    else
+                    {
+                        // Replay
+                        oS.RequestBody = recordedRequest;
+                    }
                 }
             };
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
             channelWithIssuedToken.HelloSign("Schultz");
 
             // Act
@@ -485,9 +520,9 @@ namespace Digst.OioIdws.Soap.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = 
+            var channelWithIssuedToken =
                 client.ChannelFactory.CreateChannelWithIssuedToken(
-                    _stsTokenService.GetToken()
+                    _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey)
                 );
             channelWithIssuedToken.HelloSign("Schultz");
             Assert.IsTrue(isSoap12, "Succeed with a valid SOAP 1.2 header.");
@@ -529,7 +564,7 @@ namespace Digst.OioIdws.Soap.Test
             var client = new HelloWorldClient();
             var channelWithIssuedToken =
                 client.ChannelFactory.CreateChannelWithIssuedToken(
-                    _stsTokenService.GetToken()
+                    _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey)
                 );
             channelWithIssuedToken.HelloSign("Schultz");
             Assert.IsTrue(noLibHead, "Succeed with no Liberty header.");
@@ -554,7 +589,7 @@ namespace Digst.OioIdws.Soap.Test
                     return;
 
                 // Use xml version instead of utilReplaceInRequest(...)
-                // because message id is dynamically
+                // because message id is dynamic
                 var bodyAsString = Encoding.UTF8.GetString(oS.RequestBody);
                 var bodyAsXml = XDocument.Load(new StringReader(bodyAsString));
                 var namespaceManager = new XmlNamespaceManager(new NameTable());
@@ -590,11 +625,11 @@ namespace Digst.OioIdws.Soap.Test
             var client = new HelloWorldClient();
             var channelWithIssuedToken =
                 client.ChannelFactory.CreateChannelWithIssuedToken(
-                    _stsTokenService.GetToken()
+                    _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey)
                 );
             channelWithIssuedToken.HelloSign("Schultz");
             Assert.IsTrue(
-                isOasisSamlToken11, 
+                isOasisSamlToken11,
                 "Succeed with a OASIS SAML Token 1.1 profile."
             );
         }

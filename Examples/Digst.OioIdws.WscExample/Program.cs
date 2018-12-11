@@ -3,8 +3,7 @@ using System.Threading;
 
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Digst.OioIdws.WscExample.HelloWorldProxy;
-
+using Digst.OioIdws.WscExample.Service_References.HelloWorldProxy;
 using log4net.Config;
 
 namespace Digst.OioIdws.WscExample
@@ -21,8 +20,8 @@ namespace Digst.OioIdws.WscExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
-            var securityToken = stsTokenService.GetToken();
+            ISecurityTokenServiceClient stsTokenService = new LocalSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration(), null);
+            var securityToken = stsTokenService.GetServiceToken("https://digst.oioidws.wsp:9090/helloworld", KeyType.HolderOfKey);
 
             // Call WSP with token
             var client = new HelloWorldClient();

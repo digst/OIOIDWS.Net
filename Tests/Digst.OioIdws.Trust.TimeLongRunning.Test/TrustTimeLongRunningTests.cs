@@ -4,21 +4,30 @@ using System.Threading;
 using Digst.OioIdws.Common.Utils;
 using Digst.OioIdws.OioWsTrust;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Fiddler;
+
+using System.Net;
+using System;
+using Digst.OioIdws.OioWsTrust.TokenCache;
 
 namespace Digst.OioIdws.Trust.LongRunning.Test
 {
     [TestClass]
     public class TrustTimeLongRunningTests
     {
+        private static ISecurityTokenServiceClient _stsTokenService;
+        private const string WspHostName = "digst.oioidws.wsp";
+        private const string WspUri = "https://wsp.oioidws-net.dk";
+
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
         private const string StsHostName = "securetokenservice.test-nemlog-in.dk";
 
         // Wait 10 minutes:
         //   5 minutes token time + 
-        //   5 minutes clockscrew + 
+        //   5 minutes clockskew + 
         //   10 seconds extra 
         // to be sure that token is expired
         private const int _wait = 610000;
@@ -26,6 +35,13 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            ITokenCache tokenCache = new MemoryTokenCache();
+
+            _stsTokenService = new CachedSecurityTokenServiceClient(
+                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration()),
+                tokenCache,
+                tokenCache);
+
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
                 CertMaker.trustRootCert();
@@ -59,11 +75,6 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
         public void OioWsTrustRequestExpiredTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -77,7 +88,7 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (MessageSecurityException mse)
@@ -94,11 +105,6 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
         public void OioWsTrustResponseExpiredTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
-
             _fiddlerApplicationOnBeforeRequest = delegate (Session oS)
             {
                 // Only act on requests to WSP
@@ -123,7 +129,7 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
             // Act
             try
             {
-                stsTokenService.GetToken();
+                _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
                 Assert.IsTrue(false, "Expected exception was not thrown!!!");
             }
             catch (MessageSecurityException mse)
@@ -140,23 +146,21 @@ namespace Digst.OioIdws.Trust.LongRunning.Test
         public void OioWsTrustTokenServiceCacheGivesDifferentTokenTest()
         {
             // Arrange
-            IStsTokenService stsTokenService =
-                new StsTokenService(
-                    TokenServiceConfigurationFactory.CreateConfiguration()
-                );
+            var stsTokenService =
+                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
 
-            var securityToken = stsTokenService.GetToken();
+            var securityToken = stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
             Thread.Sleep(230000); // Sleep 4 minutes - 10 seconds ... 4 minutes due to default clock skew of 1 minut
 
             // Act 1
-            var securityToken2 = stsTokenService.GetToken();
+            var securityToken2 = stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
 
             // Assert 1
             Assert.AreEqual(securityToken, securityToken2, "Expected that tokens was the same");
 
             // Act 2
             Thread.Sleep(20000); // Sleep 20 seconds more and token should be expired.
-            var securityToken3 = stsTokenService.GetToken();
+            var securityToken3 = stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
 
             // Assert 2
             Assert.AreNotEqual(securityToken, securityToken3, "Expected that tokens was Not the same");

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Digst.OioIdws.DotnetWscJavaWspExampleConfByCode</RootNamespace>
     <AssemblyName>Digst.OioIdws.DotnetWscJavaWspExampleConfByCode</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -69,13 +69,25 @@
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345B3-85F0-4AE3-9989-DC96772C7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
+      <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
+      <Name>Digst.OioIdws.OioWsTrust</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Digst.OioIdws.Soap\Digst.OioIdws.Soap.csproj">
       <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
       <Name>Digst.OioIdws.Soap</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
-      <Project>{021345B3-85F0-4AE3-9989-DC96772C7799}</Project>
-      <Name>Digst.OioIdws.OioWsTrust</Name>
+    <ProjectReference Include="..\..\..\Source\Digst.OioIdws.Soap\Digst.OioIdws.Soap.csproj">
+      <Project>{1dc7ea39-865d-4386-a814-9062441056fe}</Project>
+      <Name>Digst.OioIdws.Soap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
+      <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>
+      <Name>Digst.OioIdws.Wsc</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj">
       <Project>{43dc7efc-447d-4d7d-a497-5cc7c60a006d}</Project>
@@ -103,6 +115,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,6 +7,7 @@ using System.ServiceModel.Security;
 using System.Xml;
 using Digst.OioIdws.Common.Constants;
 using Digst.OioIdws.Common.Logging;
+//using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Digst.OioIdws.Soap.MessageInspectors;
 using Digst.OioIdws.Soap.StrCustomization;
 
@@ -30,16 +31,16 @@ namespace Digst.OioIdws.Soap.Behaviors
             // Setting signature requirements for WSP repsonse to WSC
             // This is done in order to validate the response. This is required by [OIO IDWS SOAP 1.1].
             requirements.OutgoingSignatureParts.AddParts(SoapServiceBehavior.MessagePartSpecificationWsp());
-            
+
             var clientCredentials = bindingParameters.Find<ClientCredentials>();
             clientCredentials.UseIdentityConfiguration = true; // Use WIF instead of WCF
-            
+
             Logger.Instance.Trace("Adding custom SAML token handlers.");
             var securityTokenHandlerCollectionManager = clientCredentials.SecurityTokenHandlerCollectionManager[
                 SecurityTokenHandlerCollectionManager.Usage.Default];
             // This is done in order to have correct STR's (Security Token Reference)
-            securityTokenHandlerCollectionManager.AddOrReplace(
-                    new StrReferenceSaml2SecurityTokenHandler());
+            //            securityTokenHandlerCollectionManager.AddOrReplace(new ExtendedSaml2SecurityTokenHandler());
+            securityTokenHandlerCollectionManager.AddOrReplace(new StrReferenceSaml2SecurityTokenHandler());
         }
 
         public static MessagePartSpecification MessagePartSpecificationWsc()
@@ -55,10 +56,10 @@ namespace Digst.OioIdws.Soap.Behaviors
                 WsAdressing.WsAdressing10NameSpace);
             var wsAddressingToQualifiedName = new XmlQualifiedName(WsAdressing.WsAdressingTo, WsAdressing.WsAdressing10NameSpace); // This one is optional according to [OIO IDWS SOAP 1.1]
 
-            var part = 
+            var part =
                 new MessagePartSpecification(
                     wsAddressingMessageIdQualifiedName,
-                    wsAddressingRelatesToQualifiedName, 
+                    wsAddressingRelatesToQualifiedName,
                     wsAddressingToQualifiedName
                 );
 

@@ -11,10 +11,13 @@ using System.Xml;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+//using Digst.OioIdws.OioWsTrust;
+//using Digst.OioIdws.Rest.Client;
+//using Digst.OioIdws.Wsc.OioWsTrust;
 using Digst.OioIdws.OioWsTrust;
-using Digst.OioIdws.Rest.Client;
 using Digst.OioIdws.Wsc.OioWsTrust;
-using WebsiteDemo.HelloWorldProxy;
+using Digst.OioIdws.Rest.Client;
+using WebsiteDemo.Service_References.HelloWorldProxy;
 
 namespace WebsiteDemo
 {
@@ -88,19 +91,21 @@ namespace WebsiteDemo
         private string RunSoap(SecurityToken bootstrapToken)
         {
             // Retrieve token
-            IStsTokenService stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            ISecurityTokenServiceClient stsTokenService = new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
             SecurityToken securityToken = null;
-            if (bootstrapToken != null)
-            {
-                securityToken = stsTokenService.GetTokenWithBootstrapToken(bootstrapToken);
-            }
-            else
-            {
-                securityToken = stsTokenService.GetToken();
-            }
 
             // Call WSP with token
             var client = new HelloWorldClient();
+
+
+            if (bootstrapToken != null)
+            {
+                securityToken = stsTokenService.GetIdentityTokenFromBootstrapToken(bootstrapToken, client.Endpoint.Address.Uri.AbsoluteUri, KeyType.HolderOfKey); 
+            }
+            else
+            {
+                securityToken = stsTokenService.GetServiceToken(client.Endpoint.Address.Uri.AbsoluteUri, KeyType.HolderOfKey); 
+            }
 
             // enable revocation check if not white listed at Nets, don't do this in production!
             //client.ClientCredentials.ServiceCertificate.Authentication.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;

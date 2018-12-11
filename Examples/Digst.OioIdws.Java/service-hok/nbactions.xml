@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-tomcat7:run-war -e -X -U</actionName>
+            <displayName>tomcat7:run-war -e -X -U</displayName>
+            <goals>
+                <goal>tomcat7:run-war</goal>
+                <goal>-e</goal>
+                <goal>-X</goal>
+                <goal>-U</goal>
+            </goals>
+        </action>
+    </actions>

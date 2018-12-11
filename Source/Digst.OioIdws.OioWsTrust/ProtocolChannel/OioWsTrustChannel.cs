@@ -8,14 +8,16 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     {
         private readonly OioWsTrustChannelFactory _channelManager;
         private readonly IRequestChannel _innerChannel;
+        private readonly IOioWsTrustMessageTransformer _msgTransformer;
 
-        public OioWsTrustChannel(OioWsTrustChannelFactory channelManager, IRequestChannel innerChannel)
+        public OioWsTrustChannel(OioWsTrustChannelFactory channelManager, IRequestChannel innerChannel, IOioWsTrustMessageTransformer msgTransformer)
             : base(channelManager)
         {
             if (channelManager == null) throw new ArgumentNullException("channelManager");
             if (innerChannel == null) throw new ArgumentNullException("innerChannel");
             _channelManager = channelManager;
             _innerChannel = innerChannel;
+            _msgTransformer = msgTransformer;
         }
 
         public Message Request(Message message)
@@ -25,12 +27,12 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
         public Message Request(Message message, TimeSpan timeout)
         {
-            var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer();
+            var signatureCaseMessageTransformer = _msgTransformer;
             signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.ClientCertificate);
-            var respsonse = _innerChannel.Request(message, timeout);
+            var response = _innerChannel.Request(message, timeout);
             
-            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref respsonse, _channelManager.StsCertificate);
-            return respsonse;
+            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref response, _channelManager.StsCertificate);
+            return response;
         }
 
         #region Members which simply delegate to the inner channel

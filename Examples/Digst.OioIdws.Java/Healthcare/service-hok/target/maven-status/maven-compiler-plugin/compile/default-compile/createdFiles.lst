@@ -1,0 +1,14 @@
+org\example\schema\helloworld\HelloWorldResponse.class
+org\example\schema\helloworld\ObjectFactory.class
+service\saml\SamlFilter.class
+service\saml\AssertionHolder.class
+org\example\schema\helloworld\package-info.class
+org\example\contract\helloworld\HelloWorldService.class
+service\callback\KeystorePasswordCallback.class
+service\HelloWorldPortTypeImpl$1.class
+service\saml\XuaSamlAssertionValidator$1.class
+service\HelloWorldPortTypeImpl.class
+service\saml\UserAuthorizationHolder.class
+service\saml\XuaSamlAssertionValidator.class
+org\example\contract\helloworld\HelloWorldPortType.class
+org\example\schema\helloworld\HelloWorld.class

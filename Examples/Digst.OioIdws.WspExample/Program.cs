@@ -8,8 +8,8 @@ namespace Digst.OioIdws.WspExample
         static void Main(string[] args)
         {
             // Create the ServiceHost.
-            // HTTP: const string httpLocalhostHelloworld = "http://Digst.OioIdws.Wsp:9090/HelloWorld";
-            const string httpLocalhostHelloworld = "https://Digst.OioIdws.Wsp:9090/HelloWorld";
+            // HTTP: const string httpLocalhostHelloworld = "https://digst.oioidws.wsp:9090/helloworld";
+            const string httpLocalhostHelloworld = "https://digst.oioidws.wsp:9090/helloworld";
             using (var host = new ServiceHost(typeof(HelloWorld), new Uri(httpLocalhostHelloworld)))
             {
                 host.Open();

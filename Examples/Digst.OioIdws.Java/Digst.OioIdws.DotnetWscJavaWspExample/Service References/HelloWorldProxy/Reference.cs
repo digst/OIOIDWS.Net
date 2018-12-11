@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy {
+namespace Digst.OioIdws.DotnetWscJavaWspExample.Service_References.HelloWorldProxy {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -17,10 +17,10 @@ namespace Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy {
         
         // CODEGEN: Generating message contract since the wrapper namespace (http://www.example.org/schema/HelloWorld) of message HelloWorldRequest does not match the default value (http://www.example.org/contract/HelloWorld)
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://www.example.org/contract/HelloWorld/HelloWorldPortType/HelloWorldRequest", ReplyAction="*")]
-        Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse HelloWorld(Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest request);
+        HelloWorldResponse HelloWorld(HelloWorldRequest request);
         
         [System.ServiceModel.OperationContractAttribute(ProtectionLevel=System.Net.Security.ProtectionLevel.Sign, Action="http://www.example.org/contract/HelloWorld/HelloWorldPortType/HelloWorldRequest", ReplyAction="*")]
-        System.Threading.Tasks.Task<Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse> HelloWorldAsync(Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest request);
+        System.Threading.Tasks.Task<HelloWorldResponse> HelloWorldAsync(HelloWorldRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -58,12 +58,12 @@ namespace Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface HelloWorldPortTypeChannel : Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType, System.ServiceModel.IClientChannel {
+    public interface HelloWorldPortTypeChannel : HelloWorldPortType, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class HelloWorldPortTypeClient : System.ServiceModel.ClientBase<Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType>, Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType {
+    public partial class HelloWorldPortTypeClient : System.ServiceModel.ClientBase<HelloWorldPortType>, HelloWorldPortType {
         
         public HelloWorldPortTypeClient() {
         }
@@ -85,26 +85,26 @@ namespace Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType.HelloWorld(Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest request) {
+        HelloWorldResponse HelloWorldPortType.HelloWorld(HelloWorldRequest request) {
             return base.Channel.HelloWorld(request);
         }
         
         public string HelloWorld(string name) {
-            Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest inValue = new Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest();
+            HelloWorldRequest inValue = new HelloWorldRequest();
             inValue.name = name;
-            Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse retVal = ((Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType)(this)).HelloWorld(inValue);
+            HelloWorldResponse retVal = ((HelloWorldPortType)(this)).HelloWorld(inValue);
             return retVal.response;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse> Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType.HelloWorldAsync(Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest request) {
+        System.Threading.Tasks.Task<HelloWorldResponse> HelloWorldPortType.HelloWorldAsync(HelloWorldRequest request) {
             return base.Channel.HelloWorldAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldResponse> HelloWorldAsync(string name) {
-            Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest inValue = new Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldRequest();
+        public System.Threading.Tasks.Task<HelloWorldResponse> HelloWorldAsync(string name) {
+            HelloWorldRequest inValue = new HelloWorldRequest();
             inValue.name = name;
-            return ((Digst.OioIdws.DotnetWscJavaWspExample.HelloWorldProxy.HelloWorldPortType)(this)).HelloWorldAsync(inValue);
+            return ((HelloWorldPortType)(this)).HelloWorldAsync(inValue);
         }
     }
 }

@@ -9,8 +9,8 @@
     public static class Namespaces
     {
         private static string tempUriNamespace = "http://tempuri.org/";
-        private static Dictionary<Prefix, Namespace> required =
-            new Dictionary<Prefix, Namespace>
+        private static Dictionary<string, string> required =
+            new Dictionary<string, string>
             {
                 { "xs" ,   "http://www.w3.org/2001/XMLSchema" },
                 { "xsi",   "http://www.w3.org/2001/XMLSchema-instance" },
@@ -47,12 +47,12 @@
         private static string operationNamespace = required["wsa"];
 
         public static string TempUriNamespace { get => tempUriNamespace; }
-        public static Dictionary<Prefix, Namespace> Required { get => required; }
+        public static Dictionary<string, string> Required { get => required; }
         public static string OperationNamespace { get => operationNamespace; }
 
-        public static Dictionary<Namespace, Prefix> Merge(
+        public static Dictionary<string, string> Merge(
             XmlQualifiedName[] namespaces,
-            Dictionary<Prefix, Namespace> custom)
+            Dictionary<string, string> custom)
         {
             foreach (var ns in namespaces)
             {
@@ -65,5 +65,7 @@
 
             return custom;
         }
+
+        public const string SamlAssertion = "urn:oasis:names:tc:SAML:2.0:assertion";
     }
 }

@@ -28,6 +28,26 @@ function add-HostEntry
     add-content $hostpath $entry -Encoding Ascii
 }
 
+
+
+function ImportCertiticate
+{
+	param(
+	)
+
+	Import-Certificate '..\misc\certificates\TRUST2048 Systemtest VII Primary CA.cer' -CertStoreLocation Cert:\LocalMachine\Root
+}
+
+
+function ImportPfxCertiticate
+{
+	param(
+	)
+
+	Import-Certificate '..\misc\certificates\TRUST2048 Systemtest VII Primary CA.cer' -CertStoreLocation Cert:\LocalMachine\Root
+}
+
+
 function Set-CertificatePermission
 {
     param

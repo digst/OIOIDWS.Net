@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 
 namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
@@ -9,20 +10,22 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     public class OioWsTrustBindingElement : BindingElement
     {
         private readonly X509Certificate2 _stsCertificate;
+        private readonly IOioWsTrustMessageTransformer _msgTransformer;
 
         public override BindingElement Clone()
         {
-            return new OioWsTrustBindingElement(_stsCertificate);
+            return new OioWsTrustBindingElement(_stsCertificate, _msgTransformer);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="stsCertificate">The certificate used for validating the signature in the response from STS</param>
-        public OioWsTrustBindingElement(X509Certificate2 stsCertificate)
+        public OioWsTrustBindingElement(X509Certificate2 stsCertificate, IOioWsTrustMessageTransformer msgTransformer)
         {
             if (stsCertificate == null) throw new ArgumentNullException("stsCertificate");
             _stsCertificate = stsCertificate;
+            _msgTransformer = msgTransformer;
         }
 
         public override T GetProperty<T>(BindingContext context)
@@ -51,8 +54,13 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 throw new InvalidOperationException("No Client certificate was configured.");
 
             var innerFactory = context.BuildInnerChannelFactory<IRequestChannel>();
-            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsCertificate);
+
+            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsCertificate, _msgTransformer);
             return (IChannelFactory<TChannel>) factory;
         }
+
+
     }
+
+
 }

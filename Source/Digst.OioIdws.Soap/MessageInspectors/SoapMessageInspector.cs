@@ -87,20 +87,6 @@ namespace Digst.OioIdws.Soap.MessageInspectors
                 Logger.Instance.Error(errorMessage);
                 SoapFaults.CreateClientSoapFault(errorMessage);
             }
-
-            //var actionHeader =
-            //    message.Headers.SingleOrDefault(
-            //        x =>
-            //            WsAdressing.WsAdressingAction == x.Name &&
-            //            WsAdressing.WsAdressing10NameSpace == x.Namespace);
-
-            //if (actionHeader == null)
-            //{
-            //    const string errorMessage = "WS-Adressing Action header was not present";
-            //    Logger.Instance.Error(errorMessage);
-            //    throw new FaultException(SoapFaults.CreateClientSoapFault(errorMessage));
-            //}
-
         }
 
         private static void ValidateWsAddressingHeadersRecievedFromWsp(Message message)

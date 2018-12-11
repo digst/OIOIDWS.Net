@@ -2,14 +2,15 @@
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Threading;
-using Digst.OioIdws.OioWsTrust;
-using Digst.OioIdws.Soap.TimeLongRunning.Test.HelloWorldProxy;
 using Digst.OioIdws.Common.Utils;
+using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.OioWsTrust.TokenCache;
+using Digst.OioIdws.Soap.TimeLongRunning.Test.Connected_Services.HelloWorldProxy;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Fiddler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Digst.OioIdws.Soap.LongRunningTest
+namespace Digst.OioIdws.Soap.TimeLongRunning.Test
 {
 
     [TestClass]
@@ -18,12 +19,13 @@ namespace Digst.OioIdws.Soap.LongRunningTest
         private static Process _process;
         private SessionStateHandler _fiddlerApplicationOnBeforeRequest;
         private SessionStateHandler _fiddlerApplicationOnBeforeResponse;
-        private static IStsTokenService _stsTokenService;
+        private static ISecurityTokenServiceClient _stsTokenService;
         private const string WspHostName = "digst.oioidws.wsp";
+        private const string WspUri = "https://wsp.oioidws-net.dk";
 
         // Wait 10 minutes:
         //   5 minutes token time + 
-        //   5 minutes clockscrew + 
+        //   5 minutes clockskew + 
         //   10 seconds extra 
         // to be sure that token is expired
         private const int _wait = 610000;
@@ -31,7 +33,12 @@ namespace Digst.OioIdws.Soap.LongRunningTest
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            _stsTokenService = new StsTokenServiceCache(TokenServiceConfigurationFactory.CreateConfiguration());
+            ITokenCache tokenCache = new MemoryTokenCache();
+
+            _stsTokenService = new CachedSecurityTokenServiceClient(
+                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration()),
+                tokenCache,
+                tokenCache);
 
             // Check certificates
             if (!CertMaker.rootCertIsTrusted())
@@ -65,6 +72,7 @@ namespace Digst.OioIdws.Soap.LongRunningTest
             // Unregister event handlers after each test so tests do not interfere with each other.
             FiddlerApplication.BeforeRequest -= _fiddlerApplicationOnBeforeRequest;
             FiddlerApplication.BeforeResponse -= _fiddlerApplicationOnBeforeResponse;
+
         }
 
         [TestMethod]
@@ -73,7 +81,7 @@ namespace Digst.OioIdws.Soap.LongRunningTest
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken("https://wsp.oioidws-net.dk", KeyType.HolderOfKey));
 
             // Act
             try
@@ -107,7 +115,7 @@ namespace Digst.OioIdws.Soap.LongRunningTest
             FiddlerApplication.BeforeRequest += _fiddlerApplicationOnBeforeRequest;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             try
@@ -151,7 +159,7 @@ namespace Digst.OioIdws.Soap.LongRunningTest
             FiddlerApplication.BeforeResponse += _fiddlerApplicationOnBeforeResponse;
 
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetToken());
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
 
             // Act
             try

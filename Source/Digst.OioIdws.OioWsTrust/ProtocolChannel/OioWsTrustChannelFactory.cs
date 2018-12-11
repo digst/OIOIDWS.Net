@@ -10,8 +10,9 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         private readonly IChannelFactory<IRequestChannel> _innerFactory;
         private readonly X509Certificate2 _clientCertificate;
         private readonly X509Certificate2 _stsCertificate;
+        private readonly IOioWsTrustMessageTransformer _msgTransformer;
 
-        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, X509Certificate2 stsCertificate)
+        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, X509Certificate2 stsCertificate, IOioWsTrustMessageTransformer msgTransformer)
         {
             if (innerFactory == null) throw new ArgumentNullException("innerFactory");
             if (clientCertificate == null) throw new ArgumentNullException("clientCertificate");
@@ -19,6 +20,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             _innerFactory = innerFactory;
             _clientCertificate = clientCertificate;
             _stsCertificate = stsCertificate;
+            _msgTransformer = msgTransformer;
         }
 
         #region Members which simply delegate to the inner factory
@@ -49,8 +51,9 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         }
 
         protected override IRequestChannel OnCreateChannel(EndpointAddress address, Uri via)
-        {   
-            return new OioWsTrustChannel(this, _innerFactory.CreateChannel(address, via));
+        {
+            var channel = new OioWsTrustChannel(this, _innerFactory.CreateChannel(address, via), _msgTransformer);
+            return channel;
         }
     }
 }

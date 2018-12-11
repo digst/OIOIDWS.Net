@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>dk.digst.cxf</groupId>
+		<artifactId>cxf-reference-xua</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<packaging>war</packaging>
+	<artifactId>cxf-wsp-xua-hok</artifactId>
+	<name>CXF WS Provider for Holder of Key Tokens (xua)</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<sourceRoot>
+								${basedir}/target/generated-sources
+							</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>
+										${basedir}/src/main/resources/HelloWorld-Hok.wsdl
+									</wsdl>
+									<wsdlLocation>classpath:HelloWorld-Hok.wsdl</wsdlLocation>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>0</port>
+					<httpsPort>8444</httpsPort>
+					<keystoreFile>${project.basedir}/ssl-keystore</keystoreFile>
+					<keystorePass>Test1234</keystorePass>
+<!--
+
+To be compliant with OIO IDWS we need to use TLS v1.2, but the maven tomcat plugin unfortunately hardcodes these settings to TLS (so TLS v1.0, v1.1 and v1.2 are used instead of just v1.2)
+
+https://github.com/apache/tomcat-maven-plugin/blob/tomcat-maven-plugin-2.2/tomcat7-maven-plugin/src/main/java/org/apache/tomcat/maven/plugin/tomcat7/run/AbstractRunMojo.java
+
+These configuration settings should be applied to a real Tomcat (or similar web-container) to be OIO IDWS compliant
+
+					<sslEnabledProtocols>TLSv1.2</sslEnabledProtocols>
+					<sslProtocol>TLSv1.2</sslProtocol>
+-->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+					<webResources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<targetPath>WEB-INF/wsdl</targetPath>
+							<includes>
+								<include>*.wsdl</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<finalName>HelloWorld</finalName>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+		</dependency>
+
+                <dependency>
+                        <groupId>dk.sds.xua</groupId>
+                        <artifactId>saml-h-util</artifactId>
+                        <version>1.0.0</version>
+                </dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

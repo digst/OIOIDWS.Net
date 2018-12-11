@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -57,14 +56,6 @@ namespace Digst.OioIdws.Rest.Examples.Client
                     Console.WriteLine(responseString);
                 }
             }
-        }
-    }
-
-    internal class ConsoleLogger : ILogger
-    {
-        public void WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
-        {
-            Console.WriteLine($"{eventType}: {formatter(state, exception)}");
         }
     }
 }

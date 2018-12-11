@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Run-War</actionName>
+            <displayName>Run-War</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>tomcat7:run-war</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-clean install tomcat7:run-war -e -X -U</actionName>
+            <displayName>clean install tomcat7:run-war -e -X -U</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>tomcat7:run-war</goal>
+                <goal>-e</goal>
+                <goal>-X</goal>
+                <goal>-U</goal>
+            </goals>
+        </action>
+    </actions>

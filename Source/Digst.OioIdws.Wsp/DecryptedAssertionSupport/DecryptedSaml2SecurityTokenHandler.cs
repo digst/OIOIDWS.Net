@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens;
+﻿using System;
+using System.IdentityModel.Tokens;
 using System.Xml;
 
 namespace Digst.OioIdws.Wsp.DecryptedAssertionSupport
@@ -19,5 +20,6 @@ namespace Digst.OioIdws.Wsp.DecryptedAssertionSupport
 
             return new DecryptedSaml2SecurityToken(saml2SecurityToken);
         }
+
     }
 }
