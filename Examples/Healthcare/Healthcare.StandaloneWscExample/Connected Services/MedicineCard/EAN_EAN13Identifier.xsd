@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:ean="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" elementFormDefault="qualified" targetNamespace="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="EAN13Identifier" type="ean:EAN13IdentifierType" />
+  <simpleType name="EAN13IdentifierType">
+    <restriction base="string">
+      <pattern value="\d{13}" />
+    </restriction>
+  </simpleType>
+</schema>

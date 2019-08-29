@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="DrugMedicationVersion.xsd" />
+  <element name="DrugMedicationIdentifierAndVersion" type="medicinecard20150101:DrugMedicationIdentifierAndVersionType">
+    <annotation>
+      <documentation xml:lang="en-GB">Contains ID and version number for a drug medication</documentation>
+      <documentation xml:lang="da-DK">Indeholder ID og versionsnummer for en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="DrugMedicationIdentifierAndVersionType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element name="Version" type="medicinecard20150101:DrugMedicationVersionType" />
+    </sequence>
+  </complexType>
+</schema>

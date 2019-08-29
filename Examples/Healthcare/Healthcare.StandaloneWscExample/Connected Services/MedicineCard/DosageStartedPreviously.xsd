@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DosageStartedPreviously" type="medicinecard20150101:DosageStartedPreviouslyType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indicates that the dosage start is previously but not given on FMK</documentation>
+      <documentation xml:lang="da-DK">Angiver at doseringen er startet tidligere, men ikke angivet på FMK</documentation>
+    </annotation>
+  </element>
+  <complexType name="DosageStartedPreviouslyType" />
+</schema>

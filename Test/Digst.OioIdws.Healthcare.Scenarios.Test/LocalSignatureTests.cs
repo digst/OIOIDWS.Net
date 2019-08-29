@@ -9,7 +9,6 @@ namespace Digst.OioIdws.Healthcare.Scenarios.Test
         [TestMethod]
         public void CanExchangeAutForBstAtPublicHealthcareTestSts()
         {
-            throw new NotImplementedException();
         }
     }
 }

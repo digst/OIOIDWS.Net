@@ -74,6 +74,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
+      <Project>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</Project>
+      <Name>Digst.OioIdws.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj">
       <Project>{021345b3-85f0-4ae3-9989-dc96772c7799}</Project>
       <Name>Digst.OioIdws.OioWsTrust</Name>

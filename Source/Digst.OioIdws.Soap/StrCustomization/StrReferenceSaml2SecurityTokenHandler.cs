@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Soap.StrCustomization
      ///
      /// Thanks to SafeWhere/Kombit for this solution. Taken from https://github.com/Safewhere/kombit-common
      /// </summary>
-     public class StrReferenceSaml2SecurityTokenHandler : Saml2SecurityTokenHandler
+     public class StrReferenceSaml2SecurityTokenHandlerSaved : Saml2SecurityTokenHandler
      {
           /// <summary>
           ///     Writes a SecurityTokenReference element. This handler is only required when the

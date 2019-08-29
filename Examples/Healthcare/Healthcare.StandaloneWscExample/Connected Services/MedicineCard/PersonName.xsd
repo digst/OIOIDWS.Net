@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonGivenName.xsd" />
+  <include schemaLocation="PersonMiddleName.xsd" />
+  <include schemaLocation="PersonSurname.xsd" />
+  <element name="PersonName" type="medicinecard20150101:PersonNameType">
+    <annotation>
+      <documentation xml:lang="en-GB">Structured name of a person</documentation>
+      <documentation xml:lang="da-DK">Struktureret navn på en person</documentation>
+    </annotation>
+  </element>
+  <complexType name="PersonNameType">
+    <sequence>
+      <element name="GivenName" type="medicinecard20150101:PersonGivenNameType" />
+      <element minOccurs="0" name="MiddleName" type="medicinecard20150101:PersonMiddleNameType" />
+      <element name="Surname" type="medicinecard20150101:PersonSurnameType" />
+    </sequence>
+  </complexType>
+</schema>

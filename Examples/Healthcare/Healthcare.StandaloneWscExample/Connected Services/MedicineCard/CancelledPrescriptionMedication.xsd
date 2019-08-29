@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PrescriptionMedicationIdentifier.xsd" />
+  <include schemaLocation="PrescriptionServerError.xsd" />
+  <element name="CancelledPrescriptionMedication" type="medicinecard20150101:CancelledPrescriptionMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">For use in bulk service: Result of marking one or more prescription medications as invalid</documentation>
+      <documentation xml:lang="da-DK">Til brug i bulk service: Resultat af at markere en eller flere receptordinationer som ugyldige</documentation>
+    </annotation>
+  </element>
+  <complexType name="CancelledPrescriptionMedicationType">
+    <sequence>
+      <element maxOccurs="unbounded" name="Identifier" type="medicinecard20150101:PrescriptionMedicationIdentifierType" />
+      <element minOccurs="0" name="PrescriptionServerError" type="medicinecard20150101:PrescriptionServerErrorType" />
+    </sequence>
+  </complexType>
+</schema>

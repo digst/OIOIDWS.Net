@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="ServiceName" type="medicinecard20150101:ServiceNameType">
+    <annotation>
+      <documentation xml:lang="en-GB">Name of a service, e.g. "createPrescription"</documentation>
+      <documentation xml:lang="da-DK">Systemnamvn, f.eks. "createPrescription"</documentation>
+    </annotation>
+  </element>
+  <simpleType name="ServiceNameType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="40" />
+    </restriction>
+  </simpleType>
+</schema>

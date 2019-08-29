@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="ConsentDate.xsd" />
+  <element name="ConsentGiven" type="medicinecard20150101:ConsentGivenType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element indicating consent is given, and the interval the consent is valid for</documentation>
+      <documentation xml:lang="da-DK">Element der angiver at der er givet samtykke, og interval samtykke er gældende, "efter mundtlig eller skriftlig samtykke"</documentation>
+    </annotation>
+  </element>
+  <complexType name="ConsentGivenType">
+    <sequence>
+      <element name="FromDate" type="medicinecard20150101:ConsentDateType" />
+      <element name="ToDate" type="medicinecard20150101:ConsentDateType" />
+    </sequence>
+  </complexType>
+</schema>

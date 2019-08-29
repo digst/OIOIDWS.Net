@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="VersionMismatchWarning.xsd" />
+  <element name="SetMedicineCardReviewedResponse" type="medicinecard20150101:SetMedicineCardReviewedResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for a response from a request to set a date and time for a review of the medicine card</documentation>
+      <documentation xml:lang="da-DK">Element for et svar fra en forespørgsel til at sætte dato og tid for en medicinkort-gennemgang</documentation>
+    </annotation>
+  </element>
+  <complexType name="SetMedicineCardReviewedResponseType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" name="VersionMismatchWarning" type="medicinecard20150101:VersionMismatchWarningType" />
+    </sequence>
+  </complexType>
+</schema>

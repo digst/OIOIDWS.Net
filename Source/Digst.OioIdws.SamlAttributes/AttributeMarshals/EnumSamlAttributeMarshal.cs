@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using Digst.OioIdws.Common.Attributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// Describes an attribute based on a .NET enum type.
+    /// Describes how to encode .NET enum type as a SAML attribute.
     ///
     /// The values of the enum type must be specified with  a <see cref="SamlAttributeValueAttribute"/>
     /// metadata attribute to define the string representation within the AttributeValue element.

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="CountryIdentificationCode" type="medicinecard20150101:CountryIdentificationCodeType" />
+  <complexType name="CountryIdentificationCodeType">
+    <annotation>
+      <documentation xml:lang="en-uk">The country code based on the 4 diffent schemes.</documentation>
+      <documentation xml:lang="da-dk">Landeidentifikations kode baseret på de 4 forskellige formater.</documentation>
+    </annotation>
+    <simpleContent>
+      <extension base="medicinecard20150101:_CountryIdentificationCodeType">
+        <attribute name="scheme" type="medicinecard20150101:_CountryIdentificationSchemeType" use="required" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="_CountryIdentificationCodeType">
+    <annotation>
+      <documentation xml:lang="en-uk">This is a support type for CountryIdentificationCodeType. The pattern is a choice of 4 different patterns for different schems. ISO 3166 standard, alpha 2: [a-z,A-Z]{2}. Eksample "DK" for Danmark. ISO 3166 standard, alpha 3: [a-z,A-Z]{3}. Eksample "DKN" for Danmark. UN Statistics Divisions country codes: [0-9]{3}. Eksample "208" for Danmark AuthorityCode from the Central Office of Civil Registration: [0-9]{4}. Eksample "5100" for Danmark.</documentation>
+      <documentation xml:lang="da-dk">Dette er en støttetype til CountryIdentificationCodeType. Det regulære udtryk er et valg for de 4 forskellige regulære udtryk for de forskellige formater. ISO 3166 standard, alpha 2: [a-z,A-Z]{2}. Eksempel "DK" for Danmark. ISO 3166 standard, alpha 3:  [a-z,A-Z]{3}. Eksempel "DKN" for Danmark. UN Statistics Divisions country codes: [0-9]{3}. Eksempel "208" for Danmark AuthorityCode from the Central Office of Civil Registration: [0-9]{4}. Eksempel "5100" for Danmark.</documentation>
+    </annotation>
+    <restriction base="string">
+      <pattern value="[a-z,A-Z]{2}|[a-z,A-Z]{3}|[0-9]{3}|[0-9]{4}" />
+    </restriction>
+  </simpleType>
+  <simpleType name="_CountryIdentificationSchemeType">
+    <annotation>
+      <documentation xml:lang="en-uk">This is a support type for CountryIdentificationCodeType.</documentation>
+      <documentation xml:lang="da-dk">Dette er en støttetype til CountryIdentificationCodeType.</documentation>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="iso3166-alpha2">
+        <annotation>
+          <documentation xml:lang="en-uk">This scheme follows the ISO 3166 standard, alpha 2.</documentation>
+          <documentation xml:lang="da-dk">Dette format følge ISO 3166 standarden, alpha 2.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="iso3166-alpha3">
+        <annotation>
+          <documentation xml:lang="en-uk">This scheme follows the ISO 3166 standard, alpha 3.</documentation>
+          <documentation xml:lang="da-dk">Dette format følge ISO 3166 standarden, alpha 3.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="un-numeric3">
+        <annotation>
+          <documentation xml:lang="en-uk">This scheme follows the UN Statistics Divisions country codes.</documentation>
+          <documentation xml:lang="da-dk">Dette format følger FNs Statistik Kontor landekoder</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="imk">
+        <annotation>
+          <documentation xml:lang="en-uk">This scheme follows the AuthorityCode from the Central Office of Civil Registration.</documentation>
+          <documentation xml:lang="da-dk">Dette format følger MyndighedsKoden fra Det Centrale Personregister</documentation>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+</schema>

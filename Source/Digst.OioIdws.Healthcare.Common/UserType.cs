@@ -1,5 +1,6 @@
 ﻿
-using Digst.OioIdws.Common.Attributes;
+
+using Digst.OioIdws.SamlAttributes;
 
 namespace Digst.OioIdws.Healthcare.Common
 {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DeliveryPriority" type="medicinecard20150101:DeliveryPriorityType">
+    <annotation>
+      <documentation xml:lang="en-GB">Priority for the pharmacy's delivery of the drug</documentation>
+      <documentation xml:lang="da-DK">Prioritet for apotekets levering af lægemidlet</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DeliveryPriorityType">
+    <restriction base="string">
+      <enumeration value="send til anden adresse samme dag" />
+      <enumeration value="send til anden adresse pr post" />
+      <enumeration value="send til patientadresse samme dag" />
+      <enumeration value="send til patientadresse pr post" />
+    </restriction>
+  </simpleType>
+</schema>

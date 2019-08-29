@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <attribute name="SourceDate" type="medicinecard20150101:SourceDateType">
+    <annotation>
+      <documentation xml:lang="en-GB">Date the source is defined for</documentation>
+      <documentation xml:lang="da-DK">Datoen kilden er defineret for</documentation>
+    </annotation>
+  </attribute>
+  <simpleType name="SourceDateType">
+    <restriction base="string">
+      <pattern value="[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]" />
+    </restriction>
+  </simpleType>
+</schema>

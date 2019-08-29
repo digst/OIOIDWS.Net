@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Digst.OioIdws.SamlAttributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
 
 namespace Digst.OioIdws.TestDoubles.Test

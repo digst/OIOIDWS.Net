@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="ReiterationIntervalUnit" type="medicinecard20150101:ReiterationIntervalUnitType">
+    <annotation>
+      <documentation xml:lang="en-GB">Unit for re-iteration interval</documentation>
+      <documentation xml:lang="da-DK">Enhed for reiterationsinterval</documentation>
+    </annotation>
+  </element>
+  <simpleType name="ReiterationIntervalUnitType">
+    <restriction base="string">
+      <enumeration value="dage" />
+      <enumeration value="uger" />
+      <enumeration value="måneder" />
+    </restriction>
+  </simpleType>
+</schema>

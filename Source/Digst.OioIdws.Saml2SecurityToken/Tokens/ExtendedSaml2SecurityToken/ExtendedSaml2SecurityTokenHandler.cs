@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.ServiceModel.Security;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Digst.OioIdws.Common.Logging;
 using Digst.OioIdws.Common.XmlSerialization;
 using static Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken.Saml2Constants.Namespaces;
 using static Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken.Saml2Constants.ElementNames;
@@ -18,7 +20,9 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
     public class ExtendedSaml2SecurityTokenHandler : Saml2SecurityTokenHandler
     {
 
-        private static readonly XNamespace wsse = XNamespace.Get("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+        private static readonly XNamespace wsse =
+            XNamespace.Get("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+
         private static readonly XName SecurityTokenReference = wsse + "SecurityTokenReference";
         private static readonly XName Reference = wsse + "Reference";
         private static readonly XName KeyIdentifier = wsse + "KeyIdentifier";
@@ -27,7 +31,8 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
         {
         }
 
-        public ExtendedSaml2SecurityTokenHandler(SamlSecurityTokenRequirement samlSecurityTokenRequirement) : base(samlSecurityTokenRequirement)
+        public ExtendedSaml2SecurityTokenHandler(SamlSecurityTokenRequirement samlSecurityTokenRequirement) : base(
+            samlSecurityTokenRequirement)
         {
         }
 
@@ -50,7 +55,8 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
             var xsi = writer.LookupPrefix("http://www.w3.org/2001/XMLSchema-instance");
             if (xsi == null)
             {
-                writer.WriteAttributeString("xsi", XNamespace.Xmlns.NamespaceName, "http://www.w3.org/2001/XMLSchema-instance");
+                writer.WriteAttributeString("xsi", XNamespace.Xmlns.NamespaceName,
+                    "http://www.w3.org/2001/XMLSchema-instance");
                 xsi = "xsi";
             }
 
@@ -136,7 +142,7 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
         {
             var sb = new StringBuilder();
 
-            var xw = XmlWriter.Create(sb, new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true });
+            var xw = XmlWriter.Create(sb, new XmlWriterSettings() {Encoding = Encoding.UTF8, Indent = true});
 
             WriteToken(xw, token);
 
@@ -158,13 +164,15 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
             {
                 list.Add(ReadComplexAttributeValue(reader));
             }
+
             return list;
         }
 
 
         protected virtual ComplexSamlAttributeValue ReadComplexAttributeValue(XmlReader reader)
         {
-            if (!reader.IsStartElement(AttributeValueXName)) throw new InvalidOperationException("The current element is not an AttributeValue element.");
+            if (!reader.IsStartElement(AttributeValueXName))
+                throw new InvalidOperationException("The current element is not an AttributeValue element.");
 
             var xsiTypeAttribute = reader.GetAttribute(Saml2Constants.Namespaces.xsi + "type");
             XElement attributeValueElement = (XElement) XNode.ReadFrom(reader);
@@ -175,11 +183,11 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
                 var split = xsiTypeAttribute.Split(new char[] {':'}, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1)
                 {
-                    xsiType = XName.Get(split[1],split[0]);
+                    xsiType = XName.Get(split[1], split[0]);
                 }
                 else
                 {
-                    xsiType = XName.Get(split[0], reader.LookupNamespace(string.Empty)??"");
+                    xsiType = XName.Get(split[0], reader.LookupNamespace(string.Empty) ?? "");
                 }
             }
             else
@@ -205,6 +213,7 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
             {
                 return ReadComplexAttributeStatement(reader);
             }
+
             return base.ReadStatement(reader);
         }
 
@@ -235,6 +244,7 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
                 list.Add(ReadComplexAttribute(reader));
                 reader.MoveToContent();
             }
+
             return list;
         }
 
@@ -274,5 +284,144 @@ namespace Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken
 
             return new LocalIdKeyIdentifierClause(referencedId);
         }
+
+
+
+        /// <summary>
+        ///     Writes a SecurityTokenReference element. This handler is only required when the
+        ///     <see cref="CustomizedIssuedSecurityTokenParameters" /> is used.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="securityKeyIdentifierClause"></param>
+        public override void WriteKeyIdentifierClause(XmlWriter writer,
+            SecurityKeyIdentifierClause securityKeyIdentifierClause)
+        {
+            Logger.Instance.Trace("Writing STR");
+            if (writer == null)
+            {
+                throw new ArgumentNullException("writer");
+            }
+
+            if (securityKeyIdentifierClause == null)
+            {
+                throw new ArgumentNullException("securityKeyIdentifierClause");
+            }
+
+
+            const string strPrefix = "_str";
+            if (!securityKeyIdentifierClause.Id.StartsWith(strPrefix))
+            {
+                Logger.Instance.Trace($"Writing normal WCF STR because ID was not prefixed with '{strPrefix}'. ID was '{securityKeyIdentifierClause.Id}'.");
+                base.WriteKeyIdentifierClause(writer, securityKeyIdentifierClause);
+                return;
+            }
+
+            Logger.Instance.Trace($"Writing custom STR because ID was prefixed with '{strPrefix}'. ID was '{securityKeyIdentifierClause.Id}'.");
+
+            var samlClause = (Saml2AssertionKeyIdentifierClause) securityKeyIdentifierClause;
+
+            // <wsse:SecurityTokenReference>
+            writer.WriteStartElement("SecurityTokenReference",
+                "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+
+            // @wsse11:TokenType
+            writer.WriteAttributeString("TokenType",
+                "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd",
+                "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0");
+
+            // <wsse:KeyIdentifier>
+            writer.WriteStartElement("KeyIdentifier",
+                "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+
+            // @ValueType
+            writer.WriteAttributeString("ValueType",
+                "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID");
+
+            // ID is the string content
+            writer.WriteString(samlClause.Id.Remove(0,strPrefix.Length));
+
+            // </wsse:KeyIdentifier>
+            writer.WriteEndElement();
+
+            // </wsse:SecurityTokenReference>
+            writer.WriteEndElement();
+        }
+
+
+
+        protected override void WriteSigningKeyInfo(XmlWriter writer, SecurityKeyIdentifier data)
+        {
+            base.WriteSigningKeyInfo(writer, data);
+        }
+
+        public override SecurityKeyIdentifierClause CreateSecurityTokenReference(SecurityToken token, bool attached)
+        {
+            return base.CreateSecurityTokenReference(token, attached);
+        }
+
+
+
+
+        protected override ClaimsIdentity CreateClaims(Saml2SecurityToken samlToken)
+        {
+            var baseIdentity = base.CreateClaims(samlToken);
+            var claims = baseIdentity.Claims.ToList();
+            var statements = samlToken.Assertion.Statements.OfType<Saml2AttributeStatement>();
+            foreach (var statement in statements)
+            {
+                if (statement is Saml2ComplexAttributeStatement complex)
+                {
+                    foreach (var attribute in complex.Attributes)
+                    {
+                        foreach (var value in attribute.Values)
+                        {
+                            if (value.AttributeValueElement.HasElements)
+                            {
+                                // complex value
+                                using (var mem = new MemoryStream())
+                                {
+                                    var xw = XmlWriter.Create(mem,
+                                        new XmlWriterSettings()
+                                        {
+                                            Encoding = Encoding.UTF8,
+                                            OmitXmlDeclaration = true,
+                                            Indent = false,
+                                        });
+                                    value.AttributeValueElement.Elements().Single().WriteTo(xw);
+                                    xw.Flush();
+                                    mem.Seek(0, SeekOrigin.Begin);
+                                    var tr = new StreamReader(mem, Encoding.UTF8);
+                                    var stringValue = tr.ReadToEnd();
+                                    claims.Add(new Claim(attribute.Name, stringValue, null,
+                                        samlToken.Assertion.Issuer.Value, attribute.OriginalIssuer));
+                                }
+                            }
+                            else
+                            {
+                                // simple value
+                                claims.Add(new Claim(attribute.Name, value.AttributeValueElement.Value, null,
+                                    samlToken.Assertion.Issuer.Value, attribute.OriginalIssuer));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var attribute in statement.Attributes)
+                    {
+                        foreach (var stringValue in attribute.Values)
+                        {
+                            claims.Add(new Claim(attribute.Name, stringValue, null, samlToken.Assertion.Issuer.Value,
+                                attribute.OriginalIssuer));
+                        }
+                    }
+                }
+            }
+
+            return new ClaimsIdentity(claims);
+        }
     }
+
+
+
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DosageCode.xsd" />
+  <include schemaLocation="DosageText.xsd" />
+  <include schemaLocation="PackageNumber.xsd" />
+  <include schemaLocation="PackageSizeText.xsd" />
+  <include schemaLocation="PackageQuantity.xsd" />
+  <element name="SinglePrescriptionDispensing" type="medicinecard20150101:SinglePrescriptionDispensingType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information dispensing the package once</documentation>
+      <documentation xml:lang="da-DK">Information til en enkelt udlevering</documentation>
+    </annotation>
+  </element>
+  <complexType name="SinglePrescriptionDispensingType">
+    <sequence>
+      <element name="PackageNumber" type="medicinecard20150101:PackageNumberType" />
+      <element minOccurs="0" name="FreeTradePackageSizeText" type="medicinecard20150101:PackageSizeTextType" />
+      <element name="PackageQuantity" type="medicinecard20150101:PackageQuantityType" />
+      <element minOccurs="0" name="DosageCode" type="medicinecard20150101:DosageCodeType" />
+      <element name="DosageText" type="medicinecard20150101:DosageTextType" />
+    </sequence>
+  </complexType>
+</schema>

@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Digst.OioIdws.Common.Utils;
 using Digst.OioIdws.SamlAttributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.TestDoubles

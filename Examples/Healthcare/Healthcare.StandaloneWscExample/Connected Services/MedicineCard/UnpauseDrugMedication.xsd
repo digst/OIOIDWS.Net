@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <element name="UnpauseDrugMedication" type="medicinecard20150101:UnpauseDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for a request to remove a pause on a drugmedication</documentation>
+      <documentation xml:lang="da-DK">Element for en forespørgsel der fjerner pausering af en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="UnpauseDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+    </sequence>
+  </complexType>
+</schema>

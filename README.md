@@ -7,21 +7,21 @@ README
 
 IDWS is short for **Id**entity based **W**eb **S**ervices. 
 
+To access an identity based web service, you must present a security token which not only proves that you have legitimate access, but also proves who (the identity) 
+you are acting as / acting on behalf of.
 
-To access an identity based web service, you must to present a security token which not only proves that you have legitimate access, but also proves who (the identity) 
-you are acting as / on behalf of.
-
-`OIOIDWS.Net` is a `.Net`-based reference implementation of the `OIOIDWS 1.0.1a` profile.
-
+`OIOIDWS.Net` is a `.Net`-based reference implementation of the `OIOIDWS 1.0.1a` profile. It helps you create clients or servers that adhere to this profile.
 
 # Getting started with OIOIDWS.Net
 
-For a quick *getting started* guide see [Getting started] below
+If you are going to implement a client or server application that need to communicate using OIOIDWS tokens, you should use the published `Nuget` packages
+
+For developers who want to build the assemblies from source, modify or fork the libraray, see the quick *getting started* guide [Getting started] below
 
 ## Terminology
 
 The `OIOIDWS.Net` components can be used by service providers to act as a Web Service Consumer (`WSC`) or Web Service 
-Producer (`WSP`), using the `SOAP` or `REST` standards.
+Producer (`WSP`), using `SOAP` or `REST` communication protocols.
 
 The components have been extended to support healthcare identity based web services.
 
@@ -45,11 +45,21 @@ This is the codebase that the `OIOIDWS.Net` components are built from.
   
 * **Examples**: Contains examples that illustrates how to use `OIOIDWS.Net`.
 
-  * **OIO**: Contains examples on how to use the base OIO IDWS functionality in a number of scenarios.
+  * **SOAP**: Contains examples on how to use the base OIO IDWS functionality in a number of SOAP based scenarios.
+    Please refer to the section [OIO Examples](#oio-examples) below for a description of the individual examples.
+  
+  * **REST**: Contains examples on how to use the base OIO IDWS functionality in a number of REST based scenarios.
     Please refer to the section [OIO Examples](#oio-examples) below for a description of the individual examples.
   
   * **Healthcare**: Contains examples on how to use the components when implementing web services that are 
     both OIO and XUA compliant. Please refer to the section [Healthcare Examples](#healthcare-examples) below for a description of the individual examples.
+
+  * **Java** contains Java based examples. The purpose of these is to act as Java based counterparts to .NET based examples.
+
+  * **Nuget** contains the same .NET examples as the Examples folder itself, but based on the published Nuget packages rather than assemblies compiled from the Source folder.
+
+  * **Healthcare** contains .NET examples that illustrate use of the extensions for the healthcare domain. The healthcare domain make use of tokens - specifically unencrypted tokens - that are not part of OIOIDWS proper.
+
 
 * **Misc**: Contains miscellaneous stuff
   
@@ -113,17 +123,14 @@ and federating with example healthcare Idp and STS.
 
 Test NemLog-in IdP and -STS services are publicly available.
 
-There is no publicly available running IdP or STS for healthcare test services. However, docker containers implementing example healthcare IdP and healthcare STS are publicly available. You will need to be running these containers for the healthcare examples to work.
+The healthcare examples are pre-configured to run against publicly available test Identity Provider (IdP) and Security Token Service (STS). Thus,
+internet connection is required for the examples to run.
 
 _The full documentation of `OIOIDWS.Net` is a combination of the various readme files, `API` documentation and the examples provided._
 
 For a quick setup, you must do the following:
 
-### 1. Install Docker (optional, relevant required for the healthcare-related examples)
-
-* Make sure that Docker is installed. Docker is used to run a local Security Token Service (STS) and a local Identity provider (IdP) used for the healthcare related examples. The healthcare examples do not use NemLog-in Idp or nemLog-in STS. The Docker-based STS and IdP simulates
-
-### 2. Certificates. 
+### Install certificates. 
 * Run the script `Setup\setup_prerequisites.ps1` from an elevated `PowerShell`. This installs all required certificates and performs `sslcert` bindings to be able to host local websites using `HTTPS`.
 * Open the solution `Digst.OioIdws.sln` in `Visual Studio 2017 (Elevated mode)` and build it (if you get errors on external dependencies, ensure `NuGet` packages are being restored).
 * The external `IP` address must be white listed at `NETS` in order to be able to make revocation check of the test `FOCES` certificates.

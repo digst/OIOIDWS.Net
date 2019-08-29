@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="SystemName.xsd" />
+  <include schemaLocation="ServiceName.xsd" />
+  <element name="Timing" type="medicinecard20150101:TimingType">
+    <annotation>
+      <documentation xml:lang="en-GB">Structure to keep track of the time consumed between request and response for a web service call</documentation>
+      <documentation xml:lang="da-DK">En structur til at spore tidsforbruget mellem request og response på et webservice-kald</documentation>
+    </annotation>
+  </element>
+  <complexType name="TimingType">
+    <sequence>
+      <element name="SystemName" type="medicinecard20150101:SystemNameType" />
+      <element name="ServiceName" type="medicinecard20150101:ServiceNameType" />
+      <element name="TimeInMilliseconds" type="int" />
+    </sequence>
+  </complexType>
+</schema>

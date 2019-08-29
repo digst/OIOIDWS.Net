@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DosageIsNotIterated" type="medicinecard20150101:DosageIsNotIteratedType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indicates that the dosage is not iterated, e.g. a one time dose or a schema for a fixed number of days, which is not repeated</documentation>
+      <documentation xml:lang="da-DK">Angiver at doseringen ikke er itereret, f.eks. en engangsdosis eller et skema for et fast antal dage, der ikke gentages</documentation>
+    </annotation>
+  </element>
+  <complexType name="DosageIsNotIteratedType" />
+</schema>

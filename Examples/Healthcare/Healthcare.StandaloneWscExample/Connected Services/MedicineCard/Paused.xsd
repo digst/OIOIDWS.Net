@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="PausedFromDate.xsd" />
+  <include schemaLocation="PausedFromDateTime.xsd" />
+  <include schemaLocation="PausedToDate.xsd" />
+  <include schemaLocation="PausedToDateTime.xsd" />
+  <element name="Paused" type="medicinecard20150101:PausedType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element containing information about which organisation and possibly doctor who paused the document this element is in (e.g. drug prescription) as well as the date it ocurred.</documentation>
+      <documentation xml:lang="da-DK">Element der indeholder information omkring hvilken organisation og muligvis læge som har pauseret dokumentet elementet befinder sig i (f.eks. lægemiddelordination), desuden datoen dette er sket.</documentation>
+    </annotation>
+  </element>
+  <complexType name="PausedType">
+    <sequence>
+      <choice minOccurs="0">
+        <element name="FromDate" type="medicinecard20150101:PausedFromDateType" />
+        <element name="FromDateTime" type="medicinecard20150101:PausedFromDateTimeType" />
+      </choice>
+      <choice minOccurs="0">
+        <element name="ToDate" type="medicinecard20150101:PausedToDateType" />
+        <element name="ToDateTime" type="medicinecard20150101:PausedToDateTimeType" />
+      </choice>
+      <element name="By" type="medicinecard20150101:ModificatorType" />
+      <element name="DateTime" type="dateTime" />
+    </sequence>
+  </complexType>
+</schema>

@@ -13,6 +13,7 @@ namespace Digst.OioIdws.Healthcare.Common
     [XmlRoot("id", Namespace = "urn:hl7-org:v3")]
     public class SubjectProviderIdentifier : IXmlSerializable
     {
+
         protected SubjectProviderIdentifier()
         {
         }

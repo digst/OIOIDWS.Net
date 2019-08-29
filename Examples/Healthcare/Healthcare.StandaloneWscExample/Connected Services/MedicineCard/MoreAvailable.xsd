@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="MoreAvailable" type="medicinecard20150101:MoreAvailableType">
+    <annotation>
+      <documentation xml:lang="en-GB">A warning of that the resultset has been limited. There are more documents on the server which satisfies the search criteria.</documentation>
+      <documentation xml:lang="da-DK">En advarsel om at reslutatet er begrænset, der findes flere dokumenter på serveren der opfylder søgekriterierne.</documentation>
+    </annotation>
+  </element>
+  <complexType name="MoreAvailableType" />
+</schema>

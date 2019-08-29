@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="PackageSizeValue" type="medicinecard20150101:PackageSizeValueType">
+    <annotation>
+      <documentation xml:lang="en-GB">Package strength, numerical value (LMS02 field 7)</documentation>
+      <documentation xml:lang="da-DK">Pakningsstørrelse, numerisk værdi (LMS02 felt 7)</documentation>
+    </annotation>
+  </element>
+  <simpleType name="PackageSizeValueType">
+    <restriction base="decimal">
+      <fractionDigits value="2" />
+      <totalDigits value="10" />
+      <minInclusive value="0.00" />
+    </restriction>
+  </simpleType>
+</schema>

@@ -5,7 +5,8 @@ using System.Xml.Linq;
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// An marshal for a string valued attribute which must be Base64 encoded within the {AttributeValue} SAML element
+    /// An marshal for a string valued attribute which is Base64 encoded within the {AttributeValue} SAML element.
+    /// By Base64 encoding a string value, the SAML value will not contain any "special" characters that would need further XML escaping.
     /// </summary>
     public class StringBase64SamlAttributeMarshal : EncodedStringSamlAttributeMarshal<string>
     {

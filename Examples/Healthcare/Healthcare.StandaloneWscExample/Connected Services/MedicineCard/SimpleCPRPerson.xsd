@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="PersonName.xsd" />
+  <include schemaLocation="PersonNameProtected.xsd" />
+  <element name="SimpleCPRPerson" type="medicinecard20150101:SimpleCPRPersonType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information about a person with known CPR</documentation>
+      <documentation xml:lang="da-DK">Oplysninger om en person med kendt CPR</documentation>
+    </annotation>
+  </element>
+  <complexType name="SimpleCPRPersonType">
+    <sequence>
+      <choice minOccurs="0">
+        <element name="Name" type="medicinecard20150101:PersonNameType" />
+        <element name="NameProtected" type="medicinecard20150101:PersonNameProtectedType" />
+      </choice>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+    </sequence>
+  </complexType>
+</schema>

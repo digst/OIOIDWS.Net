@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DoseQuantity" type="medicinecard20150101:DoseQuantityType">
+    <annotation>
+      <documentation xml:lang="en-GB">Dosage quantity, numerical value (DMA01 field 11)</documentation>
+      <documentation xml:lang="da-DK">Medicinmængde, numerisk værdi (LMS01 felt 11)</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DoseQuantityType">
+    <restriction base="decimal">
+      <minInclusive value="0" />
+      <maxInclusive value="999999999.999999999" />
+      <fractionDigits value="9" />
+      <totalDigits value="18" />
+    </restriction>
+  </simpleType>
+</schema>

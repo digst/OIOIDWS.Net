@@ -60,8 +60,8 @@ namespace Digst.OioIdws.Soap.Basic.Test
                 false /* Allow Remote */
             );
 
-            // Start WSP
-            _process = Process.Start(@"..\..\..\..\Examples\Digst.OioIdws.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
+            // Start WSP 
+            _process = Process.Start(@"..\..\..\..\Examples\Soap\Soap.WspExample\bin\Debug\Digst.OioIdws.WspExample.exe");
 
             // Retrieve token
             ITokenCache memoryCache = new MemoryTokenCache();

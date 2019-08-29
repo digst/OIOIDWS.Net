@@ -29,7 +29,7 @@ namespace Digst.OioIdws.Healthcare.Common
         /// <summary>
         /// Used as a declaration for having the patient in care by an initiating actor, that the consumer of the assertion MAY trust
         /// </summary>
-        public static EvidenceForPatientInCare PatientInCare = new EvidenceForPatientInCare("urn:dk:healthcare:local:patient_in_care ");
+        public static EvidenceForPatientInCare PatientInCare = new EvidenceForPatientInCare("urn:dk:healthcare:local:patient_in_care");
 
         /// <summary>
         /// Used to express the A++ degree of evidence verified against the Danish Evidence for Patient in Care Service (‘Behandlingsrelationsservice’)

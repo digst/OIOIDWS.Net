@@ -7,6 +7,7 @@ using System.ServiceModel.Security;
 using System.Xml;
 using Digst.OioIdws.Common.Constants;
 using Digst.OioIdws.Common.Logging;
+using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 //using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Digst.OioIdws.Soap.MessageInspectors;
 using Digst.OioIdws.Soap.StrCustomization;
@@ -40,7 +41,7 @@ namespace Digst.OioIdws.Soap.Behaviors
                 SecurityTokenHandlerCollectionManager.Usage.Default];
             // This is done in order to have correct STR's (Security Token Reference)
             //            securityTokenHandlerCollectionManager.AddOrReplace(new ExtendedSaml2SecurityTokenHandler());
-            securityTokenHandlerCollectionManager.AddOrReplace(new StrReferenceSaml2SecurityTokenHandler());
+            securityTokenHandlerCollectionManager.AddOrReplace(new ExtendedSaml2SecurityTokenHandler());
         }
 
         public static MessagePartSpecification MessagePartSpecificationWsc()

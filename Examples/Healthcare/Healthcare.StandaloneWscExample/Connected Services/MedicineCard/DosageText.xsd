@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DosageText" type="medicinecard20150101:DosageTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Dosage text, limited to fit on the XML prescription</documentation>
+      <documentation xml:lang="da-DK">Doseringstekst, begrænset til at kunne være på XML recepten</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DosageTextType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="70" />
+    </restriction>
+  </simpleType>
+</schema>

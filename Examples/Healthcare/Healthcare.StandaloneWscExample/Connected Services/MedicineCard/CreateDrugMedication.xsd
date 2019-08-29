@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="CreateEffectuation.xsd" />
+  <include schemaLocation="CreatePrescriptionMedication.xsd" />
+  <include schemaLocation="DosageForRequest.xsd" />
+  <include schemaLocation="FollowUpDates.xsd" />
+  <include schemaLocation="Drug.xsd" />
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="CreateOrUpdateDrugMedicationBeginEndDate.xsd" />
+  <include schemaLocation="HasNegativeConsent.xsd" />
+  <include schemaLocation="Indication.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <include schemaLocation="Pause.xsd" />
+  <include schemaLocation="PrescriptionMedicationIdentifier.xsd" />
+  <include schemaLocation="RouteOfAdministration.xsd" />
+  <include schemaLocation="SubstitutionAllowed.xsd" />
+  <include schemaLocation="ReimbursementClause.xsd" />
+  <element name="CreateDrugMedication" type="medicinecard20150101:CreateDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Instructions of which drug to use, how much to give (drug dosage), for how long (startdate and enddate), how to administrate it and motivation (indication)</documentation>
+      <documentation xml:lang="da-DK">Anvisning af hvilken medicin der skal anvendes (lægemiddel) hvor meget der skal gives (lægemiddeldosering), hvor længe (startdato og slutdato), hvordan den skal tilføres (administrationsvej) og hvorfor (indikation)</documentation>
+    </annotation>
+  </element>
+  <complexType name="CreateDrugMedicationType">
+    <sequence>
+      <element minOccurs="0" name="ParentIdentifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" name="CreatedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+      <element minOccurs="0" name="FollowUpDates" type="medicinecard20150101:FollowUpDatesType" />
+      <element minOccurs="0" name="Pause" type="medicinecard20150101:PauseType" />
+      <element minOccurs="0" name="HasNegativeConsent" type="medicinecard20150101:HasNegativeConsentType" />
+      <element name="BeginEndDate" type="medicinecard20150101:CreateOrUpdateDrugMedicationBeginEndDateType" />
+      <element name="Indication" type="medicinecard20150101:IndicationType" />
+      <element name="RouteOfAdministration" type="medicinecard20150101:RouteOfAdministrationType" />
+      <element name="Drug" type="medicinecard20150101:DrugType" />
+      <element name="Dosage" type="medicinecard20150101:DosageForRequestType" />
+      <element name="SubstitutionAllowed" type="medicinecard20150101:SubstitutionAllowedType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="Effectuation" type="medicinecard20150101:CreateEffectuationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="CreatePrescriptionMedication" type="medicinecard20150101:CreatePrescriptionMedicationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="AttachPrescriptionMedication" type="medicinecard20150101:PrescriptionMedicationIdentifierType" />
+      <element minOccurs="0" name="ReimbursementClause" type="medicinecard20150101:ReimbursementClauseType" />
+    </sequence>
+  </complexType>
+</schema>

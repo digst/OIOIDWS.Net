@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="Effectuation.xsd" />
+  <include schemaLocation="InvalidEffectuation.xsd" />
+  <include schemaLocation="EffectuationsOnPrescriptionMedication.xsd" />
+  <element name="EffectuationsOnDrugMedication" type="medicinecard20150101:EffectuationsOnDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Grouping effectuations on a drug medication</documentation>
+      <documentation xml:lang="da-DK">Grupperer effektueringer på en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="EffectuationsOnDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="Effectuation" type="medicinecard20150101:EffectuationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="InvalidEffectuation" type="medicinecard20150101:InvalidEffectuationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="PrescriptionMedication" type="medicinecard20150101:EffectuationsOnPrescriptionMedicationType" />
+    </sequence>
+  </complexType>
+</schema>

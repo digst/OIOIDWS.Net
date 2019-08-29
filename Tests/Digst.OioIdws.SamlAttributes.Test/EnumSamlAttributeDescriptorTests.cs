@@ -1,6 +1,9 @@
 ﻿using System;
-using Digst.OioIdws.Common.Attributes;
+using System.Linq;
+using System.Xml.Linq;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
+using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Digst.OioIdws.SamlAttributes.Test
@@ -8,28 +11,53 @@ namespace Digst.OioIdws.SamlAttributes.Test
     [TestClass]
     public class EnumSamlAttributeDescriptorTests
     {
+
+        private const string ThreeIsACrowd = "Three's a crowd";
+        private const string TwoIsAPair = "Two's a pair";
+
+
         private enum MyEnum
         {
             [SamlAttributeValue("1")]
             Value1,
 
-            [SamlAttributeValue("2")]
+            [SamlAttributeValue(TwoIsAPair)]
             Value2,
+
+            [SamlAttributeValue(ThreeIsACrowd)]
+            Value3,
         }
 
+
         [TestMethod]
-        public void CanSerializeAndDeserialize()
+        public void CanSerializeAnEnum()
         {
             // Arrange
-            var mgr = new InMemoryAttributeAdapter();
+            var attributeAdapter = new InMemoryAttributeAdapter();
             var descriptorUnderTest = new EnumSamlAttributeMarshal<MyEnum>("urn:my-enum");
 
             // Act
-            mgr.SetValue(descriptorUnderTest, MyEnum.Value2);
-            var deserializedValue = mgr.GetValue(descriptorUnderTest);
+            attributeAdapter.SetValue(descriptorUnderTest, MyEnum.Value2);
+            var serializedValue = attributeAdapter.GetAttributeValues("urn:my-enum").Single().AttributeValueElement.Value;
 
             // Assert
-            Assert.AreEqual(MyEnum.Value2, deserializedValue);
+            Assert.AreEqual(TwoIsAPair, serializedValue);
+        }
+
+
+        [TestMethod]
+        public void CanDeserializeAnEnum()
+        {
+            // Arrange
+            var attributeAdapter = new InMemoryAttributeAdapter();
+            var descriptorUnderTest = new EnumSamlAttributeMarshal<MyEnum>("urn:my-enum");
+
+            // Act
+            attributeAdapter.SetAttributeValues("urn:my-enum", null, null, new []{new ComplexSamlAttributeValue(new XText(ThreeIsACrowd)) }, null);
+            var deserializedValue = attributeAdapter.GetValue(descriptorUnderTest);
+
+            // Assert
+            Assert.AreEqual(MyEnum.Value3, deserializedValue);
         }
 
     }

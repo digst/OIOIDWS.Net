@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DrugFormText" type="medicinecard20150101:DrugFormTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Dosage form, originating from LMS22 felt 2 or from LMS01 field 7</documentation>
+      <documentation xml:lang="da-DK">Lægemiddelform, enten fra LMS22 felt 2 (lægemiddelform betegnelser) eller fra LMS01 felt 7</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DrugFormTextType">
+    <restriction base="string">
+      <maxLength value="100" />
+    </restriction>
+  </simpleType>
+</schema>

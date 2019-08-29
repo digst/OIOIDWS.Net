@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="IncludePrescriptionMedications" type="medicinecard20150101:IncludePrescriptionMedicationsType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indicates if the medicine card or the drug medication is to be returned with prescription medications</documentation>
+      <documentation xml:lang="da-DK">Angiver hvorvidt medicinkortet eller lægemiddelordinationen skal returneres med receptordinationer.</documentation>
+    </annotation>
+  </element>
+  <simpleType name="IncludePrescriptionMedicationsType">
+    <restriction base="boolean" />
+  </simpleType>
+</schema>

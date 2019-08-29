@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="PrescriptionMedicationIdentifier.xsd" />
+  <include schemaLocation="IncludeEffectuations.xsd" />
+  <element name="GetPrescriptionMedicationRequest" type="medicinecard20150101:GetPrescriptionMedicationRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for a request for a prescription medication</documentation>
+      <documentation xml:lang="da-DK">Element for en forespørgsel efter en receptordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="GetPrescriptionMedicationRequestType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element maxOccurs="unbounded" name="Identifier" type="medicinecard20150101:PrescriptionMedicationIdentifierType" />
+      <element name="IncludeEffectuations" type="medicinecard20150101:IncludeEffectuationsType" />
+    </sequence>
+  </complexType>
+</schema>

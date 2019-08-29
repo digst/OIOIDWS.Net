@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:ean="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <import schemaLocation="../../../oio/ean/2005/01/10/EAN_EANLocationIdentifier.xsd" namespace="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" />
+  <element name="ReceiverEAN" type="medicinecard20150101:ReceiverEANType">
+    <annotation>
+      <documentation xml:lang="en-GB">Receiver EAN number</documentation>
+      <documentation xml:lang="da-DK">Modtagerens EAN nummer</documentation>
+    </annotation>
+  </element>
+  <complexType name="ReceiverEANType">
+    <sequence>
+      <element name="ReceiverEAN" type="ean:EAN13IdentifierType" />
+    </sequence>
+  </complexType>
+</schema>

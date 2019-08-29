@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="DosageQuantityUnitTexts" type="medicinecard20150101:DosageQuantityUnitTextsType">
+    <annotation>
+      <documentation xml:lang="en-GB">Unit for dosage quantity, singular and plural</documentation>
+      <documentation xml:lang="da-DK">Enhed for dosismængde, ental og flertal</documentation>
+    </annotation>
+  </element>
+  <complexType name="DosageQuantityUnitTextsType">
+    <sequence>
+      <element name="Singular" type="medicinecard20150101:DosageQuantityUnitTextsValueType" />
+      <element name="Plural" type="medicinecard20150101:DosageQuantityUnitTextsValueType" />
+    </sequence>
+    <attribute name="source" type="medicinecard20150101:DosageQuantityUnitTextsSourceType" use="required" />
+    <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+    <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+  </complexType>
+  <simpleType name="DosageQuantityUnitTextsValueType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="50" />
+    </restriction>
+  </simpleType>
+  <simpleType name="DosageQuantityUnitTextsSourceType">
+    <union memberTypes="medicinecard20150101:DosageQuantityUnitTextsPredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="DosageQuantityUnitTextsPredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+      <enumeration value="Doseringsforslag" />
+      <enumeration value="Local" />
+    </restriction>
+  </simpleType>
+</schema>

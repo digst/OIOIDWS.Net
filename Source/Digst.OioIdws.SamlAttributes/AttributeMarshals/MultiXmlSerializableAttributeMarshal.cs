@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
@@ -14,7 +17,7 @@ namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
     /// Describes a SAML attribute which has potentially multiple values, each an XML value serialized from/to a .NET type using XML serialization. 
     /// </summary>
     /// <typeparam name="T">The .NET type. The type must support XML serialization</typeparam>
-    public class MultiXmlSerializableAttributeMarshal<T> : SamlAttributeMarshal<IEnumerable<T>>
+    public class MultiXmlSerializableAttributeMarshal<T> : SamlAttributeMarshal<IEnumerable<T>> where T:class
     {
         private readonly XmlSerializer _serializer;
 
@@ -47,10 +50,13 @@ namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
             var attributeValues = new List<ComplexSamlAttributeValue>();
             foreach (var value in values)
             {
-                var sw = new StringWriter();
-                var xw = XmlWriter.Create(sw, new XmlWriterSettings() { OmitXmlDeclaration = true });
-                _serializer.Serialize(sw, value);
-                var element = XElement.Parse(sw.ToString());
+                XElement element;
+                using (var mem = new MemoryStream())
+                {
+                    _serializer.Serialize(mem, value);
+                    mem.Seek(0, SeekOrigin.Begin);
+                    element = XElement.Load(mem);
+                }
                 attributeValues.Add(new ComplexSamlAttributeValue(element));
             }
             SetValues(attributeAdapter, attributeValues);

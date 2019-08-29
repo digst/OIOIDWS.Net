@@ -4,6 +4,7 @@ using System.Threading;
 using System.Xml.Linq;
 using Digst.OioIdws.Healthcare.Common;
 using Digst.OioIdws.Healthcare.SamlAttributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

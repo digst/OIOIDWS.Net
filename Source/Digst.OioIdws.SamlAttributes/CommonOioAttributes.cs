@@ -2,9 +2,8 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Xml.Linq;
-using Digst.OioIdws.Common.Attributes;
-using Digst.OioIdws.Common.Attributes.BasicPrivilegesModel2;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
+using Digst.OioIdws.SamlAttributes.BasicPrivilegesModel2;
 
 namespace Digst.OioIdws.SamlAttributes
 {
@@ -22,7 +21,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.4
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> SurName =
+        public static SamlAttributeMarshal<string> SurName { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.4", BasicNameFormat, XsString);
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.3
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> CommonName =
+        public static SamlAttributeMarshal<string> CommonName { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.3", BasicNameFormat, XsString);
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:0.9.2342.19200300.100.1.1
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> Uid =
+        public static SamlAttributeMarshal<string> Uid { get; } = 
             new StringSamlAttributeMarshal("urn:oid:0.9.2342.19200300.100.1.1", BasicNameFormat, XsString);
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:0.9.2342.19200300.100.1.3
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> Email =
+        public static SamlAttributeMarshal<string> Email { get; } = 
             new StringSamlAttributeMarshal("urn:oid:0.9.2342.19200300.100.1.3", BasicNameFormat, XsString);
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: dk:gov:saml:attribute:AssuranceLevel
         /// </summary>
-        public static readonly SamlAttributeMarshal<AssuranceLevel> AssuranceLevel =
+        public static SamlAttributeMarshal<AssuranceLevel> AssuranceLevel { get; } = 
             new EnumSamlAttributeMarshal<AssuranceLevel>("dk:gov:saml:attribute:AssuranceLevel", BasicNameFormat, XsString);
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: dk:gov:saml:attribute:SpecVer
         /// </summary>
-        public static readonly SamlAttributeMarshal<SpecVer> SpecVer =
+        public static SamlAttributeMarshal<SpecVer> SpecVer { get; } = 
             new MappingSamlAttributeMarshal<SpecVer>("dk:gov:saml:attribute:SpecVer", x => x.VersionIdentifier, s => new SpecVer(s), BasicNameFormat, XsString);
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: dk:gov:saml:attribute:CvrNumberIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> CvrNumberIdentifier =
+        public static SamlAttributeMarshal<string> CvrNumberIdentifier { get; } = 
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:CvrNumberIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: dk:gov:saml:attribute:UniqueAccountKey
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> UniqueAccountKey =
+        public static SamlAttributeMarshal<string> UniqueAccountKey { get; } = 
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:UniqueAccountKey", BasicNameFormat, XsString);
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:liberty:disco:2006-08:DiscoveryEPR
         /// </summary>
-        public static readonly SamlAttributeMarshal<XmlDocument> DiscoveryEpr =
+        public static SamlAttributeMarshal<XmlDocument> DiscoveryEpr { get; } = 
             new XmlDocumentBase64SamlAttributeMarshal("urn:liberty:disco:2006-08:DiscoveryEPR", BasicNameFormat);
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.5
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> CertificateSerialNumber =
+        public static SamlAttributeMarshal<string> CertificateSerialNumber { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.5", BasicNameFormat, XsString);
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.10
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> OrganizationName =
+        public static SamlAttributeMarshal<string> OrganizationName { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.10", BasicNameFormat, XsString);
 
         /// <summary>
@@ -120,7 +119,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.11
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> OrganizationUnit =
+        public static SamlAttributeMarshal<string> OrganizationUnit { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.11", BasicNameFormat, XsString);
 
         /// <summary>
@@ -128,7 +127,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.12
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> Title =
+        public static SamlAttributeMarshal<string> Title { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.12", BasicNameFormat, XsString);
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace Digst.OioIdws.SamlAttributes
         /// 
         ///     SAML name: urn:oid:2.5.4.16
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> PostalAddress =
+        public static SamlAttributeMarshal<string> PostalAddress { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.16", BasicNameFormat, XsString);
 
         /// <summary>
@@ -145,20 +144,20 @@ namespace Digst.OioIdws.SamlAttributes
         ///
         ///     
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> OcesPseudonym =
+        public static SamlAttributeMarshal<string> OcesPseudonym { get; } = 
             new StringSamlAttributeMarshal("urn:oid:2.5.4.65", BasicNameFormat, XsString);
 
         /// <summary>
         ///     Indicates that the certificate used was a youth certificate
         ///     dk:gov:saml:attribute:IsYouthCert
         /// </summary>
-        public static readonly SamlAttributeMarshal<bool> IsYouthCert =
+        public static SamlAttributeMarshal<bool> IsYouthCert { get; } = 
             new BooleanSamlAttributeMarshal("dk:gov:saml:attribute:IsYouthCert", BasicNameFormat, XsString);
 
         /// <summary>
         ///     User Certificate
         /// </summary>
-        public static readonly SamlAttributeMarshal<X509Certificate2> UserCertificate =
+        public static SamlAttributeMarshal<X509Certificate2> UserCertificate { get; } = 
             new MappingSamlAttributeMarshal<X509Certificate2>("urn:oid:1.3.6.1.4.1.1466.115.121.1.8",
                 cert => Convert.ToBase64String(cert.Export(X509ContentType.Cert)),
                 s => new X509Certificate2(Convert.FromBase64String(s)), BasicNameFormat, XsString);
@@ -177,14 +176,14 @@ namespace Digst.OioIdws.SamlAttributes
         ///     The PID number is mandatory if the user has authenticated using a person certificate
         ///     dk:gov:saml:attribute:PidNumberIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> PidNumberIdentifier =
+        public static SamlAttributeMarshal<string> PidNumberIdentifier { get; } = 
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:PidNumberIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
         ///     CPR number
         ///     dk:gov:saml:attribute:CprNumberIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> CprNumberIdentifier =
+        public static SamlAttributeMarshal<string> CprNumberIdentifier { get; } =
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:CprNumberIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
@@ -192,7 +191,7 @@ namespace Digst.OioIdws.SamlAttributes
         ///     This attribute is mandatory when the user has authenticated with an employee certificate
         ///     dk:gov:saml:attribute:RidNumberIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> RidNumberIdentifier =
+        public static SamlAttributeMarshal<string> RidNumberIdentifier { get; } =
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:RidNumberIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
@@ -201,7 +200,7 @@ namespace Digst.OioIdws.SamlAttributes
         ///     issuer and certificate serial number is guaranteed to be unique.
         ///     urn:oid:2.5.29.29
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> CertificateIssuer =
+        public static SamlAttributeMarshal<string> CertificateIssuer { get; } =
             new StringSamlAttributeMarshal("urn:oid:2.5.29.29", BasicNameFormat, XsString);
 
         /// <summary>
@@ -211,7 +210,7 @@ namespace Digst.OioIdws.SamlAttributes
         ///     the production unit(10 digits) in which the user belongs.
         ///     dk:gov:saml:attribute:ProductionUnitIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> ProductionUnitIdentifier =
+        public static SamlAttributeMarshal<string> ProductionUnitIdentifier { get; } =
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:ProductionUnitIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
@@ -220,23 +219,21 @@ namespace Digst.OioIdws.SamlAttributes
         ///     by the Danish Tax Agency, and the attribute below can be used to describe in which SE unit the user belongs.
         ///     dk:gov:saml:attribute:SENumberIdentifier
         /// </summary>
-        public static readonly SamlAttributeMarshal<string> SeNumberIdentifier =
+        public static SamlAttributeMarshal<string> SeNumberIdentifier { get; } =
             new StringSamlAttributeMarshal("dk:gov:saml:attribute:SENumberIdentifier", BasicNameFormat, XsString);
 
         /// <summary>
         ///     User Administrator indicator
         ///     Indicates that the user is an administrator of users within the user organization
         /// </summary>
-        [Obsolete(
-            @"The use of this attribute is NOT RECOMMENDED. This attribute is going to be deprecated in future versions of [OIO-SAML-SSO].")]
-        public static readonly SamlAttributeMarshal<bool> UserAdministratorIndicator =
+        [Obsolete(@"The use of this attribute is NOT RECOMMENDED. This attribute is going to be deprecated in future versions of [OIO-SAML-SSO].")]
+        public static SamlAttributeMarshal<bool> UserAdministratorIndicator { get; } =
             new BooleanSamlAttributeMarshal("dk:gov:saml:attribute:UserAdministratorIndicator", BasicNameFormat, XsString);
 
         /// <summary>
         ///     Privileges in intermediate model 2 form (see OIO Basic Privilege Provile - OIO-BPP).
         /// </summary>
-        public static readonly SamlAttributeMarshal<PrivilegeList> PrivilegesIntermediate =
-            new XmlSerializableBase64SamlAttributeMarshal<PrivilegeList>(
-                "dk:gov:saml:attribute:Privileges_intermediate", BasicNameFormat, XsString);
+        public static SamlAttributeMarshal<PrivilegeList> PrivilegesIntermediate { get; } =
+            new XmlSerializableBase64SamlAttributeMarshal<PrivilegeList>("dk:gov:saml:attribute:Privileges_intermediate", BasicNameFormat, XsString);
     }
 }

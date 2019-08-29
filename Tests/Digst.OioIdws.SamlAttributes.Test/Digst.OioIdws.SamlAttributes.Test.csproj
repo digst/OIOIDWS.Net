@@ -61,6 +61,10 @@
       <Project>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Source\Digst.OioIdws.Saml2SecurityToken\Digst.OioIdws.Saml2SecurityToken.csproj">
+      <Project>{34DD0A77-9DE1-464F-818C-1A9645E7B1C5}</Project>
+      <Name>Digst.OioIdws.Saml2SecurityToken</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Digst.OioIdws.SamlAttributes\Digst.OioIdws.SamlAttributes.csproj">
       <Project>{407473C6-0D67-4158-A2A6-0A774819FF2B}</Project>
       <Name>Digst.OioIdws.SamlAttributes</Name>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="SuiteIdentifier" type="medicinecard20150101:SuiteIdentifierType">
+    <annotation>
+      <documentation>
+			Identification which describes the location of a specific entrance door on a floor or level (repos) in the staircase referred to.
+			</documentation>
+    </annotation>
+  </element>
+  <simpleType name="SuiteIdentifierType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="4" />
+    </restriction>
+  </simpleType>
+</schema>

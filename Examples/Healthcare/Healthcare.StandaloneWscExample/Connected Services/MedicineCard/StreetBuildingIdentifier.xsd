@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="StreetBuildingIdentifier" type="medicinecard20150101:StreetBuildingIdentifierType">
+    <annotation>
+      <documentation>Numeric identification (da: house number ~ 'husnummer') including an optional letter, which identifies a certain access to a building, a plot/piece of land or a plant etc. based on the named road or street which gives access hereto. The identifier is determined in increasing numerical and letter order along the road, normally with even numbers on the right side and odd numbers on the left side of the road.</documentation>
+    </annotation>
+  </element>
+  <simpleType name="StreetBuildingIdentifierType">
+    <restriction base="string">
+      <pattern value="([1-9]|[1-9][0-9]|[1-9][0-9]{2})|([1-9][A-Z]|[1-9][0-9][A-Z]|[1-9][0-9]{2}[A-Z])" />
+    </restriction>
+  </simpleType>
+</schema>

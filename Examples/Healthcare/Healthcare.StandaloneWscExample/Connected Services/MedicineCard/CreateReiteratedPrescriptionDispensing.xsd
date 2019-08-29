@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DosageText.xsd" />
+  <include schemaLocation="PackageNumber.xsd" />
+  <include schemaLocation="PackageSizeText.xsd" />
+  <include schemaLocation="PackageQuantity.xsd" />
+  <include schemaLocation="ReiterationInterval.xsd" />
+  <include schemaLocation="ReiterationIntervalUnit.xsd" />
+  <include schemaLocation="ReiterationNumber.xsd" />
+  <element name="CreateReiteratedPrescriptionDispensing" type="medicinecard20150101:CreateReiteratedPrescriptionDispensingType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information dispensing the package two or more times</documentation>
+      <documentation xml:lang="da-DK">Information til to eller flere udleveringer</documentation>
+    </annotation>
+  </element>
+  <complexType name="CreateReiteratedPrescriptionDispensingType">
+    <sequence>
+      <element name="PackageNumber" type="medicinecard20150101:PackageNumberType" />
+      <element minOccurs="0" name="FreeTradePackageSizeText" type="medicinecard20150101:PackageSizeTextType" />
+      <element name="ReiterationNumber" type="medicinecard20150101:ReiterationNumberType" />
+      <element name="ReiterationInterval" type="medicinecard20150101:ReiterationIntervalType" />
+      <element name="ReiterationIntervalUnit" type="medicinecard20150101:ReiterationIntervalUnitType" />
+      <element name="PackageQuantity" type="medicinecard20150101:PackageQuantityType" />
+      <element name="DosageText" type="medicinecard20150101:DosageTextType" />
+    </sequence>
+  </complexType>
+</schema>

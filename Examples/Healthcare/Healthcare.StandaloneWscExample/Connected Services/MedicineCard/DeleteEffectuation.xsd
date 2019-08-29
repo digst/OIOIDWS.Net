@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="EffectuationIdentifier.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <element name="DeleteEffectuation" type="medicinecard20150101:DeleteEffectuationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Instructions on deleting an effectuation</documentation>
+      <documentation xml:lang="da-DK">Anvisning for sletning af en effetuering</documentation>
+    </annotation>
+  </element>
+  <complexType name="DeleteEffectuationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:EffectuationIdentifierType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+    </sequence>
+  </complexType>
+</schema>

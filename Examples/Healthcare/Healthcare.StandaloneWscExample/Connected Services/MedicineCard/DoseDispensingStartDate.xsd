@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DoseDispensingStartDate" type="medicinecard20150101:DoseDispensingStartDateType">
+    <annotation>
+      <documentation xml:lang="en-GB">Start date for dose dispensing</documentation>
+      <documentation xml:lang="da-UK">Startdato for dosisdispensering</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DoseDispensingStartDateType">
+    <restriction base="date">
+      <minInclusive value="2000-01-01" />
+    </restriction>
+  </simpleType>
+</schema>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <attribute name="SourceYearAndWeek" type="medicinecard20150101:SourceYearAndWeekType">
+    <annotation>
+      <documentation xml:lang="en-GB">Year and week the source is defined for</documentation>
+      <documentation xml:lang="da-DK">Årstal og ugenummer kilden er defineret for</documentation>
+    </annotation>
+  </attribute>
+  <simpleType name="SourceYearAndWeekType">
+    <restriction base="string">
+      <pattern value="[1-2][0-9][0-9][0-9]-(0[1-9]|[1-4][0-9]|5[0-3])" />
+    </restriction>
+  </simpleType>
+</schema>

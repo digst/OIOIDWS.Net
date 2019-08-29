@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="TelephoneNumber" type="medicinecard20150101:TelephoneNumberType">
+    <annotation>
+      <documentation xml:lang="da">Telefonnummer inkl. internationalt prefix</documentation>
+    </annotation>
+  </element>
+  <simpleType name="TelephoneNumberType">
+    <restriction base="string">
+      <pattern value="(\+)?[0-9]{3,20}" />
+    </restriction>
+  </simpleType>
+</schema>

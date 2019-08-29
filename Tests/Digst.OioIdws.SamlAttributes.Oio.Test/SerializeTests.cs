@@ -4,8 +4,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Xml.Linq;
-using Digst.OioIdws.Common.Attributes;
 using Digst.OioIdws.Common.Utils;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -46,10 +46,10 @@ namespace Digst.OioIdws.Healthcare.Wsc
         /// </summary>
         /// <param name="bootstrapToken">The bootstrap token.</param>
         /// <param name="serviceEntityId">The service entity identifier.</param>
-        /// <param name="claims">The claims.</param>
         /// <param name="keyType">Type of the key.</param>
+        /// <param name="claims">The claims.</param>
         /// <returns></returns>
-        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceEntityId, RequestClaimCollection claims, KeyType keyType)
+        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceEntityId, KeyType keyType, RequestClaimCollection claims=null)
         {
             Logger.Instance.Trace($"Get IDT from BST: {bootstrapToken} {claims.ToString()}");
             return GetTokenInternal(_config.IdentityTokenFromBootstrapTokenUrl, bootstrapToken, keyType, serviceEntityId, claims);
@@ -69,7 +69,7 @@ namespace Digst.OioIdws.Healthcare.Wsc
 
 
 
-        private SecurityToken GetTokenInternal(Uri stsUrl, SecurityToken actAs, KeyType keyType, string appliesTo, RequestClaimCollection claims = null)
+        private SecurityToken GetTokenInternal(Uri stsUrl, SecurityToken actAs, KeyType keyType, string appliesTo, RequestClaimCollection claims)
         {
 
             Logger.Instance.Trace(
@@ -117,6 +117,7 @@ namespace Digst.OioIdws.Healthcare.Wsc
                     SignatureAlgorithm = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
                 };
 
+                // If claims have been requested then fill in the requested claims
                 if (claims != null)
                 {
                     requestSecurityToken.Claims.Dialect = claims.Dialect;

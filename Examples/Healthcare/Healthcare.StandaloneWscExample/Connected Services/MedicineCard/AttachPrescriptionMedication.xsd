@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <include schemaLocation="PrescriptionMedicationIdentifier.xsd" />
+  <element name="AttachPrescriptionMedication" type="medicinecard20150101:AttachPrescriptionMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Contains a drug medication ID and one or more drug prescription IDs which are to be attached</documentation>
+      <documentation xml:lang="da-DK">Indeholder et lægemiddelordinations-ID og en eller flere receptordinations-IDer der skal knyttes hertil</documentation>
+    </annotation>
+  </element>
+  <complexType name="AttachPrescriptionMedicationType">
+    <sequence>
+      <element name="DrugMedicationIdentifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element maxOccurs="unbounded" name="Identifier" type="medicinecard20150101:PrescriptionMedicationIdentifierType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+    </sequence>
+  </complexType>
+</schema>

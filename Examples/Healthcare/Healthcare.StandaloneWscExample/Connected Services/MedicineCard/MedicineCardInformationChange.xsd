@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="MedicineCardInformationChange" type="medicinecard20150101:MedicineCardInformationChangeType">
+    <annotation>
+      <documentation xml:lang="en-GB">Generic Version Information, indicating time of the last change of a certain information type</documentation>
+      <documentation xml:lang="da-DK">Versions information, som holder seneste ændings timestamp for en given type af information</documentation>
+    </annotation>
+  </element>
+  <complexType name="MedicineCardInformationChangeType">
+    <sequence>
+      <element name="InformationChangeType" type="medicinecard20150101:InformationChangeTypeType" />
+      <element minOccurs="0" name="ChangeDateTime" type="dateTime" />
+    </sequence>
+  </complexType>
+  <simpleType name="InformationChangeTypeType">
+    <union memberTypes="medicinecard20150101:PredefinedInformationChangeType medicinecard20150101:UndefinedInformationChangeType" />
+  </simpleType>
+  <simpleType name="UndefinedInformationChangeType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+  <simpleType name="PredefinedInformationChangeType">
+    <restriction base="medicinecard20150101:UndefinedInformationChangeType">
+      <enumeration value="PrescriptionMedicationDateTime" />
+      <enumeration value="EffectuationDateTime" />
+      <enumeration value="PrescriptionAttachmentChange" />
+      <enumeration value="HospitalizationStatusChange" />
+      <enumeration value="HomeCareSubscriptionChange" />
+      <enumeration value="INRChange" />
+    </restriction>
+  </simpleType>
+</schema>

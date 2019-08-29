@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DetailedDrugText" type="medicinecard20150101:DetailedDrugTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Text describing a detailed drug (a detailed prescription)</documentation>
+      <documentation xml:lang="da-DK">Tekst der beskriver et magistrelt lægemiddel</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DetailedDrugTextType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="400" />
+    </restriction>
+  </simpleType>
+</schema>

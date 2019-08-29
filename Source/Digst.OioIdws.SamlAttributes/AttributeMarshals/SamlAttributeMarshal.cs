@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
@@ -8,7 +9,8 @@ namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 
 
     /// <summary>
-    /// Base class for all attribute descriptors.
+    /// Base class for all attribute marshallers.
+    /// An attribute marshal is a class which facilitates serializing/deserializing SAML attributes.
     /// </summary>
     public abstract class SamlAttributeMarshal
     {
@@ -105,7 +107,7 @@ namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
     /// <summary>
     /// Base class for type specific attribute descriptors.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The .NET type of the attribute.</typeparam>
     public abstract class SamlAttributeMarshal<T> : SamlAttributeMarshal
     {
         protected SamlAttributeMarshal(string name, Uri nameFormat = null, XName xsiType = null) : base(name, nameFormat, xsiType)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="PatientOrganisationRelationType" type="medicinecard20150101:PatientOrganisationRelationTypeType">
+    <annotation>
+      <documentation xml:lang="da-DK">Typen af relation mellem patient og organisation</documentation>
+    </annotation>
+  </element>
+  <simpleType name="PatientOrganisationRelationTypeType">
+    <union memberTypes="medicinecard20150101:PredefinedPatientOrganisationRelationTypeType medicinecard20150101:UndefinedPatientOrganisationRelationTypeType" />
+  </simpleType>
+  <simpleType name="PredefinedPatientOrganisationRelationTypeType">
+    <restriction base="string">
+      <enumeration value="Visiteret til hjemmesygeplejen" />
+      <enumeration value="Indlagt" />
+    </restriction>
+  </simpleType>
+  <simpleType name="UndefinedPatientOrganisationRelationTypeType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+</schema>

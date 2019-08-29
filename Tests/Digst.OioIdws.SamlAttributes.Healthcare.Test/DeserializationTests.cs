@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml;
 using Digst.OioIdws.Healthcare.Common;
 using Digst.OioIdws.Healthcare.SamlAttributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -62,7 +63,7 @@ namespace Digst.OioIdws.SamlAttributes.Healthcare.Test
 
         public void AssertCanReadValue<T>(AttributeAdapter attributeAdapter, string attributeName, T expectedValue)
         {
-            var accessor = (SamlAttributeMarshal<T>)typeof(CommonHealthcareAttributes).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null)).OfType<SamlAttributeMarshal>().Single(x => x.Name == attributeName);
+            var accessor = (SamlAttributeMarshal<T>)typeof(CommonHealthcareAttributes).GetProperties(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null)).OfType<SamlAttributeMarshal>().Single(x => x.Name == attributeName);
             var actualValue = accessor.GetValue(attributeAdapter);
             Assert.AreEqual(expectedValue, actualValue);
         }

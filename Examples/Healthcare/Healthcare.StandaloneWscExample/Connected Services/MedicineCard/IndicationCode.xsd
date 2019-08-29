@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="IndicationCode" type="medicinecard20150101:IndicationCodeType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indication code (LMS26 field 1)</documentation>
+      <documentation xml:lang="da-DK">Indikationskode (LMS26 felt 1)</documentation>
+    </annotation>
+  </element>
+  <complexType name="IndicationCodeType">
+    <simpleContent>
+      <extension base="medicinecard20150101:IndicationCodeValueType">
+        <attribute name="source" type="medicinecard20150101:IndicationCodeSourceType" use="required" />
+        <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+        <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="IndicationCodeValueType">
+    <restriction base="int">
+      <minInclusive value="1" />
+      <maxInclusive value="9999999" />
+    </restriction>
+  </simpleType>
+  <simpleType name="IndicationCodeSourceType">
+    <union memberTypes="medicinecard20150101:IndicationCodePredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="IndicationCodePredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+    </restriction>
+  </simpleType>
+</schema>

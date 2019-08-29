@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="SupplementaryInformation" type="medicinecard20150101:SupplementaryInformationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Free text for dosage</documentation>
+      <documentation xml:lang="da-DK">Fritekst for dosering</documentation>
+    </annotation>
+  </element>
+  <simpleType name="SupplementaryInformationType">
+    <restriction base="string">
+      <maxLength value="70" />
+    </restriction>
+  </simpleType>
+</schema>

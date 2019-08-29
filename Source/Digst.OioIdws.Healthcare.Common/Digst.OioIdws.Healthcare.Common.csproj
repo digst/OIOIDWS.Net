@@ -35,12 +35,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EvidenceForPatientInCare.cs" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\Digst.OioIdws.Saml2SecurityToken\Digst.OioIdws.Saml2SecurityToken.csproj">
       <Project>{34DD0A77-9DE1-464F-818C-1A9645E7B1C5}</Project>
       <Name>Digst.OioIdws.Saml2SecurityToken</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.SamlAttributes\Digst.OioIdws.SamlAttributes.csproj">
+      <Project>{407473C6-0D67-4158-A2A6-0A774819FF2B}</Project>
+      <Name>Digst.OioIdws.SamlAttributes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

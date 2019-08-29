@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DosageTimesDosageEndingUndetermined.xsd" />
+  <include schemaLocation="DosageTimesEndDate.xsd" />
+  <include schemaLocation="DosageTimesStartDate.xsd" />
+  <element name="AdministrationAccordingToSchemaInLocalSystemForRequest" type="medicinecard20150101:AdministrationAccordingToSchemaInLocalSystemForRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">If the element exists it indicates that the medication is according to schema in a local system</documentation>
+      <documentation xml:lang="da-DK">Hvis elementet findes angives at medicinfordeling er skemalagt i eget system</documentation>
+    </annotation>
+  </element>
+  <complexType name="AdministrationAccordingToSchemaInLocalSystemForRequestType">
+    <sequence>
+      <choice>
+        <element name="StartDate" type="medicinecard20150101:DosageTimesStartDateType" />
+      </choice>
+      <choice>
+        <element name="EndDate" type="medicinecard20150101:DosageTimesEndDateType" />
+        <element name="DosageEndingUndetermined" type="medicinecard20150101:DosageTimesDosageEndingUndeterminedType" />
+      </choice>
+    </sequence>
+  </complexType>
+</schema>

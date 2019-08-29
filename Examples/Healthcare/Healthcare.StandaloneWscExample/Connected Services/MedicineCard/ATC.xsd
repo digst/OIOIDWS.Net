@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="ATCCode.xsd" />
+  <include schemaLocation="ATCText.xsd" />
+  <element name="ATC" type="medicinecard20150101:ATCType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information about ATC group</documentation>
+      <documentation xml:lang="da-DK">Information om ATC gruppe</documentation>
+    </annotation>
+  </element>
+  <complexType name="ATCType">
+    <sequence>
+      <element name="Code" type="medicinecard20150101:ATCCodeType" />
+      <element name="Text" type="medicinecard20150101:ATCTextType" />
+    </sequence>
+  </complexType>
+</schema>

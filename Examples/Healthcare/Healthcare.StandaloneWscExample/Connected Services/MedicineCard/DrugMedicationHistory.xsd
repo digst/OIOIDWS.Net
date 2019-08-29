@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationHistoryPeriod.xsd" />
+  <element name="DrugMedicationHistory" type="medicinecard20150101:DrugMedicationHistoryType">
+    <annotation>
+      <documentation xml:lang="en-GB">The history of a drugmedication</documentation>
+      <documentation xml:lang="da-DK">Historikken for en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="DrugMedicationHistoryType">
+    <sequence>
+      <element maxOccurs="unbounded" name="Period" type="medicinecard20150101:DrugMedicationHistoryPeriodType" />
+    </sequence>
+  </complexType>
+</schema>

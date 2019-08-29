@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="CreateEffectuation.xsd" />
+  <element name="CreateEffectuationOnDrugMedication" type="medicinecard20150101:CreateEffectuationOnDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Elemenet for adding an effecutation on a drug prescription</documentation>
+      <documentation xml:lang="da-DK">Element for en tilføjelse af en effektuering på en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="CreateEffectuationOnDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element maxOccurs="unbounded" name="Effectuation" type="medicinecard20150101:CreateEffectuationType" />
+    </sequence>
+  </complexType>
+</schema>

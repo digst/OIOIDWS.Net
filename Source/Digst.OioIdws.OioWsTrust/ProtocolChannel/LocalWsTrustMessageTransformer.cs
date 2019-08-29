@@ -315,31 +315,18 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
             var requestSecurityTokenElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken", namespaceManager);
 
-            //// Add Context attribute to wst:RequestSecurityToken with a unique ID as value
-            //requestSecurityTokenElement.Add(new XAttribute("Context", new UniqueId()));
-
-            //// Replace namespace http://schemas.xmlsoap.org/ws/2004/09/policy with http://schemas.xmlsoap.org/ws/2002/12/policy
-            //var appliesToElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/wsp12:AppliesTo", namespaceManager);
-            //var endpointReferenceElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/wsp12:AppliesTo/wsa:EndpointReference", namespaceManager);
-            //appliesToElement.Remove();
-            //var newAppliesToElement = new XElement(XName.Get("AppliesTo", WspNamespace));
-            //newAppliesToElement.Add(endpointReferenceElement);
-            //requestSecurityTokenElement.Add(newAppliesToElement);
-
             var appliesToAddressElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/wsp12:AppliesTo/wsa:EndpointReference/wsa:Address", namespaceManager);
             if (appliesToAddressElement.Value.EndsWith("_/")) appliesToAddressElement.Value = appliesToAddressElement.Value.Substring(0, appliesToAddressElement.Value.Length - 2);
 
             foreach (var authValue in xDocument.XPathSelectElements("/s:Envelope/s:Body/trust:RequestSecurityToken/trust:Claims[@Dialect='http://docs.oasis-open.org/wsfed/authorization/200706/authclaims']/auth:ClaimType/auth:Value", namespaceManager))
             {
-                if (authValue.Value.StartsWith("<") && authValue.Value.EndsWith(">"))
+                if (authValue.Value.Trim().StartsWith("<") && authValue.Value.EndsWith(">"))
                 {
                     try
                     {
                         // Convert to XML
-                        var sr = new StringReader(authValue.Value);
-                        var xr = XmlReader.Create(sr);
-                        var content = XElement.Load(xr);
-                        authValue.Value = "";
+                        var content = XElement.Parse(authValue.Value.Trim());
+                        authValue.RemoveNodes();
                         authValue.Add(content);
                     }
                     catch (XmlException ex)
@@ -350,16 +337,6 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 }
             }
 
-            //// Remove last '/' in endpoint address. Due to new URI(...) automatically adds an ending '/'.
-            //var addressReferenceElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/wsp:AppliesTo/wsa:EndpointReference/wsa:Address", namespaceManager);
-            //RemoveEndingForwardSlash(addressReferenceElement);
-
-            //// Change lifetime expires format if present from "yyyy-MM-ddTHH:mm:ss.fffZ" to "yyyy-MM-ddTHH:mm:ssZ"
-            //var lifetimeElement = xDocument.XPathSelectElement("/s:Envelope/s:Body/trust:RequestSecurityToken/trust:Lifetime/wsu:Expires", namespaceManager);
-            //if (lifetimeElement != null)
-            //{
-            //    lifetimeElement.Value = GetPatchedDateTime(lifetimeElement.Value).ToString(Constants.DateTimeFormat, CultureInfo.InvariantCulture);
-            //}
         }
 
 

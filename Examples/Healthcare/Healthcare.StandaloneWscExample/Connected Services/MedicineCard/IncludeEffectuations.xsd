@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="IncludeEffectuations" type="medicinecard20150101:IncludeEffectuationsType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indicates if the drug medication or prescription medication is to be returned with prescription effectuations</documentation>
+      <documentation xml:lang="da-DK">Angiver hvorvidt lægemiddelordinationen eller receptordinationen skal returneres med effektueringer.</documentation>
+    </annotation>
+  </element>
+  <simpleType name="IncludeEffectuationsType">
+    <restriction base="boolean" />
+  </simpleType>
+</schema>

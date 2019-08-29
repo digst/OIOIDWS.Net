@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationVersion.xsd" />
+  <include schemaLocation="DrugMedicationHistoryPeriodStartDateTime.xsd" />
+  <include schemaLocation="DrugMedicationHistoryPeriodEndDateTime.xsd" />
+  <include schemaLocation="DrugMedicationPaused.xsd" />
+  <include schemaLocation="DosageForResponse.xsd" />
+  <include schemaLocation="Hospitalized.xsd" />
+  <include schemaLocation="Drug.xsd" />
+  <element name="DrugMedicationHistoryPeriod" type="medicinecard20150101:DrugMedicationHistoryPeriodType">
+    <annotation>
+      <documentation xml:lang="en-GB">A specific period in the history of a drugmedication</documentation>
+      <documentation xml:lang="da-DK">En specifik periode i historikken for en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="DrugMedicationHistoryPeriodType">
+    <sequence>
+      <element name="PeriodStartDateTime" type="medicinecard20150101:DrugMedicationHistoryPeriodStartDateTimeType" />
+      <element name="PeriodEndDateTime" type="medicinecard20150101:DrugMedicationHistoryPeriodEndDateTimeType" />
+      <element name="Version" type="medicinecard20150101:DrugMedicationVersionType" />
+      <element name="Drug" type="medicinecard20150101:DrugType" />
+      <element name="Dosage" type="medicinecard20150101:DosageForResponseType" />
+      <element minOccurs="0" name="Paused" type="medicinecard20150101:DrugMedicationPausedType" />
+      <element minOccurs="0" name="Hospitalized" type="medicinecard20150101:HospitalizedType" />
+    </sequence>
+  </complexType>
+</schema>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <attribute name="Source" type="medicinecard20150101:SourceType">
+    <annotation>
+      <documentation xml:lang="en-GB">An identification of the source which defines the content</documentation>
+      <documentation xml:lang="da-DK">En identifikation af kilden hvor indholdet er derfineret</documentation>
+    </annotation>
+  </attribute>
+  <simpleType name="SourceType">
+    <union memberTypes="medicinecard20150101:PredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="PredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Chemical Abstract (CAS)" />
+      <enumeration value="DKMA Medicine Prices" />
+      <enumeration value="DA Medicine Prices" />
+      <enumeration value="Local drug assortment" />
+      <enumeration value="FMK dosage quantity unit" />
+      <enumeration value="Local dosage quantity unit" />
+      <enumeration value="SKS" />
+      <enumeration value="Ydernummer" />
+    </restriction>
+  </simpleType>
+  <simpleType name="UndefinedSourceType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+</schema>

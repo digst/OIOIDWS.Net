@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="IndicationText" type="medicinecard20150101:IndicationTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Indication text (LMS26 field 2)</documentation>
+      <documentation xml:lang="da-DK">Indikationstekst (LMS26 felt 2)</documentation>
+    </annotation>
+  </element>
+  <simpleType name="IndicationTextType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="78" />
+    </restriction>
+  </simpleType>
+</schema>

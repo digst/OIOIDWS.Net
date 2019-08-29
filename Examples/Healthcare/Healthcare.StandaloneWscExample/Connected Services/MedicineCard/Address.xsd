@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="StreetName.xsd" />
+  <include schemaLocation="StreetBuildingIdentifier.xsd" />
+  <include schemaLocation="FloorIdentifier.xsd" />
+  <include schemaLocation="SuiteIdentifier.xsd" />
+  <include schemaLocation="MailDeliverySublocationIdentifier.xsd" />
+  <include schemaLocation="DistrictSubdivisionIdentifier.xsd" />
+  <include schemaLocation="PostOfficeBoxIdentifier.xsd" />
+  <include schemaLocation="PostCodeIdentifier.xsd" />
+  <include schemaLocation="DistrictName.xsd" />
+  <include schemaLocation="CountryIdentificationCode.xsd" />
+  <include schemaLocation="StreetNameForAddressing.xsd" />
+  <element name="Address" type="medicinecard20150101:AddressType" />
+  <complexType name="AddressType">
+    <annotation>
+      <documentation xml:lang="en-GB">Postal address, for either an organisation or a person</documentation>
+      <documentation xml:lang="da-DK">Postadresse for en organisation eller person</documentation>
+    </annotation>
+    <sequence>
+      <element minOccurs="0" name="MailDeliverySublocationIdentifier" type="medicinecard20150101:MailDeliverySublocationIdentifierType" />
+      <element name="StreetName" type="medicinecard20150101:StreetNameType" />
+      <element minOccurs="0" name="StreetNameForAddressing" type="medicinecard20150101:StreetNameForAddressingType" />
+      <element name="StreetBuildingIdentifier" type="medicinecard20150101:StreetBuildingIdentifierType" />
+      <element minOccurs="0" name="FloorIdentifier" type="medicinecard20150101:FloorIdentifierType" />
+      <element minOccurs="0" name="SuiteIdentifier" type="medicinecard20150101:SuiteIdentifierType" />
+      <element minOccurs="0" name="DistrictSubdivisionIdentifier" type="medicinecard20150101:DistrictSubdivisionIdentifierType" />
+      <element minOccurs="0" name="PostOfficeBoxIdentifier" type="medicinecard20150101:PostOfficeBoxIdentifierType" />
+      <element name="PostCodeIdentifier" type="medicinecard20150101:PostCodeIdentifierType" />
+      <element name="DistrictName" type="medicinecard20150101:DistrictNameType" />
+      <element minOccurs="0" name="CountryIdentificationCode" type="medicinecard20150101:CountryIdentificationCodeType" />
+    </sequence>
+  </complexType>
+</schema>

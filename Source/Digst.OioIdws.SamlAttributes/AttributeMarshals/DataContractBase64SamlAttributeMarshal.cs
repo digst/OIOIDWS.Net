@@ -9,7 +9,17 @@ using System.Xml.Linq;
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// Represents a value of a structured type as Base64 encoded XML. The XML is the DataContract representation of the structured type. Thus, the structured type *must* support DataContract serialization.
+    /// Represents a value of a structured type as Base64 encoded XML.
+    /// 
+    /// The XML is the DataContract representation of the structured type. Thus, the
+    /// structured type *must* support DataContract serialization.
+    ///
+    /// When the SAML attribute is encoded, the .NET value is first serialized to XML using a
+    /// DataContract serializer, and then the resulting XML is encoded using Base64.
+    ///
+    /// When a SAML attribute is decoded, the SAML value is first Base64 decoded. The resulting
+    /// string is regarded as XML and deserialized into a .NET object using a DataContract
+    /// serializer.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DataContractBase64SamlAttributeMarshal<T> : EncodedStringSamlAttributeMarshal<T>

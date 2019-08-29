@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using Digst.OioIdws.Common.Attributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SamlAttributes.AttributeMarshals;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,11 +50,11 @@ namespace Digst.OioIdws.SamlAttributes.Oio.Test
             var manager = new AttributeStatementAttributeAdapter(attributeStatement);
 
             var accessors = typeof(CommonOioAttributes)
-                .GetFields(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => typeof(SamlAttributeMarshal<string>).IsAssignableFrom(x.FieldType))
+                .GetProperties(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => typeof(SamlAttributeMarshal<string>).IsAssignableFrom(x.PropertyType))
                 .Select(x => x.GetValue(null)).Cast<SamlAttributeMarshal<string>>().ToDictionary(acc => acc.Name);
 
-            
+
             // Act and Assert
 
             foreach (var item in list)

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="AuthorisationIdentifier.xsd" />
+  <include schemaLocation="AuthorisedHealthcareProfessionalName.xsd" />
+  <include schemaLocation="SpecialityCode.xsd" />
+  <element name="AuthorisedHealthcareProfessionalWithOptionalAuthorisationIdentifier" type="medicinecard20150101:AuthorisedHealthcareProfessionalWithOptionalAuthorisationIdentifierType">
+    <annotation>
+      <documentation xml:lang="en-GB">Contains authorisation number and name of an authorised healthchare professional</documentation>
+      <documentation xml:lang="da-DK">Indeholder autorsationsnummer og navn på en autoriseret sundhedsperson</documentation>
+    </annotation>
+  </element>
+  <complexType name="AuthorisedHealthcareProfessionalWithOptionalAuthorisationIdentifierType">
+    <sequence>
+      <element minOccurs="0" name="AuthorisationIdentifier" type="medicinecard20150101:AuthorisationIdentifierType" />
+      <element name="Name" type="medicinecard20150101:AuthorisedHealthcareProfessionalNameType" />
+      <element minOccurs="0" name="SpecialityCode" type="medicinecard20150101:SpecialityCodeType" />
+    </sequence>
+  </complexType>
+</schema>

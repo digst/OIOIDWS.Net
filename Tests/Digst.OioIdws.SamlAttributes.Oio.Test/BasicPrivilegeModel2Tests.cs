@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Digst.OioIdws.Common.Attributes.BasicPrivilegesModel2;
+using Digst.OioIdws.SamlAttributes.BasicPrivilegesModel2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Digst.OioIdws.SamlAttributes.Oio.Test
@@ -42,17 +42,20 @@ namespace Digst.OioIdws.SamlAttributes.Oio.Test
 
             var ser = new XmlSerializer(typeof(PrivilegeList));
 
-            var sw = new StringWriter();
-            using (var xw = XmlWriter.Create(sw, new XmlWriterSettings() {Encoding = Encoding.UTF8}))
+            string actual;
+            using (var mem = new MemoryStream())
+            using (var xw = XmlWriter.Create(mem, new XmlWriterSettings() { Encoding = Encoding.UTF8 }))
             {
-                ser.Serialize(xw, list, new XmlSerializerNamespaces(new[]{ new XmlQualifiedName("", "http://itst.dk/oiosaml/basic_privilege_profile") }));
+                ser.Serialize(xw, list, new XmlSerializerNamespaces(new[] { new XmlQualifiedName("", "http://itst.dk/oiosaml/basic_privilege_profile") }));
+                mem.Flush();
+                mem.Seek(0, SeekOrigin.Begin);
+                var sr = new StreamReader(mem, Encoding.UTF8);
+                actual = sr.ReadToEnd();
             }
 
-            var actual = sw.ToString();
+            var expected = "<?xml version=\"1.0\" encoding=\"utf-8\"?><PrivilegeList xmlns=\"http://itst.dk/oiosaml/basic_privilege_profile\"><PrivilegeGroup Scope=\"urn:dk:gov:saml:cvrNumberIdentifier:12345678\"><Privilege>urn:dk:some_domain:myPrivilege1A</Privilege><Privilege>urn:dk:some_domain:myPrivilege1B</Privilege></PrivilegeGroup><PrivilegeGroup Scope=\"rn:dk:gov:saml:seNumberIdentifier:27384223\"><Privilege>urn:dk:some_domain:myPrivilege1C</Privilege><Privilege>urn:dk:some_domain:myPrivilege1D</Privilege></PrivilegeGroup></PrivilegeList>";
 
-            var expected = "<?xml version=\"1.0\" encoding=\"utf-16\"?><PrivilegeList xmlns=\"http://itst.dk/oiosaml/basic_privilege_profile\"><PrivilegeGroup Scope=\"urn:dk:gov:saml:cvrNumberIdentifier:12345678\"><Privilege>urn:dk:some_domain:myPrivilege1A</Privilege><Privilege>urn:dk:some_domain:myPrivilege1B</Privilege></PrivilegeGroup><PrivilegeGroup Scope=\"rn:dk:gov:saml:seNumberIdentifier:27384223\"><Privilege>urn:dk:some_domain:myPrivilege1C</Privilege><Privilege>urn:dk:some_domain:myPrivilege1D</Privilege></PrivilegeGroup></PrivilegeList>";
-
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
         }
 
 
@@ -61,17 +64,16 @@ namespace Digst.OioIdws.SamlAttributes.Oio.Test
         public void Deserialize()
         {
             var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<bpp:PrivilegeList
-xmlns:bpp=""http://itst.dk/oiosaml/basic_privilege_profile"">
-<bpp:PrivilegeGroup Scope=""urn:dk:gov:saml:cvrNumberIdentifier:12345678"">
-<bpp:Privilege>urn:dk:some_domain:myPrivilege1A</bpp:Privilege>
-<bpp:Privilege>urn:dk:some_domain:myPrivilege1B</bpp:Privilege>
-</bpp:PrivilegeGroup>
-<bpp:PrivilegeGroup Scope=""urn:dk:gov:saml:seNumberIdentifier:27384223"">
-<bpp:Privilege>urn:dk:some_domain:myPrivilege1C</bpp:Privilege>
-<bpp:Privilege>urn:dk:some_domain:myPrivilege1D</bpp:Privilege>
-</bpp:PrivilegeGroup>
-</bpp:PrivilegeList>";
+            <bpp:PrivilegeList xmlns:bpp=""http://itst.dk/oiosaml/basic_privilege_profile"">
+                <bpp:PrivilegeGroup Scope=""urn:dk:gov:saml:cvrNumberIdentifier:12345678"">
+                    <bpp:Privilege>urn:dk:some_domain:myPrivilege1A</bpp:Privilege>
+                    <bpp:Privilege>urn:dk:some_domain:myPrivilege1B</bpp:Privilege>
+                </bpp:PrivilegeGroup>
+                <bpp:PrivilegeGroup Scope=""urn:dk:gov:saml:seNumberIdentifier:27384223"">
+                    <bpp:Privilege>urn:dk:some_domain:myPrivilege1C</bpp:Privilege>
+                    <bpp:Privilege>urn:dk:some_domain:myPrivilege1D</bpp:Privilege>
+                </bpp:PrivilegeGroup>
+            </bpp:PrivilegeList>";
 
             var ser = new XmlSerializer(typeof(PrivilegeList));
 

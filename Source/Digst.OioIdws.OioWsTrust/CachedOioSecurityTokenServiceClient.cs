@@ -38,10 +38,13 @@ namespace Digst.OioIdws.OioWsTrust
         /// </summary>
         /// <param name="bootstrapToken">The bootstrap token.</param>
         /// <param name="wspIdentifier">The WSP identifier.</param>
-        /// <param name="claims">The claims.</param>
         /// <param name="keyType">Type of the key.</param>
+        /// <param name="claims">The claims.</param>
         /// <returns></returns>
-        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string wspIdentifier, RequestClaimCollection claims, KeyType keyType)
+        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken,
+            string wspIdentifier,
+            KeyType keyType,
+            RequestClaimCollection claims)
         {
             var key = $"{bootstrapToken}|{wspIdentifier}|{keyType}";
             foreach (var claim in claims)
@@ -56,7 +59,7 @@ namespace Digst.OioIdws.OioWsTrust
                 return idt;
             }
 
-            idt = _innerClient.GetIdentityTokenFromBootstrapToken(bootstrapToken, wspIdentifier, claims, keyType);
+            idt = _innerClient.GetIdentityTokenFromBootstrapToken(bootstrapToken, wspIdentifier, keyType, claims);
 
             _identityTokens.Add(key, idt, idt.ValidTo, "IdentityTokens");
 

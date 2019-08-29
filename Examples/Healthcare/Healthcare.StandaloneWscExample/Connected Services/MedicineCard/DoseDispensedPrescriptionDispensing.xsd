@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DosageCode.xsd" />
+  <include schemaLocation="DosageText.xsd" />
+  <include schemaLocation="DoseDispensingEndDate.xsd" />
+  <include schemaLocation="DoseDispensingStartDate.xsd" />
+  <include schemaLocation="CopyRequired.xsd" />
+  <include schemaLocation="PackageNumber.xsd" />
+  <element name="DoseDispensedPrescriptionDispensing" type="medicinecard20150101:DoseDispensedPrescriptionDispensingType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information dispensing the package through dosage dispensing</documentation>
+      <documentation xml:lang="da-DK">Information til dosisdispensering</documentation>
+    </annotation>
+  </element>
+  <complexType name="DoseDispensedPrescriptionDispensingType">
+    <sequence>
+      <element name="PackageNumber" type="medicinecard20150101:PackageNumberType" />
+      <element name="CopyRequired" type="medicinecard20150101:CopyRequiredType" />
+      <element minOccurs="0" name="DosageCode" type="medicinecard20150101:DosageCodeType" />
+      <element name="DosageText" type="medicinecard20150101:DosageTextType" />
+      <element minOccurs="0" name="StartDate" type="medicinecard20150101:DoseDispensingStartDateType" />
+      <element minOccurs="0" name="EndDate" type="medicinecard20150101:DoseDispensingEndDateType" />
+    </sequence>
+  </complexType>
+</schema>

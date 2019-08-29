@@ -8,7 +8,8 @@ using System.Xml.Serialization;
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// Represents an marshal which allows setting and getting a value which is XML serializable. The value is represented UTF8+Base64 encoded within the {AttributeValue} element.
+    /// Represents an marshal which allows setting and getting a value which is XML serializable.
+    /// The value is represented UTF8+Base64 encoded within the {AttributeValue} element.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="EncodedStringSamlAttributeDescriptEncodedStringSamlAttributeDescriptor{T}" />

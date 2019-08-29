@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <element name="UnwithdrawDrugMedication" type="medicinecard20150101:UnwithdrawDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Instructions on undo withdraw of drug medications </documentation>
+      <documentation xml:lang="da-DK">Anvisning der fjerner en seponering af en eller flere lægemiddelordinationer</documentation>
+    </annotation>
+  </element>
+  <complexType name="UnwithdrawDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+    </sequence>
+  </complexType>
+</schema>

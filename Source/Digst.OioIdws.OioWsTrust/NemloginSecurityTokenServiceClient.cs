@@ -19,7 +19,7 @@ namespace Digst.OioIdws.OioWsTrust
     /// </summary>
     public class NemloginSecurityTokenServiceClient : ISecurityTokenServiceClient
     {
-        private readonly SecurityTokenServiceClientConfiguration _config;
+        private readonly ISecurityTokenServiceClientConfiguration _config;
 
         /// <summary>
         /// 
@@ -27,7 +27,7 @@ namespace Digst.OioIdws.OioWsTrust
         /// <param name="config"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public NemloginSecurityTokenServiceClient(SecurityTokenServiceClientConfiguration config)
+        public NemloginSecurityTokenServiceClient(ISecurityTokenServiceClientConfiguration config)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }

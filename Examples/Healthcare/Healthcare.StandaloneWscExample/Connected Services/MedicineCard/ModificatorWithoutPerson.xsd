@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Organisation.xsd" />
+  <element name="ModificatorWithoutPerson" type="medicinecard20150101:ModificatorWithoutPersonType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information about an organisation who modified data. Used for modifications on a pharmacy, where no person information is given</documentation>
+      <documentation xml:lang="da-DK">Indeholder information omkring en person der ændrede data. Anvendt på ændringer fra apoteket, hvor ingen personinformation medsendes.</documentation>
+    </annotation>
+  </element>
+  <complexType name="ModificatorWithoutPersonType">
+    <sequence>
+      <element name="Organisation" type="medicinecard20150101:OrganisationType" />
+    </sequence>
+  </complexType>
+</schema>

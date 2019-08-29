@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
@@ -37,14 +39,13 @@ namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
             }
             else
             {
+                var xDocument = new XDocument();
+                using (var xw = xDocument.CreateWriter())
+                {
+                    WriteAttributeValue(xw, value);
+                }
 
-                var sw = new StringWriter();
-                var xw = XmlWriter.Create(sw, new XmlWriterSettings() {OmitXmlDeclaration = false});
-                WriteAttributeValue(xw, value);
-                var sr = new StringReader(sw.ToString());
-                var element = XElement.Parse(sw.ToString());
-
-                var complexValue = new ComplexSamlAttributeValue(element);
+                var complexValue = new ComplexSamlAttributeValue(xDocument.Root);
                 SetValues(attributeAdapter, new[] {complexValue});
             }
         }

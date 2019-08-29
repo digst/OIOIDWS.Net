@@ -1,11 +1,20 @@
-﻿using System.Security.Authentication;
+﻿using System;
+using System.IdentityModel.Tokens;
+using System.Net.Http;
+using System.Security.Authentication;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Security;
 using System.ServiceModel.Security.Tokens;
+using System.Threading;
+using System.Threading.Tasks;
+using Digst.OioIdws.Soap.Behaviors;
 using Digst.OioIdws.Soap.StrCustomization;
 
 namespace Digst.OioIdws.Soap.Bindings
 {
+
+
     public class SoapBinding : CustomBinding
     {
         /// <summary>
@@ -27,7 +36,7 @@ namespace Digst.OioIdws.Soap.Bindings
         {
             var transport =
                 UseHttps
-                    ? new HttpsTransportBindingElement()
+                    ? new HttpsTransportBindingElement() 
                     : new HttpTransportBindingElement();
 
             if (MaxReceivedMessageSize.HasValue)
@@ -36,6 +45,7 @@ namespace Digst.OioIdws.Soap.Bindings
                     MaxReceivedMessageSize.Value;
             }
 
+            
             var encoding = new TextMessageEncodingBindingElement();
             // [OIO IDWS SOAP 1.1] requires SOAP 1.2 and WS-Adressing 1.0
             encoding.MessageVersion = MessageVersion.Soap12WSAddressing10;
@@ -48,12 +58,17 @@ namespace Digst.OioIdws.Soap.Bindings
             var initiatorTokenParameters =
                 new CustomizedIssuedSecurityTokenParameters(
                     "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
-                );
+                )
+                {
+                    UseStrTransform = UseSTRTransform,
+                    
+                };
 
             //Local Java STS: false, NemLog-in STS: true
-            initiatorTokenParameters.UseStrTransform = UseSTRTransform;
 
-            var asymmetric = new AsymmetricSecurityBindingElement(recipientTokenParameters, initiatorTokenParameters);
+            var asymmetric = new AsymmetricSecurityBindingElement(recipientTokenParameters, initiatorTokenParameters)
+            {
+            };
 
             //DefaultAlgorithmSuite not set for NemLog-in STS but should always be Basic256Sha256
             asymmetric.DefaultAlgorithmSuite = SecurityAlgorithmSuite.Basic256Sha256; 

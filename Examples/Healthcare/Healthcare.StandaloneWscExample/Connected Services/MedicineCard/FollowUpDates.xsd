@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="FollowUpDate.xsd" />
+  <complexType name="FollowUpDatesType">
+    <annotation>
+      <documentation xml:lang="en-GB">A set of planned follow up dates for a drugmedication</documentation>
+      <documentation xml:lang="da-DK">Et antal planlagte opfølgningsdatoer for en lægemiddelordination</documentation>
+    </annotation>
+    <sequence>
+      <element minOccurs="0" maxOccurs="unbounded" name="Date" type="medicinecard20150101:FollowUpDateType" />
+    </sequence>
+  </complexType>
+</schema>

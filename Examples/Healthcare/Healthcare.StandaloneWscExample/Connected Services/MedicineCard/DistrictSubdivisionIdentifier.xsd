@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DistrictSubdivisionIdentifier" type="medicinecard20150101:DistrictSubdivisionIdentifierType">
+    <annotation>
+      <documentation>
+Name of a village, city or subdivision of a city or district, which is determined as a part of the official address specification for a certain street or specific parts of a street, defined by intervals of street building identifiers (da: house numbers). 
+      </documentation>
+    </annotation>
+  </element>
+  <simpleType name="DistrictSubdivisionIdentifierType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="34" />
+    </restriction>
+  </simpleType>
+</schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Timing.xsd" />
+  <element name="TimingList" type="medicinecard20150101:TimingListType">
+    <annotation>
+      <documentation xml:lang="en-GB">Structure containing a list of elements to keep track of the time consumed between request and response for a web service call. When calling a number of chained web services these should add a TimingElementStructure in the list in the order of return. E.g. if A calls B call C the order must be C, B then A.</documentation>
+      <documentation xml:lang="da-DK">En struktur der indeholder en liste af elementer til at spore tidsforbruget mellem request og response på et webservice-kald. Hvis der kaldes en række sammenkædede web services bør disse tilføje et TimingElementStructure i listen i den rækkefølge de returnerer. F.eks. hvis A kalder B som kalder C skal rækkefølgen være C, B og A.</documentation>
+    </annotation>
+  </element>
+  <complexType name="TimingListType">
+    <sequence>
+      <element maxOccurs="unbounded" name="Timing" type="medicinecard20150101:TimingType" />
+    </sequence>
+  </complexType>
+</schema>

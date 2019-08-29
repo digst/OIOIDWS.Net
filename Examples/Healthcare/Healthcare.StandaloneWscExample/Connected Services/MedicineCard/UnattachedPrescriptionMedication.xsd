@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="AuthorisationDateTime.xsd" />
+  <include schemaLocation="CreateDoseDispensedPrescriptionDispensingWithDates.xsd" />
+  <include schemaLocation="CreateSinglePrescriptionDispensing.xsd" />
+  <include schemaLocation="CreateReiteratedPrescriptionDispensing.xsd" />
+  <include schemaLocation="Delivery.xsd" />
+  <include schemaLocation="DeliveryInformation.xsd" />
+  <include schemaLocation="Indication.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <include schemaLocation="OrderInstruction.xsd" />
+  <include schemaLocation="Organisation.xsd" />
+  <include schemaLocation="ReimbursementClause.xsd" />
+  <include schemaLocation="SubstitutionAllowed.xsd" />
+  <include schemaLocation="SupplementaryInformation.xsd" />
+  <include schemaLocation="SystemName.xsd" />
+  <element name="UnattachedPrescriptionMedication" type="medicinecard20150101:UnattachedPrescriptionMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Request document for creating a PrescriptionMedication from a DrugMedication. When used in the service call where the drug medication is created the DrugMedicationIdentifer may be omitted, otherwise it is needed.</documentation>
+      <documentation xml:lang="da-DK">Request-dokument til at oprette en receptordination fra en lægemiddelordination. Når dette element anvendes i servicen til oprettelse af en lægemiddelordination udelades DrugMedicationIdentifer, i alle andre tilfælde er det nødvendigt.</documentation>
+    </annotation>
+  </element>
+  <complexType name="UnattachedPrescriptionMedicationType">
+    <sequence>
+      <element minOccurs="0" name="CreatedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+      <element name="AuthorisationDateTime" type="medicinecard20150101:AuthorisationDateTimeType" />
+      <element minOccurs="0" name="ReceiverOrganisation" type="medicinecard20150101:OrganisationType" />
+      <element name="SystemName" type="medicinecard20150101:SystemNameType" />
+      <choice minOccurs="0" maxOccurs="3">
+        <element name="DeliveryInformation" type="medicinecard20150101:DeliveryInformationType" />
+        <element name="OrderInstruction" type="medicinecard20150101:OrderInstructionType" />
+      </choice>
+      <element minOccurs="0" name="Delivery" type="medicinecard20150101:DeliveryType" />
+      <element minOccurs="0" name="ReimbursementClause" type="medicinecard20150101:ReimbursementClauseType" />
+      <choice>
+        <element name="SinglePrescriptionDispensing" type="medicinecard20150101:CreateSinglePrescriptionDispensingType" />
+        <element name="ReiteratedPrescriptionDispensing" type="medicinecard20150101:CreateReiteratedPrescriptionDispensingType" />
+        <element name="DoseDispensedDispensing" type="medicinecard20150101:CreateDoseDispensedPrescriptionDispensingWithDatesType" />
+      </choice>
+      <element minOccurs="0" name="Indication" type="medicinecard20150101:IndicationType" />
+      <element name="SubstitutionAllowed" type="medicinecard20150101:SubstitutionAllowedType" />
+      <element minOccurs="0" name="SupplementaryInformation" type="medicinecard20150101:SupplementaryInformationType" />
+    </sequence>
+  </complexType>
+</schema>

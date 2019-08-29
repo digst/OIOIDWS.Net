@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DosageSupplementaryText" type="medicinecard20150101:DosageSupplementaryTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Supplementary text for at structured dosage, e.g. "for pain", "with a meal". The supplementary text is not allowed to change the dose amount, e.g. a text like "in every eye" is not allowed.</documentation>
+      <documentation xml:lang="da-DK">Supplerende tekst til en struktureret dosering, f.eks. "ved smerter", "i forbindelse med måltid" m.v. Den supplerende tekst må ikke ændre den doserede mængde, f.eks. er en tekst som "i hvert øje" ikke tilladt</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DosageSupplementaryTextType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="100" />
+    </restriction>
+  </simpleType>
+</schema>

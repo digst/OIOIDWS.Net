@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="RequestedRole" type="medicinecard20150101:RequestedRoleType">
+    <annotation>
+      <documentation xml:lang="da-DK">Brugerens rolle</documentation>
+    </annotation>
+  </element>
+  <simpleType name="RequestedRoleType">
+    <union memberTypes="medicinecard20150101:PredefinedRequestedRole medicinecard20150101:UndefinedRequestedRole" />
+  </simpleType>
+  <simpleType name="PredefinedRequestedRole">
+    <restriction base="string">
+      <enumeration value="Læge" />
+      <enumeration value="Tandlæge" />
+      <enumeration value="Jordemoder" />
+      <enumeration value="Sygeplejerske" />
+      <enumeration value="Social- og sundhedsassistent" />
+      <enumeration value="Social- og sundhedshjælper" />
+      <enumeration value="Sundhedsplejerske" />
+      <enumeration value="Farmaceut" />
+      <enumeration value="Farmakonom" />
+      <enumeration value="Kommunal ansat til medicinhåndtering" />
+      <enumeration value="Apoteker" />
+      <enumeration value="System" />
+      <enumeration value="Assistent for Læge" />
+      <enumeration value="Assistent for Tandlæge" />
+      <enumeration value="Assistent for Sygeplejerske" />
+      <enumeration value="Assistent for Jordemoder" />
+      <enumeration value="Assistent for Social- og sundhedsassistent" />
+      <enumeration value="Assistent for Social- og sundhedshjælper" />
+      <enumeration value="Assistent for Sundhedsplejerske" />
+      <enumeration value="Assistent for Apoteker" />
+      <enumeration value="Assistent for Farmakonom" />
+      <enumeration value="Assistent for Farmaceut" />
+      <enumeration value="Borger" />
+      <enumeration value="Forældermyndighed" />
+      <enumeration value="Værge" />
+      <enumeration value="Web administrator" />
+    </restriction>
+  </simpleType>
+  <simpleType name="UndefinedRequestedRole">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+</schema>

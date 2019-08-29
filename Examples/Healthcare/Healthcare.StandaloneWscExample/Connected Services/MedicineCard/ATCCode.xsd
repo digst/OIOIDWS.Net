@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="ATCCode" type="medicinecard20150101:ATCCodeType">
+    <annotation>
+      <documentation xml:lang="en-GB">Code of the drug ATC group (DMA01 field 15)</documentation>
+      <documentation xml:lang="da-DK">Kode for lægemidlets ATC-gruppe  (LMS01 felt 15)</documentation>
+    </annotation>
+  </element>
+  <complexType name="ATCCodeType">
+    <simpleContent>
+      <extension base="medicinecard20150101:ATCCodeValueType">
+        <attribute name="source" type="medicinecard20150101:ATCCodeSourceType" use="required" />
+        <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+        <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="ATCCodeValueType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="8" />
+    </restriction>
+  </simpleType>
+  <simpleType name="ATCCodeSourceType">
+    <union memberTypes="medicinecard20150101:ATCCodePredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="ATCCodePredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+    </restriction>
+  </simpleType>
+</schema>

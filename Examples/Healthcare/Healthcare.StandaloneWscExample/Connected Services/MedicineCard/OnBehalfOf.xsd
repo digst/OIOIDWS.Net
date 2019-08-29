@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="AuthorisationIdentifier.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <element name="OnBehalfOf" type="medicinecard20150101:OnBehalfOfType">
+    <annotation>
+      <documentation xml:lang="en-GB">Structure containing the autorisation id or CPR of the person that is responsible for the operation.</documentation>
+      <documentation xml:lang="da-DK">En structur der indeholder autorisationsid'et eller CPR på den person som er ansvarlig for handlingen.</documentation>
+    </annotation>
+  </element>
+  <complexType name="OnBehalfOfType">
+    <choice>
+      <element name="AuthorisationIdentifier" type="medicinecard20150101:AuthorisationIdentifierType" />
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+    </choice>
+  </complexType>
+</schema>

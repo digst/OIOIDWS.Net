@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="StreetNameForAddressing" type="medicinecard20150101:StreetNameForAddressingType">
+    <annotation>
+      <documentation>
+			An abbreviation of streetname. The street name for adressing is reported in case the street name is above 20 positions. For names up to 20 positions the street name for addressing is the same as the street name. The street name for adressing is among other things used on items of mail.
+ 			</documentation>
+    </annotation>
+  </element>
+  <simpleType name="StreetNameForAddressingType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="20" />
+    </restriction>
+  </simpleType>
+</schema>

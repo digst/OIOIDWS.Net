@@ -1,4 +1,6 @@
-﻿namespace Digst.OioIdws.SamlAttributes
+﻿using Digst.OioIdws.SamlAttributes.AttributeAdapters;
+
+namespace Digst.OioIdws.SamlAttributes
 {
 
 

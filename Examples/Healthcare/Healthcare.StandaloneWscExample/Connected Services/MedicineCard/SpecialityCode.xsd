@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="SpecialityCode" type="medicinecard20150101:SpecialityCodeType">
+    <annotation>
+      <documentation xml:lang="en-GB">The doctors speciality code according to the pricelist's table LMS19</documentation>
+      <documentation xml:lang="da-DK">Lægens specialekode ifølge takstens LMS19</documentation>
+    </annotation>
+  </element>
+  <complexType name="SpecialityCodeType">
+    <simpleContent>
+      <extension base="medicinecard20150101:SpecialityCodeValueType">
+        <attribute name="source" type="medicinecard20150101:SpecialityCodeSourceType" use="required" />
+        <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+        <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="SpecialityCodeValueType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="5" />
+    </restriction>
+  </simpleType>
+  <simpleType name="SpecialityCodeSourceType">
+    <union memberTypes="medicinecard20150101:SpecialityCodePredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="SpecialityCodePredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+    </restriction>
+  </simpleType>
+</schema>

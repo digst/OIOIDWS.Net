@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="PrescriptionMedicationIdentifier" type="medicinecard20150101:PrescriptionMedicationIdentifierType">
+    <annotation>
+      <documentation xml:lang="en-GB">Unique identification of a prescription medication</documentation>
+      <documentation xml:lang="da-DK">Unik identifikation af en receptordination</documentation>
+    </annotation>
+  </element>
+  <simpleType name="PrescriptionMedicationIdentifierType">
+    <restriction base="long">
+      <minInclusive value="1" />
+    </restriction>
+  </simpleType>
+</schema>

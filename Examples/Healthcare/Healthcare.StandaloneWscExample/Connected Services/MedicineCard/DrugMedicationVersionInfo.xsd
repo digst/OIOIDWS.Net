@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationVersion.xsd" />
+  <include schemaLocation="CreatedDateTime.xsd" />
+  <element name="DrugMedicationVersionInfo" type="medicinecard20150101:DrugMedicationVersionInfoType">
+    <annotation>
+      <documentation xml:lang="en-GB">Versionnumber and created datetime for a specific drug medication version</documentation>
+      <documentation xml:lang="da-DK">Versionsnummer og oprettet dato og tid for en specifik lægemiddelordination version</documentation>
+    </annotation>
+  </element>
+  <complexType name="DrugMedicationVersionInfoType">
+    <sequence>
+      <element name="DrugMedicationVersion" type="medicinecard20150101:DrugMedicationVersionType" />
+      <element minOccurs="0" name="VersionCreatedDateTime" type="medicinecard20150101:CreatedDateTimeType" />
+    </sequence>
+  </complexType>
+</schema>

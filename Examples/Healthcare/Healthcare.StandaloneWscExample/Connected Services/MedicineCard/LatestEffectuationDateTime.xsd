@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="LatestEffectuationDateTime" type="medicinecard20150101:LatestEffectuationDateTimeType">
+    <annotation>
+      <documentation xml:lang="en-GB">The last time the prescription was effectuated</documentation>
+      <documentation xml:lang="da-DK">Det seneste tidspunkt der er foretaget en udlevering på receptordinationen</documentation>
+    </annotation>
+  </element>
+  <simpleType name="LatestEffectuationDateTimeType">
+    <restriction base="dateTime">
+      <minInclusive value="2000-01-01T00:00:00Z" />
+    </restriction>
+  </simpleType>
+</schema>

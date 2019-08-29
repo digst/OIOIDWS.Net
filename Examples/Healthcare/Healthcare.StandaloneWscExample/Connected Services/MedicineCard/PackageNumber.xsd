@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="PackageNumber" type="medicinecard20150101:PackageNumberType">
+    <annotation>
+      <documentation xml:lang="en-GB">The package number (DMA02 field 2)</documentation>
+      <documentation xml:lang="da-DK">Lægemiddelpakningens varenummer (LMS02 felt 2)</documentation>
+    </annotation>
+  </element>
+  <complexType name="PackageNumberType">
+    <simpleContent>
+      <extension base="medicinecard20150101:PackageNumberValueType">
+        <attribute name="source" type="medicinecard20150101:PackageNumberSourceType" use="required" />
+        <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+        <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="PackageNumberValueType">
+    <restriction base="int">
+      <minInclusive value="1" />
+      <maxInclusive value="999999" />
+    </restriction>
+  </simpleType>
+  <simpleType name="PackageNumberSourceType">
+    <union memberTypes="medicinecard20150101:PackageNumberPredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="PackageNumberPredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+      <enumeration value="Frihandelsvare" />
+      <enumeration value="Local" />
+    </restriction>
+  </simpleType>
+</schema>

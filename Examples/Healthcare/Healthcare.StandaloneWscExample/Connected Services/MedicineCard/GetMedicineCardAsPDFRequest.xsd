@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="ShowDosagePeriodType.xsd" />
+  <include schemaLocation="IncludeEffectuations.xsd" />
+  <include schemaLocation="IncludeNonRelevantPrescriptionMedications.xsd" />
+  <include schemaLocation="IncludePrescriptionMedications.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="ModifiedDateTime.xsd" />
+  <include schemaLocation="NegativeConsentRequest.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="PrintType.xsd" />
+  <element name="GetMedicineCardAsPDFRequest" type="medicinecard20150101:GetMedicineCardAsPDFRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for a request for a medicinecard returned as PDF</documentation>
+      <documentation xml:lang="da-DK">Element for en forespørgsel efter et medicinkort der returneres som PDF</documentation>
+    </annotation>
+  </element>
+  <complexType name="GetMedicineCardAsPDFRequestType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="Version" type="medicinecard20150101:MedicineCardVersionType" />
+      <element name="PrintType" type="medicinecard20150101:PrintTypeType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="DateTime" type="medicinecard20150101:ModifiedDateTimeType" />
+      <element minOccurs="0" name="NegativeConsent" type="medicinecard20150101:NegativeConsentRequestType" />
+      <element minOccurs="0" name="ShowDosageLimitations" type="medicinecard20150101:ShowDosagePeriodType" />
+    </sequence>
+  </complexType>
+</schema>

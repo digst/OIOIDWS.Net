@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="RolesPermissions.xsd" />
+  <element name="GetPermissionsResponse" type="medicinecard20150101:GetPermissionsResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Response with the list of Permissions possessed by the caller</documentation>
+      <documentation xml:lang="da-DK">Svar på anmodning om listen indeholdende de rettigheder, der er tildelt kalderen</documentation>
+    </annotation>
+  </element>
+  <complexType name="GetPermissionsResponseType">
+    <sequence>
+      <element minOccurs="0" maxOccurs="unbounded" name="RolesPermissions" type="medicinecard20150101:RolesPermissionsType" />
+    </sequence>
+  </complexType>
+</schema>

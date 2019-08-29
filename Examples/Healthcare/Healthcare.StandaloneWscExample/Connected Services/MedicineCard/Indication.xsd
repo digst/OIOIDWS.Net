@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="IndicationText.xsd" />
+  <include schemaLocation="IndicationFreeText.xsd" />
+  <include schemaLocation="IndicationCode.xsd" />
+  <element name="Indication" type="medicinecard20150101:IndicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Estimated state of health which is used as motivation for a drug prescription</documentation>
+      <documentation xml:lang="da-DK">Vurderet helbredstilstand der benyttes som begrundelse for en lægemiddelordination</documentation>
+    </annotation>
+  </element>
+  <complexType name="IndicationType">
+    <choice>
+      <sequence>
+        <element name="Code" type="medicinecard20150101:IndicationCodeType" />
+        <element minOccurs="0" name="Text" type="medicinecard20150101:IndicationTextType" />
+      </sequence>
+      <element name="FreeText" type="medicinecard20150101:IndicationFreeTextType" />
+    </choice>
+  </complexType>
+</schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="DrugMedicationVersion.xsd" />
+  <element name="UnwithdrawnDrugMedication" type="medicinecard20150101:UnwithdrawnDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element with IDs returned when a drug medication has undone a withdrawn</documentation>
+      <documentation xml:lang="da-DK">Element med IDer returneret når en lægemiddelinformation er blevet af-seponeret</documentation>
+    </annotation>
+  </element>
+  <complexType name="UnwithdrawnDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element name="Version" type="medicinecard20150101:DrugMedicationVersionType" />
+    </sequence>
+  </complexType>
+</schema>

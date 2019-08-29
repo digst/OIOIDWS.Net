@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="AuthorisedHealthcareProfessionalWithOptionalAuthorisationIdentifier.xsd" />
+  <include schemaLocation="Organisation.xsd" />
+  <include schemaLocation="PatientFlag.xsd" />
+  <include schemaLocation="RequestedRole.xsd" />
+  <include schemaLocation="ModificatorPerson.xsd" />
+  <element name="ModificatorWithOptionalAuthorisationIdentifier" type="medicinecard20150101:ModificatorWithOptionalAuthorisationIdentifierType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information about a person who modified data</documentation>
+      <documentation xml:lang="da-DK">Indeholder information omkring en person der ændrede data</documentation>
+    </annotation>
+  </element>
+  <complexType name="ModificatorWithOptionalAuthorisationIdentifierType">
+    <sequence>
+      <choice>
+        <sequence>
+          <element name="AuthorisedHealthcareProfessional" type="medicinecard20150101:AuthorisedHealthcareProfessionalWithOptionalAuthorisationIdentifierType" />
+          <element name="Organisation" type="medicinecard20150101:OrganisationType" />
+        </sequence>
+        <element name="Patient" type="medicinecard20150101:PatientFlagType" />
+        <sequence>
+          <element name="Other" type="medicinecard20150101:ModificatorPersonType" />
+          <element name="Role" type="medicinecard20150101:RequestedRoleType" />
+          <element minOccurs="0" name="Organisation" type="medicinecard20150101:OrganisationType" />
+        </sequence>
+      </choice>
+    </sequence>
+  </complexType>
+</schema>

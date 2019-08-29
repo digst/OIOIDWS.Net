@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Source.xsd" />
+  <include schemaLocation="SourceDate.xsd" />
+  <include schemaLocation="SourceYearAndWeek.xsd" />
+  <element name="DrugStrengthText" type="medicinecard20150101:DrugStrengthTextType">
+    <annotation>
+      <documentation xml:lang="en-GB">Drug strength, plain text from (LMS01 field 10), not free text</documentation>
+      <documentation xml:lang="da-DK">Lægemiddelstyrke, klar tekst fra (LMS01 felt 10), ikke fritekst</documentation>
+    </annotation>
+  </element>
+  <complexType name="DrugStrengthTextType">
+    <simpleContent>
+      <extension base="medicinecard20150101:DrugStrengthTextValueType">
+        <attribute name="source" type="medicinecard20150101:DrugStrengthTextSourceType" use="required" />
+        <attribute name="date" type="medicinecard20150101:SourceDateType" use="optional" />
+        <attribute name="yearAndWeek" type="medicinecard20150101:SourceYearAndWeekType" use="optional" />
+      </extension>
+    </simpleContent>
+  </complexType>
+  <simpleType name="DrugStrengthTextValueType">
+    <restriction base="string">
+      <maxLength value="20" />
+    </restriction>
+  </simpleType>
+  <simpleType name="DrugStrengthTextSourceType">
+    <union memberTypes="medicinecard20150101:DrugStrengthTextPredefinedSourceType medicinecard20150101:UndefinedSourceType" />
+  </simpleType>
+  <simpleType name="DrugStrengthTextPredefinedSourceType">
+    <restriction base="medicinecard20150101:UndefinedSourceType">
+      <enumeration value="Medicinpriser" />
+      <enumeration value="Stærke vitaminer m.v." />
+    </restriction>
+  </simpleType>
+</schema>

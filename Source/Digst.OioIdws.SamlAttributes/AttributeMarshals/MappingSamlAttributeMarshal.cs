@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// A marshal which maps a .NET value to/from a SAML string representation using specified funktione.
+    /// A marshal which maps a .NET value to/from a SAML string representation using specified funktions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="SamlAttributeMarshal{T}" />

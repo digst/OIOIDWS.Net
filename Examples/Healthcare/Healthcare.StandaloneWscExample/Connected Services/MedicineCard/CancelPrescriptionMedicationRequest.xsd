@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="CancelPrescriptionMedication.xsd" />
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="PrescriptionMedicationIdentifier.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <element name="CancelPrescriptionMedicationRequest" type="medicinecard20150101:CancelPrescriptionMedicationRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">Mark one or more prescription medications as invalid</documentation>
+      <documentation xml:lang="da-DK">Marker at en eller flere receptordinationer er ugyldige</documentation>
+    </annotation>
+  </element>
+  <complexType name="CancelPrescriptionMedicationRequestType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ReportedBy" type="medicinecard20150101:ModificatorType" />
+      <element maxOccurs="unbounded" name="PrescriptionMedication" type="medicinecard20150101:CancelPrescriptionMedicationType" />
+    </sequence>
+  </complexType>
+</schema>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Digst.OioIdws.SamlAttributes.Oio.Test

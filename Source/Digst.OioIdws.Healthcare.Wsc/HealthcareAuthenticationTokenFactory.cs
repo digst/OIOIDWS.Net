@@ -1,7 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
-using Digst.OioIdws.Common.Attributes;
+using Digst.OioIdws.SamlAttributes;
 
 namespace Digst.OioIdws.Healthcare.Wsc
 {
@@ -24,16 +25,30 @@ namespace Digst.OioIdws.Healthcare.Wsc
 
         /// <summary>
         /// Creates an authentication token (AUT).
-        /// The token will be issued by the passed subject certificate
+        /// The token will be issued by the passed subject certificate. The current process must have "use access" to the private key of the certificate.
         /// </summary>
         /// <param name="subjectCertiticate">The subject certiticate. This should be a MOCES certificate identifying the employee.</param>
         /// <param name="assuranceLevel">The assurance level which describes the strength of the authentication.</param>
         /// <param name="duration">The duration. This should be kept short - usually in minutes as the AUT token is intended to be presented to the consumer immediately</param>
-        /// <param name="encryptCertificate">The encrypt certificate.</param>
-        /// <param name="issueInstant">The issue instant.</param>
+        /// <param name="encryptionCertificate">The encrypt certificate.</param>
         /// <returns></returns>
-        public Saml2SecurityToken CreateAuthenticationToken(X509Certificate2 subjectCertiticate, AssuranceLevel assuranceLevel, X509Certificate2 encryptCertificate = null)
+        public Saml2SecurityToken CreateAuthenticationToken(X509Certificate2 subjectCertiticate, AssuranceLevel assuranceLevel, X509Certificate2 encryptionCertificate = null)
         {
+            if (subjectCertiticate == null)
+            {
+                throw new ArgumentNullException(nameof(subjectCertiticate));
+            }
+
+            if (!subjectCertiticate.HasPrivateKey)
+            {
+                throw new ArgumentException("The subject certificate must have a private key and this process must have been granted access to it",nameof(subjectCertiticate));
+            }
+
+            if (!Enum.IsDefined(typeof(AssuranceLevel), assuranceLevel))
+            {
+                throw new InvalidEnumArgumentException(nameof(assuranceLevel), (int) assuranceLevel, typeof(AssuranceLevel));
+            }
+
             var assertion = new Saml2Assertion(new Saml2NameIdentifier("http://sts.sundhedsdatastyrelsen.dk/"))
             {
                 Id = new Saml2Id($"uuid-{Guid.NewGuid():D}"),
@@ -75,7 +90,7 @@ namespace Digst.OioIdws.Healthcare.Wsc
 
                 SigningCredentials = GetSigningCredentials(subjectCertiticate),
 
-                EncryptingCredentials = (encryptCertificate != null) ? GetEncryptionCredentials(encryptCertificate) : null,
+                EncryptingCredentials = (encryptionCertificate != null) ? GetEncryptionCredentials(encryptionCertificate) : null,
             };
 
             return new Saml2SecurityToken(assertion);
@@ -87,6 +102,7 @@ namespace Digst.OioIdws.Healthcare.Wsc
         {
             return new X509SigningCredentials(signingCertificate, SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
         }
+
 
         private static EncryptingCredentials GetEncryptionCredentials(X509Certificate2 encryptCertificate)
         {

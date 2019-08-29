@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PausedFromDate.xsd" />
+  <include schemaLocation="PausedFromDateTime.xsd" />
+  <include schemaLocation="PausedToDate.xsd" />
+  <include schemaLocation="PausedToDateTime.xsd" />
+  <element name="Pause" type="medicinecard20150101:PauseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Flagging the drug medication is paused</documentation>
+      <documentation xml:lang="da-DK">Flag der angiver at lægemiddelordinationen er pauseret</documentation>
+    </annotation>
+  </element>
+  <complexType name="PauseType">
+    <sequence>
+      <choice minOccurs="0">
+        <element name="FromDate" type="medicinecard20150101:PausedFromDateType" />
+        <element name="FromDateTime" type="medicinecard20150101:PausedFromDateTimeType" />
+      </choice>
+      <choice minOccurs="0">
+        <element name="ToDate" type="medicinecard20150101:PausedToDateType" />
+        <element name="ToDateTime" type="medicinecard20150101:PausedToDateTimeType" />
+      </choice>
+    </sequence>
+  </complexType>
+</schema>

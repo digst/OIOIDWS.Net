@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml;
 using Digst.OioIdws.Healthcare.Common;
 using Digst.OioIdws.Healthcare.SamlAttributes;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="ConsentGiven.xsd" />
+  <include schemaLocation="ConsentOverridden.xsd" />
+  <element name="NegativeConsentRequest" type="medicinecard20150101:NegativeConsentRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element indicating a request (also) on data with a negative consent, with a reason for the request.</documentation>
+      <documentation xml:lang="da-DK">Element der angiver en forespørges (også) på data med negativt samtykke, men med en årsag for forespørgsel.</documentation>
+    </annotation>
+  </element>
+  <complexType name="NegativeConsentRequestType">
+    <choice>
+      <element name="ConsentGiven" type="medicinecard20150101:ConsentGivenType" />
+      <element name="ConsentOverridden" type="medicinecard20150101:ConsentOverriddenType" />
+    </choice>
+  </complexType>
+</schema>

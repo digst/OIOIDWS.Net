@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="DosageForRequest.xsd" />
+  <include schemaLocation="FollowUpDates.xsd" />
+  <include schemaLocation="Drug.xsd" />
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="CreateOrUpdateDrugMedicationBeginEndDate.xsd" />
+  <include schemaLocation="DrugMedicationIdentifier.xsd" />
+  <include schemaLocation="HasNegativeConsent.xsd" />
+  <include schemaLocation="Indication.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <include schemaLocation="Pause.xsd" />
+  <include schemaLocation="RouteOfAdministration.xsd" />
+  <include schemaLocation="SubstitutionAllowed.xsd" />
+  <include schemaLocation="UnwithdrawDrugMedicationOnUpdate.xsd" />
+  <include schemaLocation="ReimbursementClause.xsd" />
+  <element name="UpdateDrugMedication" type="medicinecard20150101:UpdateDrugMedicationType">
+    <annotation>
+      <documentation xml:lang="en-GB">An overview of the drug medication (a medication on the medicine card), used for update</documentation>
+      <documentation xml:lang="da-DK">En oversigt over lægemiddelordination (en ordination på medicinkortet), til brug ved opdatering</documentation>
+    </annotation>
+  </element>
+  <complexType name="UpdateDrugMedicationType">
+    <sequence>
+      <element name="Identifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" name="Unwithdraw" type="medicinecard20150101:UnwithdrawDrugMedicationOnUpdateType" />
+      <element minOccurs="0" name="ParentIdentifier" type="medicinecard20150101:DrugMedicationIdentifierType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+      <element minOccurs="0" name="FollowUpDates" type="medicinecard20150101:FollowUpDatesType" />
+      <element minOccurs="0" name="Pause" type="medicinecard20150101:PauseType" />
+      <element minOccurs="0" name="HasNegativeConsent" type="medicinecard20150101:HasNegativeConsentType" />
+      <element name="BeginEndDate" type="medicinecard20150101:CreateOrUpdateDrugMedicationBeginEndDateType" />
+      <element name="Indication" type="medicinecard20150101:IndicationType" />
+      <element name="RouteOfAdministration" type="medicinecard20150101:RouteOfAdministrationType" />
+      <element name="Drug" type="medicinecard20150101:DrugType" />
+      <element name="Dosage" type="medicinecard20150101:DosageForRequestType" />
+      <element name="SubstitutionAllowed" type="medicinecard20150101:SubstitutionAllowedType" />
+      <element minOccurs="0" name="ReimbursementClause" type="medicinecard20150101:ReimbursementClauseType" />
+    </sequence>
+  </complexType>
+</schema>

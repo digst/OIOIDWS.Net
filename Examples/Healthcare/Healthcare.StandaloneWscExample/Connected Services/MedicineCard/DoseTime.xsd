@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="DoseTime" type="medicinecard20150101:DoseTimeType">
+    <annotation>
+      <documentation xml:lang="en-GB">The actual time of a dosage time</documentation>
+      <documentation xml:lang="da-DK">Klokkeslettet for et doseringstidspunkt</documentation>
+    </annotation>
+  </element>
+  <simpleType name="DoseTimeType">
+    <union memberTypes="medicinecard20150101:MorningNoonEveningNightDoseTimeType medicinecard20150101:TimeDoseTimeType" />
+  </simpleType>
+  <simpleType name="MorningNoonEveningNightDoseTimeType">
+    <restriction base="string">
+      <enumeration value="morning" />
+      <enumeration value="noon" />
+      <enumeration value="evening" />
+      <enumeration value="night" />
+    </restriction>
+  </simpleType>
+  <simpleType name="TimeDoseTimeType">
+    <restriction base="time" />
+  </simpleType>
+</schema>

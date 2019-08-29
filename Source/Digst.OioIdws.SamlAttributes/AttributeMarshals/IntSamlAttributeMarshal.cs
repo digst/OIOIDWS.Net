@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
     /// <summary>
-    /// An accessor for accessing boolean attribute values encoded as "true" or "false" within the {AttributeValue} element
+    /// An accessor for accessing an integer (Int32) attribute values encoded as a string of digits within the {AttributeValue} element
     /// </summary>
     public class IntSamlAttributeMarshal : EncodedStringSamlAttributeMarshal<int>
     {

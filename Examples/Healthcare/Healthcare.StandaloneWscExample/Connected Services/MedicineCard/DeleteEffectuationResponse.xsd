@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="VersionMismatchWarning.xsd" />
+  <element name="DeleteEffectuationResponse" type="medicinecard20150101:DeleteEffectuationResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Outer container element for a delete effecuation response</documentation>
+      <documentation xml:lang="da-DK">Ydre container-element for et svar på slet effektueringer</documentation>
+    </annotation>
+  </element>
+  <complexType name="DeleteEffectuationResponseType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" name="VersionMismatchWarning" type="medicinecard20150101:VersionMismatchWarningType" />
+    </sequence>
+  </complexType>
+</schema>

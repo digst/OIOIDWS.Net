@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PrescriptionMedication.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="InvalidPrescriptionMedication.xsd" />
+  <element name="GetPrescriptionMedicationResponse" type="medicinecard20150101:GetPrescriptionMedicationResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Outer container element for a response with one or more prescription medications</documentation>
+      <documentation xml:lang="da-DK">Ydre container-element for en svar med en eller flere receptordinationer</documentation>
+    </annotation>
+  </element>
+  <complexType name="GetPrescriptionMedicationResponseType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="PrescriptionMedication" type="medicinecard20150101:PrescriptionMedicationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="InvalidPrescriptionMedication" type="medicinecard20150101:InvalidPrescriptionMedicationType" />
+    </sequence>
+  </complexType>
+</schema>

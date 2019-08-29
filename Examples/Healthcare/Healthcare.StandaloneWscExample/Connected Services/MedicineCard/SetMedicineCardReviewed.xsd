@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="ReviewedDateTime.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <element name="SetMedicineCardReviewed" type="medicinecard20150101:SetMedicineCardReviewedType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for setting a date and time for a review of the medicine card</documentation>
+      <documentation xml:lang="da-DK">Element til at sætte dato og tid for en medicinkort-gennemgang</documentation>
+    </annotation>
+  </element>
+  <complexType name="SetMedicineCardReviewedType">
+    <sequence>
+      <element minOccurs="0" name="ReviewedBy" type="medicinecard20150101:ModificatorType" />
+      <element name="ReviewedDateTime" type="medicinecard20150101:ReviewedDateTimeType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+    </sequence>
+  </complexType>
+</schema>

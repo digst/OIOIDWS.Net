@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using Digst.OioIdws.SamlAttributes.AttributeAdapters;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 namespace Digst.OioIdws.SamlAttributes.AttributeMarshals
 {
 
     /// <summary>
-    /// Base class for attribute descriptors that map between a .NET type and the SAML string based representation.
+    /// Base marshal for marshals that transmits SAML attributes as encoded strings, i.e. a string value.
     /// </summary>
     public abstract class EncodedStringSamlAttributeMarshal<T> : SamlAttributeMarshal<T>
     {

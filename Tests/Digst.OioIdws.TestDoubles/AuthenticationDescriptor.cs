@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.Xml;
-using Digst.OioIdws.Common.Attributes;
+using Digst.OioIdws.SamlAttributes;
 using Digst.OioIdws.SecurityTokens.Tokens.ExtendedSaml2SecurityToken;
 
 

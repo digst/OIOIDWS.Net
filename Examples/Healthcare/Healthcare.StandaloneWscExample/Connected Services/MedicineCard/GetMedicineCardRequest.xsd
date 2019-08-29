@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:cpr="http://rep.oio.dk/cpr.dk/xml/schemas/core/2005/03/18/" xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="IncludeEffectuations.xsd" />
+  <include schemaLocation="IncludeNonRelevantPrescriptionMedications.xsd" />
+  <include schemaLocation="IncludePrescriptionMedications.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="ModifiedDateTime.xsd" />
+  <include schemaLocation="NegativeConsentRequest.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <element name="GetMedicineCardRequest" type="medicinecard20150101:GetMedicineCardRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">Element for a request for a medicinecard</documentation>
+      <documentation xml:lang="da-DK">Element for en forespørgsel efter et medicinkort</documentation>
+    </annotation>
+  </element>
+  <complexType name="GetMedicineCardRequestType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="Version" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="DateTime" type="medicinecard20150101:ModifiedDateTimeType" />
+      <element minOccurs="0" name="NegativeConsent" type="medicinecard20150101:NegativeConsentRequestType" />
+      <element name="IncludePrescriptionMedications" type="medicinecard20150101:IncludePrescriptionMedicationsType" />
+      <element name="IncludeEffectuations" type="medicinecard20150101:IncludeEffectuationsType" />
+      <element name="IncludeNonRelevantPrescriptionMedications" type="medicinecard20150101:IncludeNonRelevantPrescriptionMedicationsType" />
+    </sequence>
+  </complexType>
+</schema>

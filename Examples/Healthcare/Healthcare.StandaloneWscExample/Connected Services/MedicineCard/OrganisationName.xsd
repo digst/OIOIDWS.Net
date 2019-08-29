@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="OrganisationName" type="medicinecard20150101:OrganisationNameType">
+    <annotation>
+      <documentation xml:lang="en-GB">The name of a organisation which has acted on the medicine card</documentation>
+      <documentation xml:lang="da-DK">Navnet paa en organisation der har foretaget en handling paa medicinkortet</documentation>
+    </annotation>
+  </element>
+  <simpleType name="OrganisationNameType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+</schema>

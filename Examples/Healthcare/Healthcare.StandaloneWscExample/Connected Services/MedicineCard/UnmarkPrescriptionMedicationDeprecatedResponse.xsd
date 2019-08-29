@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="VersionMismatchWarning.xsd" />
+  <element name="UnmarkPrescriptionMedicationDeprecatedResponse" type="medicinecard20150101:UnmarkPrescriptionMedicationDeprecatedResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Response from service to unmark one or more prescription medications as no longer relevant</documentation>
+      <documentation xml:lang="da-DK">Svar fra service til fjern markering af at en eller flere receptordinationer ikke længere er relevante</documentation>
+    </annotation>
+  </element>
+  <complexType name="UnmarkPrescriptionMedicationDeprecatedResponseType">
+    <sequence>
+      <sequence>
+        <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+        <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+        <element minOccurs="0" name="VersionMismatchWarning" type="medicinecard20150101:VersionMismatchWarningType" />
+      </sequence>
+    </sequence>
+  </complexType>
+</schema>

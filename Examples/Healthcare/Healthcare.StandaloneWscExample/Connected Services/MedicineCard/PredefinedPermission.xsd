@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="UndefinedPermission.xsd" />
+  <element name="PredefinedPermission" type="medicinecard20150101:PredefinedPermission">
+    <annotation>
+      <documentation xml:lang="da-DK">Foruddefineret tilladelse</documentation>
+    </annotation>
+  </element>
+  <simpleType name="PredefinedPermission">
+    <restriction base="medicinecard20150101:UndefinedPermission">
+      <enumeration value="BorgerOpslag" />
+      <enumeration value="SundhedsfagligOpslag" />
+      <enumeration value="Recept" />
+      <enumeration value="Lægemiddelordination" />
+      <enumeration value="Effektuering" />
+      <enumeration value="Privatmarkering" />
+      <enumeration value="VisPrivatmarkeretVærdispring" />
+      <enumeration value="VisPrivatmarkeretSamtykke" />
+      <enumeration value="Suspendering" />
+      <enumeration value="Afstemning" />
+      <enumeration value="LøsRecept" />
+      <enumeration value="Administration" />
+      <enumeration value="Tilknytning" />
+      <enumeration value="BestilEffektuering" />
+    </restriction>
+  </simpleType>
+</schema>

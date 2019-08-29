@@ -76,6 +76,10 @@
       <Project>{90C95503-CDA6-46E1-91AF-3A52D04DBCC3}</Project>
       <Name>Digst.OioIdws.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.Saml2SecurityToken\Digst.OioIdws.Saml2SecurityToken.csproj">
+      <Project>{34DD0A77-9DE1-464F-818C-1A9645E7B1C5}</Project>
+      <Name>Digst.OioIdws.Saml2SecurityToken</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

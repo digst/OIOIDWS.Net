@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="MedicineCardAsPDF" type="medicinecard20150101:MedicineCardAsPDFType">
+    <annotation>
+      <documentation xml:lang="en-GB">A medicine card as PDF embedded as BASE64 encoded text</documentation>
+      <documentation xml:lang="da-DK">Et medicinkort indlejret som BASE64 encoded tekst</documentation>
+    </annotation>
+  </element>
+  <simpleType name="MedicineCardAsPDFType">
+    <restriction base="string" />
+  </simpleType>
+</schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Organisation.xsd" />
+  <element name="Hospitalized" type="medicinecard20150101:HospitalizedType">
+    <annotation>
+      <documentation xml:lang="en-GB">Information about the hospital</documentation>
+      <documentation xml:lang="da-DK">Information om hospitalet</documentation>
+    </annotation>
+  </element>
+  <complexType name="HospitalizedType">
+    <sequence>
+      <element name="Organisation" type="medicinecard20150101:OrganisationType" />
+    </sequence>
+  </complexType>
+</schema>

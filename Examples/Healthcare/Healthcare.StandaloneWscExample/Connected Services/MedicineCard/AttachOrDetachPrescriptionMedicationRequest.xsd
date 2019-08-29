@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="AttachPrescriptionMedication.xsd" />
+  <include schemaLocation="DetachPrescriptionMedication.xsd" />
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <element name="AttachOrDetachPrescriptionMedicationRequest" type="medicinecard20150101:AttachOrDetachPrescriptionMedicationRequestType">
+    <annotation>
+      <documentation xml:lang="en-GB">A request whichs attaches prescription medications to drug medications or detaches prescription medications</documentation>
+      <documentation xml:lang="da-DK">En forespørgsel der tilknytter receptordinationer til lægemiddelordinationer eller fjerner tilknytningen</documentation>
+    </annotation>
+  </element>
+  <complexType name="AttachOrDetachPrescriptionMedicationRequestType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" name="ModifiedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ReportedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="DetachPrescriptionMedication" type="medicinecard20150101:DetachPrescriptionMedicationType" />
+      <element minOccurs="0" maxOccurs="unbounded" name="AttachPrescriptionMedication" type="medicinecard20150101:AttachPrescriptionMedicationType" />
+    </sequence>
+  </complexType>
+</schema>

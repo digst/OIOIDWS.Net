@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Drug.xsd" />
+  <include schemaLocation="Modificator.xsd" />
+  <include schemaLocation="DoseQuantity.xsd" />
+  <include schemaLocation="DosageQuantityUnitText.xsd" />
+  <include schemaLocation="EffectuationDateTime.xsd" />
+  <include schemaLocation="EffectuationMethod.xsd" />
+  <include schemaLocation="IsEffectuatedAccordingToDrugMedication.xsd" />
+  <include schemaLocation="ModificationMetadata.xsd" />
+  <include schemaLocation="PackageNumber.xsd" />
+  <include schemaLocation="PackageSize.xsd" />
+  <include schemaLocation="PackageQuantity.xsd" />
+  <element name="CreateEffectuation" type="medicinecard20150101:CreateEffectuationType">
+    <annotation>
+      <documentation xml:lang="en-GB">Document for creation of a new effectuation of a drug</documentation>
+      <documentation xml:lang="da-DK">Dokument til oprettelse af en ny effektuering af et lægemiddel</documentation>
+    </annotation>
+  </element>
+  <complexType name="CreateEffectuationType">
+    <sequence>
+      <element name="DateTime" type="medicinecard20150101:EffectuationDateTimeType" />
+      <element name="EffectuationMethod" type="medicinecard20150101:EffectuationMethodType" />
+      <element minOccurs="0" name="CreatedBy" type="medicinecard20150101:ModificatorType" />
+      <element minOccurs="0" name="ModificationMetadata" type="medicinecard20150101:ModificationMetadataType" />
+      <choice>
+        <sequence>
+          <element name="DoseQuantity" type="medicinecard20150101:DoseQuantityType" />
+          <element name="DosageQuantityUnitText" type="medicinecard20150101:DosageQuantityUnitTextType" />
+          <element name="Drug" type="medicinecard20150101:DrugType" />
+        </sequence>
+        <sequence>
+          <element name="Drug" type="medicinecard20150101:DrugType" />
+        </sequence>
+        <sequence>
+          <element minOccurs="0" name="PackageQuantity" type="medicinecard20150101:PackageQuantityType" />
+          <element name="PackageNumber" type="medicinecard20150101:PackageNumberType" />
+          <element minOccurs="0" name="PackageSize" type="medicinecard20150101:PackageSizeType" />
+          <element minOccurs="0" name="Drug" type="medicinecard20150101:DrugType" />
+        </sequence>
+        <element name="IsEffectuatedAccordingToDrugMedication" type="medicinecard20150101:IsEffectuatedAccordingToDrugMedicationType" />
+      </choice>
+    </sequence>
+  </complexType>
+</schema>

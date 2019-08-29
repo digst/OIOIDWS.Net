@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:ean="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" elementFormDefault="qualified" targetNamespace="http://rep.oio.dk/ean/xml/schemas/2005/01/10/" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="EAN_EAN13Identifier.xsd" />
+  <element name="EANLocationIdentifier" type="ean:EAN13IdentifierType" />
+</schema>

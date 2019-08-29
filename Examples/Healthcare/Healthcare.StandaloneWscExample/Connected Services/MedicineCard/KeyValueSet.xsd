@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="Key.xsd" />
+  <include schemaLocation="Value.xsd" />
+  <element name="KeyValueSet" type="medicinecard20150101:KeyValueSetType">
+    <annotation>
+      <documentation xml:lang="en-GB">Set of keys and values</documentation>
+      <documentation xml:lang="da-DK">Mængde af keys og values</documentation>
+    </annotation>
+  </element>
+  <complexType name="KeyValueSetType">
+    <sequence>
+      <element name="Key" type="medicinecard20150101:KeyType" />
+      <element name="Value" type="medicinecard20150101:ValueType" />
+    </sequence>
+  </complexType>
+</schema>

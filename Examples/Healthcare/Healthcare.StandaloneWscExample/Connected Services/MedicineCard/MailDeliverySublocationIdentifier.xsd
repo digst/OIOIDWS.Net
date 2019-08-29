@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns:xkom="http://rep.oio.dk/xkom.dk/xml/schemas/2006/01/06/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="MailDeliverySublocationIdentifier" type="medicinecard20150101:MailDeliverySublocationIdentifierType">
+    <annotation>
+      <documentation>The given name of a farm, estate, building or dwelling, which is used as a additional postal address identifier.</documentation>
+    </annotation>
+  </element>
+  <simpleType name="MailDeliverySublocationIdentifierType">
+    <restriction base="string">
+      <minLength value="1" />
+      <maxLength value="34" />
+    </restriction>
+  </simpleType>
+</schema>

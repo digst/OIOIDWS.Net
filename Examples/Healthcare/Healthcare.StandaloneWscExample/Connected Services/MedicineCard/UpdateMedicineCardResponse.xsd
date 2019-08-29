@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:medicinecard20150101="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dkma.dk/medicinecard/xml.schema/2015/01/01" xmlns="http://www.w3.org/2001/XMLSchema">
+  <include schemaLocation="PersonIdentifier.xsd" />
+  <include schemaLocation="MedicineCardVersion.xsd" />
+  <include schemaLocation="VersionMismatchWarning.xsd" />
+  <include schemaLocation="CreatedDrugMedication.xsd" />
+  <include schemaLocation="UpdatedDrugMedication.xsd" />
+  <include schemaLocation="WithdrawnDrugMedication.xsd" />
+  <include schemaLocation="PausedDrugMedication.xsd" />
+  <include schemaLocation="UnpausedDrugMedication.xsd" />
+  <include schemaLocation="CreatedEffectuationOnDrugMedication.xsd" />
+  <include schemaLocation="CreatedPrescriptionMedication.xsd" />
+  <include schemaLocation="UnwithdrawnDrugMedication.xsd" />
+  <include schemaLocation="CancelledPrescriptionMedication.xsd" />
+  <element name="UpdateMedicineCardResponse" type="medicinecard20150101:UpdateMedicineCardResponseType">
+    <annotation>
+      <documentation xml:lang="en-GB">Outer container element for a batch request to update a medicine card</documentation>
+      <documentation xml:lang="da-DK">Ydre container-element for en batchforespørgsel for at opdatere et medicinkort</documentation>
+    </annotation>
+  </element>
+  <complexType name="UpdateMedicineCardResponseType">
+    <sequence>
+      <element name="PersonIdentifier" type="medicinecard20150101:PersonIdentifierType" />
+      <element name="MedicineCardVersion" type="medicinecard20150101:MedicineCardVersionType" />
+      <element minOccurs="0" name="VersionMismatchWarning" type="medicinecard20150101:VersionMismatchWarningType" />
+      <sequence maxOccurs="unbounded">
+        <element minOccurs="0" name="CreatedDrugMedication" type="medicinecard20150101:CreatedDrugMedicationType" />
+        <element minOccurs="0" name="UpdatedDrugMedication" type="medicinecard20150101:UpdatedDrugMedicationType" />
+        <element minOccurs="0" name="WithdrawnDrugMedication" type="medicinecard20150101:WithdrawnDrugMedicationType" />
+        <element minOccurs="0" name="UnwithdrawnDrugMedication" type="medicinecard20150101:UnwithdrawnDrugMedicationType" />
+        <element minOccurs="0" name="PausedDrugMedication" type="medicinecard20150101:PausedDrugMedicationType" />
+        <element minOccurs="0" name="UnpausedDrugMedication" type="medicinecard20150101:UnpausedDrugMedicationType" />
+        <element minOccurs="0" name="CreatedPrescriptionMedication" type="medicinecard20150101:CreatedPrescriptionMedicationType" />
+        <element minOccurs="0" name="CreatedEffectuationOnDrugMedication" type="medicinecard20150101:CreatedEffectuationOnDrugMedicationType" />
+        <element minOccurs="0" name="CancelledPrescriptionMedication" type="medicinecard20150101:CancelledPrescriptionMedicationType" />
+      </sequence>
+    </sequence>
+  </complexType>
+</schema>

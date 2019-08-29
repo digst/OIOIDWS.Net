@@ -60,6 +60,10 @@
       <Project>{021345B3-85F0-4AE3-9989-DC96772C7799}</Project>
       <Name>Digst.OioIdws.OioWsTrust</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Digst.OioIdws.SamlAttributes\Digst.OioIdws.SamlAttributes.csproj">
+      <Project>{407473C6-0D67-4158-A2A6-0A774819FF2B}</Project>
+      <Name>Digst.OioIdws.SamlAttributes</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
