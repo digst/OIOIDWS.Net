@@ -65,6 +65,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1275603-809A-4219-92C6-94486A46B4A8}"
 	ProjectSection(SolutionItems) = preProject
 		DEVELOPER-NOTES.md = DEVELOPER-NOTES.md
+		Digst.OioIdws.Healthcare.SamlAttributes.md = Digst.OioIdws.Healthcare.SamlAttributes.md
+		Digst.OioIdws.SamlAttributes.md = Digst.OioIdws.SamlAttributes.md
+		Digst.OioIdws.Wsc.md = Digst.OioIdws.Wsc.md
+		Digst.OioIdws.Wsp.md = Digst.OioIdws.Wsp.md
 		README.md = README.md
 	EndProjectSection
 EndProject

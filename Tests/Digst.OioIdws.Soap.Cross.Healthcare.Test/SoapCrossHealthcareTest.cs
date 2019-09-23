@@ -106,7 +106,7 @@ namespace Digst.OioIdws.Soap.Cross.Healthcare.Test
                 StsCertificate = CertificateUtil.GetCertificate("af7691346492dc30d127d85537297d702993176c")
             };
 
-            _stsTokenService = new LocalSecurityTokenServiceClient(securityTokenServiceClientConfiguration, null);
+            _stsTokenService = new LocalSecurityTokenServiceClient(securityTokenServiceClientConfiguration);
         }
 
         [ClassCleanup]

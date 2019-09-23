@@ -17,7 +17,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             // Act
             try
             {
-                new LocalSecurityTokenServiceClient(null, null);
+                new LocalSecurityTokenServiceClient(null);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -40,7 +40,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             // Act
             try
             {
-                new LocalSecurityTokenServiceClient(tokenServiceConfiguration, null);
+                new LocalSecurityTokenServiceClient(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -50,27 +50,6 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             }
         }
 
-        [TestMethod]
-        [TestCategory(Constants.UnitTest)]
-        public void StsEndpointAddressMissingInConfigurationTest()
-        {
-            // Arrange
-            var tokenServiceConfiguration = new SecurityTokenServiceClientConfiguration();
-            tokenServiceConfiguration.WscCertificate = new X509Certificate2();
-            tokenServiceConfiguration.StsCertificate = new X509Certificate2();
-
-            // Act
-            try
-            {
-                new LocalSecurityTokenServiceClient(tokenServiceConfiguration, null);
-                Assert.Fail("Should fail due to wrong configuration");
-            }
-            // Assert
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("StsEndpointAddress", e.Message);
-            }
-        }
 
         [TestMethod]
         [TestCategory(Constants.UnitTest)]
@@ -85,7 +64,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             // Act
             try
             {
-                new LocalSecurityTokenServiceClient(tokenServiceConfiguration, null);
+                new LocalSecurityTokenServiceClient(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert
@@ -108,7 +87,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             // Act
             try
             {
-                new LocalSecurityTokenServiceClient(tokenServiceConfiguration, null);
+                new LocalSecurityTokenServiceClient(tokenServiceConfiguration);
                 Assert.Fail("Should fail due to wrong configuration");
             }
             // Assert

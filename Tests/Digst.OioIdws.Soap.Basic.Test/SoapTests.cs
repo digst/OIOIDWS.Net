@@ -27,6 +27,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         private static ISecurityTokenServiceClient _stsTokenService;
         private const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
         private const string WspHostName = "digst.oioidws.wsp";
+        private const string WspEntityId = "Digst.OioIdws.WspExample.HelloWorld";
         private const string WspUri = "https://wsp.oioidws-net.dk";
 
         [ClassInitialize]
@@ -66,11 +67,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
             // Retrieve token
             ITokenCache memoryCache = new MemoryTokenCache();
 
-            _stsTokenService = new CachedSecurityTokenServiceClient(
-                new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration()),
-                memoryCache,
-                memoryCache
-                );
+            _stsTokenService = new NemloginSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
         }
 
         [ClassCleanup]
@@ -103,7 +100,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
 
             // Act
             var response = channelWithIssuedToken.HelloNone("Schultz");
@@ -118,7 +115,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
 
             // Act
             try
@@ -138,7 +135,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
 
             // Act
             var response = channelWithIssuedToken.HelloSign("Schultz");
@@ -153,7 +150,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
 
             // Act
             try
@@ -173,7 +170,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var issuedToken = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
+            var issuedToken = _stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey);
 
             var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(issuedToken);
 
@@ -190,7 +187,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
 
             // Act
             try
@@ -223,7 +220,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -296,7 +293,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
 
             // Act
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");
@@ -328,7 +325,7 @@ namespace Digst.OioIdws.Soap.Basic.Test
 
             // Act
             HelloWorldClient client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspEntityId, KeyType.HolderOfKey));
             try
             {
                 channelWithIssuedToken.HelloSign("Schultz");

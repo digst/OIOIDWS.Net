@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens;
-using Digst.OioIdws.OioWsTrust.TokenCache;
-using System.Diagnostics;
-using System.IdentityModel.Metadata;
 using System.IdentityModel.Protocols.WSTrust;
-using System.Security.Cryptography.X509Certificates;
+using System.IdentityModel.Tokens;
+using System.Text;
+using Digst.OioIdws.OioWsTrust.TokenCache;
 
 namespace Digst.OioIdws.OioWsTrust
 {
     /// <summary>
-    /// This class allows for injection of a token cache of type <see cref="ITokenCache"/> and an StsTokenService of type <see cref="ISecurityTokenServiceClient"/>
+    /// 
     /// </summary>
     public class CachedSecurityTokenServiceClient : ISecurityTokenServiceClient
     {
@@ -28,27 +22,41 @@ namespace Digst.OioIdws.OioWsTrust
         /// <param name="securityTokenService">The service for which the responses should be cached</param>
         /// <param name="bootstrapTokenCache">A cache which will hold cached bootstrap tokens. Used when authentication tokens are exchanged for bootstrap tokens.</param>
         /// <param name="identityTokenCache">A cache which will hold cached identity (service) tokens. Used when bootstrap tokens are exchanged for identity tokens.</param>
-        public CachedSecurityTokenServiceClient(ISecurityTokenServiceClient securityTokenService, ITokenCache bootstrapTokenCache, ITokenCache identityTokenCache, ITokenCacheHitMissLogger tokenCacheHitMissLogger = null)
+        public CachedSecurityTokenServiceClient(ISecurityTokenServiceClient securityTokenService, ITokenCache bootstrapTokenCache, ITokenCache identityTokenCache)
         {
             _stsTokenService = securityTokenService;
             _bootstrapTokenCache = bootstrapTokenCache;
             _identityTokenCache = identityTokenCache;
-            _tokenCacheHitMissLogger = tokenCacheHitMissLogger;
+        }
+
+
+        private string ClaimsCacheKey(RequestClaimCollection claims)
+        {
+            if (claims == null) return "";
+            var sb = new StringBuilder();
+            foreach (var claim in claims)
+            {
+                sb.Append(claim.ClaimType).Append(";");
+                sb.Append(claim.Value).Append(";");
+                sb.Append(claim.IsOptional);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
         /// Get a GenericXmlSecurityToken from cache or STS without a token as ActAs
         /// </summary>
         /// <returns>GenericXmlSecurityToken</returns>
-        public SecurityToken GetServiceToken(string serviceIdentifier, KeyType keyType)
+        public SecurityToken GetServiceToken(string wspIdentifier, KeyType keyType, RequestClaimCollection claims = null)
         {
-            string cacheKey = $"{serviceIdentifier}:{keyType}";
+            string cacheKey = $"{wspIdentifier}:{keyType}:{ClaimsCacheKey(claims)}";
 
             var secToken = TryGetFromCache(cacheKey, _identityTokenCache);
             if (secToken is null)
             {
                 _tokenCacheHitMissLogger?.CacheMiss(cacheKey);
-                secToken = _stsTokenService.GetServiceToken(serviceIdentifier, keyType);
+                secToken = _stsTokenService.GetServiceToken(wspIdentifier, keyType, claims);
                 PutTokenInCache(cacheKey, secToken, _identityTokenCache);
             }
             else
@@ -59,13 +67,15 @@ namespace Digst.OioIdws.OioWsTrust
             return secToken;
         }
 
+
+
         /// <summary>
         /// Get a GenericXmlSecurityToken from cache or STS with a token as ActAs
         /// </summary>
         /// <returns>GenericXmlSecurityToken</returns>
-        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceIdentifier, KeyType keyType)
+        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceIdentifier, KeyType keyType, RequestClaimCollection claims)
         {
-            string cacheKey = $"{bootstrapToken.Id}:{serviceIdentifier}:{keyType}";
+            string cacheKey = $"{bootstrapToken.Id}:{serviceIdentifier}:{keyType}:{ClaimsCacheKey(claims)}";
 
             var secToken = TryGetFromCache(cacheKey, _identityTokenCache);
             if (secToken is null)

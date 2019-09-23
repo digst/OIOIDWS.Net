@@ -16,7 +16,6 @@ namespace Digst.OioIdws.OioWsTrust
     /// </summary>
     public class LocalSecurityTokenServiceClient : ISecurityTokenServiceClient
     {
-        private readonly RequestSecurityToken _templateRequest;
         private readonly SecurityTokenServiceClientConfiguration _config;
 
         /// <summary>
@@ -25,15 +24,14 @@ namespace Digst.OioIdws.OioWsTrust
         /// <param name="config"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public LocalSecurityTokenServiceClient(SecurityTokenServiceClientConfiguration config, RequestSecurityToken templateRequest)
+        public LocalSecurityTokenServiceClient(SecurityTokenServiceClientConfiguration config)
         {
             // Check input arguments
             if (config == null) throw new ArgumentNullException(nameof(config));
+            if (config.WscIdentifier == null) throw new ArgumentException("WscIdentifier");
             // X509FindType cannot be tested below because default value is FindByThumbprint
             if (config.WscCertificate == null) throw new ArgumentException("ClientCertificate");
             if (config.StsCertificate == null) throw new ArgumentException("StsCertificate");
-            _templateRequest = templateRequest;
-
             _config = config;
         }
 
@@ -41,38 +39,37 @@ namespace Digst.OioIdws.OioWsTrust
         /// <summary>
         /// <see cref="ISecurityTokenServiceClient.GetServiceToken"/>
         /// </summary>
-        /// <param name="serviceIdentifier"></param>
+        /// <param name="wspIdentifier"></param>
         /// <param name="keyType"></param>
-        public SecurityToken GetServiceToken(string serviceIdentifier, KeyType keyType)
+        public SecurityToken GetServiceToken(string wspIdentifier, KeyType keyType, RequestClaimCollection claims = null)
         {
-            return GetTokenInternal(null, serviceIdentifier, keyType, _config.ServiceTokenUrl);
+            return GetTokenInternal(null, wspIdentifier, keyType, _config.ServiceTokenUrl, claims);
         }
+
 
 
         /// <inheritdoc />
         public SecurityToken GetBootstrapTokenFromAuthenticationToken(SecurityToken authenticationToken)
         {
-            return GetTokenInternal(authenticationToken, _config.WscIdentifier, KeyType.HolderOfKey, _config.BootstrapTokenFromAuthenticationTokenUrl);
+            return GetTokenInternal(authenticationToken, _config.WscIdentifier, KeyType.HolderOfKey, _config.BootstrapTokenFromAuthenticationTokenUrl, null);
         }
 
 
         /// <summary>
         /// <see cref="ISecurityTokenServiceClient.GetIdentityTokenFromBootstrapToken"/>
         /// </summary>
-        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceIdentifier,
-            KeyType keyType)
+        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceIdentifier, KeyType keyType, RequestClaimCollection claims)
         {
             if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
             if (serviceIdentifier == null) throw new ArgumentNullException(nameof(serviceIdentifier));
 
-            return GetTokenInternal(bootstrapToken, serviceIdentifier, keyType,
-                _config.IdentityTokenFromBootstrapTokenUrl);
+            return GetTokenInternal(bootstrapToken, serviceIdentifier, keyType, _config.IdentityTokenFromBootstrapTokenUrl, claims);
         }
 
 
 
 
-        private SecurityToken GetTokenInternal(SecurityToken actAs, string serviceIdentifier, KeyType keyType, Uri serviceUri)
+        private SecurityToken GetTokenInternal(SecurityToken actAs, string serviceIdentifier, KeyType keyType, Uri serviceUri, RequestClaimCollection claims)
         {
             Logger.Instance.Trace(
                 $@"RequestToken called with the client certificate: {_config.WscCertificate.SubjectName.Name} ({
@@ -103,8 +100,8 @@ namespace Digst.OioIdws.OioWsTrust
                 var requestSecurityToken = new RequestSecurityToken
                 {
                     RequestType = RequestTypes.Issue,
-                    AppliesTo = _templateRequest.AppliesTo,
-                    Claims = { Dialect = _templateRequest.Claims.Dialect },
+                    //AppliesTo = _templateRequest.AppliesTo,
+                    Claims = { Dialect = claims.Dialect },
                     // TokenType is optional according to [NEMLOGIN-STSRULES]. If specified it must contain the value http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0 which is the only type NemLogin STS supports.
                     // We specify it in case that NemLogin STS supports other token types in the future.
                     // Currently if TokenType is not specified ... then TokenType is also not specified in the RequestSecurityTokenResponse (RSTR). According to spec it should always be specified in the RSTR. Specifying TokenType in the RST triggers the TokenType to be specified in the RSTR.
@@ -112,7 +109,7 @@ namespace Digst.OioIdws.OioWsTrust
 
                 };
 
-                foreach (var claim in _templateRequest.Claims)
+                foreach (var claim in claims)
                 {
                     requestSecurityToken.Claims.Add(claim);
                 }

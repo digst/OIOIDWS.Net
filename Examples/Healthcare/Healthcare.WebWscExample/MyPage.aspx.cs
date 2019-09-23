@@ -95,7 +95,7 @@ namespace WebsiteDemo
         private string RunSoap(SecurityToken bootstrapToken)
         {
             // Retrieve token
-            ISecurityTokenServiceClient stsTokenService = new LocalSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration(), null);
+            ISecurityTokenServiceClient stsTokenService = new LocalSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
             SecurityToken securityToken = null;
 
             // Call WSP with token

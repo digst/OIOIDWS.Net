@@ -34,35 +34,38 @@ namespace Digst.OioIdws.OioWsTrust
 
 
         /// <summary>
-        /// <see cref="ISecurityTokenServiceClient.GetServiceToken"/>
+        /// Gets a service token.
         /// </summary>
-        /// <param name="serviceIdentifier"></param>
-        /// <param name="keyType"></param>
-        public SecurityToken GetServiceToken(string serviceIdentifier, KeyType keyType)
+        /// <param name="serviceEntityId">The service entity identifier.</param>
+        /// <param name="claims">The claims.</param>
+        /// <returns></returns>
+        public SecurityToken GetServiceToken(string wspIdentifier, KeyType keyType, RequestClaimCollection claims = null)
         {
-            return GetTokenInternal(null, serviceIdentifier, keyType);
+            return GetTokenInternal(_config.ServiceTokenUrl, null, wspIdentifier, KeyType.HolderOfKey, claims);
         }
 
 
+        
+        
         /// <inheritdoc />
         public SecurityToken GetBootstrapTokenFromAuthenticationToken(SecurityToken authenticationToken)
         {
-            return GetTokenInternal(authenticationToken, _config.WscIdentifier , KeyType.HolderOfKey);
+            return GetTokenInternal(_config.BootstrapTokenFromAuthenticationTokenUrl, authenticationToken, _config.WscIdentifier , KeyType.HolderOfKey, null);
         }
 
 
         /// <summary>
         /// <see cref="ISecurityTokenServiceClient.GetIdentityTokenFromBootstrapToken"/>
         /// </summary>
-        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string serviceIdentifier, KeyType keyType)
+        public SecurityToken GetIdentityTokenFromBootstrapToken(SecurityToken bootstrapToken, string wspIdentifier, KeyType keyType, RequestClaimCollection claims=null)
         {
             if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
-            if (serviceIdentifier == null) throw new ArgumentNullException(nameof(serviceIdentifier));
+            if (wspIdentifier == null) throw new ArgumentNullException(nameof(wspIdentifier));
 
-            return GetTokenInternal(bootstrapToken, serviceIdentifier, keyType);
+            return GetTokenInternal(_config.IdentityTokenFromBootstrapTokenUrl, bootstrapToken, wspIdentifier, keyType, claims);
         }
 
-        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken, string serviceIdentifier, KeyType keyType)
+        private SecurityToken GetTokenInternal(Uri stsServiceUrl, SecurityToken actAs, string wspIdentifier, KeyType keyType, RequestClaimCollection claims)
         {
             Logger.Instance.Trace(
                 $@"RequestToken called with the client certificate: {_config.WscCertificate.SubjectName.Name} ({
@@ -89,7 +92,7 @@ namespace Digst.OioIdws.OioWsTrust
                 stsBinding.Elements.Add(new HttpsTransportBindingElement() { ManualAddressing = true });
 
                 // Setup channel factory and apply client credentials
-                var factory = new WSTrustChannelFactory(stsBinding, new EndpointAddress(_config.ServiceTokenUrl));
+                var factory = new WSTrustChannelFactory(stsBinding, new EndpointAddress(stsServiceUrl));
                 factory.TrustVersion = TrustVersion.WSTrust13;
                 factory.Credentials.ClientCertificate.Certificate = _config.WscCertificate;
 
@@ -98,7 +101,7 @@ namespace Digst.OioIdws.OioWsTrust
                 var requestSecurityToken = new RequestSecurityToken
                 {
                     RequestType = RequestTypes.Issue,
-                    AppliesTo = new EndpointReference(serviceIdentifier),
+                    AppliesTo = new EndpointReference(wspIdentifier),
 
                     // TokenType is optional according to [NEMLOGIN-STSRULES]. If specified it must contain the value http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0 which is the only type NemLogin STS supports.
                     // We specify it in case that NemLogin STS supports other token types in the future.
@@ -123,13 +126,13 @@ namespace Digst.OioIdws.OioWsTrust
                 }
 
                 // ActAs is only set if a bootstrap token is supplied.
-                if (bootstrapToken != null)
+                if (actAs != null)
                 {
                     // First check validity before using it.
-                    if (bootstrapToken.ValidTo < currentTimeUtc)
+                    if (actAs.ValidTo < currentTimeUtc)
                         throw new ArgumentException(
-                            $"Bootstrap token life time has expired. Please renew before trying again. Bootstrap token ID: {bootstrapToken.Id}, Valid to: {bootstrapToken.ValidTo}, Current time: {currentTimeUtc}");
-                    requestSecurityToken.ActAs = new SecurityTokenElement(bootstrapToken);
+                            $"Bootstrap token life time has expired. Please renew before trying again. Bootstrap token ID: {actAs.Id}, Valid to: {actAs.ValidTo}, Current time: {currentTimeUtc}");
+                    requestSecurityToken.ActAs = new SecurityTokenElement(actAs);
                 }
 
                 // Request token and return

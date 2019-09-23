@@ -20,7 +20,7 @@ namespace Digst.OioIdws.WscExample
             Thread.Sleep(1000);
 
             // Retrieve token
-            ISecurityTokenServiceClient stsTokenService = new LocalSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration(), null);
+            ISecurityTokenServiceClient stsTokenService = new LocalSecurityTokenServiceClient(TokenServiceConfigurationFactory.CreateConfiguration());
             var securityToken = stsTokenService.GetServiceToken("https://digst.oioidws.wsp:9090/helloworld", KeyType.HolderOfKey);
 
             // Call WSP with token

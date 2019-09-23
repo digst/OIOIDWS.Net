@@ -109,6 +109,7 @@ namespace Digst.OioIdws.SamlAttributes.Healthcare.Test
         [TestMethod, DeploymentItem("BruttoAttributeStatement.xml")]
         public void CanCreateAttributeValueFromPurposeOfUse()
         {
+
             CanSerializeToSpecificAttributeValue(CommonHealthcareAttributes.PurposeOfUse, PurposeOfUse.Treatment);
 
             CanSerializeToSpecificAttributeValue(CommonHealthcareAttributes.SubjectId, "Hansine Jensen");

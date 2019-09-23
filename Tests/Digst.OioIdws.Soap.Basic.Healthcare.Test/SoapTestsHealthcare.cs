@@ -74,7 +74,7 @@ namespace Digst.OioIdws.Soap.Basic.Healthcare.Test
                 StsCertificate = CertificateUtil.GetCertificate("af7691346492dc30d127d85537297d702993176c")
             };
 
-            _stsTokenService = new LocalSecurityTokenServiceClient(securityTokenServiceClientConfiguration, null);
+            _stsTokenService = new LocalSecurityTokenServiceClient(securityTokenServiceClientConfiguration);
         }
 
         [ClassCleanup]
@@ -104,11 +104,12 @@ namespace Digst.OioIdws.Soap.Basic.Healthcare.Test
 
         [TestMethod]
         [TestCategory(Constants.IntegrationTest)]
-        public void TotalFlowNoneSucessTest()
+        public void TotalFlowNoneSuccessTest()
         {
             // Arrange
             var client = new HelloWorldClient();
-            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(_stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey));
+            var token = _stsTokenService.GetServiceToken(WspUri, KeyType.HolderOfKey);
+            var channelWithIssuedToken = client.ChannelFactory.CreateChannelWithIssuedToken(token);
 
             // Act
             var response = channelWithIssuedToken.HelloNone("Schultz");
