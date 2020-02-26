@@ -112,6 +112,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="oiosaml_logo.png" />
     <Content Include="readme.txt" />
     <None Include="Release instructions.txt" />
   </ItemGroup>

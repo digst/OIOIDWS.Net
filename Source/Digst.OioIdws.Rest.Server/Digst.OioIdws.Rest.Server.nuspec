@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>http://www.mozilla.org/MPL/1.1/</licenseUrl>
     <projectUrl>http://http://digitaliser.dk/resource/526486</projectUrl>
-    <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
+    <iconUrl>https://github.com/digst/OIOIDWS.Net/tree/master/Source/Digst.OioIdws.Rest.Server/oiosaml_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Initial version of Digst.OioIdws.Rest.Server. This version only supports signature case.</releaseNotes>

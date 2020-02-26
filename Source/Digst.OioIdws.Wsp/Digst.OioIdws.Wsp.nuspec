@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>http://www.mozilla.org/MPL/1.1/</licenseUrl>
     <projectUrl>http://http://digitaliser.dk/resource/526486</projectUrl>
-    <iconUrl>https://svn.softwareborsen.dk/oiosaml.net/logo/oiosaml_logo.png</iconUrl>
+    <iconUrl>https://github.com/digst/OIOIDWS.Net/tree/master/Source/Digst.OioIdws.Wsp/oiosaml_logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Upgraded to OIO IDWS SOAP profile (v1.1) and added support for cross platform WSDL, see the Example section in readme.txt.</releaseNotes>
