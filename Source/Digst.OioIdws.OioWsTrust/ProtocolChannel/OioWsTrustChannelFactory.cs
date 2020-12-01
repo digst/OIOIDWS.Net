@@ -7,17 +7,22 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
     public class OioWsTrustChannelFactory : ChannelFactoryBase<IRequestChannel>
     {
+        /// <summary>
+        /// STS configuration parameters
+        /// </summary>
         public StsTokenServiceConfiguration StsTokenServiceConfiguration { get; }
 
         private readonly IChannelFactory<IRequestChannel> _innerFactory;
-        private readonly X509Certificate2 _clientCertificate;
-        private readonly X509Certificate2 _stsCertificate;
 
-        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, StsTokenServiceConfiguration stsTokenServiceConfiguration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OioWsTrustChannelFactory"/> class.
+        /// </summary>
+        /// <param name="innerFactory">The inner factory.</param>
+        /// <param name="stsTokenServiceConfiguration">The STS token service configuration.</param>
+        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, StsTokenServiceConfiguration stsTokenServiceConfiguration)
         {
-            StsTokenServiceConfiguration = stsTokenServiceConfiguration ?? throw new ArgumentNullException(nameof(stsTokenServiceConfiguration));
             _innerFactory = innerFactory ?? throw new ArgumentNullException(nameof(innerFactory));
-            _clientCertificate = clientCertificate ?? throw new ArgumentNullException(nameof(clientCertificate));
+            StsTokenServiceConfiguration = stsTokenServiceConfiguration ?? throw new ArgumentNullException(nameof(stsTokenServiceConfiguration));
         }
 
         #region Members which simply delegate to the inner factory
@@ -36,11 +41,6 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             _innerFactory.EndOpen(result);
         }
         #endregion
-
-        public X509Certificate2 ClientCertificate
-        {
-            get { return _clientCertificate; }
-        }
 
         protected override IRequestChannel OnCreateChannel(EndpointAddress address, Uri via)
         {   
