@@ -8,21 +8,20 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
     public class OioWsTrustBindingElement : BindingElement
     {
-        private readonly X509Certificate2 _stsCertificate;
+        private readonly StsTokenServiceConfiguration _stsTokenServiceConfiguration;
 
         public override BindingElement Clone()
         {
-            return new OioWsTrustBindingElement(_stsCertificate);
+            return new OioWsTrustBindingElement(_stsTokenServiceConfiguration);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="stsCertificate">The certificate used for validating the signature in the response from STS</param>
-        public OioWsTrustBindingElement(X509Certificate2 stsCertificate)
+        public OioWsTrustBindingElement(StsTokenServiceConfiguration stsTokenServiceConfiguration)
         {
-            if (stsCertificate == null) throw new ArgumentNullException("stsCertificate");
-            _stsCertificate = stsCertificate;
+            _stsTokenServiceConfiguration = stsTokenServiceConfiguration;
         }
 
         public override T GetProperty<T>(BindingContext context)
@@ -51,7 +50,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 throw new InvalidOperationException("No Client certificate was configured.");
 
             var innerFactory = context.BuildInnerChannelFactory<IRequestChannel>();
-            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsCertificate);
+            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsTokenServiceConfiguration);
             return (IChannelFactory<TChannel>) factory;
         }
     }

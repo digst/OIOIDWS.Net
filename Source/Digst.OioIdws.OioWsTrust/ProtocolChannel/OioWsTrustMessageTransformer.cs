@@ -37,6 +37,13 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     /// </summary>
     public class OioWsTrustMessageTransformer : IOioWsTrustMessageTransformer
     {
+        private readonly StsTokenServiceConfiguration _configuration;
+
+        public OioWsTrustMessageTransformer(StsTokenServiceConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // Namespaces
         public const string WsaNamespace = "http://www.w3.org/2005/08/addressing";
         public const string S11Namespace = "http://schemas.xmlsoap.org/soap/envelope/";
