@@ -26,7 +26,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         public Message Request(Message message, TimeSpan timeout)
         {
             var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer(_channelManager.StsTokenServiceConfiguration);
-            signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.ClientCertificate);
+            signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.StsTokenServiceConfiguration.ClientCertificate);
             var respsonse = _innerChannel.Request(message, timeout);
             
             signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref respsonse, _channelManager.StsTokenServiceConfiguration.StsCertificate);

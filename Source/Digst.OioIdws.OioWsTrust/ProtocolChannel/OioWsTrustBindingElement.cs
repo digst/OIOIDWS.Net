@@ -8,22 +8,28 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
     public class OioWsTrustBindingElement : BindingElement
     {
+
+        /// <summary>
+        /// The STS (security token service) configuration parameters
+        /// </summary>
         private readonly StsTokenServiceConfiguration _stsTokenServiceConfiguration;
 
+        /// <inheritdoc />
         public override BindingElement Clone()
         {
             return new OioWsTrustBindingElement(_stsTokenServiceConfiguration);
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="OioWsTrustBindingElement"/> class.
         /// </summary>
-        /// <param name="stsCertificate">The certificate used for validating the signature in the response from STS</param>
+        /// <param name="stsTokenServiceConfiguration">Configuration parameters for the security token service (STS)</param>
         public OioWsTrustBindingElement(StsTokenServiceConfiguration stsTokenServiceConfiguration)
         {
             _stsTokenServiceConfiguration = stsTokenServiceConfiguration;
         }
 
+        /// <inheritdoc />
         public override T GetProperty<T>(BindingContext context)
         {
             // GetProperty<T>(BindingContext context) of SignatureCaseBindingElement must match GetProperty<T>() of SignatureCaseChannelFactory. 
@@ -37,20 +43,37 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             return context.GetInnerProperty<T>();
         }
 
+        /// <summary>
+        /// Returns a value that indicates whether the binding element can build a channel factory for a specific type of channel.
+        /// </summary>
+        /// <typeparam name="TChannel">The type of channel the channel factory produces.</typeparam>
+        /// <param name="context">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that provides context for the binding element.</param>
+        /// <returns>
+        ///   <see langword="true" /> if the <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> of type <paramref name="TChannel" /> can be built by the binding element; otherwise, <see langword="false" />.
+        /// </returns>
         public override bool CanBuildChannelFactory<TChannel>(BindingContext context)
         {
             // Return true if it is a request channel and the rest of the call stack supports this type of channel.
             return typeof (TChannel) == typeof (IRequestChannel) && context.CanBuildInnerChannelFactory<TChannel>();
         }
 
+        /// <summary>
+        /// Initializes a channel factory for producing channels of a specified type from the binding context.
+        /// </summary>
+        /// <typeparam name="TChannel">The type of channel the factory builds.</typeparam>
+        /// <param name="context">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that provides context for the binding element.</param>
+        /// <returns>
+        /// The <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> of type <paramref name="TChannel" /> initialized from the <paramref name="context" />.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">No Client certificate was configured.</exception>
         public override IChannelFactory<TChannel> BuildChannelFactory<TChannel>(BindingContext context)
         {
             var clientCredentials = context.BindingParameters.OfType<ClientCredentials>().SingleOrDefault();
-            if(clientCredentials == null || clientCredentials.ClientCertificate == null || clientCredentials.ClientCertificate.Certificate == null)
+            if(clientCredentials?.ClientCertificate?.Certificate == null)
                 throw new InvalidOperationException("No Client certificate was configured.");
 
             var innerFactory = context.BuildInnerChannelFactory<IRequestChannel>();
-            var factory = new OioWsTrustChannelFactory(innerFactory, clientCredentials.ClientCertificate.Certificate, _stsTokenServiceConfiguration);
+            var factory = new OioWsTrustChannelFactory(innerFactory, _stsTokenServiceConfiguration);
             return (IChannelFactory<TChannel>) factory;
         }
     }
