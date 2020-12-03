@@ -49,12 +49,12 @@ $bootstrapSslcertificate = Import-PfxCertificate '..\misc\certificates\SP SSL (o
 write-host "Installed boostrap example ssl certificate $($bootstrapSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing serviceprovider's signing certificate"
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 write-host "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing STS certificate"
-$stsCertificate = Import-Certificate '..\misc\certificates\STS (Digitaliseringsstyrelsen - NemLog-in Test).cer' -CertStoreLocation Cert:\LocalMachine\My
+$stsCertificate = Import-Certificate '..\misc\certificates\STS - Signature validation - test.cer' -CertStoreLocation Cert:\LocalMachine\My
 write-host "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
 
 write-host "Installing WSP certificate for signature checks - beware: the WSC only requires the public key part to verify signatures from the WSP"
