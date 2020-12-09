@@ -12,6 +12,8 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// </summary>
         public StsTokenServiceConfiguration StsTokenServiceConfiguration { get; }
 
+        public StsAuthenticationCase StsAuthenticationCase { get; }
+
         private readonly IChannelFactory<IRequestChannel> _innerFactory;
 
         /// <summary>
@@ -19,10 +21,11 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// </summary>
         /// <param name="innerFactory">The inner factory.</param>
         /// <param name="stsTokenServiceConfiguration">The STS token service configuration.</param>
-        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, StsTokenServiceConfiguration stsTokenServiceConfiguration)
+        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, StsTokenServiceConfiguration stsTokenServiceConfiguration, StsAuthenticationCase stsAuthenticationCase)
         {
             _innerFactory = innerFactory ?? throw new ArgumentNullException(nameof(innerFactory));
             StsTokenServiceConfiguration = stsTokenServiceConfiguration ?? throw new ArgumentNullException(nameof(stsTokenServiceConfiguration));
+            StsAuthenticationCase = stsAuthenticationCase;
         }
 
         #region Members which simply delegate to the inner factory

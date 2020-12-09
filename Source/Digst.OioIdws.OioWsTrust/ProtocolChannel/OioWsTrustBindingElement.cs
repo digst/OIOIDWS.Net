@@ -14,19 +14,23 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// </summary>
         private readonly StsTokenServiceConfiguration _stsTokenServiceConfiguration;
 
+        private readonly StsAuthenticationCase _stsAuthenticationCase;
+
         /// <inheritdoc />
         public override BindingElement Clone()
         {
-            return new OioWsTrustBindingElement(_stsTokenServiceConfiguration);
+            return new OioWsTrustBindingElement(_stsTokenServiceConfiguration, _stsAuthenticationCase);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OioWsTrustBindingElement"/> class.
         /// </summary>
         /// <param name="stsTokenServiceConfiguration">Configuration parameters for the security token service (STS)</param>
-        public OioWsTrustBindingElement(StsTokenServiceConfiguration stsTokenServiceConfiguration)
+        /// <param name="stsAuthenticationCase"></param>
+        public OioWsTrustBindingElement(StsTokenServiceConfiguration stsTokenServiceConfiguration, StsAuthenticationCase stsAuthenticationCase)
         {
             _stsTokenServiceConfiguration = stsTokenServiceConfiguration;
+            _stsAuthenticationCase = stsAuthenticationCase;
         }
 
         /// <inheritdoc />
@@ -73,7 +77,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 throw new InvalidOperationException("No Client certificate was configured.");
 
             var innerFactory = context.BuildInnerChannelFactory<IRequestChannel>();
-            var factory = new OioWsTrustChannelFactory(innerFactory, _stsTokenServiceConfiguration);
+            var factory = new OioWsTrustChannelFactory(innerFactory, _stsTokenServiceConfiguration, _stsAuthenticationCase);
             return (IChannelFactory<TChannel>) factory;
         }
     }

@@ -13,7 +13,7 @@ namespace Digst.OioIdws.OioWsTrust
     /// <summary>
     /// <see cref="IStsTokenService"/>
     /// </summary>
-    public class StsTokenService : IStsTokenService
+    public class StsTokenService : StsTokenServiceBase
     {
         private readonly StsTokenServiceConfiguration _config;
 
@@ -39,25 +39,8 @@ namespace Digst.OioIdws.OioWsTrust
             };
         }
 
-        /// <summary>
-        /// <see cref="IStsTokenService.GetToken()"/>
-        /// </summary>
-        public SecurityToken GetToken()
-        {
-            return GetTokenInternal(null);
-        }
 
-        /// <summary>
-        /// <see cref="IStsTokenService.GetTokenWithBootstrapToken"/>
-        /// </summary>
-        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
-        {
-            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
-
-            return GetTokenInternal(bootstrapToken);
-        }
-
-        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
+        public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
             Logger.Instance.Trace(
                 $@"RequestToken called with the client certificate: {_config.ClientCertificate.SubjectName.Name} ({
@@ -77,7 +60,7 @@ namespace Digst.OioIdws.OioWsTrust
                     Logger.Instance.Warning($"RequestToken send timeout set to {_config.SendTimeout.Value}");
                     stsBinding.SendTimeout = _config.SendTimeout.Value;
                 }
-                stsBinding.Elements.Add(new OioWsTrustBindingElement(_config));
+                stsBinding.Elements.Add(new OioWsTrustBindingElement(_config, stsAuthenticationCase));
                 stsBinding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap11WSAddressing10,
                     Encoding.UTF8));
                 // ManualAddressing must be true in order to make sure that wsa header elements are not altered in the HttpsTransportChannel which happens after xml elements have been digitally signed.
@@ -112,14 +95,22 @@ namespace Digst.OioIdws.OioWsTrust
                     requestSecurityToken.Lifetime = new Lifetime(null,
                         currentTimeUtc.AddMinutes(_config.TokenLifeTimeInMinutes.Value));
                 }
-                // ActAs is only set if a bootstrap token is supplied.
-                if (bootstrapToken != null)
+
+                // ActAs is only set if a bootstrap token or local token is supplied.
+                switch (stsAuthenticationCase)
                 {
-                    // First check validity before using it.
-                    if(bootstrapToken.ValidTo < currentTimeUtc)
-                        throw new ArgumentException(
-                            $"Bootstrap token life time has expired. Please renew before trying again. Bootstrap token ID: {bootstrapToken.Id}, Valid to: {bootstrapToken.ValidTo}, Current time: {currentTimeUtc}");
-                    requestSecurityToken.ActAs = new SecurityTokenElement(bootstrapToken);
+                    case StsAuthenticationCase.SignatureCase:
+                        break;
+                    case StsAuthenticationCase.BootstrapTokenCase:
+                    case StsAuthenticationCase.LocalTokenCase:
+                        // First check validity before using it.
+                        if (authenticationToken.ValidTo < currentTimeUtc)
+                            throw new ArgumentException(
+                                $"Bootstrap token life time has expired. Please renew before trying again. Bootstrap token ID: {authenticationToken.Id}, Valid to: {authenticationToken.ValidTo}, Current time: {currentTimeUtc}");
+                        requestSecurityToken.ActAs = new SecurityTokenElement(authenticationToken);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(stsAuthenticationCase), stsAuthenticationCase, null);
                 }
 
                 // Request token and return
@@ -145,5 +136,12 @@ namespace Digst.OioIdws.OioWsTrust
                 throw;
             }
         }
+    }
+
+    public enum StsAuthenticationCase
+    {
+        SignatureCase = 0,
+        BootstrapTokenCase = 1,
+        LocalTokenCase = 2,
     }
 }

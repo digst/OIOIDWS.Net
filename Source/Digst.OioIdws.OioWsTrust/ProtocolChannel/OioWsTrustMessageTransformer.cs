@@ -38,10 +38,12 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
     public class OioWsTrustMessageTransformer : IOioWsTrustMessageTransformer
     {
         private readonly StsTokenServiceConfiguration _configuration;
+        private readonly StsAuthenticationCase _stsAuthenticationCase;
 
-        public OioWsTrustMessageTransformer(StsTokenServiceConfiguration configuration)
+        public OioWsTrustMessageTransformer(StsTokenServiceConfiguration configuration, StsAuthenticationCase stsAuthenticationCase)
         {
             _configuration = configuration;
+            _stsAuthenticationCase = stsAuthenticationCase;
         }
 
         // Namespaces
@@ -61,7 +63,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         
         // STS Entity ID's
         public const string BootstrapTokenCaseEntityId = "https://bootstrap.sts.nemlog-in.dk/"; 
-        public const string LocalTokenCaseEntityId = " https://local.sts.nemlog-in.dk/"; // Currently not used
+        public const string LocalTokenCaseEntityId = "https://local.sts.nemlog-in.dk/";
         public const string SignatureCaseEntityId = "https://signature.sts.nemlog-in.dk/";
         
         // Token type
@@ -283,7 +285,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             return newMessage;
         }
 
-        private static void ManipulateHeader(XDocument xDocument, X509Certificate2 clientCertificate)
+        private void ManipulateHeader(XDocument xDocument, X509Certificate2 clientCertificate)
         {
             var namespaceManager = new XmlNamespaceManager(new NameTable());
             namespaceManager.AddNamespace("a", WsaNamespace);
@@ -316,9 +318,21 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             // a:To is normally set to the URI of the service endpoint by the framework which is not what we need here and therefore we neeed to set it manually.
             // In order to work ... ManualAddressing must be set to true on HttpsTransportBindingElement or else the a:To is overwritten in the HttpsTransportChannel.
             var toElement = new XElement(XName.Get("To", WsaNamespace));
-            toElement.Value = IsBootstrapScenario(xDocument, namespaceManager) 
-                ? BootstrapTokenCaseEntityId 
-                : SignatureCaseEntityId;
+
+            switch (_stsAuthenticationCase)
+            {
+                case StsAuthenticationCase.SignatureCase:
+                    toElement.Value = SignatureCaseEntityId;
+                    break;
+                case StsAuthenticationCase.BootstrapTokenCase:
+                    toElement.Value = BootstrapTokenCaseEntityId;
+                    break;
+                case StsAuthenticationCase.LocalTokenCase:
+                    toElement.Value = LocalTokenCaseEntityId;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             messageIdElement.AddAfterSelf(toElement);
             
@@ -341,11 +355,6 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             securityElement.Add(binarySecurityTokenElement);
             var headerElement = xDocument.XPathSelectElement("/s:Envelope/s:Header", namespaceManager);
             headerElement.Add(securityElement);
-        }
-
-        private static bool IsBootstrapScenario(XDocument xDocument, XmlNamespaceManager namespaceManager)
-        {
-            return xDocument.XPathSelectElement("/s:Envelope/s:Body/wst13:RequestSecurityToken/wst14:ActAs", namespaceManager) != null;
         }
 
         private static void ManipulateBody(XDocument xDocument)

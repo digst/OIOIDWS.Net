@@ -5,11 +5,32 @@ using System.Runtime.Caching;
 
 namespace Digst.OioIdws.OioWsTrust
 {
+    public abstract class StsTokenServiceBase : IStsTokenService
+    {
+        public SecurityToken GetToken()
+        {
+            return GetToken(StsAuthenticationCase.SignatureCase, null);
+        }
+
+        public abstract SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken);
+
+        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
+        {
+            return GetToken(StsAuthenticationCase.BootstrapTokenCase, bootstrapToken);
+        }
+
+        public SecurityToken GetTokenWithLocalToken(SecurityToken localToken)
+        {
+            return GetToken(StsAuthenticationCase.LocalTokenCase, localToken);
+        }
+    }
+
+
     /// <summary>
     /// <see cref="IStsTokenService"/>
     /// This implementation acts as a proxy to <see cref="StsTokenService"/> and caches the token from the STS automatically according to the token expiration time.
     /// </summary>
-    public class StsTokenServiceCache : IStsTokenService
+    public class StsTokenServiceCache : StsTokenServiceBase
     {
         private readonly IStsTokenService _stsTokenService;
         private static readonly MemoryCache TokenCache = new MemoryCache(typeof(StsTokenServiceCache).FullName, new NameValueCollection { { "pollingInterval", "00:00:30" } });
@@ -23,47 +44,28 @@ namespace Digst.OioIdws.OioWsTrust
             _wspEndpointId = config.WspEndpointId;
         }
 
-        /// <summary>
-        /// <see cref="IStsTokenService.GetToken()"/>
-        /// Furtermore this implementation caches the token automatically according to the token expiration time.
-        /// </summary>
-        public SecurityToken GetToken()
+
+        public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
-            return GetTokenInternal(null);
-        }
+            // Generate a cache key. If an authentication token has been provided then prefix with the ID of that token; otherwise we just use the endpoint ID
+            var cacheKey = authenticationToken != null ? authenticationToken.Id + _wspEndpointId : _wspEndpointId;
 
-        /// <summary>
-        /// <see cref="IStsTokenService.GetTokenWithBootstrapToken"/>
-        /// Furtermore this implementation caches the token automatically according to the token expiration time.
-        /// </summary>
-        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
-        {
-            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
-
-            return GetTokenInternal(bootstrapToken);
-        }
-
-        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
-        {
-            var cacheKey = bootstrapToken != null ? bootstrapToken.Id + _wspEndpointId : _wspEndpointId;
-
-            var securityToken = (SecurityToken) TokenCache.Get(cacheKey);
+            var securityToken = (SecurityToken)TokenCache.Get(cacheKey);
 
             if (securityToken == null)
             {
-                if (bootstrapToken == null)
-                {
-                    securityToken = _stsTokenService.GetToken();
-                }
-                else
-                {
-                    securityToken = _stsTokenService.GetTokenWithBootstrapToken(bootstrapToken);
-                }
-                TokenCache.Add(new CacheItem(cacheKey, securityToken),
-                    new CacheItemPolicy {AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew});
+                // cache miss
+                securityToken = _stsTokenService.GetToken(stsAuthenticationCase, authenticationToken);
+                TokenCache.Add(
+                    new CacheItem(cacheKey, securityToken), 
+                    new CacheItemPolicy
+                    {
+                        AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew
+                    });
             }
 
             return securityToken;
         }
+
     }
 }

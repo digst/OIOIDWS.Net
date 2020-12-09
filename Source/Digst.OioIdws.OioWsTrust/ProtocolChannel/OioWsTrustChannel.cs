@@ -25,12 +25,12 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
         public Message Request(Message message, TimeSpan timeout)
         {
-            var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer(_channelManager.StsTokenServiceConfiguration);
+            var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer(_channelManager.StsTokenServiceConfiguration, _channelManager.StsAuthenticationCase);
             signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.StsTokenServiceConfiguration.ClientCertificate);
-            var respsonse = _innerChannel.Request(message, timeout);
+            var response = _innerChannel.Request(message, timeout);
             
-            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref respsonse, _channelManager.StsTokenServiceConfiguration.StsCertificate);
-            return respsonse;
+            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref response, _channelManager.StsTokenServiceConfiguration.StsCertificate);
+            return response;
         }
 
         #region Members which simply delegate to the inner channel
