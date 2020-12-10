@@ -42,12 +42,9 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connected Services\HelloWorldProxy\Reference.cs">
@@ -55,9 +52,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ILocalTokenService.cs" />
+    <Compile Include="InMemoryLocalTokenServiceConfiguration.cs" />
+    <Compile Include="InMemoryLocalTokenService.cs" />
+    <Compile Include="InMemoryLocalTokenServiceConfigurationFactory.cs" />
     <Compile Include="Log4NetLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubjectFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
