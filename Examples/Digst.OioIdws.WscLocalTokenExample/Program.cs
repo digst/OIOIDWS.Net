@@ -56,11 +56,13 @@ namespace Digst.OioIdws.WscLocalTokenExample
                 attributes: new Saml2Attribute[]
                 {
                     new Saml2Attribute("dk:gov:saml:attribute:AssuranceLevel") { NameFormat = new Uri("urn:oasis:names:tc:SAML:2.0:attrname-format:basic"), Values = { "3" }},
-                }, audience: new Uri(nemLoginLocalTokenStsEntityId));
+                }, 
+                audience: new Uri(nemLoginLocalTokenStsEntityId));
 
             // We now have a local token identifying our subject, attributes and confirmation method. 
+            // The token is issued to the NemLog-in local-token STS as its intended audience.
 
-            // Use NemLog-in STS to retrieve a token for the WSP by passing the local token
+            // Use NemLog-in STS to retrieve a token for the WSP by passing the local token.
             // The local token service must have been registered with NemLog-in STS
             // so that its entity ID and signing certificate is known and
             // trusted by NemLog-in STS

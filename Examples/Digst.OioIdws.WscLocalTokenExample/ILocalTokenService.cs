@@ -11,6 +11,13 @@ namespace Digst.OioIdws.WscLocalTokenExample
     /// </summary>
     public interface ILocalTokenService
     {
+        /// <summary>
+        /// Issues a token
+        /// </summary>
+        /// <param name="subject">The subject.</param>
+        /// <param name="attributes">The attributes.</param>
+        /// <param name="audience">The audience.</param>
+        /// <returns></returns>
         SecurityToken Issue(Saml2Subject subject, IEnumerable<Saml2Attribute> attributes, Uri audience);
     }
 }

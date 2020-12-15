@@ -5,27 +5,6 @@ using System.Runtime.Caching;
 
 namespace Digst.OioIdws.OioWsTrust
 {
-    public abstract class StsTokenServiceBase : IStsTokenService
-    {
-        public SecurityToken GetToken()
-        {
-            return GetToken(StsAuthenticationCase.SignatureCase, null);
-        }
-
-        public abstract SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken);
-
-        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
-        {
-            return GetToken(StsAuthenticationCase.BootstrapTokenCase, bootstrapToken);
-        }
-
-        public SecurityToken GetTokenWithLocalToken(SecurityToken localToken)
-        {
-            return GetToken(StsAuthenticationCase.LocalTokenCase, localToken);
-        }
-    }
-
-
     /// <summary>
     /// <see cref="IStsTokenService"/>
     /// This implementation acts as a proxy to <see cref="StsTokenService"/> and caches the token from the STS automatically according to the token expiration time.
@@ -37,6 +16,10 @@ namespace Digst.OioIdws.OioWsTrust
         private readonly TimeSpan _cacheClockSkew;
         private readonly string _wspEndpointId;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StsTokenServiceCache"/> class.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
         public StsTokenServiceCache(StsTokenServiceConfiguration config)
         {
             _stsTokenService = new StsTokenService(config);
@@ -44,7 +27,12 @@ namespace Digst.OioIdws.OioWsTrust
             _wspEndpointId = config.WspEndpointId;
         }
 
-
+        /// <summary>
+        /// Gets a token from the service
+        /// </summary>
+        /// <param name="stsAuthenticationCase">The STS authentication case.</param>
+        /// <param name="authenticationToken">The authentication token (bootstrap or local -token).</param>
+        /// <returns></returns>
         public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
             // Generate a cache key. If an authentication token has been provided then prefix with the ID of that token; otherwise we just use the endpoint ID
