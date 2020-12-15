@@ -40,10 +40,10 @@ namespace Digst.OioIdws.Rest.System.Test
                         AccessTokenRetrievalPath = new PathString("/accesstoken"),
                         IssuerAudiences = () => Task.FromResult(new[]
                         {
-                            new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "test cert")
+                            new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "test cert")
                                 .Audience(new Uri("https://wsp.oioidws-net.dk")),
                         }),
-                        TrustedWspCertificateThumbprints = new[] {"1F0830937C74B0567D6B05C07B6155059D9B10C7"},
+                        TrustedWspCertificateThumbprints = new[] {"CA30025A4981147505B8D7A59052AC40C7033688"},
                     });
             });
 
@@ -57,7 +57,7 @@ namespace Digst.OioIdws.Rest.System.Test
                     {
                         TokenProvider =
                             new RestTokenProvider(new Uri(asEndpoint + "/accesstoken"),
-                                CertificateUtil.GetCertificate("1F0830937C74B0567D6B05C07B6155059D9B10C7"))
+                                CertificateUtil.GetCertificate("CA30025A4981147505B8D7A59052AC40C7033688"))
 
                     })
                     .Use(async (context, next) =>
@@ -71,12 +71,12 @@ namespace Digst.OioIdws.Rest.System.Test
 
             var settings = new OioIdwsClientSettings
             {
-                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
+                ClientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483"),
                 AudienceUri = new Uri("https://wsp.oioidws-net.dk"),
                 AccessTokenIssuerEndpoint = new Uri(asEndpoint + "/accesstoken/issue"),
                 SecurityTokenService = new OioIdwsStsSettings
                 {
-                    Certificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
+                    Certificate = CertificateUtil.GetCertificate("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D"),
                     EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                     TokenLifeTime = TimeSpan.FromMinutes(5)
                 },

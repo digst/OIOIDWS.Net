@@ -35,8 +35,8 @@ namespace Digst.OioIdws.Rest.Server.Test
         {
             _stsTokenService = new StsTokenServiceCache(new StsTokenServiceConfiguration
             {
-                ClientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5"),
-                StsCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a"),
+                ClientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483"),
+                StsCertificate = CertificateUtil.GetCertificate("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D"),
                 SendTimeout = TimeSpan.FromDays(1),
                 StsEndpointAddress = "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc",
                 TokenLifeTimeInMinutes = 5,
@@ -48,10 +48,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_ValidateSuccess_ReturnsCorrectly()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
             await PerformValidationTestAsync(clientCertificate, issuerAudienceses, async (options, response) =>
@@ -72,8 +72,8 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_Success_ReturnsHolderOfKeyToken()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
-            var issuerAudiences = new [] { new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
+            var issuerAudiences = new [] { new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                 .Audience(new Uri("https://wsp.oioidws-net.dk"))};
 
             await PerformValidationTestAsync(clientCertificate, issuerAudiences, async (options, response) =>
@@ -101,10 +101,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         public async Task IssueAccessTokenFromStsToken_IncorrectClientCertificate_ReturnsError()
         {
             //wrong certificate
-            var clientCertificate = CertificateUtil.GetCertificate("d9f10c97aa647727adb64a349bb037c5c23c9a7a");
+            var clientCertificate = CertificateUtil.GetCertificate("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
 
@@ -122,10 +122,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_WrongAudience_ReturnsError()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wrongAudience")),
             };
 
@@ -143,11 +143,11 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_WrongIssuingCertificate_ReturnsError()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
                 //wrong issuing cert
-                new IssuerAudiences("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5", "sts cert")
+                new IssuerAudiences("A402BB172929AE0D0ADA62F6864329C35DC29483", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
 
@@ -157,7 +157,7 @@ namespace Digst.OioIdws.Rest.Server.Test
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
                 var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
                 Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
-                Assert.AreEqual("Issuer certificate 'D9F10C97AA647727ADB64A349BB037C5C23C9A7A' was unknown", errors["error_description"]);
+                Assert.AreEqual("Issuer certificate 'FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D' was unknown", errors["error_description"]);
                 return Task.FromResult(0);
             });
         }
@@ -166,10 +166,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_ExpiredSecurityToken_ReturnsError()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
 
@@ -190,10 +190,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_ModifiedEncryptedSecurityToken_ReturnsError()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
 
@@ -234,10 +234,10 @@ namespace Digst.OioIdws.Rest.Server.Test
         [TestCategory(Constants.IntegrationTest)]
         public async Task IssueAccessTokenFromStsToken_ModifiedUnencryptedSecurityToken_ReturnsError()
         {
-            var clientCertificate = CertificateUtil.GetCertificate("0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5");
+            var clientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483");
             var issuerAudienceses = new[]
             {
-                new IssuerAudiences("d9f10c97aa647727adb64a349bb037c5c23c9a7a", "sts cert")
+                new IssuerAudiences("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D", "sts cert")
                     .Audience(new Uri("https://wsp.oioidws-net.dk")),
             };
 

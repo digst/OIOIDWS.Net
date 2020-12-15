@@ -37,7 +37,7 @@ namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
             var endpointAddress = new System.ServiceModel.EndpointAddress(
                 new Uri(hostname),
                 System.ServiceModel.EndpointIdentity.CreateDnsIdentity(
-                    //"wsp.oioidws-net.dk TEST (funktionscertifikat)"
+                    //"WSP (wsp.oioidws-net.dk TEST) (funktionscertifikat)"
                     "eID JAVA test (funktionscertifikat)"
                 ),
                 new Channels.AddressHeader[] { }
@@ -86,7 +86,6 @@ namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
                 X509Certificates.StoreLocation.LocalMachine,
                 X509Certificates.StoreName.My,
                 X509Certificates.X509FindType.FindByThumbprint,
-                //"1F0830937C74B0567D6B05C07B6155059D9B10C7",
                 "85398FCF737FB76F554C6F2422CC39D3A35EC26F",
                 new Uri(hostname)
             );
