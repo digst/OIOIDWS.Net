@@ -137,11 +137,4 @@ namespace Digst.OioIdws.OioWsTrust
             }
         }
     }
-
-    public enum StsAuthenticationCase
-    {
-        SignatureCase = 0,
-        BootstrapTokenCase = 1,
-        LocalTokenCase = 2,
-    }
 }
