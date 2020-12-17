@@ -82,7 +82,7 @@ _The full documentation of `OIOIDWS.Net` is a combination of the various readme 
 For a quick setup, you must do the following:
 
 * Run the script `Setup\setup_prerequisites.ps1` from an elevated `PowerShell`. This installs all required certificates and performs `sslcert` bindings to be able to host local websites using `HTTPS`.
-* Open the solution `Digst.OioIdws.sln` in `Visual Studio 2017 (Elevated mode)` and build it (if you get errors on external dependencies, ensure `NuGet` packages are being restored).
+* Open the solution `Digst.OioIdws.sln` in `Visual Studio 2019 (Elevated mode)` and build it (if you get errors on external dependencies, ensure `NuGet` packages are being restored).
 * The external `IP` address must be white listed at `NETS` in order to be able to make revocation check of the test `FOCES` certificates.
 * Set the projects `Digst.OioIdws.Rest.Examples.ServerAndASCombined`, `Digst.OioIdws.WspExample` and `Digst.Oioidws.WscBootstrapExample` as startup projects by right-clicking solution, select `properties`, selecting `Multiple start projects`.
 * For the web project, you must manually set the `Start URL` that `IIS Express` uses. You do this by:

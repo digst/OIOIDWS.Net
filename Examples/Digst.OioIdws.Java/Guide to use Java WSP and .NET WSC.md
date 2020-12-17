@@ -75,7 +75,7 @@
       <!--<oioIdwsWcfConfiguration ... wspEndpointID="https://wsp.oioidws-net.dk">-->
       <oioIdwsWcfConfiguration ... wspEndpointID="https://wsp.itcrew.dk">
       ...
-      <!--<clientCertificate findValue="0E6DBCC6EFAAFF72E3F3D824E536381B26DEECF5" ... />-->
+      <!--<clientCertificate findValue="a402bb172929ae0d0ada62f6864329c35dc29483" ... />-->
       <clientCertificate findValue="96A26BF6E07DE6DB74E356472CCA4776FEC9B0DA" ... />
       ...
       <!--
