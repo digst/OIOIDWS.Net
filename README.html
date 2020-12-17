@@ -36,6 +36,7 @@ Service Consumer (<code>WSC</code>) or Web Service Producer (<code>WSP</code>), 
 </ul>
 </li>
 <li><strong>Digst.OioIdws.WscExampleConfByCode</strong>: Same as <code>Digst.OioIdws.WscExample</code> but configured with code instead of <code>App.config</code>. It's ideal to be used for <code>debug</code> purpouses.</li>
+<li><strong>Digst.OioIdws.WscLocalTokenExample</strong>: Like <strong>Digst.OioIdws.WscExample</strong> but uses a locally generated token. Thus, this example demonstrates the &quot;Local Token case&quot;, where a local security token service issues a token, and NemLog-in STS is used to exchange this token for a valid WSP token. Using local tokens can remove the need to obtain and administer employee certificates for each employee. Instead, NemLog-in can be set up to trust tokens from a local STS. The example does not include a running local security token service (STS). Instead it creates tokens using a faked in-memory service. You can replace calls to this in-memory service to invoke e.g. a local STS such as (for example) a Microsoft Active Directory Federation Server (ADFS).</li>
 <li><strong>Digst.OioIdws.WscExampleNuGet</strong>: Same as <code>Digst.OioIdws.WscExample</code> but based on the latest public available <code>NuGet</code> package.</li>
 <li><strong>Digst.OioIdws.WspExample</strong>: Example on how to run the <code>WSP/Server</code> in the <code>SOAP</code> variant of <code>OIOIDWS</code>.</li>
 <li><strong>Digst.OioIdws.WspExampleNuGet</strong>: Same as <code>Digst.OioIdws.WspExample</code> but based on the latest public available <code>NuGet</code> package.</li>
@@ -92,7 +93,7 @@ Service Consumer (<code>WSC</code>) or Web Service Producer (<code>WSP</code>), 
 <p>For a quick setup, you must do the following:</p>
 <ul>
 <li>Run the script <code>Setup\setup_prerequisites.ps1</code> from an elevated <code>PowerShell</code>. This installs all required certificates and performs <code>sslcert</code> bindings to be able to host local websites using <code>HTTPS</code>.</li>
-<li>Open the solution <code>Digst.OioIdws.sln</code> in <code>Visual Studio 2017 (Elevated mode)</code> and build it (if you get errors on external dependencies, ensure <code>NuGet</code> packages are being restored).</li>
+<li>Open the solution <code>Digst.OioIdws.sln</code> in <code>Visual Studio 2019 (Elevated mode)</code> and build it (if you get errors on external dependencies, ensure <code>NuGet</code> packages are being restored).</li>
 <li>The external <code>IP</code> address must be white listed at <code>NETS</code> in order to be able to make revocation check of the test <code>FOCES</code> certificates.</li>
 <li>Set the projects <code>Digst.OioIdws.Rest.Examples.ServerAndASCombined</code>, <code>Digst.OioIdws.WspExample</code> and <code>Digst.Oioidws.WscBootstrapExample</code> as startup projects by right-clicking solution, select <code>properties</code>, selecting <code>Multiple start projects</code>.</li>
 <li>For the web project, you must manually set the <code>Start URL</code> that <code>IIS Express</code> uses. You do this by:

@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>443</IISExpressSSLPort>
@@ -283,8 +283,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <PropertyGroup>
     <PreBuildEvent>::Add https binding to *, allowing access on custom domain name
-"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /-bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\config\applicationhost.config"
-"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /+bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\config\applicationhost.config"</PreBuildEvent>
+"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /-bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\Digst.OioIdws\config\applicationhost.config"
+"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /+bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\Digst.OioIdws\config\applicationhost.config"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
