@@ -24,7 +24,7 @@ namespace Digst.OioIdws.Rest.Examples.Server
             .UseErrorPage()
             .UseOioIdwsAuthentication(new OioIdwsAuthenticationOptions
             {
-                TokenProvider = new RestTokenProvider(new Uri("https://digst.oioidws.rest.as:10001/accesstoken"), CertificateUtil.GetCertificate("1F0830937C74B0567D6B05C07B6155059D9B10C7"))
+                TokenProvider = new RestTokenProvider(new Uri("https://digst.oioidws.rest.as:10001/accesstoken"), CertificateUtil.GetCertificate("ca30025a4981147505b8d7a59052ac40c7033688"))
                     
             })
             .Use<MyService>();
