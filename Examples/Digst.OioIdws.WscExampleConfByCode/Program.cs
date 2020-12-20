@@ -37,7 +37,7 @@ namespace Digst.OioIdws.WscExampleConfByCode
             var endpointAddress = new System.ServiceModel.EndpointAddress(
                 new Uri(hostname),
                 System.ServiceModel.EndpointIdentity.CreateDnsIdentity(
-                    "wsp.oioidws-net.dk TEST (funktionscertifikat)"
+                    "WSP (wsp.oioidws-net.dk TEST) (funktionscertifikat)"
                 ),
                 new Channels.AddressHeader[] { }
             );
@@ -85,7 +85,7 @@ namespace Digst.OioIdws.WscExampleConfByCode
                 X509Certificates.StoreLocation.LocalMachine,
                 X509Certificates.StoreName.My,
                 X509Certificates.X509FindType.FindByThumbprint,
-                "1F0830937C74B0567D6B05C07B6155059D9B10C7",
+                "ca30025a4981147505b8d7a59052ac40c7033688",
                 new Uri(hostname)
             );
             factory.Endpoint.Behaviors.Add(

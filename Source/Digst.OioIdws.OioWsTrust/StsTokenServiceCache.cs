@@ -9,13 +9,17 @@ namespace Digst.OioIdws.OioWsTrust
     /// <see cref="IStsTokenService"/>
     /// This implementation acts as a proxy to <see cref="StsTokenService"/> and caches the token from the STS automatically according to the token expiration time.
     /// </summary>
-    public class StsTokenServiceCache : IStsTokenService
+    public class StsTokenServiceCache : StsTokenServiceBase
     {
         private readonly IStsTokenService _stsTokenService;
         private static readonly MemoryCache TokenCache = new MemoryCache(typeof(StsTokenServiceCache).FullName, new NameValueCollection { { "pollingInterval", "00:00:30" } });
         private readonly TimeSpan _cacheClockSkew;
         private readonly string _wspEndpointId;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StsTokenServiceCache"/> class.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
         public StsTokenServiceCache(StsTokenServiceConfiguration config)
         {
             _stsTokenService = new StsTokenService(config);
@@ -24,46 +28,32 @@ namespace Digst.OioIdws.OioWsTrust
         }
 
         /// <summary>
-        /// <see cref="IStsTokenService.GetToken()"/>
-        /// Furtermore this implementation caches the token automatically according to the token expiration time.
+        /// Gets a token from the service
         /// </summary>
-        public SecurityToken GetToken()
+        /// <param name="stsAuthenticationCase">The STS authentication case.</param>
+        /// <param name="authenticationToken">The authentication token (bootstrap or local -token).</param>
+        /// <returns></returns>
+        public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
-            return GetTokenInternal(null);
-        }
+            // Generate a cache key. If an authentication token has been provided then prefix with the ID of that token; otherwise we just use the endpoint ID
+            var cacheKey = authenticationToken != null ? authenticationToken.Id + _wspEndpointId : _wspEndpointId;
 
-        /// <summary>
-        /// <see cref="IStsTokenService.GetTokenWithBootstrapToken"/>
-        /// Furtermore this implementation caches the token automatically according to the token expiration time.
-        /// </summary>
-        public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
-        {
-            if (bootstrapToken == null) throw new ArgumentNullException(nameof(bootstrapToken));
-
-            return GetTokenInternal(bootstrapToken);
-        }
-
-        private SecurityToken GetTokenInternal(SecurityToken bootstrapToken)
-        {
-            var cacheKey = bootstrapToken != null ? bootstrapToken.Id + _wspEndpointId : _wspEndpointId;
-
-            var securityToken = (SecurityToken) TokenCache.Get(cacheKey);
+            var securityToken = (SecurityToken)TokenCache.Get(cacheKey);
 
             if (securityToken == null)
             {
-                if (bootstrapToken == null)
-                {
-                    securityToken = _stsTokenService.GetToken();
-                }
-                else
-                {
-                    securityToken = _stsTokenService.GetTokenWithBootstrapToken(bootstrapToken);
-                }
-                TokenCache.Add(new CacheItem(cacheKey, securityToken),
-                    new CacheItemPolicy {AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew});
+                // cache miss
+                securityToken = _stsTokenService.GetToken(stsAuthenticationCase, authenticationToken);
+                TokenCache.Add(
+                    new CacheItem(cacheKey, securityToken), 
+                    new CacheItemPolicy
+                    {
+                        AbsoluteExpiration = securityToken.ValidTo - _cacheClockSkew
+                    });
             }
 
             return securityToken;
         }
+
     }
 }

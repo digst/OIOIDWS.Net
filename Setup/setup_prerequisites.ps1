@@ -15,67 +15,71 @@ $certpassword2 = ConvertTo-SecureString -String "test1234" -AsPlainText -Force
 # Add "TRUST2048 Systemtest VII Primary CA" to Trusted ROOT CA
 write-host "Installing serviceprovider's root certificate"
 $trust2048SystemtestRootCertificate = Import-Certificate '..\misc\certificates\TRUST2048 Systemtest VII Primary CA.cer' -CertStoreLocation Cert:\LocalMachine\Root
-write-host "Installed serviceprovider's signing certificate $($trust2048SystemtestRootCertificate.Thumbprint) in LocalMachine\Root. This ensures that the other certificate are trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($trust2048SystemtestRootCertificate.Thumbprint) in LocalMachine\Root. This ensures that the other certificate are trusted on your machine and browser"
 
 # Add "TRUST2048 Systemtest XIX CA.cer" to Intermediate Certification Authorities
 write-host "Installing serviceprovider's intermediate certificate"
 $trust2048SystemtestIntermediateCertificate19 = Import-Certificate '..\misc\certificates\TRUST2048 Systemtest VII Primary CA.cer' -CertStoreLocation Cert:\LocalMachine\CA
-write-host "Installed serviceprovider's signing certificate $($trust2048SystemtestIntermediateCertificate19.Thumbprint) in LocalMachine\CA. This ensures that the other certificate are trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($trust2048SystemtestIntermediateCertificate19.Thumbprint) in LocalMachine\CA. This ensures that the other certificate are trusted on your machine and browser"
 
 # Add "TRUST2408 Systemtest XXII CA.cer" to Intermediate Certification Authorities
 write-host "Installing serviceprovider's intermediate certificate"
 $trust2048SystemtestIntermediateCertificate22 = Import-Certificate '..\misc\certificates\TRUST2048 Systemtest VII Primary CA.cer' -CertStoreLocation Cert:\LocalMachine\CA
-write-host "Installed serviceprovider's signing certificate $($trust2048SystemtestIntermediateCertificate22.Thumbprint) in LocalMachine\CA. This ensures that the other certificate are trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($trust2048SystemtestIntermediateCertificate22.Thumbprint) in LocalMachine\CA. This ensures that the other certificate are trusted on your machine and browser"
 
 
 write-host "Installing soap WSP ssl certificate"
 $soapWspSslcertificate = Import-PfxCertificate '..\misc\certificates\SOAP WSP SSL (digst.oioidws.wsp).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
 $soapWspSslcertificate = Import-PfxCertificate '..\misc\certificates\SOAP WSP SSL (digst.oioidws.wsp).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed soap WSP example certificate $($soapWspSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed soap WSP example certificate $($soapWspSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing rest AS ssl certificate"
 $restAsSslcertificate = Import-PfxCertificate '..\misc\certificates\REST AS SSL.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 $restAsSslcertificate = Import-PfxCertificate '..\misc\certificates\REST AS SSL.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed rest AS example ssl certificate $($restAsSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed rest AS example ssl certificate $($restAsSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing rest WSP ssl certificate"
 $restWspSslcertificate = Import-PfxCertificate '..\misc\certificates\REST WSP SSL.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 $restWspSslcertificate = Import-PfxCertificate '..\misc\certificates\REST WSP SSL.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed rest WSP example ssl certificate $($restWspSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed rest WSP example ssl certificate $($restWspSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing boostrap example ssl certificate"
 $bootstrapSslcertificate = Import-PfxCertificate '..\misc\certificates\SP SSL (oiosaml-net.dk).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
 $bootstrapSslcertificate = Import-PfxCertificate '..\misc\certificates\SP SSL (oiosaml-net.dk).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed boostrap example ssl certificate $($bootstrapSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed boostrap example ssl certificate $($bootstrapSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing serviceprovider's signing certificate"
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\My
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).pfx' -Password $certpassword2 -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing STS certificate"
-$stsCertificate = Import-Certificate '..\misc\certificates\STS (Digitaliseringsstyrelsen - NemLog-in Test).cer' -CertStoreLocation Cert:\LocalMachine\My
-write-host "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
+$stsCertificate = Import-Certificate '..\misc\certificates\STS - Signature validation - test.cer' -CertStoreLocation Cert:\LocalMachine\My
+write-host -ForegroundColor Green "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
 
 write-host "Installing WSP certificate for signature checks - beware: the WSC only requires the public key part to verify signatures from the WSP"
 $wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 $wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed WSP example certificate $($wspCertificate.Thumbprint) in LocalMachine\My."
+write-host -ForegroundColor Green "Installed WSP example certificate $($wspCertificate.Thumbprint) in LocalMachine\My."
+
+write-host "Installing Local Token certificate for a local token issuer"
+$localTokenCertificate = Import-PfxCertificate '..\misc\certificates\sts.oioidws-net.dk.p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
+write-host -ForegroundColor Green "Installed Local Token certificate $($localTokenCertificate.Thumbprint) in LocalMachine\My."
 
 # Java - BEGIN
 
 write-host "Installing soap WSP (Java) ssl certificate"
 $soapWspJavaSslCertificate = Import-PfxCertificate '..\misc\certificates\java\ssl-keystore.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 $soapWspJavaSslCertificate = Import-PfxCertificate '..\misc\certificates\java\ssl-keystore.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host "Installed soap WSP (Java) ssl certificate $($soapWspJavaSslCertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed soap WSP (Java) ssl certificate $($soapWspJavaSslCertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing soap WSP (Java) service certificate"
 $soapWspJavaSystemCertificate = Import-PfxCertificate '..\misc\certificates\java\service.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
-write-host "Installed soap WSP (Java) service certificate $($soapWspJavaSystemCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed soap WSP (Java) service certificate $($soapWspJavaSystemCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing soap WSC (Java) certificate"
 $soapWscJavaCertificate = Import-PfxCertificate '..\misc\certificates\java\client.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
-write-host "Installed soap WSC (Java) certificate $($soapWscJavaCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
+write-host -ForegroundColor Green "Installed soap WSC (Java) certificate $($soapWscJavaCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
 
 # Java - END
 
@@ -110,6 +114,8 @@ write-host "Setting private key access for your identity $username on the WSP si
 Set-CertificatePermission $wspCertificate.Thumbprint $username
 write-host "Setting private key access for your identity $username on the SOAP WSP signing certificate $($soapWspSslcertificate.Thumbprint) in the certificate store"
 Set-CertificatePermission $soapWspSslcertificate.Thumbprint $username
+write-host "Setting private key access for your identity $username on the Local Token $($localTokenCertificate.Thumbprint) in the certificate store"
+Set-CertificatePermission $localTokenCertificate.Thumbprint $username
 
 
 add-HostEntry "127.0.0.1" "oiosaml-net.dk"
@@ -117,7 +123,7 @@ add-HostEntry "127.0.0.1" "digst.oioidws.rest.as"
 add-HostEntry "127.0.0.1" "digst.oioidws.rest.wsp"
 add-HostEntry "127.0.0.1" "digst.oioidws.wsp"
 
-write-host "Setup completed!"
-write-host "You should now open the solution in Visual Studio, build it and run it!"
+write-host -ForegroundColor Green "Setup completed!"
+write-host -ForegroundColor Yellow "You should now open the solution in Visual Studio, build it and run it!"
 
 Pop-Location

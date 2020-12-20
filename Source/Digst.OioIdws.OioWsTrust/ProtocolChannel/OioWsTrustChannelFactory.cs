@@ -7,18 +7,25 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 {
     public class OioWsTrustChannelFactory : ChannelFactoryBase<IRequestChannel>
     {
-        private readonly IChannelFactory<IRequestChannel> _innerFactory;
-        private readonly X509Certificate2 _clientCertificate;
-        private readonly X509Certificate2 _stsCertificate;
+        /// <summary>
+        /// STS configuration parameters
+        /// </summary>
+        public StsTokenServiceConfiguration StsTokenServiceConfiguration { get; }
 
-        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, X509Certificate2 clientCertificate, X509Certificate2 stsCertificate)
+        public StsAuthenticationCase StsAuthenticationCase { get; }
+
+        private readonly IChannelFactory<IRequestChannel> _innerFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OioWsTrustChannelFactory"/> class.
+        /// </summary>
+        /// <param name="innerFactory">The inner factory.</param>
+        /// <param name="stsTokenServiceConfiguration">The STS token service configuration.</param>
+        public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, StsTokenServiceConfiguration stsTokenServiceConfiguration, StsAuthenticationCase stsAuthenticationCase)
         {
-            if (innerFactory == null) throw new ArgumentNullException("innerFactory");
-            if (clientCertificate == null) throw new ArgumentNullException("clientCertificate");
-            if (stsCertificate == null) throw new ArgumentNullException("stsCertificate");
-            _innerFactory = innerFactory;
-            _clientCertificate = clientCertificate;
-            _stsCertificate = stsCertificate;
+            _innerFactory = innerFactory ?? throw new ArgumentNullException(nameof(innerFactory));
+            StsTokenServiceConfiguration = stsTokenServiceConfiguration ?? throw new ArgumentNullException(nameof(stsTokenServiceConfiguration));
+            StsAuthenticationCase = stsAuthenticationCase;
         }
 
         #region Members which simply delegate to the inner factory
@@ -37,16 +44,6 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             _innerFactory.EndOpen(result);
         }
         #endregion
-
-        public X509Certificate2 ClientCertificate
-        {
-            get { return _clientCertificate; }
-        }
-
-        public X509Certificate2 StsCertificate
-        {
-            get { return _stsCertificate; }
-        }
 
         protected override IRequestChannel OnCreateChannel(EndpointAddress address, Uri via)
         {   

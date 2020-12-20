@@ -2,9 +2,17 @@
 using System.Security.Cryptography.X509Certificates;
 
 namespace Digst.OioIdws.OioWsTrust
+
 {
+
+    /// <summary>
+    /// Configuration for the security token service
+    /// </summary>
     public class StsTokenServiceConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StsTokenServiceConfiguration"/> class.
+        /// </summary>
         public StsTokenServiceConfiguration()
         {
             CacheClockSkew = TimeSpan.FromSeconds(60);
