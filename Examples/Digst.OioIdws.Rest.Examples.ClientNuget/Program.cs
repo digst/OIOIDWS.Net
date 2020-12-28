@@ -46,12 +46,12 @@ Digst.OioIdws.Rest.Examples.ServerCombined.exe");
 
             var settings = new OioIdwsClientSettings
             {
-                ClientCertificate = CertificateUtil.GetCertificate("A402BB172929AE0D0ADA62F6864329C35DC29483"),
+                ClientCertificate = CertificateUtil.GetCertificate("a402bb172929ae0d0ada62f6864329c35dc29483"),
                 AudienceUri = new Uri("https://wsp.oioidws-net.dk"),
                 AccessTokenIssuerEndpoint = new Uri(asEndpoint),
                 SecurityTokenService = new OioIdwsStsSettings
                 {
-                    Certificate = CertificateUtil.GetCertificate("FCB5EDC9FB09CF39716C09C35FDC883BD48ADD8D"),
+                    Certificate = CertificateUtil.GetCertificate("fcb5edc9fb09cf39716c09c35fdc883bd48add8d"),
                     EndpointAddress = new Uri("https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc"),
                 }
             };
