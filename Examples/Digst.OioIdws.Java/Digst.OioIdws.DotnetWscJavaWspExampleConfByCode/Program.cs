@@ -86,6 +86,7 @@ namespace Digst.OioIdws.DotnetWscJavaWspExampleConfByCode
                 X509Certificates.StoreLocation.LocalMachine,
                 X509Certificates.StoreName.My,
                 X509Certificates.X509FindType.FindByThumbprint,
+                //"ca30025a4981147505b8d7a59052ac40c7033688",
                 "85398FCF737FB76F554C6F2422CC39D3A35EC26F",
                 new Uri(hostname)
             );

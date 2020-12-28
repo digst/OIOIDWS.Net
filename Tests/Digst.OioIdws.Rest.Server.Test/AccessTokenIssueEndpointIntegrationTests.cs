@@ -157,7 +157,7 @@ namespace Digst.OioIdws.Rest.Server.Test
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
                 var errors = HttpHeaderUtils.ParseOAuthSchemeParameter(response.Headers.WwwAuthenticate.First().Parameter);
                 Assert.AreEqual(AuthenticationErrorCodes.InvalidToken, errors["error"]);
-                Assert.AreEqual("Issuer certificate 'fcb5edc9fb09cf39716c09c35fdc883bd48add8d' was unknown", errors["error_description"]);
+                Assert.AreEqual("Issuer certificate 'fcb5edc9fb09cf39716c09c35fdc883bd48add8d' was unknown", errors["error_description"], true);
                 return Task.FromResult(0);
             });
         }
