@@ -21,25 +21,21 @@ namespace Digst.OioIdws.OioWsTrust
         }
 
         /// <summary>
-        /// Gets a token from the service
+        /// <see cref="IStsTokenService.GetToken()"/>
         /// </summary>
-        /// <param name="stsAuthenticationCase">The STS authentication case.</param>
-        /// <param name="authenticationToken">The authentication token (bootstrap or local -token).</param>
-        public abstract SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken);
+        protected internal abstract SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken);
 
         /// <summary>
-        /// Gets the token with bootstrap token.
+        /// <see cref="IStsTokenService.GetTokenWithBootstrapToken()"/>
         /// </summary>
-        /// <param name="bootstrapToken">The bootstrap token.</param>
         public SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken)
         {
             return GetToken(StsAuthenticationCase.BootstrapTokenCase, bootstrapToken);
         }
 
         /// <summary>
-        /// Gets the token with local token.
+        /// <see cref="IStsTokenService.GetTokenWithLocalToken()"/>
         /// </summary>
-        /// <param name="localToken">The local token.</param>
         public SecurityToken GetTokenWithLocalToken(SecurityToken localToken)
         {
             return GetToken(StsAuthenticationCase.LocalTokenCase, localToken);

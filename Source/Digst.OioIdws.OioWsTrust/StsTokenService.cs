@@ -40,7 +40,7 @@ namespace Digst.OioIdws.OioWsTrust
         }
 
 
-        public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
+        protected internal override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
             Logger.Instance.Trace(
                 $@"RequestToken called with the client certificate: {_config.ClientCertificate.SubjectName.Name} ({
