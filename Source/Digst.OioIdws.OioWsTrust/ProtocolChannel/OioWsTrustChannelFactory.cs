@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 
@@ -12,6 +11,9 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// </summary>
         public StsTokenServiceConfiguration StsTokenServiceConfiguration { get; }
 
+        /// <summary>
+        /// Specifies the STS authentication case
+        /// </summary>
         public StsAuthenticationCase StsAuthenticationCase { get; }
 
         private readonly IChannelFactory<IRequestChannel> _innerFactory;
@@ -21,6 +23,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// </summary>
         /// <param name="innerFactory">The inner factory.</param>
         /// <param name="stsTokenServiceConfiguration">The STS token service configuration.</param>
+        /// <param name="stsAuthenticationCase">Specifies the STS authentication case</param>
         public OioWsTrustChannelFactory(IChannelFactory<IRequestChannel> innerFactory, StsTokenServiceConfiguration stsTokenServiceConfiguration, StsAuthenticationCase stsAuthenticationCase)
         {
             _innerFactory = innerFactory ?? throw new ArgumentNullException(nameof(innerFactory));

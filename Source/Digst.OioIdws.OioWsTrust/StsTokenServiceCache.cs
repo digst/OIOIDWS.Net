@@ -11,7 +11,7 @@ namespace Digst.OioIdws.OioWsTrust
     /// </summary>
     public class StsTokenServiceCache : StsTokenServiceBase
     {
-        private readonly IStsTokenService _stsTokenService;
+        private readonly StsTokenServiceBase _stsTokenService;
         private static readonly MemoryCache TokenCache = new MemoryCache(typeof(StsTokenServiceCache).FullName, new NameValueCollection { { "pollingInterval", "00:00:30" } });
         private readonly TimeSpan _cacheClockSkew;
         private readonly string _wspEndpointId;
@@ -33,7 +33,7 @@ namespace Digst.OioIdws.OioWsTrust
         /// <param name="stsAuthenticationCase">The STS authentication case.</param>
         /// <param name="authenticationToken">The authentication token (bootstrap or local -token).</param>
         /// <returns></returns>
-        public override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
+        protected internal override SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken)
         {
             // Generate a cache key. If an authentication token has been provided then prefix with the ID of that token; otherwise we just use the endpoint ID
             var cacheKey = authenticationToken != null ? authenticationToken.Id + _wspEndpointId : _wspEndpointId;

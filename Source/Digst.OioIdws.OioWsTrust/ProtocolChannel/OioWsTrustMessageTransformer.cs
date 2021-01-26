@@ -40,9 +40,14 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         private readonly StsTokenServiceConfiguration _configuration;
         private readonly StsAuthenticationCase _stsAuthenticationCase;
 
+        /// <summary>
+        /// Creates a new instance of OioWsTrustMessageTransformer
+        /// </summary>
+        /// <param name="configuration">The STS configuration</param>
+        /// <param name="stsAuthenticationCase">The STS authentication case</param>
         public OioWsTrustMessageTransformer(StsTokenServiceConfiguration configuration, StsAuthenticationCase stsAuthenticationCase)
         {
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _stsAuthenticationCase = stsAuthenticationCase;
         }
 
@@ -92,7 +97,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ssZ"; // Results in format 2015-01-14T14:50:24Z mandated by spec.
 
 
-        public void ModifyMessageAccordingToStsNeeds(ref Message request, X509Certificate2 clientCertificate)
+        public void ModifyMessageAccordingToStsNeeds(ref Message request)
         {
             // Convert Message into a XML document that can be manipulated
             var xDocument = ConvertMessageToXml(request);
@@ -102,9 +107,9 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
 
             // Manipulate XML
             AddNamespacesToEnvelope(xDocument);
-            ManipulateHeader(xDocument, clientCertificate);
+            ManipulateHeader(xDocument, _configuration.ClientCertificate);
             ManipulateBody(xDocument);
-            SignMessage(ref xDocument, clientCertificate);
+            SignMessage(ref xDocument, _configuration.ClientCertificate);
 
             // Log RST after being manipulated
             Logger.Instance.Trace("RST send to STS after being manipulated:\n" + xDocument);
@@ -113,7 +118,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
             request = ConvertXmlToMessage(request, xDocument);
         }
 
-        public void ModifyMessageAccordingToWsTrust(ref Message response, X509Certificate2 stsCertificate)
+        public void ModifyMessageAccordingToWsTrust(ref Message response)
         {
             // Convert Message into a XML document that can be manipulated
             var xDocument = ConvertMessageToXml(response);
@@ -165,7 +170,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
                 namespaceManager.AddNamespace("wsa", WsaNamespace);
 
                 // Verify signature before making any modifications
-                if(!XmlSignatureUtils.VerifySignature(xDocument, stsCertificate))
+                if(!XmlSignatureUtils.VerifySignature(xDocument, _configuration.StsCertificate))
                     throw new InvalidOperationException("SOAP signature recieved from STS does not validate!");
 
                 // Expiry time is currently not on the format specified by the spec. The spec says yyyy-MM-ddTHH:mm:ssZ but yyyy-MM-ddTHH:mm:ss.fffZ is currently retrieved.

@@ -13,7 +13,7 @@ The implementation is based on the following standards for communication with a 
 All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "Misc\Specifications" folder on Softwarebørsen. It is the copies on Softwarebørsen that this implementation follows.
 
 Requirements:
-.Net 4.5 Framework.
+.Net 4.7.2 Framework.
 
 Hot to use:
 You can use this package to configure either the AS, WSP or both by configuring it into a OWIN pipeline.

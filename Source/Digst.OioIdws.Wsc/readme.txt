@@ -4,7 +4,7 @@ Introduction:
 Digst.OioIdws.Wsc is a .Net-based reference implementation of the OIOIDWS 1.1 profile which is described at http://digitaliser.dk/resource/526486.
 This package can be used by service providers to act as a Web Service Consumer (WSC).
 The goal of this component is to make it easy for Web Service Consumers (WSC) to support the OIO Identity-based Web Services (OIOIDWS) profile. 
-OIOIDWS defines five scenarios but it is only "Scenario 5: Rich client and external IdP / STS" that is supported in this version.
+OIOIDWS defines five cases but it is only signature case, bootstrap token case and local STS token case that are supported.
 This component does only support encrytped SAML assertions of type holder-of-key. This compoenent has not been tested with unencrypted assertions of any type. However, it it is expected to work. Encrypted SAML assertions being of type Bearer key is not supported. This is because the WSC does not know which type the encrypted SAML assertion is. NemLog-in STS is currently issueing holder-of-key tokens and therefore this component is currently configured to statically work with holder-of-key tokens when SAML assertions are encrypted. To support both types dynamically WSC could be changed to always include the WSC public certificate part in the requests to WSP. Then WSP after decrypting the SAML assertion could make a decision whether to use the WSC certificate from the token or the request based on holder-of-key or bearer key scenario.
 
 The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog-in STS and [OIO-IDWS-SOAP] for communication with a web service provider (WSP). 
@@ -27,7 +27,7 @@ The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog
 All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "Misc\Specifications" folder on Softwarebørsen. It is the copies on Softwarebørsen that this implementation follows.
 
 Requirements:
-- .Net 4.5 Framework.
+- .Net 4.7.2 Framework.
 
 - Transport Layer Security (TLS):
   * The "OIO IDWS SOAP 1.1" specification states that in order to maintain "Message Confidentiality", "a secure transport protocol with strong encryption such as 'TLS 1.2' MUST be used.".
@@ -43,14 +43,16 @@ The component has two implementations of the interface Digst.OioIdws.OioWsTrust.
 - TokenService: Retrieves a token from STS on each call
 - TokenServiceCache: Retrieves a token from STS and caches the token for the duration of the token life time. STS is only called again if the token is not present in the cache.
 
-Use the implementations through the Digst.OioIdws.OioWsTrust.ITokenService interface.
+Use the implementations through the Digst.OioIdws.OioWsTrust.IStsTokenService interface.
 - SecurityToken GetToken(): Use this method in the signature case scenario
 - SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken): Use this method in the bootstrap token scenario.
+- SecurityToken GetTokenWithLocalToken(SecurityToken localToken): Use this method in the local STS token scenario.
 
 In order to use OIOIDWS.Net with production certificates ... the WSC and WSP must be registered in the NemLog-in administration module and the following certificates must be in place:
 - The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 
 - The WSC must acquire a FOCES certificate. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
+- The WSC must in the local STS case also acquire a FOCES certificate for the local STS. Also the local STS must be registered in NemLog-in togeteher with the public key of the FOCES certificate.
 
 - The WSP must acquire a FOCES certificate. This certificate (the public part without the private key) must be distributed out-of-band to both WSC and STS. WSC needs it in order to trust responses from the WSP and STS needs it in order to encrypt the token. The service must also be registered in STS (through "NemLog-in administration") with an endpoint ID. This ID is used in both configurations of the WSC and WSP. The WSC needs the endpoint ID in order to request a token for a specific WSP. The WSP needs the endpoint ID in order to verify that the token is issued to the right WSP.
 

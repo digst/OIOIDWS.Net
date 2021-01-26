@@ -29,7 +29,7 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         /// <param name="stsAuthenticationCase"></param>
         public OioWsTrustBindingElement(StsTokenServiceConfiguration stsTokenServiceConfiguration, StsAuthenticationCase stsAuthenticationCase)
         {
-            _stsTokenServiceConfiguration = stsTokenServiceConfiguration;
+            _stsTokenServiceConfiguration = stsTokenServiceConfiguration ?? throw new ArgumentNullException(nameof(stsTokenServiceConfiguration));
             _stsAuthenticationCase = stsAuthenticationCase;
         }
 

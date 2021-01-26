@@ -26,10 +26,10 @@ namespace Digst.OioIdws.OioWsTrust.ProtocolChannel
         public Message Request(Message message, TimeSpan timeout)
         {
             var signatureCaseMessageTransformer = new OioWsTrustMessageTransformer(_channelManager.StsTokenServiceConfiguration, _channelManager.StsAuthenticationCase);
-            signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message, _channelManager.StsTokenServiceConfiguration.ClientCertificate);
+            signatureCaseMessageTransformer.ModifyMessageAccordingToStsNeeds(ref message);
             var response = _innerChannel.Request(message, timeout);
             
-            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref response, _channelManager.StsTokenServiceConfiguration.StsCertificate);
+            signatureCaseMessageTransformer.ModifyMessageAccordingToWsTrust(ref response);
             return response;
         }
 

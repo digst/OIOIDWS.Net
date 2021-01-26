@@ -15,10 +15,16 @@ namespace Digst.OioIdws.OioWsTrust
         /// <returns>Returns a token.</returns>
         SecurityToken GetToken();
 
-        SecurityToken GetToken(StsAuthenticationCase stsAuthenticationCase, SecurityToken authenticationToken);
-
+        /// <summary>
+        /// Gets the token with bootstrap token.
+        /// </summary>
+        /// <param name="bootstrapToken">The bootstrap token.</param>
         SecurityToken GetTokenWithBootstrapToken(SecurityToken bootstrapToken);
 
-        SecurityToken GetTokenWithLocalToken(SecurityToken bootstrapToken);
+        /// <summary>
+        /// Gets the token with local token.
+        /// </summary>
+        /// <param name="localToken">The local token.</param>
+        SecurityToken GetTokenWithLocalToken(SecurityToken localToken);
     }
 }

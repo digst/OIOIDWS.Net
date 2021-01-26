@@ -18,7 +18,7 @@ Introduction:
 Digst.OioIdws.Rest.Client is a .Net-based reference implementation of the OIOIDWS 1.1 REST profile which is described at http://digitaliser.dk/resource/526486.
 This package can be used by RESTful service providers to act as a Web Service Consumer (WSC).
 The goal of this component is to make it easy for Web Service Consumers (WSC) to support the OIO Identity-based Web Services (OIOIDWS) profile. 
-OIOIDWS defines five scenarios but it is only "Scenario 5: Rich client and external IdP / STS" that is supported in this version.
+OIOIDWS defines five cases but it is only signature case, bootstrap token case and local STS token case that are supported.
 This component does only support encrypted SAML assertions of type holder-of-key. This component has not been tested with unencrypted assertions of any type. However, it it is expected to work.
 
 The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog-in STS and [OIO-IDWS-REST] for RESTful communication with an authorization server (AS) and web service producer (WSP)
@@ -39,12 +39,12 @@ The implementation is based on [NEMLOGIN-STSRULES] for communication with NemLog
 All above specifications can be found through https://test-nemlog-in.dk/Testportal/ or http://digitaliser.dk/resource/526486. They are also located in the "Misc\Specifications" folder on Softwarebørsen. It is the copies on Softwarebørsen that this implementation follows.
 
 Requirements:
-.Net 4.5 Framework.
+.Net 4.7.2 Framework.
 
 How to use:
 The component exposes a client for communicating with the STS, AS and WSP: Digst.OioIdws.Rest.Client.OioIdwsClient. It exposes the following methods
 
-- GenericXmlSecurityToken GetToken();
+- GenericXmlSecurityToken GetSecurityToken();
 - Task<AccessToken> GetAccessTokenAsync(GenericXmlSecurityToken securityToken, CancellationToken cancellationToken)
 - HttpMessageHandler CreateMessageHandler()
 
@@ -58,6 +58,7 @@ In order to use OIOIDWS.Net with production certificates ... the WSC and WSP mus
 - The public certificate of the STS must be acquired. This certificate must be distributed out-of-band to both WSC and WSP. WSC in order to trust responses from STS and WSP in order to trust tokens from STS.
 
 - The WSC must acquire a FOCES certificate. This certificate does not need to be distributed out-of-band to either STS or WSP. WSP indirectly trusts the WSC through the holder-of-key mechanism and STS trusts all FOCES certificates.
+- The WSC must in the local STS case also acquire a FOCES certificate for the local STS. Also the local STS must be registered in NemLog-in togeteher with the public key of the FOCES certificate.
 
 - The WSP must acquire a FOCES certificate. This certificate (the public part without the private key) must be distributed out-of-band to both WSC and STS. WSC needs it in order to trust responses from the WSP and STS needs it in order to encrypt the token. The service must also be registered in STS (through "NemLog-in administration") with an endpoint ID. This ID is used in both configurations of the WSC and WSP. The WSC needs the endpoint ID in order to request a token for a specific WSP. The WSP needs the endpoint ID in order to verify that the token is issued to the right WSP.
 
