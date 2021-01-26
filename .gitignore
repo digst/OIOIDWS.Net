@@ -3,6 +3,10 @@
 # or wget:
 # wget --no-check-certificate http://gist.githubusercontent.com/kmorcinek/2710267/raw/.gitignore
 
+# Ignore auto-generated file content
+CommonAssemblyInfo.cs
+!**/PreBuild.targets.xml
+
 # User-specific files
 *.suo
 *.user
