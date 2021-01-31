@@ -15,7 +15,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         private readonly ChannelFactory<IHelloWorld> _wspChannelFactory;
 
         private string _channelInput = "DotNetIntegrationTests.";
-        private IHelloWorld _wspChannel;
         
         public DotNetIntegrationTests()
         {
@@ -53,16 +52,16 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
 
         private void TestChannel()
         {
-            _wspChannel = CreateChannelWithIssuedToken(_wspChannelFactory);
+            var channel = CreateChannelWithIssuedToken(_wspChannelFactory);
             
             // Positive cases
-            TestChannelMethod(_wspChannel.HelloNone, HelloNoneFormat);
-            TestChannelMethod(_wspChannel.HelloSign, HelloSignedFormat);
-            TestChannelMethod(_wspChannel.HelloEncryptAndSign, HelloEncryptedAndSignedFormat);
+            TestChannelMethod(channel.HelloNone, HelloNoneFormat);
+            TestChannelMethod(channel.HelloSign, HelloSignedFormat);
+            TestChannelMethod(channel.HelloEncryptAndSign, HelloEncryptedAndSignedFormat);
             
             // Negative cases
-            _wspChannel.Invoking(c => c.HelloSignError(_channelInput)).Should().Throw<Exception>();
-            _wspChannel.Invoking(c => c.HelloSignErrorNotEncrypted(_channelInput)).Should().Throw<Exception>();
+            channel.Invoking(c => c.HelloSignError(_channelInput)).Should().Throw<Exception>();
+            channel.Invoking(c => c.HelloSignErrorNotEncrypted(_channelInput)).Should().Throw<Exception>();
         }
 
         private void TestChannelMethod(Func<string, string> channelMethod, string formatString)
