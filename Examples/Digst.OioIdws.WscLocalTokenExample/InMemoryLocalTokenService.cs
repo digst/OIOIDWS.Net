@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 
-namespace Digst.OioIdws.OioWsTrust.InMemory
+namespace Digst.OioIdws.WscLocalTokenExample
 {
 
     /// <summary>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 
-namespace Digst.OioIdws.OioWsTrust.InMemory
+namespace Digst.OioIdws.WscLocalTokenExample
 {
     /// <summary>
     /// Represents some security token service (STS) which can issue local tokens based

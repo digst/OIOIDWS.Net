@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
 using System.ServiceModel;
-using System.Xml;
 using DK.Gov.Oio.Idws.IntegrationTests.DotNetHelloWorldProxy;
 using FluentAssertions;
 using Xunit;
@@ -20,9 +18,9 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         
         public DotNetIntegrationTests()
         {
-            var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
-            ConfigureWscAndSts(dotNetWspConfiguration.StsConfiguration);
-            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.WspConfiguration);
+            var dotNetConfiguration = Configuration.BuildDotNetConfiguration();
+            ConfigureWscAndSts(dotNetConfiguration);
+            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetConfiguration.WspConfiguration);
         }
         
         [Fact]

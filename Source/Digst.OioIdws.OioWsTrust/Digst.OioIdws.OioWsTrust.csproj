@@ -52,10 +52,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="InMemory\ILocalTokenService.cs" />
-    <Compile Include="InMemory\InMemoryLocalTokenService.cs" />
-    <Compile Include="InMemory\InMemoryLocalTokenServiceConfiguration.cs" />
-    <Compile Include="InMemory\InMemoryLocalTokenServiceConfigurationFactory.cs" />
     <Compile Include="IStsTokenService.cs" />
     <Compile Include="ProtocolChannel\IOioWsTrustMessageTransformer.cs" />
     <Compile Include="ProtocolChannel\OioWsTrustBindingElement.cs" />

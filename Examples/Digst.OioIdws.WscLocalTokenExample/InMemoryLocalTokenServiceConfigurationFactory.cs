@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Configuration;
-using Digst.OioIdws.Common.Utils;
+using System.Security.Cryptography.X509Certificates;
+using Digst.OioIdws.Wsc.OioWsTrust;
 
-namespace Digst.OioIdws.OioWsTrust.InMemory
+namespace Digst.OioIdws.WscLocalTokenExample
 {
     /// <summary>
     /// Produces <see cref="InMemoryLocalTokenServiceConfiguration"/> instances.
@@ -17,7 +18,7 @@ namespace Digst.OioIdws.OioWsTrust.InMemory
             var thumbprint = ConfigurationManager.AppSettings["LocalTokenServiceSigningCertificateThumbprint"];
             var entityId = ConfigurationManager.AppSettings["LocalTokenServiceEntityId"];
 
-            var tokenSigningCertificate = CertificateUtil.GetCertificate(thumbprint);
+            var tokenSigningCertificate = CertificateUtil.GetCertificate(StoreName.My, StoreLocation.LocalMachine, X509FindType.FindByThumbprint, thumbprint);
 
             return new InMemoryLocalTokenServiceConfiguration(tokenSigningCertificate, entityId, TimeSpan.FromMinutes(10));
         }
