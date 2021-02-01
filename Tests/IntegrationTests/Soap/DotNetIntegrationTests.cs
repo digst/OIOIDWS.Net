@@ -19,7 +19,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         public DotNetIntegrationTests()
         {
             var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
-            ConfigureWscAndSts(dotNetWspConfiguration.StsConfiguration);
+            ConfigureWscAndSts(dotNetWspConfiguration);
             _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.WspConfiguration);
         }
         
@@ -32,7 +32,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             TestChannel();
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestLocalTokenScenario()
         {
             _channelInput += "TestLocalTokenScenario";

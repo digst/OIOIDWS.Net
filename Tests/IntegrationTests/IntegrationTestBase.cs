@@ -8,15 +8,17 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
     {
         private IStsTokenService _tokenService;
         private ITokenAcquisitionScenario _acquisitionScenario;
+        private Configuration _configuration;
 
         protected IntegrationTestBase()
         {
             // Optional log4net: XmlConfigurator.Configure();
         }
 
-        protected void ConfigureWscAndSts(StsTokenServiceConfiguration stsConfiguration)
+        protected void ConfigureWscAndSts(Configuration configuration)
         {
-            _tokenService = new StsTokenService(stsConfiguration);
+            _configuration = configuration;
+            _tokenService = new StsTokenService(configuration.StsConfiguration);
         }
 
         protected void ConfigureSystemUserScenario()
@@ -26,7 +28,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         protected void ConfigureLocalTokenScenario()
         {
-            //_acquisitionScenario = new LocalTokenScenario(_tokenService);
+            _acquisitionScenario = new LocalTokenScenario(_configuration.LocalStsConfiguration, _tokenService);
         }
         
         protected void ConfigureBootstrapScenario()

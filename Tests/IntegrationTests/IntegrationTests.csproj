@@ -66,6 +66,10 @@
         <Link>Resources\DotNet_WSP.p12</Link>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <Content Include="..\..\Misc\Certificates\sts.oioidws-net.dk.p12">
+        <Link>Resources\sts.oioidws-net.dk.p12</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     
 </Project>

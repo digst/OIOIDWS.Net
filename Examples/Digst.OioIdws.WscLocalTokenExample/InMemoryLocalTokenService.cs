@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Linq;
 
@@ -13,7 +11,7 @@ namespace Digst.OioIdws.WscLocalTokenExample
     /// by a real local STS. Because this service is in-memory it does not assume
     /// anything about the local/corporate infrastructure.
     /// </summary>
-    /// <seealso cref="Digst.OioIdws.WscLocalTokenExample.ILocalTokenService" />
+    /// <seealso cref="ILocalTokenService" />
     public class InMemoryLocalTokenService : ILocalTokenService
     {
 

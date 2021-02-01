@@ -53,8 +53,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ILocalTokenService.cs" />
-    <Compile Include="InMemoryLocalTokenServiceConfiguration.cs" />
     <Compile Include="InMemoryLocalTokenService.cs" />
+    <Compile Include="InMemoryLocalTokenServiceConfiguration.cs" />
     <Compile Include="InMemoryLocalTokenServiceConfigurationFactory.cs" />
     <Compile Include="Log4NetLogger.cs" />
     <Compile Include="Program.cs" />
