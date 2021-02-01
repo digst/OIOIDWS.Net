@@ -21,7 +21,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         public WspConfiguration WspConfiguration { get; private set; }
         public LocalStsConfiguration LocalStsConfiguration { get; private set; }
 
-        public static Configuration BuildDotNetConfiguration()
+        public static Configuration BuildDotNetWspConfiguration()
         {
             var wspConfiguration = BuildDotNetWsp();
             var stsConfiguration = BuildStsConfiguration(wspConfiguration);

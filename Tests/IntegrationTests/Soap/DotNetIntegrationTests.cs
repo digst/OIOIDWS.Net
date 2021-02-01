@@ -18,9 +18,9 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         
         public DotNetIntegrationTests()
         {
-            var dotNetConfiguration = Configuration.BuildDotNetConfiguration();
-            ConfigureWscAndSts(dotNetConfiguration);
-            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetConfiguration.WspConfiguration);
+            var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
+            ConfigureWscAndSts(dotNetWspConfiguration);
+            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.WspConfiguration);
         }
         
         [Fact]
