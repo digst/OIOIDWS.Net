@@ -70,10 +70,6 @@
     <Compile Include="Utils\XmlSignatureUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tests\Digst.OioIdws.Common.Utils\Digst.OioIdws.Common.Utils.csproj">
-      <Project>{17cd5683-886b-4856-82b0-25bd99172764}</Project>
-      <Name>Digst.OioIdws.Common.Utils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Digst.OioIdws.Common\Digst.OioIdws.Common.csproj">
       <Project>{90c95503-cda6-46e1-91af-3a52d04dbcc3}</Project>
       <Name>Digst.OioIdws.Common</Name>
