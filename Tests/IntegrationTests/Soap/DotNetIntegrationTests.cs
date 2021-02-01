@@ -41,7 +41,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             TestChannel();
         }
         
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestBootstrapScenario()
         {
             _channelInput += "TestBootstrapScenario";
