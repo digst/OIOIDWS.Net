@@ -15,7 +15,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private const string DotNetWspCertificatePathKey = "DotNetWspCertificatePath";
         private const string LocalTokenServiceSigningCertificatePathKey = "LocalTokenServiceSigningCertificatePath";
         private const string LocalTokenServiceEntityIdKey = "LocalTokenServiceEntityId";
-        private const string NemLoginLocalTokenStsEntityIdKey = "NemLoginLocalTokenStsEntityId";
 
         public StsTokenServiceConfiguration StsConfiguration { get; private set; }
         public WspConfiguration WspConfiguration { get; private set; }
@@ -43,7 +42,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
                 EntityId = ConfigurationManager.AppSettings[LocalTokenServiceEntityIdKey],
                 SigningCertificate =
                     ReadCertificateFile(ConfigurationManager.AppSettings[LocalTokenServiceSigningCertificatePathKey], "Test1234"),
-                NemLoginLocalTokenStsEntityId = ConfigurationManager.AppSettings[NemLoginLocalTokenStsEntityIdKey],
                 HolderOfKeyCertificate = stsTokenServiceConfiguration.ClientCertificate
             };
         }

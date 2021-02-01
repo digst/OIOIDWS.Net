@@ -11,6 +11,8 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
     /// </summary>
     public class LocalTokenScenario : ITokenAcquisitionScenario
     {
+        private const string NemLoginLocalTokenStsEntityId = "https://local.sts.nemlog-in.dk/";
+        
         private readonly LocalStsConfiguration _configuration;
         private readonly IStsTokenService _tokenService;
 
@@ -59,7 +61,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
             };
 
             assertion.Conditions.AudienceRestrictions.Add(
-                new Saml2AudienceRestriction(new Uri(_configuration.NemLoginLocalTokenStsEntityId)));
+                new Saml2AudienceRestriction(new Uri(NemLoginLocalTokenStsEntityId)));
             
             assertion.Statements.Add(new Saml2AttributeStatement(new[]
             {
