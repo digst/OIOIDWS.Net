@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <AssemblyName>DK.Gov.Oio.Idws.IntegrationTests</AssemblyName>
+        <RootNamespace>DK.Gov.Oio.Idws.IntegrationTests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.IdentityModel" />
+      <Reference Include="System.ServiceModel" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj" />
+      <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <WCFMetadata Include="Service References" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <WCFMetadataStorage Include="Service References\DotNetHelloWorldProxy" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="App.config" />
+      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.svcmap">
+        <Generator>WCF Proxy Generator</Generator>
+        <LastGenOutput>DotNetHelloWorldProxy.cs</LastGenOutput>
+      </None>
+      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.webref" />
+      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.wsdl" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.cs" Exclude="@(Compile)">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>DotNetHelloWorldProxy.svcmap</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\Misc\Certificates\SP and WSC (Oiosaml-net.dk TEST).p12">
+        <Link>Resources\WSC.p12</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\Misc\Certificates\STS - Signature validation - test.cer">
+        <Link>Resources\IntTest_STS.cer</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\Misc\Certificates\WSP (wsp.oioidws-net.dk TEST).p12">
+        <Link>Resources\DotNet_WSP.p12</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    
+</Project>
