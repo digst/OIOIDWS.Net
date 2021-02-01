@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using System.IdentityModel.Tokens;
-using System.ServiceModel.Security.Tokens;
 using System.Threading;
-using System.Xml;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.OioWsTrust.InMemory;
 using Digst.OioIdws.Wsc.OioWsTrust;
 using Digst.OioIdws.WscLocalTokenExample.HelloWorldProxy;
 using log4net.Config;

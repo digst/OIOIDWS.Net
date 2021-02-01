@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IdentityModel.Tokens;
 using System.ServiceModel;
+using System.Xml;
 using DK.Gov.Oio.Idws.IntegrationTests.DotNetHelloWorldProxy;
 using FluentAssertions;
 using Xunit;
@@ -32,7 +34,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             TestChannel();
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestLocalTokenScenario()
         {
             _channelInput += "TestLocalTokenScenario";

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Security.Cryptography.X509Certificates;
 
-namespace Digst.OioIdws.WscLocalTokenExample
+namespace Digst.OioIdws.OioWsTrust.InMemory
 {
     /// <summary>
     /// Represents some security token service (STS) which can issue local tokens based

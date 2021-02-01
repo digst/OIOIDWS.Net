@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Examples\Digst.OioIdws.WscLocalTokenExample\Digst.OioIdws.WscLocalTokenExample.csproj" />
       <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj" />
       <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj" />
     </ItemGroup>

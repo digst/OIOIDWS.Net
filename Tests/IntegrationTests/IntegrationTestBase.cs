@@ -6,6 +6,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
+        private StsTokenServiceConfiguration _tokenServiceConfiguration;
         private IStsTokenService _tokenService;
         private ITokenAcquisitionScenario _acquisitionScenario;
 
@@ -16,6 +17,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         protected void ConfigureWscAndSts(StsTokenServiceConfiguration stsConfiguration)
         {
+            _tokenServiceConfiguration = stsConfiguration;
             _tokenService = new StsTokenService(stsConfiguration);
         }
 
@@ -26,7 +28,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         protected void ConfigureLocalTokenScenario()
         {
-            //_acquisitionScenario = new LocalTokenScenario(_tokenService);
+            _acquisitionScenario = new LocalTokenScenario(_tokenService, _tokenServiceConfiguration.ClientCertificate);
         }
         
         protected void ConfigureBootstrapScenario()

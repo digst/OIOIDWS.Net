@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Digst.OioIdws.WscLocalTokenExample
+namespace Digst.OioIdws.OioWsTrust.InMemory
 {
     /// <summary>
     /// Configuration for the <see cref="InMemoryLocalTokenService"/>
