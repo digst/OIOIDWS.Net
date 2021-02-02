@@ -8,11 +8,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
     {
         private string _requestUri = "DotNetIntegrationTests.";
         
-        public DotNetIntegrationTests()
-        {
-            var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
-            ConfigureWscAndSts(dotNetWspConfiguration);
-        }
+        public DotNetIntegrationTests() : base(Configuration.BuildDotNetWspConfiguration()) { }
         
         [Fact]
         public async Task TestSystemUserScenario()

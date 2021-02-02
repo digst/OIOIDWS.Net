@@ -13,19 +13,17 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
-        private IStsTokenService _tokenService;
-        private ITokenAcquisitionScenario _acquisitionScenario;
-        private IAccessTokenService _accessTokenService;
-        
-        protected Configuration Configuration { get; set; }
+        private readonly IStsTokenService _tokenService;
+        private readonly IAccessTokenService _accessTokenService;
 
-        protected IntegrationTestBase()
+        private ITokenAcquisitionScenario _acquisitionScenario;
+
+        protected Configuration Configuration { get; }
+
+        protected IntegrationTestBase(Configuration configuration)
         {
             // Optional log4net: XmlConfigurator.Configure();
-        }
 
-        protected void ConfigureWscAndSts(Configuration configuration)
-        {
             Configuration = configuration;
             _tokenService = new StsTokenService(configuration.StsConfiguration);
             _accessTokenService = new AccessTokenService(configuration.OioIdwsClientSettings);
