@@ -1,78 +1,104 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Client;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests
 {
     public class Configuration
     {
         private const string WscCertificatePathKey = "WscCertificatePath";
+        private const string TokenLifeTimeInMinutesKey = "TokenLifeTimeInMinutes";
+        private const string DotNetRestAccessTokenIssuerEndpointKey = "DotNetRestAccessTokenIssuerEndpoint";
         private const string StsEndpointAddressKey = "StsEndpointAddress";
         private const string StsCertificatePathKey = "StsCertificatePath";
-        private const string TokenLifeTimeInMinutesKey = "TokenLifeTimeInMinutes";
-        private const string DotNetWspEntityIDKey = "DotNetWspEntityID";
-        private const string DotNetWspHostnameKey = "DotNetWspHostname";
-        private const string DotNetWspCertificatePathKey = "DotNetWspCertificatePath";
         private const string LocalTokenServiceSigningCertificatePathKey = "LocalTokenServiceSigningCertificatePath";
         private const string LocalTokenServiceEntityIdKey = "LocalTokenServiceEntityId";
+        private const string DotNetWspEntityIdKey = "DotNetWspEntityId";
+        private const string DotNetRestWspEndpointKey = "DotNetRestWspEndpoint";
+        private const string DotNetSoapWspEndpointKey = "DotNetSoapWspEndpoint";
+        private const string DotNetSoapWspCertificatePathKey = "DotNetSoapWspCertificatePath";
 
         public StsTokenServiceConfiguration StsConfiguration { get; private set; }
-        public WspConfiguration WspConfiguration { get; private set; }
+        public SoapWspConfiguration SoapWspConfiguration { get; private set; }
+        public RestWspConfiguration RestWspConfiguration { get; private set; }
         public LocalStsConfiguration LocalStsConfiguration { get; private set; }
+        public OioIdwsClientSettings OioIdwsClientSettings { get; private set; }
 
         public static Configuration BuildDotNetWspConfiguration()
         {
-            var wspConfiguration = BuildDotNetWsp();
-            var stsConfiguration = BuildStsConfiguration(wspConfiguration);
-            var localStsConfiguration = BuildLocalStsConfiguration(stsConfiguration);
+            var restWspConfiguration = BuildDotNetRestWspConfiguration();
+            var soapWspConfiguration = BuildDotNetSoapWspConfiguration();
+            
+            var wspEntityId = soapWspConfiguration.EntityId; // WSP Entity IDs are identical.
+            var wscCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[WscCertificatePathKey], "Test1234");
+            
+            var stsConfiguration = BuildStsConfiguration(wspEntityId, wscCertificate);
+            var localStsConfiguration = BuildLocalStsConfiguration(wscCertificate);
+            var oioIdwsClientSettings = BuildOioIdwsClientSettings(wscCertificate);
 
             return new Configuration
             {
                 StsConfiguration = stsConfiguration,
-                WspConfiguration = wspConfiguration,
-                LocalStsConfiguration = localStsConfiguration
+                LocalStsConfiguration = localStsConfiguration,
+                OioIdwsClientSettings = oioIdwsClientSettings,
+                RestWspConfiguration = restWspConfiguration,
+                SoapWspConfiguration = soapWspConfiguration,
             };
         }
 
-        private static LocalStsConfiguration BuildLocalStsConfiguration(
-            StsTokenServiceConfiguration stsTokenServiceConfiguration)
+        private static SoapWspConfiguration BuildDotNetSoapWspConfiguration() =>
+            new SoapWspConfiguration
+            {
+                EntityId = ConfigurationManager.AppSettings[DotNetWspEntityIdKey],
+                Endpoint = new Uri(ConfigurationManager.AppSettings[DotNetSoapWspEndpointKey]),
+                Certificate = ReadCertificateFile(ConfigurationManager.AppSettings[DotNetSoapWspCertificatePathKey], "Test1234"),
+            };
+
+        private static RestWspConfiguration BuildDotNetRestWspConfiguration() =>
+            new RestWspConfiguration
+            {
+                EntityId = ConfigurationManager.AppSettings[DotNetWspEntityIdKey],
+                Endpoint = new Uri(ConfigurationManager.AppSettings[DotNetRestWspEndpointKey]),
+            };
+
+        private static LocalStsConfiguration BuildLocalStsConfiguration(X509Certificate2 wscCertificate)
         {
             return new LocalStsConfiguration
             {
                 EntityId = ConfigurationManager.AppSettings[LocalTokenServiceEntityIdKey],
-                SigningCertificate =
-                    ReadCertificateFile(ConfigurationManager.AppSettings[LocalTokenServiceSigningCertificatePathKey], "Test1234"),
-                HolderOfKeyCertificate = stsTokenServiceConfiguration.ClientCertificate
+                SigningCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[LocalTokenServiceSigningCertificatePathKey], "Test1234"),
+                HolderOfKeyCertificate = wscCertificate
             };
         }
 
-        private static WspConfiguration BuildDotNetWsp()
-        {
-            var wspConfiguration = new WspConfiguration
-            {
-                EntityID = ConfigurationManager.AppSettings[DotNetWspEntityIDKey],
-                Hostname = ConfigurationManager.AppSettings[DotNetWspHostnameKey],
-                Certificate = ReadCertificateFile(ConfigurationManager.AppSettings[DotNetWspCertificatePathKey],
-                    "Test1234")
-            };
-            return wspConfiguration;
-        }
-
-        private static StsTokenServiceConfiguration BuildStsConfiguration(WspConfiguration wspConfiguration)
+        private static StsTokenServiceConfiguration BuildStsConfiguration(string wspEntityId, X509Certificate2 wscCertificate)
         {
             var stsConfiguration = new StsTokenServiceConfiguration
             {
-                ClientCertificate =
-                    ReadCertificateFile(ConfigurationManager.AppSettings[WscCertificatePathKey], "Test1234"),
+                ClientCertificate = wscCertificate,
                 StsCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[StsCertificatePathKey]),
                 SendTimeout = null,
                 StsEndpointAddress = ConfigurationManager.AppSettings[StsEndpointAddressKey],
                 TokenLifeTimeInMinutes = int.Parse(ConfigurationManager.AppSettings[TokenLifeTimeInMinutesKey]),
-                WspEndpointId = wspConfiguration.EntityID
+                WspEndpointId = wspEntityId
             };
             return stsConfiguration;
         }
 
+        private static OioIdwsClientSettings BuildOioIdwsClientSettings(X509Certificate2 wscCertificate)
+        {
+            var oioIdwsClientSettings = new OioIdwsClientSettings
+            {
+                ClientCertificate = wscCertificate,
+                AccessTokenIssuerEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetRestAccessTokenIssuerEndpointKey]),
+                DesiredAccessTokenExpiry = TimeSpan.FromMinutes(5)
+            };
+
+            return oioIdwsClientSettings;
+        }
+        
         private static X509Certificate2 ReadCertificateFile(string path)
         {
             return new X509Certificate2(path);

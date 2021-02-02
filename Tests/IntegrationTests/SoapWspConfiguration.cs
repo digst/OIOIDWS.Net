@@ -4,14 +4,14 @@ using System.ServiceModel;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests
 {
-    public class WspConfiguration
+    public class SoapWspConfiguration
     {
-        public string EntityID { get; set; }
-        public string Hostname { get; set; }
+        public string EntityId { get; set; }
+        public Uri Endpoint { get; set; }
         public X509Certificate2 Certificate { get; set; }
 
         private string CertificateCommonName => Certificate.GetNameInfo(X509NameType.SimpleName, false);
         
-        public EndpointAddress EndpointAddress => new EndpointAddress(new Uri(Hostname), EndpointIdentity.CreateDnsIdentity(CertificateCommonName));
+        public EndpointAddress EndpointAddress => new EndpointAddress(Endpoint, EndpointIdentity.CreateDnsIdentity(CertificateCommonName));
     }
 }
