@@ -11,7 +11,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
     {
         private const string TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0";
 
-        public static ChannelFactory<T> CreateChannelFactory<T>(WspConfiguration wspConfiguration)
+        public static ChannelFactory<T> CreateChannelFactory<T>(SoapWspConfiguration wspConfiguration)
         {
             var customBinding = new CustomBinding();
             WithAsymmetricSecurity(customBinding);
@@ -21,7 +21,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             var factory = new ChannelFactory<T>(customBinding, wspConfiguration.EndpointAddress);
             factory.Credentials.UseIdentityConfiguration = true;
             // Equivalent to SetScopedCertificate, but enables certificate for WSP from outside CAPI
-            factory.Credentials.ServiceCertificate.ScopedCertificates[new Uri(wspConfiguration.Hostname)] = wspConfiguration.Certificate;
+            factory.Credentials.ServiceCertificate.ScopedCertificates[wspConfiguration.Endpoint] = wspConfiguration.Certificate;
             factory.Endpoint.Behaviors.Add(new SoapClientBehavior());
             return factory;
         }
@@ -53,7 +53,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
 
         private static void WithTransport(CustomBinding customBinding, WspConfiguration wspConfiguration)
         {
-            var transport = wspConfiguration.Hostname.ToLower().StartsWith("https://")
+            var transport = wspConfiguration.Endpoint.Scheme == Uri.UriSchemeHttps
                 ? new HttpsTransportBindingElement()
                 : new HttpTransportBindingElement();
             customBinding.Elements.Add(transport);

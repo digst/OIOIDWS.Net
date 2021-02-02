@@ -20,7 +20,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         {
             var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
             ConfigureWscAndSts(dotNetWspConfiguration);
-            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.WspConfiguration);
+            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.SoapWspConfiguration);
         }
         
         [Fact]
