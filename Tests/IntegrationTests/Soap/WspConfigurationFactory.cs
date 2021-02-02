@@ -51,7 +51,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             customBinding.Elements.Add(messageEncoding);
         }
 
-        private static void WithTransport(CustomBinding customBinding, WspConfiguration wspConfiguration)
+        private static void WithTransport(CustomBinding customBinding, SoapWspConfiguration wspConfiguration)
         {
             var transport = wspConfiguration.Endpoint.Scheme == Uri.UriSchemeHttps
                 ? new HttpsTransportBindingElement()

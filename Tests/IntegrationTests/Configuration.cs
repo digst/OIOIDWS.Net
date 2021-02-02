@@ -15,6 +15,10 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private const string StsCertificatePathKey = "StsCertificatePath";
         private const string LocalTokenServiceSigningCertificatePathKey = "LocalTokenServiceSigningCertificatePath";
         private const string LocalTokenServiceEntityIdKey = "LocalTokenServiceEntityId";
+        private const string DotNetWspEntityIdKey = "DotNetWspEntityId";
+        private const string DotNetRestWspEndpointKey = "DotNetRestWspEndpoint";
+        private const string DotNetSoapWspEndpointKey = "DotNetSoapWspEndpoint";
+        private const string DotNetSoapWspCertificatePathKey = "DotNetSoapWspCertificatePath";
 
         public StsTokenServiceConfiguration StsConfiguration { get; private set; }
         public SoapWspConfiguration SoapWspConfiguration { get; private set; }
@@ -24,11 +28,11 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         public static Configuration BuildDotNetWspConfiguration()
         {
-            var soapWspConfiguration = new SoapWspConfiguration();
-            var restWspConfiguration = new RestWspConfiguration();
-            var wspEntityId = soapWspConfiguration.EntityID; // WSP Entity IDs are identical.
+            var restWspConfiguration = BuildDotNetRestWspConfiguration();
+            var soapWspConfiguration = BuildDotNetSoapWspConfiguration();
             
-            var wscCertificate = Utils.ReadCertificateFile(ConfigurationManager.AppSettings[WscCertificatePathKey], "Test1234");
+            var wspEntityId = soapWspConfiguration.EntityId; // WSP Entity IDs are identical.
+            var wscCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[WscCertificatePathKey], "Test1234");
             
             var stsConfiguration = BuildStsConfiguration(wspEntityId, wscCertificate);
             var localStsConfiguration = BuildLocalStsConfiguration(wscCertificate);
@@ -37,19 +41,34 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
             return new Configuration
             {
                 StsConfiguration = stsConfiguration,
+                LocalStsConfiguration = localStsConfiguration,
+                OioIdwsClientSettings = oioIdwsClientSettings,
                 RestWspConfiguration = restWspConfiguration,
                 SoapWspConfiguration = soapWspConfiguration,
-                LocalStsConfiguration = localStsConfiguration,
-                OioIdwsClientSettings = oioIdwsClientSettings
             };
         }
+
+        private static SoapWspConfiguration BuildDotNetSoapWspConfiguration() =>
+            new SoapWspConfiguration
+            {
+                EntityId = ConfigurationManager.AppSettings[DotNetWspEntityIdKey],
+                Endpoint = new Uri(ConfigurationManager.AppSettings[DotNetSoapWspEndpointKey]),
+                Certificate = ReadCertificateFile(ConfigurationManager.AppSettings[DotNetSoapWspCertificatePathKey], "Test1234"),
+            };
+
+        private static RestWspConfiguration BuildDotNetRestWspConfiguration() =>
+            new RestWspConfiguration
+            {
+                EntityId = ConfigurationManager.AppSettings[DotNetWspEntityIdKey],
+                Endpoint = new Uri(ConfigurationManager.AppSettings[DotNetRestWspEndpointKey]),
+            };
 
         private static LocalStsConfiguration BuildLocalStsConfiguration(X509Certificate2 wscCertificate)
         {
             return new LocalStsConfiguration
             {
                 EntityId = ConfigurationManager.AppSettings[LocalTokenServiceEntityIdKey],
-                SigningCertificate = Utils.ReadCertificateFile(ConfigurationManager.AppSettings[LocalTokenServiceSigningCertificatePathKey], "Test1234"),
+                SigningCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[LocalTokenServiceSigningCertificatePathKey], "Test1234"),
                 HolderOfKeyCertificate = wscCertificate
             };
         }
@@ -59,7 +78,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
             var stsConfiguration = new StsTokenServiceConfiguration
             {
                 ClientCertificate = wscCertificate,
-                StsCertificate = Utils.ReadCertificateFile(ConfigurationManager.AppSettings[StsCertificatePathKey]),
+                StsCertificate = ReadCertificateFile(ConfigurationManager.AppSettings[StsCertificatePathKey]),
                 SendTimeout = null,
                 StsEndpointAddress = ConfigurationManager.AppSettings[StsEndpointAddressKey],
                 TokenLifeTimeInMinutes = int.Parse(ConfigurationManager.AppSettings[TokenLifeTimeInMinutesKey]),
@@ -78,6 +97,16 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
             };
 
             return oioIdwsClientSettings;
+        }
+        
+        private static X509Certificate2 ReadCertificateFile(string path)
+        {
+            return new X509Certificate2(path);
+        }
+
+        private static X509Certificate2 ReadCertificateFile(string path, string password)
+        {
+            return new X509Certificate2(path, password, X509KeyStorageFlags.Exportable);
         }
     }
 }
