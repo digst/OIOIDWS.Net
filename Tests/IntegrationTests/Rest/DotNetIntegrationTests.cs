@@ -22,6 +22,14 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
             await TestHttpClient();
         }
 
+        [Fact]
+        public async Task TestLocalTokenScenario()
+        {
+            _requestUri += "TestLocalTokenScenario";
+            ConfigureLocalTokenScenario();
+            await TestHttpClient();
+        }
+
         private async Task TestHttpClient()
         {
             var client = await CreateHttpClientWithIssuedToken();
