@@ -10,7 +10,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
     {
         private const string WscCertificatePathKey = "WscCertificatePath";
         private const string TokenLifeTimeInMinutesKey = "TokenLifeTimeInMinutes";
-        private const string AccessTokenIssuerEndpointKey = "AccessTokenIssuerEndpoint";
+        private const string DotNetRestAccessTokenIssuerEndpointKey = "DotNetRestAccessTokenIssuerEndpoint";
         private const string StsEndpointAddressKey = "StsEndpointAddress";
         private const string StsCertificatePathKey = "StsCertificatePath";
         private const string LocalTokenServiceSigningCertificatePathKey = "LocalTokenServiceSigningCertificatePath";
@@ -73,7 +73,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
             var oioIdwsClientSettings = new OioIdwsClientSettings
             {
                 ClientCertificate = wscCertificate,
-                AccessTokenIssuerEndpoint = new Uri(ConfigurationManager.AppSettings[AccessTokenIssuerEndpointKey]),
+                AccessTokenIssuerEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetRestAccessTokenIssuerEndpointKey]),
                 DesiredAccessTokenExpiry = TimeSpan.FromMinutes(5)
             };
 
