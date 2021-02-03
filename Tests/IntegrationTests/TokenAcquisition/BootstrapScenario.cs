@@ -25,8 +25,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
         public SecurityToken AcquireTokenFromSts()
         {
             var bootstrapToken = AcquireBootstrapToken();
-
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             return _tokenService.GetTokenWithBootstrapToken(bootstrapToken);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Protocols.WSTrust;
 using System.IdentityModel.Tokens;
+using System.Security.Authentication;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Security;
@@ -65,6 +66,7 @@ namespace Digst.OioIdws.OioWsTrust
                     Encoding.UTF8));
                 // ManualAddressing must be true in order to make sure that wsa header elements are not altered in the HttpsTransportChannel which happens after xml elements have been digitally signed.
                 stsBinding.Elements.Add(new HttpsTransportBindingElement() {ManualAddressing = true});
+                stsBinding.Elements.Add(new SslStreamSecurityBindingElement {SslProtocols = SslProtocols.None});
 
                 // Setup channel factory and apply client credentials
                 var factory = new WSTrustChannelFactory(stsBinding, new EndpointAddress(_config.StsEndpointAddress));
