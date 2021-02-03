@@ -16,11 +16,10 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
 
         private string _channelInput = "DotNetIntegrationTests.";
         
-        public DotNetIntegrationTests()
+        public DotNetIntegrationTests() : base(Configuration.BuildDotNetWspConfiguration())
         {
-            var dotNetWspConfiguration = Configuration.BuildDotNetWspConfiguration();
-            ConfigureWscAndSts(dotNetWspConfiguration);
-            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(dotNetWspConfiguration.WspConfiguration);
+            _wspChannelFactory = WspConfigurationFactory.CreateChannelFactory<IHelloWorld>(
+                base.Configuration.SoapWspConfiguration);
         }
         
         [Fact]
