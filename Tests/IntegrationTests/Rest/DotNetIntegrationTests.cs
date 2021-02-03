@@ -26,7 +26,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
             await TestHttpClient();
         }
 
-        [Fact]
+        [Fact(Skip = "Awaiting STS deploy in DevTest4.")]
         public async Task TestBootstrapScenario()
         {
             _requestUri += "TestBootstrapScenario";

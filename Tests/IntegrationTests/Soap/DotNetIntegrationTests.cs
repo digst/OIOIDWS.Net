@@ -39,8 +39,8 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             
             TestChannel();
         }
-        
-        [Fact]
+
+        [Fact(Skip = "Awaiting STS deploy in DevTest4.")]
         public void TestBootstrapScenario()
         {
             _channelInput += "TestBootstrapScenario";
