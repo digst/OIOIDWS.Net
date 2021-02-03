@@ -19,12 +19,14 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private const string DotNetRestWspEndpointKey = "DotNetRestWspEndpoint";
         private const string DotNetSoapWspEndpointKey = "DotNetSoapWspEndpoint";
         private const string DotNetSoapWspCertificatePathKey = "DotNetSoapWspCertificatePath";
+        private const string DotNetBootstrapWscEndpointKey = "DotNetBootstrapWscEndpoint";
 
         public StsTokenServiceConfiguration StsConfiguration { get; private set; }
         public SoapWspConfiguration SoapWspConfiguration { get; private set; }
         public RestWspConfiguration RestWspConfiguration { get; private set; }
         public LocalStsConfiguration LocalStsConfiguration { get; private set; }
         public OioIdwsClientSettings OioIdwsClientSettings { get; private set; }
+        public BootstrapWscConfiguration BootstrapWscConfiguration { get; private set; }
 
         public static Configuration BuildDotNetWspConfiguration()
         {
@@ -37,6 +39,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
             var stsConfiguration = BuildStsConfiguration(wspEntityId, wscCertificate);
             var localStsConfiguration = BuildLocalStsConfiguration(wscCertificate);
             var oioIdwsClientSettings = BuildOioIdwsClientSettings(wscCertificate);
+            var bootstrapWscConfiguration = BuildBootstrapWscConfiguration();
 
             return new Configuration
             {
@@ -45,8 +48,15 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
                 OioIdwsClientSettings = oioIdwsClientSettings,
                 RestWspConfiguration = restWspConfiguration,
                 SoapWspConfiguration = soapWspConfiguration,
+                BootstrapWscConfiguration = bootstrapWscConfiguration
             };
         }
+
+        private static BootstrapWscConfiguration BuildBootstrapWscConfiguration() =>
+            new BootstrapWscConfiguration
+            {
+                WscEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetBootstrapWscEndpointKey])
+            };
 
         private static SoapWspConfiguration BuildDotNetSoapWspConfiguration() =>
             new SoapWspConfiguration

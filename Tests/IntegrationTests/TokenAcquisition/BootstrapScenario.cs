@@ -7,21 +7,26 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Xml;
+using System.Net;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
 {
     public class BootstrapScenario : ITokenAcquisitionScenario
     {
+        private readonly BootstrapWscConfiguration _bootstrapWscConfiguration;
         private readonly IStsTokenService _tokenService;
 
-        public BootstrapScenario(IStsTokenService tokenService)
+        public BootstrapScenario(BootstrapWscConfiguration bootstrapWscConfiguration, IStsTokenService tokenService)
         {
+            _bootstrapWscConfiguration = bootstrapWscConfiguration;
             _tokenService = tokenService;
         }
 
         public SecurityToken AcquireTokenFromSts()
         {
             var bootstrapToken = AcquireBootstrapToken();
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             return _tokenService.GetTokenWithBootstrapToken(bootstrapToken);
         }
 
@@ -29,7 +34,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
         {
             // Retrieve token from WscBootstrapExample using Selenium/Chrome.
             var bootstrapTokenBase64 = GetBase64EncodedBootstrapTokenFromWscBootstrapExample();
-            
+
             // Decode base64 encoded bootstrap token.
             var rawBootstrapToken = Convert.FromBase64String(bootstrapTokenBase64);
 
@@ -50,23 +55,19 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
             //NemID Nøglefilsprogram
             var pathToExtension =
                 "C:\\Users\\Developer\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\mbjoejbgakiicfllhcdilppjkmmicnch\\1.41_0";
-            //Selenium IDE - Not necessary
-            // var pathToExtension2 =
-            //     "C:\\Users\\Developer\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\mooikfkahbdckldjjndioackbalphokd\\3.17.0_0";
 
             var options = new ChromeOptions();
-            // options.AddArguments("load-extension=" + pathToExtension + "," + pathToExtension2);
             options.AddArguments("load-extension=" + pathToExtension);
 
             var driver = new ChromeDriver(options);
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
             //Navigate to login page
-            driver.Navigate().GoToUrl("https://oiosaml-net.dk:20002/");
+            driver.Navigate().GoToUrl(_bootstrapWscConfiguration.WscEndpoint);
             driver.FindElement(By.LinkText("Go to My Page.")).Click();
 
             // Jeg har deaktiveret denne midlertidigt for at få login til at virke lokalt. --thjak
-            
+
             //Select Idp, using IntTest at the moment...
             // //TODO: I'm guessing this step is not necessary once we only point to DevTest4
             // Thread.Sleep(5000);

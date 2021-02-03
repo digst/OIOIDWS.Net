@@ -41,7 +41,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         
         protected void ConfigureBootstrapScenario()
         {
-            _acquisitionScenario = new BootstrapScenario(_tokenService);
+            _acquisitionScenario = new BootstrapScenario(Configuration.BootstrapWscConfiguration, _tokenService);
         }
         
         protected T CreateChannelWithIssuedToken<T>(ChannelFactory<T> factory)
