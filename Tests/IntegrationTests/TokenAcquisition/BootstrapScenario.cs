@@ -49,42 +49,40 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
 
         private string GetBase64EncodedBootstrapTokenFromWscBootstrapExample()
         {
-            //Start browser instance (Chrome with extensions enabled)
-            //NemID Nøglefilsprogram
-            var pathToExtension =
-                "C:\\Users\\Developer\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\mbjoejbgakiicfllhcdilppjkmmicnch\\1.41_0";
-
             var options = new ChromeOptions();
-            options.AddArguments("load-extension=" + pathToExtension);
+            //options.AddArguments("headless");
 
             var driver = new ChromeDriver(options);
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
-            //Navigate to login page
-            driver.Navigate().GoToUrl(_bootstrapWscConfiguration.WscEndpoint);
-            driver.FindElement(By.LinkText("Go to My Page.")).Click();
+            var bootstrapTokenBase64 = "";
 
-            // Jeg har deaktiveret denne midlertidigt for at få login til at virke lokalt. --thjak
-
-            //Select Idp, using IntTest at the moment...
-            // //TODO: I'm guessing this step is not necessary once we only point to DevTest4
-            // Thread.Sleep(5000);
-            // wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(
-            //     By.LinkText("https://saml.test-nemlog-in.dk/"))).Click();
-            //
-            // //Login - TEMPORARY SOLUTION WHILE WAITING FOR MIT ID LOGIN OPTION
-            // wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(
-            //     By.CssSelector("#Repeater2_LoginMenuItem_1 > span:nth-child(2)"))).Click();
-            // Thread.Sleep(3000);
-            // driver.SwitchTo().Frame(0);
-            // driver.FindElement(By.Id("ok")).Click();
-            //ENTER PASSWORD MANUALLY (unable to access password pop-up)
-            Thread.Sleep(20000);
-
-            var bootstrapTokenBase64 = wait.Until(d =>
-                d.FindElement(By.XPath("//*[@id='aspnetForm']/div[4]/div[1]/table/tbody/tr[14]/td[2]"))).Text;
-
-            driver.Quit();
+            try
+            {
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                
+                //Navigate to login page
+                driver.Navigate().GoToUrl(_bootstrapWscConfiguration.WscEndpoint);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                    By.CssSelector("#Repeater2_LoginMenuItem_2 > span:nth-child(2)"))).Click();
+                
+                //Log in
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                    By.Id("ContentPlaceHolder_MitIdSimulatorControl_txtUsername")))
+                    .SendKeys(_bootstrapWscConfiguration.WscUsername);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                        By.Id("ContentPlaceHolder_MitIdSimulatorControl_txtPassword")))
+                    .SendKeys(_bootstrapWscConfiguration.WscPassword);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                    By.Id("ContentPlaceHolder_MitIdSimulatorControl_btnSubmit"))).Click();
+                
+                //Get bootstrap token
+                bootstrapTokenBase64 = wait.Until(d =>
+                    d.FindElement(By.XPath("//*[@id='aspnetForm']/div[4]/div[1]/table/tbody/tr[14]/td[2]"))).Text;
+            }
+            finally
+            {
+                driver.Quit();
+            }
 
             return bootstrapTokenBase64;
         }

@@ -20,6 +20,8 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private const string DotNetSoapWspEndpointKey = "DotNetSoapWspEndpoint";
         private const string DotNetSoapWspCertificatePathKey = "DotNetSoapWspCertificatePath";
         private const string DotNetBootstrapWscEndpointKey = "DotNetBootstrapWscEndpoint";
+        private const string DotNetBootstrapWscUsernameKey = "DotNetBootstrapWscUsername";
+        private const string DotNetBootstrapWscPasswordKey = "DotNetBootstrapWscPassword";
 
         public StsTokenServiceConfiguration StsConfiguration { get; private set; }
         public SoapWspConfiguration SoapWspConfiguration { get; private set; }
@@ -55,7 +57,9 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private static BootstrapWscConfiguration BuildBootstrapWscConfiguration() =>
             new BootstrapWscConfiguration
             {
-                WscEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetBootstrapWscEndpointKey])
+                WscEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetBootstrapWscEndpointKey]),
+                WscUsername = ConfigurationManager.AppSettings[DotNetBootstrapWscUsernameKey],
+                WscPassword = ConfigurationManager.AppSettings[DotNetBootstrapWscPasswordKey]
             };
 
         private static SoapWspConfiguration BuildDotNetSoapWspConfiguration() =>
