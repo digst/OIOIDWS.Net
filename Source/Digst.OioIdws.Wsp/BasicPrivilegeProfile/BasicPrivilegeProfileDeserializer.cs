@@ -40,10 +40,10 @@ namespace Digst.OioIdws.Wsp.BasicPrivilegeProfile
             var doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            var navtigator = doc.CreateNavigator();
-            navtigator?.MoveToFirstChild();
+            var navigator = doc.CreateNavigator();
+            navigator?.MoveToFirstChild();
 
-            var namespaces = navtigator?.GetNamespacesInScope(XmlNamespaceScope.Local)?.Values;
+            var namespaces = navigator?.GetNamespacesInScope(XmlNamespaceScope.Local)?.Values;
 
             if (namespaces == null)
             {
