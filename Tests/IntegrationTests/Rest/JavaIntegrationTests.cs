@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
 {
-    public class DotNetIntegrationTests : IntegrationTestBase
+    public class JavaIntegrationTests : IntegrationTestBase
     {
-        private string _requestUri = "DotNetIntegrationTests.";
+        private string _verificationString = "JavaIntegrationTests.";
         
-        public DotNetIntegrationTests() : base(Configuration.BuildDotNetWspConfiguration()) { }
+        public JavaIntegrationTests() : base(Configuration.BuildJavaWspConfiguration()) { }
         
         [Fact]
         public async Task TestSystemUserScenario()
         {
-            _requestUri += "TestSystemUserScenario";
+            _verificationString += "TestSystemUserScenario";
             ConfigureSystemUserScenario();
             await TestHttpClient();
         }
@@ -21,7 +21,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         [Fact]
         public async Task TestLocalTokenScenario()
         {
-            _requestUri += "TestLocalTokenScenario";
+            _verificationString += "TestLocalTokenScenario";
             ConfigureLocalTokenScenario();
             await TestHttpClient();
         }
@@ -29,11 +29,11 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         private async Task TestHttpClient()
         {
             var client = await CreateHttpClientWithIssuedToken();
-            var response = await client.GetAsync($"{Configuration.RestWspConfiguration.Endpoint}/{_requestUri}");
+            
+            var response = await client.GetAsync($"{Configuration.RestWspConfiguration.Endpoint}?name={_verificationString}");
             var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
             
-            responseString.Should().StartWith(
-                $"Requested at {Configuration.RestWspConfiguration.Endpoint}{_requestUri}\nAuthenticationType: OioIdws\r\nClaims:");
+            responseString.Should().StartWith($"Hello {_verificationString}");
         }
     }
 }

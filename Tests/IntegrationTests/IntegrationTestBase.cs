@@ -1,10 +1,20 @@
-﻿using System.IdentityModel.Tokens;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using Digst.OioIdws.OioWsTrust;
+using Digst.OioIdws.Rest.Client;
 using Digst.OioIdws.Rest.Client.AccessToken;
 using Digst.OioIdws.Rest.Common;
 using DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition;
@@ -26,7 +36,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
             Configuration = configuration;
             _tokenService = new StsTokenService(configuration.StsConfiguration);
-            _accessTokenService = new AccessTokenService(configuration.OioIdwsClientSettings);
+            _accessTokenService = new AccessTokenService(Configuration.RestWspConfiguration);
         }
 
         protected void ConfigureSystemUserScenario()
@@ -38,12 +48,12 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         {
             _acquisitionScenario = new LocalTokenScenario(Configuration.LocalStsConfiguration, _tokenService);
         }
-        
+
         protected void ConfigureBootstrapScenario()
         {
             //_acquisitionScenario = new BootstrapScenario(_tokenService);
         }
-        
+
         protected T CreateChannelWithIssuedToken<T>(ChannelFactory<T> factory)
         {
             var stsToken = _acquisitionScenario.AcquireTokenFromSts();
@@ -52,25 +62,23 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         protected async Task<HttpClient> CreateHttpClientWithIssuedToken()
         {
-            // Request token from STS.
-            var stsToken = (GenericXmlSecurityToken)_acquisitionScenario.AcquireTokenFromSts();
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) =>
+            {
+                // Because the Java WSP is hosted on localhost using a self-signed certificate, we ignore certification validation.
+                if (sender is HttpWebRequest req && req.Address.IsLoopback) return true;
+                return errors == SslPolicyErrors.None;
+            };
             
-            // Request access token from the access token service using the acquired STS token.
+            var stsToken = (GenericXmlSecurityToken)_acquisitionScenario.AcquireTokenFromSts();
             var accessToken = await _accessTokenService.GetTokenAsync(stsToken, CancellationToken.None);
 
             var requestHandler = new WebRequestHandler();
-            requestHandler.ClientCertificates.Add(Configuration.OioIdwsClientSettings.ClientCertificate);
+            requestHandler.ClientCertificates.Add(Configuration.RestWspConfiguration.ClientCertificate);
             
-            // Build HttpClient with authorization header set using the access token.
-            var client = new HttpClient(requestHandler)
-            {
-                BaseAddress = Configuration.RestWspConfiguration.Endpoint,
-                DefaultRequestHeaders =
-                {
-                    Authorization = new AuthenticationHeaderValue(
-                        AccessTokenTypeParser.ToString(accessToken.Type), accessToken.Value)
-                }
-            };
+            var client = new HttpClient(requestHandler);
+            
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(AccessTokenTypeParser.ToString(accessToken.Type), accessToken.Value);
 
             return client;
         }
