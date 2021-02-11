@@ -281,4 +281,13 @@
   </ProjectExtensions>
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <PropertyGroup Condition="Exists('$(SolutionDir).vs\$(SolutionName)\config\applicationhost.config')">
+    <PreBuildEvent>::Add https binding to *, allowing access on custom domain name
+"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /-bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\config\applicationhost.config"
+"%25programfiles%25\IIS Express\appcmd.exe" set site "Digst.Oioidws.WscBootstrapExample" /+bindings.[protocol='https',bindingInformation='*:20002:'] /apphostconfig:"$(SolutionDir).vs\config\applicationhost.config"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
