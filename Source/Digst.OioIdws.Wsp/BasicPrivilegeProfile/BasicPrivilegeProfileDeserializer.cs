@@ -7,12 +7,12 @@ using System.Xml.Serialization;
 namespace Digst.OioIdws.Wsp.BasicPrivilegeProfile
 {
     /// <summary>
-    /// Deserialization of OIO SAML Basic Privilige Profile version 1.0.1 or 1.0.2.
+    /// Deserialization of OIO SAML Basic Privilige Profile version 1.0.1 or 1.2.
     /// </summary>
     public class BasicPrivilegeProfileDeserializer
     {
         /// <summary>
-        /// Deserializes a base64 encoded privilege assertion according to OIOSAML Basic Privilege Profile 1.0.1 or 1.0.2.
+        /// Deserializes a base64 encoded privilege assertion according to OIOSAML Basic Privilege Profile 1.0.1 or 1.2.
         /// </summary>
         public static PrivilegeList DeserializeBase64EncodedPrivilegeList(string base64EncodedPrivilegeList)
         {
@@ -57,7 +57,7 @@ namespace Digst.OioIdws.Wsp.BasicPrivilegeProfile
                     case "http://itst.dk/oiosaml/basic_privilege_profile":
                         return typeof(PrivilegeList101);
                     case "http://digst.dk/oiosaml/basic_privilege_profile":
-                        return typeof(PrivilegeList102);
+                        return typeof(PrivilegeList12);
                 }
             }
 

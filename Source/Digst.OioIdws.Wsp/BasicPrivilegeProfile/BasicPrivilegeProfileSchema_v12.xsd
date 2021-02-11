@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- OIOSAML Basic Privilege Profile Version 1.0.2 -->
+<!-- OIOSAML Basic Privilege Profile Version 1.2 -->
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"

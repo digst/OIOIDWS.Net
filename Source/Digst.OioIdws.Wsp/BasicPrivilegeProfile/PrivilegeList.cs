@@ -13,5 +13,5 @@ namespace Digst.OioIdws.Wsp.BasicPrivilegeProfile
     public class PrivilegeList101 : PrivilegeList { }
 
     [XmlRootAttribute("PrivilegeList", Namespace = "http://digst.dk/oiosaml/basic_privilege_profile", IsNullable = false)]
-    public class PrivilegeList102 : PrivilegeList { }
+    public class PrivilegeList12 : PrivilegeList { }
 }

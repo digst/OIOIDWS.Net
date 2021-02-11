@@ -42,18 +42,18 @@ namespace Digst.OioIdws.Wsp.Test.BasicPrivilegeProfile
                 @"<?xml version='1.0' encoding='UTF-8'?>
                 <bpp:PrivilegeList xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:bpp='http://digst.dk/oiosaml/basic_privilege_profile'>
 	                <PrivilegeGroup Scope='urn:dk:gov:saml:CvrNumberIdentifier:34051178'>
-		                <Privilege>http://bpp102.dk</Privilege>
+		                <Privilege>http://bpp12.dk</Privilege>
 	                </PrivilegeGroup>
                 </bpp:PrivilegeList>"));
             
             var expectedScope = "urn:dk:gov:saml:CvrNumberIdentifier:34051178";
-            var expectedPrivilege = "http://bpp102.dk";
+            var expectedPrivilege = "http://bpp12.dk";
 
             // Act
             var model = BasicPrivilegeProfileDeserializer.DeserializeBase64EncodedPrivilegeList(privilegeListBase64);
 
             // Assert
-            model.Should().BeOfType<PrivilegeList102>();
+            model.Should().BeOfType<PrivilegeList12>();
             model.PrivilegeGroups.Should().ContainSingle();
             model.PrivilegeGroups.Should().ContainSingle(x => x.Scope == expectedScope);
             model.PrivilegeGroups[0].Privilege.Should().ContainSingle();
