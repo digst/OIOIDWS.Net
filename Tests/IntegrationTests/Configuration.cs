@@ -35,14 +35,38 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         public RestWspConfiguration RestWspConfiguration { get; private set; }
         public LocalStsConfiguration LocalStsConfiguration { get; private set; }
         
+        /// <summary>
+        /// Build configuration for .NET WSC - .NET WSP scenarios.
+        /// </summary>
+        public static Configuration BuildDotNetWspConfiguration()
+        {
+            var restWspConfiguration = BuildDotNetRestWspConfiguration();
+            var soapWspConfiguration = BuildDotNetSoapWspConfiguration();
+
+            return BuildConfiguration(restWspConfiguration, soapWspConfiguration);
+        }
+        
+        /// <summary>
+        /// Build configuration for .NET WSC - Java WSP scenarios.
+        /// </summary>
+        public static Configuration BuildJavaWspConfiguration()
+        {
+            var restWspConfiguration = BuildJavaRestWspConfiguration();
+            var soapWspConfiguration = BuildJavaSoapWspConfiguration();
+
+            return BuildConfiguration(restWspConfiguration, soapWspConfiguration);
+        }
+        
         private static Configuration BuildConfiguration(RestWspConfiguration restWspConfiguration, SoapWspConfiguration soapWspConfiguration)
         {
             var stsConfiguration = BuildStsConfiguration();
             var localStsConfiguration = BuildLocalStsConfiguration();
 
+            // Same configuration values across .NET/Java WSP-scenarios.
             restWspConfiguration.DesiredAccessTokenExpiry = TimeSpan.FromMinutes(5);
             restWspConfiguration.ClientCertificate = WscCertificate;
-
+            
+            // WSP Entity ID is the same whether it's the REST or SOAP variant of the WSP.
             stsConfiguration.WspEndpointId = soapWspConfiguration.EntityId;
             
             return new Configuration
@@ -52,22 +76,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
                 RestWspConfiguration = restWspConfiguration,
                 SoapWspConfiguration = soapWspConfiguration,
             };
-        }
-        
-        public static Configuration BuildDotNetWspConfiguration()
-        {
-            var restWspConfiguration = BuildDotNetRestWspConfiguration();
-            var soapWspConfiguration = BuildDotNetSoapWspConfiguration();
-
-            return BuildConfiguration(restWspConfiguration, soapWspConfiguration);
-        }
-        
-        public static Configuration BuildJavaWspConfiguration()
-        {
-            var restWspConfiguration = BuildJavaRestWspConfiguration();
-            var soapWspConfiguration = BuildJavaSoapWspConfiguration();
-
-            return BuildConfiguration(restWspConfiguration, soapWspConfiguration);
         }
 
         private static SoapWspConfiguration BuildJavaSoapWspConfiguration() =>
