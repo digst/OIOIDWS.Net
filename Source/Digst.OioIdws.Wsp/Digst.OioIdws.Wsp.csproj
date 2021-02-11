@@ -63,7 +63,7 @@
     <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileSchema_v101.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileSchema_v102.xsd">
+    <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileSchema_v12.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Digst.OioIdws.Wsp.nuspec">
