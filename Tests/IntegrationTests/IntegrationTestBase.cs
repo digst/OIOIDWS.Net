@@ -62,13 +62,6 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
 
         protected async Task<HttpClient> CreateHttpClientWithIssuedToken()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) =>
-            {
-                // Because the Java WSP is hosted on localhost using a self-signed certificate, we ignore certification validation.
-                if (sender is HttpWebRequest req && req.Address.IsLoopback) return true;
-                return errors == SslPolicyErrors.None;
-            };
-            
             var stsToken = (GenericXmlSecurityToken)_acquisitionScenario.AcquireTokenFromSts();
             var accessToken = await _accessTokenService.GetTokenAsync(stsToken, CancellationToken.None);
 
