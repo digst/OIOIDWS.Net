@@ -20,6 +20,9 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         private const string DotNetRestWspTokenIssuanceEndpointKey = "DotNetRestWspTokenIssuanceEndpoint";
         private const string DotNetSoapWspEndpointKey = "DotNetSoapWspEndpoint";
         private const string DotNetSoapWspCertificatePathKey = "DotNetSoapWspCertificatePath";
+        private const string DotNetBootstrapWscEndpointKey = "DotNetBootstrapWscEndpoint";
+        private const string DotNetBootstrapWscUsernameKey = "DotNetBootstrapWscUsername";
+        private const string DotNetBootstrapWscPasswordKey = "DotNetBootstrapWscPassword";
         
         private const string JavaWspEntityIdKey = "JavaWspEntityId";
         private const string JavaRestWspEndpointKey = "JavaRestWspEndpoint";
@@ -34,10 +37,12 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         public SoapWspConfiguration SoapWspConfiguration { get; private set; }
         public RestWspConfiguration RestWspConfiguration { get; private set; }
         public LocalStsConfiguration LocalStsConfiguration { get; private set; }
+        public BootstrapWscConfiguration BootstrapWscConfiguration { get; private set; }
         
         /// <summary>
         /// Build configuration for .NET WSC - .NET WSP scenarios.
         /// </summary>
+
         public static Configuration BuildDotNetWspConfiguration()
         {
             var restWspConfiguration = BuildDotNetRestWspConfiguration();
@@ -61,6 +66,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
         {
             var stsConfiguration = BuildStsConfiguration();
             var localStsConfiguration = BuildLocalStsConfiguration();
+            var bootstrapWscConfiguration = BuildBootstrapWscConfiguration();
 
             // Same configuration values across .NET/Java WSP-scenarios.
             restWspConfiguration.DesiredAccessTokenExpiry = TimeSpan.FromMinutes(5);
@@ -75,8 +81,17 @@ namespace DK.Gov.Oio.Idws.IntegrationTests
                 LocalStsConfiguration = localStsConfiguration,
                 RestWspConfiguration = restWspConfiguration,
                 SoapWspConfiguration = soapWspConfiguration,
+                BootstrapWscConfiguration = bootstrapWscConfiguration
             };
         }
+
+        private static BootstrapWscConfiguration BuildBootstrapWscConfiguration() =>
+            new BootstrapWscConfiguration
+            {
+                WscEndpoint = new Uri(ConfigurationManager.AppSettings[DotNetBootstrapWscEndpointKey]),
+                WscUsername = ConfigurationManager.AppSettings[DotNetBootstrapWscUsernameKey],
+                WscPassword = ConfigurationManager.AppSettings[DotNetBootstrapWscPasswordKey]
+            };
 
         private static SoapWspConfiguration BuildJavaSoapWspConfiguration() =>
             new SoapWspConfiguration
