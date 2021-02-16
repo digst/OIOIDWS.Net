@@ -13,7 +13,7 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
         <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
         <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="88.0.4324.9600" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,61 +21,78 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="System.IdentityModel" />
-      <Reference Include="System.Net.Http" />
-      <Reference Include="System.Net.Http.WebRequest" />
-      <Reference Include="System.ServiceModel" />
+        <Reference Include="System.IdentityModel"/>
+        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Net.Http.WebRequest"/>
+        <Reference Include="System.ServiceModel"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj" />
-      <ProjectReference Include="..\..\source\Digst.OioIdws.Rest.Client\Digst.OioIdws.Rest.Client.csproj" />
-      <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj" />
+        <ProjectReference Include="..\..\Source\Digst.OioIdws.OioWsTrust\Digst.OioIdws.OioWsTrust.csproj"/>
+        <ProjectReference Include="..\..\source\Digst.OioIdws.Rest.Client\Digst.OioIdws.Rest.Client.csproj"/>
+        <ProjectReference Include="..\..\Source\Digst.OioIdws.Wsc\Digst.OioIdws.Wsc.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <WCFMetadata Include="Service References" />
+        <WCFMetadata Include="Service References"/>
     </ItemGroup>
 
     <ItemGroup>
-      <WCFMetadataStorage Include="Service References\DotNetHelloWorldProxy" />
+        <WCFMetadataStorage Include="Service References\DotNetHelloWorldProxy"/>
+        <WCFMetadataStorage Include="Service References\HelloWorld"/>
+        <WCFMetadataStorage Include="Service References\JavaHelloWorldProxy"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="App.config" />
-      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.svcmap">
-        <Generator>WCF Proxy Generator</Generator>
-        <LastGenOutput>DotNetHelloWorldProxy.cs</LastGenOutput>
-      </None>
-      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.webref" />
-      <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.wsdl" />
+        <None Include="App.config"/>
+        <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.svcmap">
+            <Generator>WCF Proxy Generator</Generator>
+            <LastGenOutput>DotNetHelloWorldProxy.cs</LastGenOutput>
+        </None>
+        <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.webref"/>
+        <None Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.wsdl"/>
+        <None Include="Service References\JavaHelloWorldProxy\HelloWorld.wsdl"/>
+        <None Include="Service References\JavaHelloWorldProxy\JavaHelloWorldProxy.svcmap">
+            <Generator>WCF Proxy Generator</Generator>
+            <LastGenOutput>JavaHelloWorldProxy.cs</LastGenOutput>
+        </None>
+        <None Include="Service References\JavaHelloWorldProxy\JavaHelloWorldProxy.webref"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.cs" Exclude="@(Compile)">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>DotNetHelloWorldProxy.svcmap</DependentUpon>
-      </Compile>
+        <Compile Include="Service References\DotNetHelloWorldProxy\DotNetHelloWorldProxy.cs" Exclude="@(Compile)">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>DotNetHelloWorldProxy.svcmap</DependentUpon>
+        </Compile>
+        <Compile Include="Service References\JavaHelloWorldProxy\JavaHelloWorldProxy.cs" Exclude="@(Compile)">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>JavaHelloWorldProxy.svcmap</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\Misc\Certificates\SP and WSC (Oiosaml-net.dk TEST).p12">
-        <Link>Resources\WSC.p12</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\Misc\Certificates\STS - Signature validation - test.cer">
-        <Link>Resources\IntTest_STS.cer</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\Misc\Certificates\WSP (wsp.oioidws-net.dk TEST).p12">
-        <Link>Resources\DotNet_WSP.p12</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\Misc\Certificates\sts.oioidws-net.dk.p12">
-        <Link>Resources\sts.oioidws-net.dk.p12</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Include="..\..\Misc\Certificates\SP and WSC (Oiosaml-net.dk TEST).p12">
+            <Link>Resources\WSC.p12</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\Misc\Certificates\STS - Signature validation - test.cer">
+            <Link>Resources\IntTest_STS.cer</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\Misc\Certificates\WSP (wsp.oioidws-net.dk TEST).p12">
+            <Link>Resources\DotNet_WSP.p12</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\Misc\Certificates\sts.oioidws-net.dk.p12">
+            <Link>Resources\sts.oioidws-net.dk.p12</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\Misc\Certificates\Java\service.pfx">
+            <Link>Resources\Java_WSP.pfx</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
-    
+
 </Project>

@@ -1,10 +1,10 @@
 ﻿using System;
+using Digst.OioIdws.Rest.Client;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests
 {
-    public class RestWspConfiguration
+    public class RestWspConfiguration : OioIdwsClientSettings
     {
-        public string EntityId { get; set; }
         public Uri Endpoint { get; set; }
     }
 }

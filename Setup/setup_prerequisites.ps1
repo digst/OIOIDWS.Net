@@ -81,6 +81,10 @@ write-host "Installing soap WSC (Java) certificate"
 $soapWscJavaCertificate = Import-PfxCertificate '..\misc\certificates\java\client.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 write-host -ForegroundColor Green "Installed soap WSC (Java) certificate $($soapWscJavaCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
 
+write-host "Installing rest WSP (Java) ssl certificate"
+$restWspJavaSslCertificate = Import-PfxCertificate '..\misc\certificates\java\ssl-keystore-rest-server-self-signed.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+write-host -ForegroundColor Green "Installed rest WSP (Java) ssl certificate $($restWspJavaSslCertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
+
 # Java - END
 
 write-host "attempting to delete previous binding on port 9090 if it exists.."

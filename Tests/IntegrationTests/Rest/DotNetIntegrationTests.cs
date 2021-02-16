@@ -37,7 +37,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         private async Task TestHttpClient()
         {
             var client = await CreateHttpClientWithIssuedToken();
-            var response = await client.GetAsync(_requestUri);
+            var response = await client.GetAsync($"{Configuration.RestWspConfiguration.Endpoint}/{_requestUri}");
             var responseString = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
             
             responseString.Should().StartWith(
