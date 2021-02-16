@@ -34,7 +34,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             TestChannel();
         }
         
-        [Fact(Skip = "Not implemented yet")]
+        [Fact(Skip = "Enable test once STS is running in DevTest4")]
         public void TestBootstrapScenario()
         {
             _channelInput += "TestBootstrapScenario";
