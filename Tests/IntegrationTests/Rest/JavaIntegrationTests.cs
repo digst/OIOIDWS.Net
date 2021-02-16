@@ -25,6 +25,15 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
             ConfigureLocalTokenScenario();
             await TestHttpClient();
         }
+        
+        [Fact(Skip = "Enable test once STS is running in DevTest4")]
+        public async Task TestBootstrapScenario()
+        {
+            _verificationString += "TestBootstrapScenario";
+            ConfigureBootstrapScenario();
+            
+            await TestHttpClient();
+        }
 
         private async Task TestHttpClient()
         {
