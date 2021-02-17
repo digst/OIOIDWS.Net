@@ -11,6 +11,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         public JavaIntegrationTests() : base(Configuration.BuildJavaWspConfiguration()) { }
         
         [Fact]
+        [Trait("Category","JavaREST")]
         public async Task TestSystemUserScenario()
         {
             _verificationString += "TestSystemUserScenario";
@@ -19,6 +20,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         }
 
         [Fact]
+        [Trait("Category","JavaREST")]
         public async Task TestLocalTokenScenario()
         {
             _verificationString += "TestLocalTokenScenario";
@@ -27,6 +29,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Rest
         }
         
         [Fact(Skip = "Enable test once STS is running in DevTest4")]
+        [Trait("Category","JavaREST")]
         public async Task TestBootstrapScenario()
         {
             _verificationString += "TestBootstrapScenario";

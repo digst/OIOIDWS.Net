@@ -17,6 +17,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         }
         
         [Fact]
+        [Trait("Category","JavaSoap")]
         public void TestSystemUserScenario()
         {
             _channelInput += "TestSystemUserScenario";
@@ -26,6 +27,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         }
 
         [Fact]
+        [Trait("Category","JavaSoap")]
         public void TestLocalTokenScenario()
         {
             _channelInput += "TestLocalTokenScenario";
@@ -35,6 +37,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
         }
         
         [Fact(Skip = "Enable test once STS is running in DevTest4")]
+        [Trait("Category","JavaSoap")]
         public void TestBootstrapScenario()
         {
             _channelInput += "TestBootstrapScenario";
