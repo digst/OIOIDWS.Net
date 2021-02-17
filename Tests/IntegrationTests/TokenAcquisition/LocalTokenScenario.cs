@@ -46,17 +46,20 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
                 organizationName: "Digitaliseringsstyrelsen", 
                 subjectConfirmation: subjectConfirmation);
             
+            // Subtract five seconds to ensure that we won't run into any clock skew issues with the STS.
+            var issueInstant = DateTime.UtcNow.AddSeconds(-5);
+            
             var issuer = new Saml2NameIdentifier(_configuration.EntityId);
             var assertion = new Saml2Assertion(issuer)
             {
                 Id = new Saml2Id("_" + Guid.NewGuid().ToString("D")),
                 SigningCredentials = new X509SigningCredentials(_configuration.SigningCertificate),
                 Subject = subject,
-                IssueInstant = DateTime.UtcNow,
+                IssueInstant = issueInstant,
                 Conditions = new Saml2Conditions
                 {
-                    NotBefore = DateTime.UtcNow,
-                    NotOnOrAfter = DateTime.UtcNow.AddMinutes(5),
+                    NotBefore = issueInstant,
+                    NotOnOrAfter = issueInstant.AddMinutes(5),
                 },
             };
 
