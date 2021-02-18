@@ -2,12 +2,10 @@
 using Digst.OioIdws.OioWsTrust;
 using System;
 using System.IO;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Xml;
-using System.Net;
 
 namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
 {
@@ -50,7 +48,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
         private string GetBase64EncodedBootstrapTokenFromWscBootstrapExample()
         {
             var options = new ChromeOptions();
-            //options.AddArguments("headless");
+            options.AddArguments("headless");
 
             var driver = new ChromeDriver(options);
 
@@ -63,21 +61,21 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.TokenAcquisition
                 //Navigate to login page
                 driver.Navigate().GoToUrl(_bootstrapWscConfiguration.WscEndpoint);
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("#Repeater2_LoginMenuItem_2 > span:nth-child(2)"))).Click();
+                    By.CssSelector("[href*='/login.aspx/mitidsim']"))).Click();
                 
                 //Log in
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
                     By.Id("ContentPlaceHolder_MitIdSimulatorControl_txtUsername")))
                     .SendKeys(_bootstrapWscConfiguration.WscUsername);
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
-                        By.Id("ContentPlaceHolder_MitIdSimulatorControl_txtPassword")))
+                    By.Id("ContentPlaceHolder_MitIdSimulatorControl_txtPassword")))
                     .SendKeys(_bootstrapWscConfiguration.WscPassword);
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
                     By.Id("ContentPlaceHolder_MitIdSimulatorControl_btnSubmit"))).Click();
-                
+
                 //Get bootstrap token
                 bootstrapTokenBase64 = wait.Until(d =>
-                    d.FindElement(By.XPath("//*[@id='aspnetForm']/div[4]/div[1]/table/tbody/tr[14]/td[2]"))).Text;
+                    d.FindElement(By.XPath("//*[contains(text(),'urn:liberty:disco:2006-08:DiscoveryEPR')]/parent::*/td[2]"))).Text;
             }
             finally
             {
