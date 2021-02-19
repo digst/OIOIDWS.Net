@@ -6,22 +6,23 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>http://www.mozilla.org/MPL/1.1/</licenseUrl>
-    <projectUrl>http://http://digitaliser.dk/resource/526486</projectUrl>
-    <iconUrl>https://github.com/digst/OIOIDWS.Net/tree/master/Source/Digst.OioIdws.Wsc/oiosaml_logo.png</iconUrl>
+    <projectUrl>http://digitaliser.dk/resource/526486</projectUrl>
+    <icon>images\oiosaml_logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MPL-1.1</license>
     <description>$description$</description>
     <releaseNotes>Upgraded to OIO IDWS SOAP profile (v1.1).</releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>$copyright$</copyright>
     <tags>OIOIDWS WSC NEMLOGIN NEMLOG-IN</tags>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net45" />
-      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net472" />
+      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net472" />
     </frameworkAssemblies>
   </metadata>
   <files>
     <file src="App.config.install.xdt" target="content"/>
     <file src="App.config.uninstall.xdt" target="content"/>
+    <file src="..\..\oiosaml_logo.png" target="images"/>
     <file src="readme.txt" target=""/>
   </files>
 </package>
