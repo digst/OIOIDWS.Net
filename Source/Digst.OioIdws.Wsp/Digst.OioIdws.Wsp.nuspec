@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>http://digitaliser.dk/resource/526486</projectUrl>
+    <icon>images\oiosaml_logo.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MPL-1.1</license>
+    <description>$description$</description>
+    <releaseNotes>Upgraded to OIO IDWS SOAP profile (v1.1) and added support for cross platform WSDL, see the Example section in readme.txt.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>OIOIDWS WSP NEMLOGIN NEMLOG-IN</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.IdentityModel" targetFramework="net472" />
+      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net472" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="App.config.install.xdt" target="content"/>
+    <file src="App.config.uninstall.xdt" target="content"/>
+    <file src="..\..\oiosaml_logo.png" target="images"/>
+    <file src="readme.txt" target=""/>
+  </files>
+</package>

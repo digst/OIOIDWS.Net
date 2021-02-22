@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>http://digitaliser.dk/resource/526486</projectUrl>
+    <icon>images\oiosaml_logo.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MPL-1.1</license>
+    <description>$description$</description>
+    <releaseNotes>Initial version of Digst.OioIdws.Rest.Client. This version only supports signature case.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>OIOIDWS REST WSC NEMLOGIN NEMLOG-IN</tags>
+  </metadata>
+  <files>
+    <file src="..\..\oiosaml_logo.png" target="images"/>
+    <file src="readme.txt" target=""/>
+  </files>
+</package>
