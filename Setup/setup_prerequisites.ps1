@@ -54,7 +54,7 @@ $serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and
 write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing STS certificate"
-$stsCertificate = Import-Certificate '..\misc\certificates\STS - Signature validation - test.cer' -CertStoreLocation Cert:\LocalMachine\My
+$stsCertificate = Import-Certificate '..\misc\certificates\STS - Signature validation - devtest-4.cer' -CertStoreLocation Cert:\LocalMachine\My
 write-host -ForegroundColor Green "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
 
 write-host "Installing WSP certificate for signature checks - beware: the WSC only requires the public key part to verify signatures from the WSP"
@@ -80,10 +80,6 @@ write-host -ForegroundColor Green "Installed soap WSP (Java) service certificate
 write-host "Installing soap WSC (Java) certificate"
 $soapWscJavaCertificate = Import-PfxCertificate '..\misc\certificates\java\client.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
 write-host -ForegroundColor Green "Installed soap WSC (Java) certificate $($soapWscJavaCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate is trusted on your machine and browser"
-
-write-host "Installing rest WSP (Java) ssl certificate"
-$restWspJavaSslCertificate = Import-PfxCertificate '..\misc\certificates\java\ssl-keystore-rest-server-self-signed.pfx' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
-write-host -ForegroundColor Green "Installed rest WSP (Java) ssl certificate $($restWspJavaSslCertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 # Java - END
 
