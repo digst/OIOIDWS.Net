@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Rest.Examples.ServerAndASCombinedNuget
                 AccessTokenIssuerPath = new PathString("/accesstoken/issue"),
                 IssuerAudiences = () => Task.FromResult(new[]
                 {
-                    new IssuerAudiences("fcb5edc9fb09cf39716c09c35fdc883bd48add8d", "test cert")
+                    new IssuerAudiences("78b20a6d9000f29011063ba7b60ff66074076f48", "test cert")
                         .Audience(new Uri("https://wsp.oioidws-net.dk")),
                 }),
             })

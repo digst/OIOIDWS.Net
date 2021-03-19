@@ -77,8 +77,8 @@
             <Link>Resources\WSC.p12</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="..\..\Misc\Certificates\STS - Signature validation - test.cer">
-            <Link>Resources\IntTest_STS.cer</Link>
+        <Content Include="..\..\Misc\Certificates\STS - Signature validation - devtest-4.cer">
+            <Link>Resources\DevTest4_STS.cer</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="..\..\Misc\Certificates\WSP (wsp.oioidws-net.dk TEST).p12">
