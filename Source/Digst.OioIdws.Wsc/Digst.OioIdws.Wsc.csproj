@@ -81,8 +81,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="oiosaml_logo.png" />
-    <Content Include="readme.txt" />
+    <None Include="readme.txt" />
     <None Include="NuGetBuildPackPublish.cmd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

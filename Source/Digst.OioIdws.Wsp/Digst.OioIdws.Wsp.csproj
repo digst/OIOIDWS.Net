@@ -46,10 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonAssemblyInfo.cs" />
-    <Compile Include="BasicPrivilegeProfile\BasicPrivilegeProfileModel2.cs">
-      <DependentUpon>BasicPrivilegeProfileModel2.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="BasicPrivilegeProfile\BasicPrivilegeProfileUtil.cs" />
+    <Compile Include="BasicPrivilegeProfile\BasicPrivilegeProfileDeserializer.cs" />
+    <Compile Include="BasicPrivilegeProfile\PrivilegeGroup.cs" />
+    <Compile Include="BasicPrivilegeProfile\PrivilegeList.cs" />
     <Compile Include="DecryptedAssertionSupport\DecryptedSaml2SecurityToken.cs" />
     <Compile Include="DecryptedAssertionSupport\DecryptedSaml2SecurityTokenHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,7 +58,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="App.config.uninstall.xdt" />
-    <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileModel2.xsd">
+    <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileSchema_v101.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BasicPrivilegeProfile\BasicPrivilegeProfileSchema_v12.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Digst.OioIdws.Wsp.nuspec">
