@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- OIOSAML Basic Privilege Profile Version 1.0.1 -->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:bpp="http://itst.dk/oiosaml/basic_privilege_profile"
+        targetNamespace="http://itst.dk/oiosaml/basic_privilege_profile">
+    <element name="PrivilegeList" type="bpp:PrivilegeListType"/>
+
+    <complexType name="PrivilegeListType">
+        <sequence>
+            <element name="PrivilegeGroup" type="bpp:PrivilegeGroupType" minOccurs="1"
+                     maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="PrivilegeGroupType">
+        <sequence>
+            <element name="Privilege" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+
+        <attribute name="Scope" type="string" use="required"/>
+    </complexType>
+</schema>
