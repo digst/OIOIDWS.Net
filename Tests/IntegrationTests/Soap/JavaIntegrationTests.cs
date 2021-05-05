@@ -36,7 +36,7 @@ namespace DK.Gov.Oio.Idws.IntegrationTests.Soap
             TestChannel();
         }
         
-        [Fact(Skip = "Enable test once STS is running in DevTest4")]
+        [Fact]
         [Trait("Category","JavaSoap")]
         public void TestBootstrapScenario()
         {
