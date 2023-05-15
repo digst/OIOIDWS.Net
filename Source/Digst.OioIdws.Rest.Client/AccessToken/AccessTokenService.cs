@@ -40,7 +40,7 @@ namespace Digst.OioIdws.Rest.Client.AccessToken
 
             using (var stream = new MemoryStream())
             {
-                using (var writer = XmlWriter.Create(stream))
+                using (var writer = XmlWriter.Create(stream, new XmlWriterSettings() { Encoding = new System.Text.UTF8Encoding(false) }))
                 {
                     securityToken.TokenXml.WriteTo(writer);
                 }
