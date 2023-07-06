@@ -11,6 +11,9 @@ write-host "WARNING: This will rebind the SSL certificate on 0.0.0.0:443 on your
 
 $certpassword  = ConvertTo-SecureString -String "Test1234" -AsPlainText -Force
 $certpassword2 = ConvertTo-SecureString -String "test1234" -AsPlainText -Force
+$certpasswordWsc = ConvertTo-SecureString -String "B3fL5V+GvZSX" -AsPlainText -Force
+$certpasswordWsp = ConvertTo-SecureString -String "N6kfQ:BLQly?" -AsPlainText -Force
+$certpasswordLocalSts = ConvertTo-SecureString -String "IDjgECGZR9;R" -AsPlainText -Force
 
 # Add "TRUST2048 Systemtest VII Primary CA" to Trusted ROOT CA
 write-host "Installing serviceprovider's root certificate"
@@ -49,21 +52,21 @@ $bootstrapSslcertificate = Import-PfxCertificate '..\misc\certificates\SP SSL (o
 write-host -ForegroundColor Green "Installed boostrap example ssl certificate $($bootstrapSslcertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing serviceprovider's signing certificate"
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
-$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\SP and WSC (Oiosaml-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\OIOIDWS.NET_WSC_-_Test_3DES.p12' -Password $certpasswordWsc -CertStoreLocation Cert:\LocalMachine\My
+$serviceprovidercertificate = Import-PfxCertificate '..\misc\certificates\OIOIDWS.NET_WSC_-_Test_3DES.p12' -Password $certpasswordWsc -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 write-host -ForegroundColor Green "Installed serviceprovider's signing certificate $($serviceprovidercertificate.Thumbprint) in LocalMachine\My and LocalMachine\TrustedPeople. This ensures the certificate is trusted on your machine and browser"
 
 write-host "Installing STS certificate"
-$stsCertificate = Import-Certificate '..\misc\certificates\STS - Signature validation - devtest-4.cer' -CertStoreLocation Cert:\LocalMachine\My
+$stsCertificate = Import-Certificate '..\misc\certificates\NemLog-in IdP - Test.cer' -CertStoreLocation Cert:\LocalMachine\My
 write-host -ForegroundColor Green "Installed STS certificate $($stsCertificate.Thumbprint) in LocalMachine\My. This ensures the certificate can be reached by the example applications"
 
 write-host "Installing WSP certificate for signature checks - beware: the WSC only requires the public key part to verify signatures from the WSP"
-$wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
-$wspCertificate = Import-PfxCertificate '..\misc\certificates\WSP (wsp.oioidws-net.dk TEST).p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\TrustedPeople
+$wspCertificate = Import-PfxCertificate '..\misc\certificates\OIOIDWS.NET_WSP_-_Test_3DES.p12' -Password $certpasswordWsp -CertStoreLocation Cert:\LocalMachine\My
+$wspCertificate = Import-PfxCertificate '..\misc\certificates\OIOIDWS.NET_WSP_-_Test_3DES.p12' -Password $certpasswordWsp -CertStoreLocation Cert:\LocalMachine\TrustedPeople
 write-host -ForegroundColor Green "Installed WSP example certificate $($wspCertificate.Thumbprint) in LocalMachine\My."
 
 write-host "Installing Local Token certificate for a local token issuer"
-$localTokenCertificate = Import-PfxCertificate '..\misc\certificates\sts.oioidws-net.dk.p12' -Password $certpassword -CertStoreLocation Cert:\LocalMachine\My
+$localTokenCertificate = Import-PfxCertificate '..\misc\certificates\OIOIDWS.NET_LocalSTS_-_Test_3DES.p12' -Password $certpasswordLocalSts -CertStoreLocation Cert:\LocalMachine\My
 write-host -ForegroundColor Green "Installed Local Token certificate $($localTokenCertificate.Thumbprint) in LocalMachine\My."
 
 # Java - BEGIN
@@ -86,8 +89,12 @@ write-host -ForegroundColor Green "Installed soap WSC (Java) certificate $($soap
 write-host "attempting to delete previous binding on port 9090 if it exists.."
 "http delete sslcert ipport=0.0.0.0:9090" | netsh
 
+write-host "attempting to delete previous binding on port 9091 if it exists.."
+"http delete sslcert ipport=0.0.0.0:9091" | netsh
+
 write-host "Registering soap WSP example idp ssl certificate $($soapWspSslcertificate.Thumbprint) for SSL bindings for soap WSP example"
 "http add sslcert ipport=0.0.0.0:9090 certhash=$($soapWspSslcertificate.Thumbprint) appid={$([Guid]::NewGuid().ToString().ToUpper())}" | netsh
+"http add sslcert ipport=0.0.0.0:9091 certhash=$($soapWspSslcertificate.Thumbprint) appid={$([Guid]::NewGuid().ToString().ToUpper())}" | netsh
 
 write-host "attempting to delete previous binding on port 20002 if it exists.."
 "http delete sslcert ipport=0.0.0.0:20002" | netsh

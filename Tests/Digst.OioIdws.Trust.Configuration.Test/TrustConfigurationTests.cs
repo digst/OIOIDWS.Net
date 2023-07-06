@@ -36,7 +36,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
-                "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
+                "https://SecureTokenService.test-devtest4-nemlog-in.dk/SecurityTokenService.svc";
 
             // Act
             try
@@ -82,7 +82,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.ClientCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
-                "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
+                "https://SecureTokenService.test-devtest4-nemlog-in.dk/SecurityTokenService.svc";
             tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
 
             // Act
@@ -106,7 +106,7 @@ namespace Digst.OioIdws.Trust.Configuration.Test
             var tokenServiceConfiguration = new StsTokenServiceConfiguration();
             tokenServiceConfiguration.StsCertificate = new X509Certificate2();
             tokenServiceConfiguration.StsEndpointAddress =
-                "https://SecureTokenService.test-nemlog-in.dk/SecurityTokenService.svc";
+                "https://SecureTokenService.test-devtest4-nemlog-in.dk/SecurityTokenService.svc";
             tokenServiceConfiguration.WspEndpointId = "https://saml.nnit001.dmz.inttest";
 
             // Act
