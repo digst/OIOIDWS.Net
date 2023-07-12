@@ -30,10 +30,10 @@ namespace Digst.OioIdws.Rest.Examples.AS
                 AccessTokenRetrievalPath = new PathString("/accesstoken"),
                 IssuerAudiences = () => Task.FromResult(new []
                 {
-                    new IssuerAudiences("78b20a6d9000f29011063ba7b60ff66074076f48", "test cert")
+                    new IssuerAudiences("357faaab559e427fcf66bf81627378a86a1106c3", "test cert")
                         .Audience(new Uri("https://wsp.oioidws-net.dk")), 
                 }),
-                TrustedWspCertificateThumbprints = new[] { "ca30025a4981147505b8d7a59052ac40c7033688" },
+                TrustedWspCertificateThumbprints = new[] { "d738a7d146f07e02c16cf28dac11e742e4ce9582" },
             })
             .Use((ctx, next) =>
             {

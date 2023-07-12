@@ -101,6 +101,7 @@ namespace Digst.OioIdws.Soap.CrossTest
             mavenWsp.WaitForExit();
         }
 
+        [Ignore("Java test obsolete")]
         [TestMethod]
         [TestCategory(Constants.CrossTest)]
         public void BuildJavaWscFromCustomDotnetWspWsdlTest()
@@ -124,6 +125,7 @@ namespace Digst.OioIdws.Soap.CrossTest
             Assert.IsTrue(succeeded);
         }
 
+        [Ignore("Java test obsolete")]
         [TestMethod]
         [TestCategory(Constants.CrossTest)]
         public void JavaWscCallDotnetWspTest()
@@ -169,6 +171,7 @@ namespace Digst.OioIdws.Soap.CrossTest
             Assert.IsTrue(succeeded);
         }
 
+        [Ignore("Java test obsolete")]
         [TestMethod]
         [TestCategory(Constants.CrossTest)]
         public void DotnetWscCallJavaWspTest()
