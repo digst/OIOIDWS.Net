@@ -50,6 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationServer\CertificateRetrieval\CertificateStrategyFactory.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\CertificateStrategySection.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\CertificateStrategyType.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\EndpointCertificateStrategy.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\HttpHeaderCertificateStrategy.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\ICertificateRetrievalStrategy.cs" />
     <Compile Include="CommonAssemblyInfo.cs" />
     <Compile Include="AuthorizationServer\AccessTokenExpiredException.cs" />
     <Compile Include="AuthorizationServer\Issuing\AuthenticationPropertiesExtensions.cs" />
@@ -111,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="oiosaml_logo.png" />
-    <Content Include="readme.txt" />
+    <Content Include="readme.md" />
     <None Include="Release instructions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

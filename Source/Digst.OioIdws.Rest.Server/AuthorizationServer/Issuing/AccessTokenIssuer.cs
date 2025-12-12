@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
@@ -18,7 +20,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         private readonly ISecurityTokenStore _securityTokenStore;
         private readonly ITokenValidator _tokenValidator;
         private readonly ILogger _logger;
-
+        private readonly ICertificateRetrievalStrategy _certificateStrategy;
+        
         public AccessTokenIssuer(
             IKeyGenerator keyGenerator, 
             ISecurityTokenStore securityTokenStore, 
@@ -45,6 +48,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
             _logger = logger;
+            _certificateStrategy = CertificateStrategyFactory.Create();
         }
 
         public async Task IssueAsync(OioIdwsMatchEndpointContext context)
@@ -93,7 +97,20 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 return;
             }
 
-            var clientCertificate = context.ClientCertificate();
+            X509Certificate2 clientCertificate;
+            
+            try
+            {
+                _logger.WriteInformation($"Retrieving certificate using {_certificateStrategy.GetType().Name} strategy.");
+                clientCertificate = await _certificateStrategy.GetCertificate(context);
+                    
+            }
+            catch (Exception e)
+            {
+                _logger.WriteError(e.Message);
+                SetInvalidRequest(context, "Error retrieving certificate from the HTTP header field.");
+                return;
+            }
             
             _logger.WriteEntry(Log.StartingTokenValidation());
             var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, clientCertificate, context.Options);
