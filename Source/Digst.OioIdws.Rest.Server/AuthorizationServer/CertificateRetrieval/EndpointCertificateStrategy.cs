@@ -10,7 +10,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
     public class EndpointCertificateStrategy : ICertificateRetrievalStrategy
     {
         /// <inheritdoc />
-        public async Task<X509Certificate2> GetCertificate(OioIdwsMatchEndpointContext context)
+        public X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context)
         {
             if (context == null) 
                 throw new ArgumentNullException(nameof(context));

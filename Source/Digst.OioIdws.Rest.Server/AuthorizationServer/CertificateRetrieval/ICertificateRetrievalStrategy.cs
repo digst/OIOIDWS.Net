@@ -16,6 +16,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
         /// <returns>
         ///     A <see cref="X509Certificate2" /> if found; otherwise, <c>null</c>.
         /// </returns>
-        Task<X509Certificate2> GetCertificate(OioIdwsMatchEndpointContext context);
+        X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context);
     }
 }

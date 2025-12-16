@@ -25,14 +25,14 @@ namespace Digst.OioIdws.Rest.Server.Test
             endpointContext.ClientCertificate = () => cert;
 
             var strategy = new EndpointCertificateStrategy();
-            var result = await strategy.GetCertificate(endpointContext);
+            var result =  strategy.GetCertificate(endpointContext);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(cert, result);
         }
 
         [TestMethod]
-        public async Task RetrieveCertificate_ReturnsNull_WhenEndpointCertificateIsNull()
+        public void RetrieveCertificate_ReturnsNull_WhenEndpointCertificateIsNull()
         {
             var owinRequest = new OwinRequest();
             var owinContextMock = new Mock<IOwinContext>();
@@ -42,7 +42,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             endpointContext.ClientCertificate = () => null;
 
             var strategy = new EndpointCertificateStrategy();
-            var result = await strategy.GetCertificate(endpointContext);
+            var result = strategy.GetCertificate(endpointContext);
 
             Assert.IsNull(result);
         }

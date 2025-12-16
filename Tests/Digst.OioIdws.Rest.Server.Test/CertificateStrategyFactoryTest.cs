@@ -22,7 +22,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             var strategy = CertificateStrategyFactory.Create();
 
             Assert.IsNotNull(strategy);
-            Assert.IsInstanceOfType(strategy, typeof(HttpHeaderCertificateStrategy));
+            Assert.IsInstanceOfType(strategy, typeof(Rfc9440HttpHeaderCertificateStrategy));
         }
         
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             var strategy = CertificateStrategyFactory.Create();
 
             Assert.IsNotNull(strategy);
-            Assert.IsInstanceOfType(strategy, typeof(HttpHeaderCertificateStrategy));
+            Assert.IsInstanceOfType(strategy, typeof(Rfc9440HttpHeaderCertificateStrategy));
         }
 
         [TestMethod]

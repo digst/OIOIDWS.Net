@@ -64,7 +64,7 @@
     <Compile Include="AuthorizationServer\CertificateRetrieval\CertificateStrategySection.cs" />
     <Compile Include="AuthorizationServer\CertificateRetrieval\CertificateStrategyType.cs" />
     <Compile Include="AuthorizationServer\CertificateRetrieval\EndpointCertificateStrategy.cs" />
-    <Compile Include="AuthorizationServer\CertificateRetrieval\HttpHeaderCertificateStrategy.cs" />
+    <Compile Include="AuthorizationServer\CertificateRetrieval\Rfc9440HttpHeaderCertificateStrategy.cs" />
     <Compile Include="AuthorizationServer\CertificateRetrieval\ICertificateRetrievalStrategy.cs" />
     <Compile Include="CommonAssemblyInfo.cs" />
     <Compile Include="AuthorizationServer\AccessTokenExpiredException.cs" />

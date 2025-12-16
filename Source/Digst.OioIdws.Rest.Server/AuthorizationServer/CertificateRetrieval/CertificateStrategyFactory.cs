@@ -19,7 +19,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
             switch (config.StrategyType)
             {
                 case CertificateStrategyType.HttpHeader:
-                    return new HttpHeaderCertificateStrategy(config.Value);
+                    return new Rfc9440HttpHeaderCertificateStrategy(config.Value);
 
                 case CertificateStrategyType.Connection:
                 default:

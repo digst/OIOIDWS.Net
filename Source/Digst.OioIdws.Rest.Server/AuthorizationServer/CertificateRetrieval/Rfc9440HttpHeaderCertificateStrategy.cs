@@ -7,24 +7,25 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
 
     /// <summary>
     /// Retrieves the client certificate from the HTTP header "Client-Cert" only.
+    /// See https://www.rfc-editor.org/rfc/rfc9440https://www.rfc-editor.org/rfc/rfc9440 for header specification.
     /// </summary>
-    public class HttpHeaderCertificateStrategy : ICertificateRetrievalStrategy
+    public class Rfc9440HttpHeaderCertificateStrategy : ICertificateRetrievalStrategy
     {
         private readonly string _headerName;
-        private const string AllowedHeader = "Client-Cert";
+        private const string DefaultHeaderName = "Client-Cert";
 
         /// <summary>
         /// Creates new strategy for certificate retrieval from HTTP headers.
         /// </summary>
         /// <param name="headerName">Configured HTTP header name.</param>
-        public HttpHeaderCertificateStrategy(string headerName=AllowedHeader)
+        public Rfc9440HttpHeaderCertificateStrategy(string headerName=DefaultHeaderName)
         {
-            _headerName = string.IsNullOrWhiteSpace(headerName) ? AllowedHeader : headerName;
+            _headerName = string.IsNullOrWhiteSpace(headerName) ? DefaultHeaderName : headerName;
         }
 
 
         /// <inheritdoc />
-        public async Task<X509Certificate2> GetCertificate(OioIdwsMatchEndpointContext context)
+        public X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));

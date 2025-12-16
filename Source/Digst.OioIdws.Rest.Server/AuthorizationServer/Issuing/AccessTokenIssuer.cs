@@ -102,7 +102,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             try
             {
                 _logger.WriteInformation($"Retrieving certificate using {_certificateStrategy.GetType().Name} strategy.");
-                clientCertificate = await _certificateStrategy.GetCertificate(context);
+                clientCertificate = _certificateStrategy.GetCertificate(context);
                     
             }
             catch (Exception e)
