@@ -1,5 +1,4 @@
-﻿using System;
-using Digst.OioIdws.Rest.Server.AuthorizationServer;
+﻿using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Microsoft.Owin.Security;
 
 namespace Digst.OioIdws.Rest.Server.Wsp
@@ -8,7 +7,9 @@ namespace Digst.OioIdws.Rest.Server.Wsp
     {
         public OioIdwsAuthenticationOptions() : base("UseOioIdwsAuthentication")
         {
-            
+            CertificateRetrievalStrategy = null; 
+            CertificateStrategyType = null; 
+            CertificateStrategyValue = null;
         }
 
         /// <summary>
@@ -20,5 +21,21 @@ namespace Digst.OioIdws.Rest.Server.Wsp
         /// Provider for retrieving token information from an access token. Defaults to a <see cref="InMemoryTokenProvider"/>
         /// </summary>
         public ITokenProvider TokenProvider { get; set; }
+        
+        /// <summary>
+        /// Explicit certificate retrieval strategy. If set, this overrides all other strategy configuration.
+        /// </summary>
+        public ICertificateRetrievalStrategy CertificateRetrievalStrategy { get; set; }
+
+        /// <summary>
+        /// Built-in certificate strategy type to use when no explicit strategy is provided.
+        /// </summary>
+        public CertificateStrategyType? CertificateStrategyType { get; set; }
+
+        /// <summary>
+        /// Optional value used by some strategies (e.g. header name).
+        /// </summary>
+        public string CertificateStrategyValue { get; set; }
+
     }
 }

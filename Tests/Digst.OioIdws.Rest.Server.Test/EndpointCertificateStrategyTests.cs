@@ -20,12 +20,13 @@ namespace Digst.OioIdws.Rest.Server.Test
             var owinRequest = new OwinRequest();
             var owinContextMock = new Mock<IOwinContext>();
             owinContextMock.Setup(x => x.Request).Returns(owinRequest);
-            var endpointContext = new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
+            var endpointContext =
+                new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
 
             endpointContext.ClientCertificate = () => cert;
 
             var strategy = new EndpointCertificateStrategy();
-            var result =  strategy.GetCertificate(endpointContext);
+            var result = strategy.GetCertificate(endpointContext);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(cert, result);
@@ -37,13 +38,34 @@ namespace Digst.OioIdws.Rest.Server.Test
             var owinRequest = new OwinRequest();
             var owinContextMock = new Mock<IOwinContext>();
             owinContextMock.Setup(x => x.Request).Returns(owinRequest);
-            var endpointContext = new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
+            var endpointContext =
+                new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
 
             endpointContext.ClientCertificate = () => null;
 
             var strategy = new EndpointCertificateStrategy();
             var result = strategy.GetCertificate(endpointContext);
 
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void GetCertificate_FromIOwinContext_ReturnsCertificate()
+        {
+            var cert = new X509Certificate2();
+            var context = new OwinContext();
+            context.Set("ssl.ClientCertificate", cert);
+            var strategy = new EndpointCertificateStrategy();
+            var result = strategy.GetCertificate(context);
+            Assert.AreSame(cert, result);
+        }
+
+        [TestMethod]
+        public void GetCertificate_FromIOwinContext_ReturnsNull_WhenMissing()
+        {
+            var context = new OwinContext();
+            var strategy = new EndpointCertificateStrategy();
+            var result = strategy.GetCertificate(context);
             Assert.IsNull(result);
         }
     }

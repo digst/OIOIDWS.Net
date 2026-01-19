@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval;
 using Microsoft.Owin.Logging;
@@ -16,7 +17,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         private AccessTokenIssuer _accessTokenIssuer;
         private AccessTokenRetriever _accessTokenRetriever;
-
+        private ICertificateRetrievalStrategy _certificateStrategy;
+        
         public OioIdwsAuthorizationServiceHandler(ILogger logger)
         {
             if (logger == null)
@@ -29,7 +31,9 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         protected override Task InitializeCoreAsync()
         {
-            _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
+            _certificateStrategy = CertificateStrategyFactory.Create(Options);
+            _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore,
+                Options.TokenValidator, _logger, Options);
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
             return Task.FromResult(0);
         }
@@ -80,7 +84,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         private X509Certificate2 GetValidatedClientCertificate()
         {
-            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
+            
+            var cert = _certificateStrategy.GetCertificate(new OioIdwsMatchEndpointContext(Context, Options));
 
             if (cert != null)
             {

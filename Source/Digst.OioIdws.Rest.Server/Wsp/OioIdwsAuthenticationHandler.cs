@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
@@ -16,7 +17,8 @@ namespace Digst.OioIdws.Rest.Server.Wsp
         private string _errorCode;
         private string _errorDescription;
         private AccessTokenType _accessTokenType; 
-
+        private ICertificateRetrievalStrategy _certificateStrategy;
+            
         public OioIdwsAuthenticationHandler(ILogger logger)
         {
             if (logger == null)
@@ -62,8 +64,7 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
                         if (token.Type == AccessTokenType.HolderOfKey)
                         {
-                            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
-
+                            var cert = _certificateStrategy.GetCertificate(new OioIdwsMatchEndpointContext(Context, new OioIdwsAuthorizationServiceOptions()));
                             if (cert?.Thumbprint == null || !cert.Thumbprint.Equals(token.CertificateThumbprint, StringComparison.OrdinalIgnoreCase))
                             {
                                 StoreAuthenticationFailed(AuthenticationErrorCodes.InvalidToken, "A valid certificate must be presented when presenting a Holder-of-key token", requestAccessTokenType.Value);

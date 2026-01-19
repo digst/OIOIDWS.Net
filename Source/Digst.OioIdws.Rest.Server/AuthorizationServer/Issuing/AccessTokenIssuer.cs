@@ -21,12 +21,13 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         private readonly ITokenValidator _tokenValidator;
         private readonly ILogger _logger;
         private readonly ICertificateRetrievalStrategy _certificateStrategy;
+        private readonly OioIdwsAuthorizationServiceOptions _options;
         
         public AccessTokenIssuer(
             IKeyGenerator keyGenerator, 
             ISecurityTokenStore securityTokenStore, 
             ITokenValidator tokenValidator, 
-            ILogger logger)
+            ILogger logger, OioIdwsAuthorizationServiceOptions options)
         {
             if (keyGenerator == null)
             {
@@ -44,6 +45,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 throw new ArgumentNullException(nameof(logger));
             }
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+            
+            _options = options;
             _keyGenerator = keyGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;

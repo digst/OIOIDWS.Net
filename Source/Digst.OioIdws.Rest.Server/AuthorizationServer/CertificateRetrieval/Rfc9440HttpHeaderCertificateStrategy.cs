@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Owin;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
 {
@@ -23,9 +24,17 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
             _headerName = string.IsNullOrWhiteSpace(headerName) ? DefaultHeaderName : headerName;
         }
 
-
         /// <inheritdoc />
         public X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            
+            return GetCertificate(context.OwinContext);
+        }
+        
+        /// <inheritdoc />
+        public X509Certificate2 GetCertificate(IOwinContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
