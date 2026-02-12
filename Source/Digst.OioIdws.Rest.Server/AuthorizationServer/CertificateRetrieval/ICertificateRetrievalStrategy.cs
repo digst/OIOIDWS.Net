@@ -10,15 +10,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
     /// </summary>
     public interface ICertificateRetrievalStrategy
     {
-        /// <summary>
-        ///     Retrieves a client certificate from the given context.
-        /// </summary>
-        /// <param name="context">The OIOIDWS endpoint context.</param>
-        /// <returns>
-        ///     A <see cref="X509Certificate2" /> if found; otherwise, <c>null</c>.
-        /// </returns>
-        X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context);
-
         /// <summary> /// Retrieves a client certificate from a raw OWIN context. /// Used by the WSP authentication handler. /// </summary>
         /// ///
         /// <param name="context">The OWIN context.</param>

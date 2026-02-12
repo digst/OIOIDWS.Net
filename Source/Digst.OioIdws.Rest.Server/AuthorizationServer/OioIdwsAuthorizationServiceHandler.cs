@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Infrastructure;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
+    /// <inheritdoc />
     public class OioIdwsAuthorizationServiceHandler : AuthenticationHandler<OioIdwsAuthorizationServiceOptions>
     {
         private readonly ILogger _logger;
@@ -18,7 +19,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         private AccessTokenIssuer _accessTokenIssuer;
         private AccessTokenRetriever _accessTokenRetriever;
         private ICertificateRetrievalStrategy _certificateStrategy;
-        
+
+        /// <inheritdoc />
         public OioIdwsAuthorizationServiceHandler(ILogger logger)
         {
             if (logger == null)
@@ -29,11 +31,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             _logger = logger;
         }
 
+        /// <inheritdoc />
         protected override Task InitializeCoreAsync()
         {
             _certificateStrategy = CertificateStrategyFactory.Create(Options);
-            _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore,
-                Options.TokenValidator, _logger, Options);
+            _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
+
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
             return Task.FromResult(0);
         }

@@ -20,16 +20,18 @@ namespace Digst.OioIdws.Rest.Server.Test
             var owinRequest = new OwinRequest();
             var owinContextMock = new Mock<IOwinContext>();
             owinContextMock.Setup(x => x.Request).Returns(owinRequest);
+            owinContextMock.Setup(x => x.Get<X509Certificate2>("ssl.ClientCertificate")).Returns(cert);
             var endpointContext =
-                new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
-
-            endpointContext.ClientCertificate = () => cert;
+                new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions())
+                    {
+                        ClientCertificate = () => cert
+                    };
 
             var strategy = new EndpointCertificateStrategy();
-            var result = strategy.GetCertificate(endpointContext);
+            var result = strategy.GetCertificate(endpointContext.OwinContext);
 
-            Assert.IsNotNull(result);
             Assert.AreEqual(cert, result);
+            owinContextMock.Verify(x => x.Get<X509Certificate2>("ssl.ClientCertificate"), Times.Once);
         }
 
         [TestMethod]
@@ -44,7 +46,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             endpointContext.ClientCertificate = () => null;
 
             var strategy = new EndpointCertificateStrategy();
-            var result = strategy.GetCertificate(endpointContext);
+            var result = strategy.GetCertificate(endpointContext.OwinContext);
 
             Assert.IsNull(result);
         }

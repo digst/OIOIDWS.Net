@@ -28,7 +28,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             var contextMock = new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
             
             var strategy = new Rfc9440HttpHeaderCertificateStrategy();
-            var result =  strategy.GetCertificate(contextMock);
+            var result =  strategy.GetCertificate(contextMock.OwinContext);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(cert.Thumbprint, result.Thumbprint);
@@ -42,9 +42,11 @@ namespace Digst.OioIdws.Rest.Server.Test
             owinRequest.Headers.Append( "Client-Cert", "not-a-base64" );
             var owinContextMock = new Mock<IOwinContext>();
             owinContextMock.Setup(x => x.Request).Returns(owinRequest);
+            owinContextMock.Setup(x => x.Get<X509Certificate2>("ssl.ClientCertificate")).Returns(new X509Certificate2(new byte[]{}));
+            
             var endpointContext = new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
             var strategy = new Rfc9440HttpHeaderCertificateStrategy();
-            strategy.GetCertificate(endpointContext);
+            strategy.GetCertificate(endpointContext.OwinContext);
         }
         
         [TestMethod]
@@ -61,7 +63,7 @@ namespace Digst.OioIdws.Rest.Server.Test
             var endpointContext = new OioIdwsMatchEndpointContext(owinContextMock.Object, new OioIdwsAuthorizationServiceOptions());
 
             var strategy = new Rfc9440HttpHeaderCertificateStrategy();
-            var result = strategy.GetCertificate(endpointContext);
+            var result = strategy.GetCertificate(endpointContext.OwinContext);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(cert.Thumbprint, result.Thumbprint);

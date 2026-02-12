@@ -24,15 +24,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval
         }
 
         /// <inheritdoc />
-        public X509Certificate2 GetCertificate(OioIdwsMatchEndpointContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            
-            return GetCertificate(context.OwinContext);
-        }
-        
-        /// <inheritdoc />
         public X509Certificate2 GetCertificate(IOwinContext context)
         {
             if (context == null)

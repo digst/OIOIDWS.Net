@@ -20,14 +20,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
         private readonly ISecurityTokenStore _securityTokenStore;
         private readonly ITokenValidator _tokenValidator;
         private readonly ILogger _logger;
-        private readonly ICertificateRetrievalStrategy _certificateStrategy;
-        private readonly OioIdwsAuthorizationServiceOptions _options;
-        
+
         public AccessTokenIssuer(
             IKeyGenerator keyGenerator, 
             ISecurityTokenStore securityTokenStore, 
             ITokenValidator tokenValidator, 
-            ILogger logger, OioIdwsAuthorizationServiceOptions options)
+            ILogger logger)
         {
             if (keyGenerator == null)
             {
@@ -45,17 +43,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 throw new ArgumentNullException(nameof(logger));
             }
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            
-            _options = options;
+          
             _keyGenerator = keyGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
             _logger = logger;
-            _certificateStrategy = CertificateStrategyFactory.Create();
+            CertificateStrategyFactory.Create();
         }
 
         public async Task IssueAsync(OioIdwsMatchEndpointContext context)
@@ -108,9 +101,8 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             
             try
             {
-                _logger.WriteInformation($"Retrieving certificate using {_certificateStrategy.GetType().Name} strategy.");
-                clientCertificate = _certificateStrategy.GetCertificate(context);
-                    
+                _logger.WriteInformation($"Retrieving certificate using {context.Options.CertificateRetrievalStrategy.GetType().Name} strategy.");
+                clientCertificate = context.Options.CertificateRetrievalStrategy.GetCertificate(context.OwinContext);
             }
             catch (Exception e)
             {
