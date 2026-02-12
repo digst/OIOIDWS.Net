@@ -85,7 +85,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         private X509Certificate2 GetValidatedClientCertificate()
         {
             
-            var cert = _certificateStrategy.GetCertificate(new OioIdwsMatchEndpointContext(Context, Options));
+            var cert = _certificateStrategy.GetCertificate(Context);
 
             if (cert != null)
             {

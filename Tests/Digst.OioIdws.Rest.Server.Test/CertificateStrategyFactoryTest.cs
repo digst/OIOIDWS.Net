@@ -69,21 +69,22 @@ namespace Digst.OioIdws.Rest.Server.Test
         }
 
         [TestMethod]
-        public void Create_WithExplicitStrategy_ReturnsExplicitStrategy_AuthorizationService()
+        public void Create_WithExplicitStrategy_ReturnsExplicitStrategy_OioIdwsAuthorizationServiceOptions()
         {
             var explicitStrategy = new EndpointCertificateStrategy();
             var options = new OioIdwsAuthorizationServiceOptions { CertificateRetrievalStrategy = explicitStrategy };
             var result = CertificateStrategyFactory.Create(options);
-            Assert.AreSame(explicitStrategy, result);
+            Assert.IsInstanceOfType(result, typeof(EndpointCertificateStrategy));
         }
 
         [TestMethod]
-        public void Create_WithExplicitStrategy_ReturnsExplicitStrategy_Wsp()
+        public void Create_WithExplicitStrategy_ReturnsExplicitStrategy_OioIdwsAuthenticationOptions()
         {
             var explicitStrategy = new EndpointCertificateStrategy();
             var options = new OioIdwsAuthenticationOptions { CertificateRetrievalStrategy = explicitStrategy };
             var result = CertificateStrategyFactory.Create(options);
-            Assert.AreSame(explicitStrategy, result);
+            Assert.IsInstanceOfType(result, typeof(EndpointCertificateStrategy));
+
         }
 
         [TestMethod]

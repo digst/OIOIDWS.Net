@@ -13,8 +13,12 @@ using Microsoft.Owin.Security;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
+    /// <inheritdoc />
     public class OioIdwsAuthorizationServiceOptions : AuthenticationOptions
     {
+        private ICertificateRetrievalStrategy _certificateRetrievalStrategy;
+
+        /// <inheritdoc />
         public OioIdwsAuthorizationServiceOptions() : base("OioIdwsAuthorizationService")
         {
             AccessTokenExpiration = TimeSpan.FromSeconds(3600);
@@ -24,11 +28,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             CertificateValidator = X509CertificateValidator.ChainTrust;
             MaxClockSkew = TimeSpan.FromMinutes(5);
             SystemClock = new SystemClock();
-            
-            CertificateRetrievalStrategy = null;
-            CertificateStrategyType = null;
-            CertificateStrategyValue = null;
-
         }
 
         /// <summary>
@@ -91,7 +90,11 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// <summary>
         /// Explicit certificate retrieval strategy. If set, this overrides all other strategy configuration.
         /// </summary>
-        public ICertificateRetrievalStrategy CertificateRetrievalStrategy { get; set; }
+        public ICertificateRetrievalStrategy CertificateRetrievalStrategy
+        {
+            get => _certificateRetrievalStrategy ?? CertificateStrategyFactory.Create(this);
+            set => _certificateRetrievalStrategy = value;
+        }
 
         /// <summary>
         /// Built-in certificate strategy type to use when no explicit strategy is provided.

@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Infrastructure;
 
 namespace Digst.OioIdws.Rest.Server.Wsp
 {
+    /// <inheritdoc />
     public class OioIdwsAuthenticationHandler : AuthenticationHandler<OioIdwsAuthenticationOptions>
     {
         private readonly ILogger _logger;
@@ -18,7 +19,8 @@ namespace Digst.OioIdws.Rest.Server.Wsp
         private string _errorDescription;
         private AccessTokenType _accessTokenType; 
         private ICertificateRetrievalStrategy _certificateStrategy;
-            
+
+        /// <inheritdoc />
         public OioIdwsAuthenticationHandler(ILogger logger)
         {
             if (logger == null)
@@ -29,6 +31,15 @@ namespace Digst.OioIdws.Rest.Server.Wsp
             _logger = logger;
         }
 
+        /// <inheritdoc />
+        protected override Task InitializeCoreAsync()
+        {
+            _certificateStrategy = Options.CertificateRetrievalStrategy;
+            
+            return base.InitializeCoreAsync();
+        }
+
+        /// <inheritdoc />
         protected override async Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
             try
@@ -64,7 +75,7 @@ namespace Digst.OioIdws.Rest.Server.Wsp
 
                         if (token.Type == AccessTokenType.HolderOfKey)
                         {
-                            var cert = _certificateStrategy.GetCertificate(new OioIdwsMatchEndpointContext(Context, new OioIdwsAuthorizationServiceOptions()));
+                            var cert = _certificateStrategy.GetCertificate(Context);
                             if (cert?.Thumbprint == null || !cert.Thumbprint.Equals(token.CertificateThumbprint, StringComparison.OrdinalIgnoreCase))
                             {
                                 StoreAuthenticationFailed(AuthenticationErrorCodes.InvalidToken, "A valid certificate must be presented when presenting a Holder-of-key token", requestAccessTokenType.Value);
