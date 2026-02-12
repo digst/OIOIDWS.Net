@@ -2,10 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
-using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
@@ -43,12 +41,11 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 throw new ArgumentNullException(nameof(logger));
             }
-          
+            
             _keyGenerator = keyGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
             _logger = logger;
-            CertificateStrategyFactory.Create();
         }
 
         public async Task IssueAsync(OioIdwsMatchEndpointContext context)
@@ -98,11 +95,9 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             }
 
             X509Certificate2 clientCertificate;
-            
             try
             {
-                _logger.WriteInformation($"Retrieving certificate using {context.Options.CertificateRetrievalStrategy.GetType().Name} strategy.");
-                clientCertificate = context.Options.CertificateRetrievalStrategy.GetCertificate(context.OwinContext);
+                 clientCertificate = context.ClientCertificate();
             }
             catch (Exception e)
             {

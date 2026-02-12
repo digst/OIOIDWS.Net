@@ -36,11 +36,12 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         {
             _certificateStrategy = CertificateStrategyFactory.Create(Options);
             _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
-
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
+            
             return Task.FromResult(0);
         }
 
+        /// <inheritdoc />
         public override async Task<bool> InvokeAsync()
         {   
             if (!string.Equals(Request.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
@@ -87,7 +88,6 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         private X509Certificate2 GetValidatedClientCertificate()
         {
-            
             var cert = _certificateStrategy.GetCertificate(Context);
 
             if (cert != null)
@@ -106,6 +106,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             return cert;
         } 
 
+        /// <inheritdoc />
         protected override Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
             return Task.FromResult<AuthenticationTicket>(null);
