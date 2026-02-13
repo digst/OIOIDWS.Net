@@ -34,7 +34,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// <inheritdoc />
         protected override Task InitializeCoreAsync()
         {
-            _certificateStrategy = CertificateStrategyFactory.Create(Options);
+            _certificateStrategy = Options.CertificateRetrievalStrategy;
             _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
             
