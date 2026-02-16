@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Digst.OioIdws.Rest.Common;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
@@ -41,6 +41,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
             {
                 throw new ArgumentNullException(nameof(logger));
             }
+            
             _keyGenerator = keyGenerator;
             _securityTokenStore = securityTokenStore;
             _tokenValidator = tokenValidator;
@@ -93,7 +94,17 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing
                 return;
             }
 
-            var clientCertificate = context.ClientCertificate();
+            X509Certificate2 clientCertificate;
+            try
+            {
+                 clientCertificate = context.ClientCertificate();
+            }
+            catch (Exception e)
+            {
+                _logger.WriteError(e.Message);
+                SetInvalidRequest(context, "Error retrieving certificate from the HTTP header field.");
+                return;
+            }
             
             _logger.WriteEntry(Log.StartingTokenValidation());
             var samlTokenValidation = await _tokenValidator.ValidateTokenAsync(tokenValue, clientCertificate, context.Options);

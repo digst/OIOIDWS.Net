@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenRetrieval;
 using Microsoft.Owin.Logging;
@@ -10,13 +11,16 @@ using Microsoft.Owin.Security.Infrastructure;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
+    /// <inheritdoc />
     public class OioIdwsAuthorizationServiceHandler : AuthenticationHandler<OioIdwsAuthorizationServiceOptions>
     {
         private readonly ILogger _logger;
 
         private AccessTokenIssuer _accessTokenIssuer;
         private AccessTokenRetriever _accessTokenRetriever;
+        private ICertificateRetrievalStrategy _certificateStrategy;
 
+        /// <inheritdoc />
         public OioIdwsAuthorizationServiceHandler(ILogger logger)
         {
             if (logger == null)
@@ -27,13 +31,17 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             _logger = logger;
         }
 
+        /// <inheritdoc />
         protected override Task InitializeCoreAsync()
         {
+            _certificateStrategy = Options.CertificateRetrievalStrategy;
             _accessTokenIssuer = new AccessTokenIssuer(Options.KeyGenerator, Options.SecurityTokenStore, Options.TokenValidator, _logger);
             _accessTokenRetriever = new AccessTokenRetriever(Options.SecurityTokenStore, _logger);
+            
             return Task.FromResult(0);
         }
 
+        /// <inheritdoc />
         public override async Task<bool> InvokeAsync()
         {   
             if (!string.Equals(Request.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
@@ -80,7 +88,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 
         private X509Certificate2 GetValidatedClientCertificate()
         {
-            var cert = Context.Get<X509Certificate2>("ssl.ClientCertificate");
+            var cert = _certificateStrategy.GetCertificate(Context);
 
             if (cert != null)
             {
@@ -98,6 +106,7 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
             return cert;
         } 
 
+        /// <inheritdoc />
         protected override Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
             return Task.FromResult<AuthenticationTicket>(null);

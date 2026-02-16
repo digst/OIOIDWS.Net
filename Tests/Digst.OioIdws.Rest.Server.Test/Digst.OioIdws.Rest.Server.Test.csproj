@@ -74,16 +74,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateStrategyFactoryTest.cs" />
+    <Compile Include="CertificateStrategySectionTests.cs" />
+    <Compile Include="EndpointCertificateStrategyTests.cs" />
     <Compile Include="AccessTokenIssueEndpointIntegrationTests.cs" />
     <Compile Include="AccessTokenIssueEndpointUnitTests.cs" />
     <Compile Include="AccessTokenRetrievalEndpointTests.cs" />
     <Compile Include="AsWspInMemoryTests.cs" />
+    <Compile Include="OioIdwsAuthenticationServiceOptionsTest.cs" />
+    <Compile Include="OioIdwsAuthorizationServiceOptionsTest.cs" />
+    <Compile Include="Rfc9440HttpHeaderCertificateStrategyTests.cs" />
     <Compile Include="OioIdwsAuthenticationMiddlewareTests.cs" />
     <Compile Include="PrincipalBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

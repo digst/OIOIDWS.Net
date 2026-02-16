@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IdentityModel.Selectors;
 using System.Linq;
 using System.Net;
@@ -206,6 +207,17 @@ namespace Digst.OioIdws.Rest.Server.Test
                     Assert.AreEqual(1, json["expired"].Value<int>());
                 }
             }
+        }
+        
+        [TestInitialize]
+        public void CleanConfig()
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config.Sections["certificateStrategy"] != null)
+                config.Sections.Remove("certificateStrategy");
+            config.Save(ConfigurationSaveMode.Modified, true);
+            ConfigurationManager.RefreshSection("certificateStrategy");
+           
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using Digst.OioIdws.Rest.Server.AuthorizationServer.CertificateRetrieval;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.Issuing;
 using Digst.OioIdws.Rest.Server.AuthorizationServer.TokenStorage;
 using Digst.OioIdws.Rest.Server.Wsp;
@@ -12,8 +13,12 @@ using Microsoft.Owin.Security;
 
 namespace Digst.OioIdws.Rest.Server.AuthorizationServer
 {
+    /// <inheritdoc />
     public class OioIdwsAuthorizationServiceOptions : AuthenticationOptions
     {
+        private ICertificateRetrievalStrategy _certificateRetrievalStrategy;
+
+        /// <inheritdoc />
         public OioIdwsAuthorizationServiceOptions() : base("OioIdwsAuthorizationService")
         {
             AccessTokenExpiration = TimeSpan.FromSeconds(3600);
@@ -81,5 +86,25 @@ namespace Digst.OioIdws.Rest.Server.AuthorizationServer
         /// DateTimeOffset.UtcNow. This is typically needed only for unit testing.
         /// </summary>
         public ISystemClock SystemClock { get; set; }
+
+        /// <summary>
+        /// Explicit certificate retrieval strategy. If set, this overrides all other strategy configuration.
+        /// </summary>
+        public ICertificateRetrievalStrategy CertificateRetrievalStrategy
+        {
+            get => _certificateRetrievalStrategy ?? CertificateStrategyFactory.Create(this);
+            set => _certificateRetrievalStrategy = value;
+        }
+
+        /// <summary>
+        /// Built-in certificate strategy type to use when no explicit strategy is provided.
+        /// </summary>
+        public CertificateStrategyType? CertificateStrategyType { get; set; }
+
+        /// <summary>
+        /// Optional value used by some strategies (e.g. header name).
+        /// </summary>
+        public string CertificateStrategyValue { get; set; }
+
     }
 }
