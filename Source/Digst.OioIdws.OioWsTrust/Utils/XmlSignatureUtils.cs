@@ -32,7 +32,7 @@ namespace Digst.OioIdws.OioWsTrust.Utils
             var signedXml = new SignedXmlWithIdResolvement(doc);
             signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigExcC14NTransformUrl;
             signedXml.SignedInfo.SignatureMethod = RsaPkcs1Sha256SignatureDescription.XmlDsigMoreRsaSha256Url;
-            signedXml.SigningKey = cert.PrivateKey;
+            signedXml.SigningKey = cert.GetRSAPrivateKey();
 
             // Make a reference for each element that must be signed.
             foreach (var id in ids)
